@@ -1,0 +1,61 @@
+#titre {
+  margin-top: 25px;
+  margin-bottom: 60px;
+}
+
+.sessions {
+  height: 700px;
+  overflow: auto;
+  margin-top: 10px;
+}
+
+.sessions::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sessions::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(56, 56, 56, 0.363);
+}
+
+.session {
+  margin-top: 25px;
+  border-color: #2573D0;
+  border-style: solid;
+  background-color: #4791E9;
+}
+
+.poste {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  vertical-align: ;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.phase {
+  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+  width: 60%;
+  display: inline-block;
+}
+
+.dateD {
+  text-align: left;
+  width: 20%;
+  display: inline-block;
+}
+
+.participants {
+  text-align: right;
+  width: 20%;
+  display: inline-block;
+}
+
+.separator {
+  border-bottom-style: solid;
+  border-bottom-color: #2573D0;
+  border-width: 1px;
+}

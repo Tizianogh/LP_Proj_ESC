@@ -1,0 +1,49 @@
+.titre{
+    text-align:center;
+}
+
+label {
+  width: 180px;
+  text-align: end;
+}
+
+p{
+    margin-left:25px;
+}
+
+.zone{
+    margin-left:20%;
+    margin-top:40px;
+}
+
+#valider {
+  color: #4791E9;
+  border: 2px #4791E9 solid;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 30px;
+  padding-left: 30px;
+  margin-top: 90px;
+  background-color: #F5F5F5;
+}
+
+#rappel{
+    margin-top:70px;
+}
+
+#page_rappel {
+  margin-top: 25px;
+  }
+
+label {
+  font-weight: bold;
+}
+#code {
+  border: 2px #F28118 solid;
+  width: 525px;
+  text-align:center;
+ 
+}
+#label_code {
+  color: #F28118;
+}

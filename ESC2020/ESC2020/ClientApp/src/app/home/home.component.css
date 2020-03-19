@@ -1,0 +1,46 @@
+
+
+#titre {
+  padding-top: 30px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 331px
+}
+
+#presentation {
+  margin-top: 80px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 694px;
+}
+
+#zone_lien {
+  margin-top: 80px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 694px;
+}
+
+.lien {
+  color: #4791E9;
+}
+
+.image {
+  position: absolute;
+  top: 250px;
+}
+
+#hand {
+  right: 10px;
+  width: 20%
+}
+
+#team {
+  width: 20%
+}

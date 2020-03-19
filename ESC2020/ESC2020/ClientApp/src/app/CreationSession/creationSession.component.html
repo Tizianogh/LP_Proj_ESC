@@ -1,0 +1,40 @@
+<h2 id="titre" class="d-flex justify-content-center">Création de votre session de vote</h2>
+
+<div class="form-group">
+  <form [formGroup]="formulaireSession">
+    <div class="zone d-flex justify-content-center">
+      <label>Poste de l'élu</label>
+      <input type="text" class="input" name="poste" formControlName="poste">
+      <label></label>
+      <br />
+    </div>
+
+    <div class="zone d-flex justify-content-center">
+      <label>Ses missions</label>
+      <input type="text" class="input" name="missions" formControlName="missions" />
+      <label></label>
+      <br />
+    </div>
+
+    <div class="zone d-flex justify-content-center">
+      <label>Ses responsabilités</label>
+      <input type="text" class="input" name="responsabilités" formControlName="responsabilites" />
+      <label></label>
+      <br />
+    </div>
+
+    <div class="date d-flex justify-content-center">
+      <label> Date de début de mandat</label>
+      <input  class="input_date"  type="date" name="dateD" formControlName="dateD" />
+      <label> Date de fin de mandat</label>
+      <input  class="input_date" type="date" name="dateF" formControlName="dateF">
+      <br />
+    </div>
+
+    <label id="erreur" >{{erreur}}</label>
+
+    <div class="d-flex justify-content-center">
+      <button id="send" (click)="submit()" >créer votre session</button>
+    </div>
+  </form>
+</div>
