@@ -70,7 +70,7 @@ export class CreationSessionComponent implements OnInit {
     let myDate = new Date();
     this.datePipe.transform(myDate, 'yyyy-MM-dd');
     if (dateUne.getTime() > dateDeux.getTime() || dateUne.getTime() < myDate.getTime()) {
-      res = false;
+      res = true;
     }
     return res;
   }

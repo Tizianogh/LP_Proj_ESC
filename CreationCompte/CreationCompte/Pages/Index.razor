@@ -1,0 +1,158 @@
+﻿@page "/"
+@using System.Net.Http
+@inject HttpClient Http
+<h1 class="leftPos" id="tvCreer">Créez votre compte</h1>
+<br />
+<br />
+
+<div class="parent">
+    <div class="div1">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Adresse mail*</label>
+            <input style=" background: url('resources/mail.png');
+                                background-repeat: no-repeat;
+                                background-position: left;
+                                background-position-x:5%;
+                                background-size: 18px;
+                                padding-left:15%;"
+                   @bind="mail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer votre email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Mot de passe*</label>
+            <input style=" background: url('resources/pass.png');
+                                background-repeat: no-repeat;
+                                background-position: left;
+                                background-position-x:5%;
+                                background-size: 18px;
+                                padding-left:15%;"
+                   @bind="pass" type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
+
+        </div>
+        <div class="form-group">
+            <label for="confirmerMdp">Confirmer votre mot de passe*</label>
+            <input style=" background: url('resources/pass.png');
+                                background-repeat: no-repeat;
+                                background-position: left;
+                                background-position-x:5%;
+                                background-size: 18px;
+                                padding-left:15%;"
+                   @bind="passConfirm " type="password" class="form-control" id="confirmerMdp" placeholder="Entrer de nouveau votre mot de passe">
+        </div>
+        <div class="form-group">
+            <label for="nom">Nom*</label>
+            <input @bind="nom" type="text" class="form-control" id="nom" placeholder="Entrer votre nom">
+        </div>
+
+        <div class="form-group">
+            <label for="prenom">Prenom*</label>
+            <input @bind="prenom" type="text" class="form-control" id="prenom" placeholder="Entrer votre prenom">
+        </div>
+
+
+
+
+    </div>
+    <div class="div2">
+        <div class="form-group">
+            <label for="poste">Quel poste occupez-vous ?</label>
+            <input @bind="poste" type="text" class="form-control" id="poste" placeholder="Entrer votre poste">
+        </div>
+
+        <div class="form-group">
+            <label for="dateNaiss">Date de naissance*</label>
+            <input style=" background: url('resources/calendar.png');
+                                background-repeat: no-repeat;
+                                background-position: left;
+                                background-position-x:5%;
+                                background-size: 18px;
+                                padding-left:15%;"
+                   @bind="dateNaiss" type="date" class="form-control" id="dateNaiss" placeholder="Entrer votre poste">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Décrivez-vous en quelques mots*</label>
+            <textarea @bind="desc" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+
+        <button class="btn btn-primary" @onclick="@traiterDemande">Créer mon compte</button>
+        @foreach (var warn in warns)
+        {
+            <p class="alert alert-danger" role="alert">
+                @warn
+            </p>
+        }
+    </div>
+
+    <p class="alert alert-success" role="alert">
+        @sortie;
+    </p>
+
+
+</div>
+
+
+@code{
+
+    private string mail = "";
+    private string pass = "";
+    private string passConfirm = "";
+    private string nom = "";
+    private string prenom = "";
+    private string poste = "";
+    private DateTime dateNaiss = new DateTime();
+    private string desc = "";
+    private string sortie = "";
+    private IList<String> warns = new List<String>();
+
+
+    public void traiterDemande()
+    {
+        warns.Clear();
+        verifNull();
+        verifMail();
+        verifPass();
+
+        if (warns.Count == 0)
+        {
+            CreateUser();
+        }
+
+    }
+
+    private async Task CreateUser()
+    {
+        await Http.PostJsonAsync("https://localhost:44329/api/Users", 1) ;
+    }
+
+    public void verifNull()
+    {
+        if (desc.Trim().Equals("") ||
+            mail.Trim().Equals("") ||
+            pass.Trim().Equals("") ||
+            passConfirm.Trim().Equals("") ||
+            nom.Trim().Equals("") ||
+            prenom.Trim().Equals("") ||
+            dateNaiss.ToString().Trim().Equals(""))
+        {
+            warns.Add("Tous les champs sont obligatoires");
+        }
+    }
+
+    public void verifMail()
+    {
+        Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        Match match = regex.Match(mail);
+        if (!match.Success || match == null)
+        {
+            warns.Add("Le mail " + mail + " est incorrect");
+        }
+    }
+
+    public void verifPass()
+    {
+        if (pass.Trim().Length < 5 || pass == null)
+        {
+            warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
+        }
+    }
+}
