@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json;
 
 namespace ESC2020.Model
 {
@@ -79,11 +79,11 @@ namespace ESC2020.Model
         // more details see https://aka.ms/RazorPagesCRUD.
       
         [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(int id)//Users users)
+        public async Task<ActionResult<Users>> PostUsers(string[] jsonUser)
         {
-   
-            Users users = new Users{ UserId = 0, Email = "test@test.fr", Password = "test", Salt = "test", BirthDate = new DateTime(),
-                Description = "", LastName = "", FirstName = "" };
+            Users users = new Users{ UserId = int.Parse(jsonUser[0]), Email = jsonUser[1], Password = jsonUser[2], Salt = jsonUser[3], BirthDate = new DateTime(),
+                Description = jsonUser[5], LastName = jsonUser[6], FirstName = jsonUser[7]
+            };
             _context.User.Add(users);
             await _context.SaveChangesAsync();
 
