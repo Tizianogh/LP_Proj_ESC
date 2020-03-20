@@ -80,7 +80,7 @@ namespace ESC2020.Model
       
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers(string jsonUser)
-        {
+        { 
             Users users = new Users
             {
                 UserId = 0,
