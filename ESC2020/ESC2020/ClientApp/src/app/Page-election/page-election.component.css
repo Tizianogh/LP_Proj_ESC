@@ -1,0 +1,50 @@
+body {
+ 
+
+}
+
+.participants {
+    display: inline-block;
+    width: 40%;
+    height: auto;
+    position: relative;
+    left: 35px;
+    border : 3px solid black;
+}
+
+.participant{
+    display:inline;
+}
+
+.description {
+    display: inline-block;
+    width: 40%;
+    height: auto;
+    position: relative;
+    right: 35px;
+    border: 1px solid black;
+    margin-left:125px;
+}
+
+#descriptionName{
+    margin-top : 10px;
+}
+
+.progress-bar{
+   
+
+}
+
+.progress {
+  width: 50%;
+  height:10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#date{
+    display:inline;
+}
+
+.participantName{
+    display:inline-block;
+}

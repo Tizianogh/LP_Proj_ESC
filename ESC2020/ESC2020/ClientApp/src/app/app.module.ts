@@ -15,7 +15,7 @@ import { CreationSessionComponent } from './CreationSession/creationSession.comp
 import { LogsComponent } from './logs/logs.component';
 import { RappelSessionComponent } from './rappelSession/rappelSession.component';
 import { MesSalonsComponent } from './MesSalons/mesSalons.component';
-
+import { PageElectionComponent } from './Page-election/page-election.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import { MesSalonsComponent } from './MesSalons/mesSalons.component';
     CreationSessionComponent,
     LogsComponent,
     RappelSessionComponent,
-    MesSalonsComponent
+    MesSalonsComponent,
+    PageElectionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,13 +36,14 @@ import { MesSalonsComponent } from './MesSalons/mesSalons.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'creationSession', component: CreationSessionComponent },
-      { path: 'logs', component: LogsComponent },
-      { path: 'rappel/:id', component: RappelSessionComponent },
-      { path: 'mes-salons', component: MesSalonsComponent }
+        { path: '', component: HomeComponent, pathMatch: 'full' },
+        { path: 'counter', component: CounterComponent },
+        { path: 'fetch-data', component: FetchDataComponent },
+        { path: 'creationSession', component: CreationSessionComponent },
+        { path: 'logs', component: LogsComponent },
+        { path: 'rappel/:id', component: RappelSessionComponent },
+        { path: 'mes-salons', component: MesSalonsComponent },
+      { path: 'page-election/:id', component: PageElectionComponent }
     ])
   ],
   providers: [],

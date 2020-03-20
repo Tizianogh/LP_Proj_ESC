@@ -1,0 +1,35 @@
+<h2 id="titre" class="d-flex justify-content-center">Phase de vote</h2>
+
+<div id="date">
+  <div class="progress ">
+    <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+
+  </div>
+  Date de fin de projet {{session.startDate}}
+</div>
+
+<br />
+
+<div class="participants">
+
+  <div class="participant" *ngFor="let participant of participantList">
+    <img class="participantIcon" src="assets/img/accountIcon.png" height="80" />
+    <div class="participantName">
+      {{participant.name}}
+    </div>
+  </div>
+
+</div>
+
+<div class="description">
+
+  <label id="participantName" class="d-flex justify-content-center">{{currentParticipant.name}}</label>
+
+  <label id="participantJob"> Poste : {{currentParticipant.job}}</label>
+  <label id="participantAge"> Age : {{currentParticipant.age}}</label>
+
+  <label id="participantDescription">  Mini Biographie : {{currentParticipant.description}}</label>
+
+  <input type="text" id="argumentaires" placeholder="Argumentez votre vote..." /><br />
+  <button type="submit" class="btn btn-primary">Voter pour {{currentParticipant.name}} ?</button>
+</div>
