@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Miste\\source\\repos\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
+    "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Miste\\source\\repos\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
+    "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Miste\\source\\repos\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectUniqueName": "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "projectName": "CreationCompte",
-        "projectPath": "C:\\Users\\Miste\\source\\repos\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectPath": "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "packagesPath": "C:\\Users\\Miste\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Miste\\source\\repos\\CreationCompte\\CreationCompte\\obj\\",
+        "outputPath": "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Miste\\AppData\\Roaming\\NuGet\\NuGet.Config",

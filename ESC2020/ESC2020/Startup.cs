@@ -30,6 +30,7 @@ namespace ESC2020
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddCors(options => { options.AddPolicy("EnableCORS", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build()); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +46,7 @@ namespace ESC2020
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseCors("EnableCORS");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
