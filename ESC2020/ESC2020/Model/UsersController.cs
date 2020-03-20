@@ -80,7 +80,7 @@ namespace ESC2020.Model
         public async Task<ActionResult<Users>> PostUsers(int id)//Users users)
         {
             Users users = new Users{ UserId = 0, Email = "test@test.fr", Password = "test", Salt = "test", BirthDate = new DateTime(),
-                Description = "", LastName = "", FirstName = "" };
+                Description = "", LastName = "", FirstName = "" }; 
             _context.User.Add(users);
             await _context.SaveChangesAsync();
 
