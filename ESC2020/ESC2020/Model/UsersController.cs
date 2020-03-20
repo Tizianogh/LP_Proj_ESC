@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -76,9 +77,11 @@ namespace ESC2020.Model
         // POST: api/Users
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+      
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers(int id)//Users users)
         {
+   
             Users users = new Users{ UserId = 0, Email = "test@test.fr", Password = "test", Salt = "test", BirthDate = new DateTime(),
                 Description = "", LastName = "", FirstName = "" };
             _context.User.Add(users);

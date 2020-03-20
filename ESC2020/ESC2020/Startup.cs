@@ -8,20 +8,26 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+
 namespace ESC2020
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
+           
             Configuration = configuration;
+           
+
         }
+
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<ElectionContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllersWithViews();
@@ -29,6 +35,12 @@ namespace ESC2020
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build());
             });
         }
 
@@ -45,7 +57,7 @@ namespace ESC2020
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -74,6 +86,8 @@ namespace ESC2020
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+        
         }
     }
 }
