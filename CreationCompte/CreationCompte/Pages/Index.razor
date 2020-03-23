@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using System.Net.Http
+
 @inject HttpClient Http
 <h1 class="leftPos" id="tvCreer">Créez votre compte</h1>
 <br />
@@ -114,15 +115,29 @@
 
         if (warns.Count == 0)
         {
-            CreateUser();
+            var user = new{
+                UserId = 0,
+                Email = mail,
+                Password = pass,
+                Salt = "d",
+                BirthDate = dateNaiss,
+                Description = desc,
+                FirstName = prenom,
+                LastName = nom
+            };
+
+            string output = JsonConvert.SerializeObject(user);
+            createUser(output);
         }
 
     }
 
-    private async Task CreateUser()
+    private async Task createUser(string jsonUser)
     {
-        await Http.PostJsonAsync("https://localhost:44329/api/Users", 1) ;
+       
+        await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
     }
+
 
     public void verifNull()
     {
