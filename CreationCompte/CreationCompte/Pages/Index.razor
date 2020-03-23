@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using System.Net.Http
+
 @inject HttpClient Http
 <h1 class="leftPos" id="tvCreer">Créez votre compte</h1>
 <br />
@@ -125,20 +126,22 @@
                 firstname = prenom
             };
 
-            string[] request = new String[9] { "0", mail, pass, "d", dateNaiss.ToString(), desc, nom, prenom, prenom };
-           
+            string output = JsonConvert.SerializeObject(user);
+            System.Diagnostics.Debug.WriteLine(output);
 
 
 
-            createUser(request);
+            createUser(output);
         }
 
     }
 
     private async Task createUser(string jsonUser)
     {
-        await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser) ;
+       
+        await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
     }
+
 
     public void verifNull()
     {

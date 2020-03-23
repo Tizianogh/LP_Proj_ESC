@@ -763,3 +763,8 @@ D:\Cours\ProjetLicense\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netst
 D:\Cours\ProjetLicense\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\Razor\_Imports.razor.g.cs
 D:\Cours\ProjetLicense\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\compressed\_framework\_bin\Newtonsoft.Json.dll.gz
 D:\Cours\ProjetLicense\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\compressed\_framework\_bin\Newtonsoft.Json.dll.gz.hash
+C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\wwwroot\_framework\_bin\Newtonsoft.Json.dll
+C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\wwwroot\_framework\_bin\Newtonsoft.Json.dll.gz
+C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\Newtonsoft.Json.dll
+C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\compressed\_framework\_bin\Newtonsoft.Json.dll.gz
+C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\compressed\_framework\_bin\Newtonsoft.Json.dll.gz.hash

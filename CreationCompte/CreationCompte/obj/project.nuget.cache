@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NBXZQJAlupxMiw5zTMrdvCPicpDv1SAn356e9ipceQcYE/+Z2rbtIN6uTWDkX8H20IN8UFDCAIrc7WDsW8TIrw==",
+  "dgSpecHash": "Y1bQx+G4OQi4IU9uCognHjJBQ8CN7B1fOFhTnPLaUaNDRpaNofOFPxmYvQMKMPUJNRiqlw1Otehs1Q/G/Hh4xg==",
   "success": true,
   "projectFilePath": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
   "expectedPackageFiles": [
@@ -25,6 +25,7 @@
     "C:\\Users\\tizia\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.2\\microsoft.extensions.primitives.3.1.2.nupkg.sha512",
     "C:\\Users\\tizia\\.nuget\\packages\\microsoft.jsinterop\\3.1.2\\microsoft.jsinterop.3.1.2.nupkg.sha512",
     "C:\\Users\\tizia\\.nuget\\packages\\microsoft.jsinterop.webassembly\\3.2.0-preview2.20160.5\\microsoft.jsinterop.webassembly.3.2.0-preview2.20160.5.nupkg.sha512",
+    "C:\\Users\\tizia\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\tizia\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\tizia\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
     "C:\\Users\\tizia\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",

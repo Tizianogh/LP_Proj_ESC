@@ -1212,19 +1212,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Miste\\.nuget\\packages\\": {}
+    "C:\\Users\\tizia\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+      "projectUniqueName": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
       "projectName": "CreationCompte",
-      "projectPath": "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
-      "packagesPath": "C:\\Users\\Miste\\.nuget\\packages\\",
-      "outputPath": "D:\\Cours\\ProjetLicense\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+      "projectPath": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+      "packagesPath": "C:\\Users\\tizia\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Miste\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tizia\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1286,7 +1286,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
       }
     }
   }
