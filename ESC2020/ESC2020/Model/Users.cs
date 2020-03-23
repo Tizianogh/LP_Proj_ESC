@@ -19,7 +19,6 @@ namespace ESC2020.Model
 		public string Password { get; set; } //Char ?
 
 		[Required]
-
 		public string Salt { get; set; }
 		
 		[Required]
@@ -33,6 +32,9 @@ namespace ESC2020.Model
 
 		[Required]
 		public string LastName { get; set; } // varchar ?
+
+		[Required]
+		public string Job { get; set; } // varchar ?
 
 		public List<Opinion> Opinion { get; set; } = new List<Opinion>();
 

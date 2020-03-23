@@ -77,14 +77,10 @@ namespace ESC2020.Model
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(string inputInfos)
+        public async Task<ActionResult<Users>> PostUsers([FromBody] string inputInfos)
         {
             Users users = JsonConvert.DeserializeObject<Users>(inputInfos);
 
-            /*Users users = new Users{ UserId = 0, Email = "", Password = "",
-                Salt = "", BirthDate = new DateTime(),
-                Description ="resultat : " + inputInfos, FirstName ="", LastName = ""
-            }; */
 
             _context.User.Add(users);
             await _context.SaveChangesAsync();

@@ -122,16 +122,15 @@
                 UserId = 0,
                 Email = mail,
                 Password = pass,
-                Salt = "d",
+                Salt = "",
                 BirthDate = dateNaiss,
                 Description = desc,
                 FirstName = prenom,
-                LastName = nom
+                LastName = nom,
+                Job = poste
             };
 
             string output = JsonConvert.SerializeObject(user);
-            //var output = new StringContent(user.ToString());
-            warns.Add(output.ToString());
             createUser(output);
         }
 
