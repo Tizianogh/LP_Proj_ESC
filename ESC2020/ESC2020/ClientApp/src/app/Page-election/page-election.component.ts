@@ -16,38 +16,63 @@ export class PageElectionComponent implements OnInit {
     session: Session;
     participantList: Participant[] = [];
     currentParticipant: Participant;
+    scrollingItems: number[] = [];
+    
+        
 
-  constructor(private service: HttpClient, private router: Router) {}
+    constructor(private service: HttpClient, private router: Router) {
+        for (let i = 0; i < 5000; i++) {
+            this.scrollingItems.push(i);
+        }}
 
     ngOnInit(): void {
       this.service.get(window.location.origin + "/api/Elections/" + this.router.url.split('/')[2]).subscribe(result => {
         this.session = result as Session;
           console.log(this.session);
 
-          this.PushParticipant("Jean-Franck Tang", 42, "Professeur", "Bonjour");
-          this.PushParticipant("Jean-Francky Tanguy", 24, "Enseignant", "Bonsoir");
-          this.PushParticipant("Julien Dias", 27, "Chanteur", "Holà");
-          this.PushParticipant("Cindy Mendes", 14, "Politicienne", "Hello");
-          this.PushParticipant("Nicolas Kacem", 47, "Pilote", "Au revoir");
-          this.PushParticipant("Rémi Cruzel", 22, "Intellectuel", "Bye");
-          this.PushParticipant("Steven Le Moine", 44, "Normand", "Non");
-          this.PushParticipant("Axel Gasnot", 11, "Scribe", "Neuf");
-          this.PushParticipant("Clement Bisson", 28, "Architecte", "Yolo");
-          this.PushParticipant("Tiziano Ghisotti", 50, "Pizzaïollo", "Grazzie");
-          this.PushParticipant("Maxime Vong", 21, "Dresseur de chauve-souris", "Yes");
+          this.pushParticipant("Jean-Franck Tang", 42, "Professeur", "Bonjour");
+          this.pushParticipant("Jean-Francky Tanguy", 24, "Enseignant", "Bonsoir");
+          this.pushParticipant("Julien Dias", 27, "Chanteur", "Holà");
+          this.pushParticipant("Cindy Mendes", 14, "Politicienne", "Hello");
+          this.pushParticipant("Nicolas Kacem", 47, "Pilote", "Au revoir");
+          this.pushParticipant("Rémi Cruzel", 22, "Intellectuel", "Bye");
+          this.pushParticipant("Steven Le Moine", 44, "Normand", "Non");
+          this.pushParticipant("Axel Gasnot", 11, "Scribe", "Neuf");
+          this.pushParticipant("Clement Bisson", 28, "Architecte", "Yolo");
+          this.pushParticipant("Tiziano Ghisotti", 50, "Pizzaïollo", "Grazzie");
+          this.pushParticipant("Maxime Vong", 21, "Dresseur de chauve-souris", "Yes");
+            this.pushParticipant("Jean-Franck Tang", 42, "Professeur", "Bonjour");
+          this.pushParticipant("Jean-Francky Tanguy", 24, "Enseignant", "Bonsoir");
+          this.pushParticipant("Julien Dias", 27, "Chanteur", "Holà");
+          this.pushParticipant("Cindy Mendes", 14, "Politicienne", "Hello");
+          this.pushParticipant("Nicolas Kacem", 47, "Pilote", "Au revoir");
+          this.pushParticipant("Rémi Cruzel", 22, "Intellectuel", "Bye");
+          this.pushParticipant("Steven Le Moine", 44, "Normand", "Non");
+          this.pushParticipant("Axel Gasnot", 11, "Scribe", "Neuf");
+          this.pushParticipant("Clement Bisson", 28, "Architecte", "Yolo");
+          this.pushParticipant("Tiziano Ghisotti", 50, "Pizzaïollo", "Grazzie");
+          this.pushParticipant("Maxime Vong", 21, "Dresseur de chauve-souris", "Yes");
 
       }, error => console.error(error));
     }
 
 
-    PushParticipant(name: string, age: number, job: string, description: string) {
+    pushParticipant(name: string, age: number, job: string, description: string) {
         let participant = new Participant();
         participant.name = name;
         participant.age = age;
         participant.job = job;
         participant.description = description;
         this.participantList.push(participant);
-    }
+  }
+
+  actualParticipant(participant: Participant) {
+    document.getElementById("selectParticipant").style.visibility = "visible";
+    this.currentParticipant = participant;
+
+
+
+  }
 
 }
 

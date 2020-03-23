@@ -1,35 +1,43 @@
 <h2 id="titre" class="d-flex justify-content-center">Phase de vote</h2>
 
-<div id="date">
-  <div class="progress ">
-    <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-
+<div class="row justify-content-center" id="date">
+  <div class="progress offset-3 col-4 center-block align-self-center">
+    <div class="progress-bar ml-0" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
-  Date de fin de projet {{session.startDate}}
+  <div class="col-3">
+    Date de fin de projet {{session.startDate}}
+  </div>
 </div>
 
 <br />
 
-<div class="participants">
-
-  <div class="participant" *ngFor="let participant of participantList">
-    <img class="participantIcon" src="assets/img/accountIcon.png" height="80" />
-    <div class="participantName">
-      {{participant.name}}
-    </div>
+<div class="participants overflow-auto">
+  <div class="">
+    
+      <div class="participant" *ngFor="let participant of participantList">
+        <div (click)="actualParticipant(participant)">
+          <img class="participantIcon" src="assets/img/accountIcon.png" height="80" />
+          <div class="participantName">
+            {{participant.name}}
+          </div>
+        </div>
+      </div>
   </div>
-
 </div>
 
-<div class="description">
+<div class="description" id="selectParticipant">
 
-  <label id="participantName" class="d-flex justify-content-center">{{currentParticipant.name}}</label>
+  <label id="participantName" class="d-flex justify-content-center"><b>{{currentParticipant.name}}</b></label>
 
-  <label id="participantJob"> Poste : {{currentParticipant.job}}</label>
-  <label id="participantAge"> Age : {{currentParticipant.age}}</label>
+  <label id="participantJob" class="d-flex justify-content-start"> Poste : {{currentParticipant.job}}</label>
+  <label id="participantAge" class="d-flex justify-content-start"> Age : {{currentParticipant.age}}</label>
 
-  <label id="participantDescription">  Mini Biographie : {{currentParticipant.description}}</label>
+  <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentParticipant.description}}</label>
 
-  <input type="text" id="argumentaires" placeholder="Argumentez votre vote..." /><br />
-  <button type="submit" class="btn btn-primary">Voter pour {{currentParticipant.name}} ?</button>
-</div>
+  <!--<input type="text" id="argumentaires" placeholder="Argumentez votre vote..." class="d-flex justify-content-center" /><br /> -->
+  <textarea class="form-control d-flex justify-content-center" id="exampleFormControlTextarea1 argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
+  <div class="col text-center">
+    <button type="submit" class="btn btn-primary">Voter pour {{currentParticipant.name}} ?</button>
+  </div>
+</div>`
+
