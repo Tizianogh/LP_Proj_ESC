@@ -11,18 +11,17 @@
 
 <br />
 
-<div class="participants overflow-auto">
-  <div class="">
-    
-      <div class="participant" *ngFor="let participant of participantList">
-        <div (click)="actualParticipant(participant)">
-          <img class="participantIcon" src="assets/img/accountIcon.png" height="80" />
-          <div class="participantName">
-            {{participant.name}}
-          </div>
+<div class="participants">
+    <div class="scroll">
+        <div class="participant" *ngFor="let participant of participantList">
+            <div (click)="actualParticipant(participant)">
+                <img class="participantIcon" src="assets/img/accountIcon.png" height="80" />
+                <div class="participantName">
+                {{participant.name}}
+                </div> 
+            </div>
         </div>
-      </div>
-  </div>
+    </div>
 </div>
 
 <div class="description" id="selectParticipant">
