@@ -85,6 +85,9 @@ namespace ESC2020.Model
            
 
              _context.User.Add(ds);
+
+     
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUsers", new { id = ds.UserId }, ds);
