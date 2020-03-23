@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json;
 
 namespace ESC2020.Model
 {
@@ -77,10 +77,15 @@ namespace ESC2020.Model
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(int id)//Users users)
+        public async Task<ActionResult<Users>> PostUsers(string inputInfos)
         {
-            Users users = new Users{ UserId = 0, Email = "test@test.fr", Password = "test", Salt = "test", BirthDate = new DateTime(),
-                Description = "", LastName = "", FirstName = "" }; 
+            Users users = JsonConvert.DeserializeObject<Users>(inputInfos);
+
+            /*Users users = new Users{ UserId = 0, Email = "", Password = "",
+                Salt = "", BirthDate = new DateTime(),
+                Description ="resultat : " + inputInfos, FirstName ="", LastName = ""
+            }; */
+
             _context.User.Add(users);
             await _context.SaveChangesAsync();
 

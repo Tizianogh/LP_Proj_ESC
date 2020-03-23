@@ -38,6 +38,10 @@
       "frameworks": {
         "netstandard2.1": {
           "dependencies": {
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
             "Microsoft.AspNetCore.Blazor.HttpClient": {
               "target": "Package",
               "version": "[3.2.0-preview2.20160.5, )"
@@ -55,6 +59,14 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[3.2.0-preview2.20160.5, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
             }
           },
           "imports": [

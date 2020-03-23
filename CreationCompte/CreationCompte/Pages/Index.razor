@@ -115,6 +115,9 @@
 
         if (warns.Count == 0)
         {
+
+            //string output = "0," + mail + ","+ pass + "," + "d," + dateNaiss + "," + desc + "," + prenom + "," + nom;
+
             var user = new{
                 UserId = 0,
                 Email = mail,
@@ -127,6 +130,8 @@
             };
 
             string output = JsonConvert.SerializeObject(user);
+            //var output = new StringContent(user.ToString());
+            warns.Add(output.ToString());
             createUser(output);
         }
 
