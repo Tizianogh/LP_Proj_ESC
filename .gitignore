@@ -43,6 +43,7 @@ e2e/*.map
 *.userosscache
 *.sln.docstates
 *.sqlite
+*.vs
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
