@@ -38,6 +38,10 @@
       "frameworks": {
         "netstandard2.1": {
           "dependencies": {
+            "EntityFramework6.Npgsql": {
+              "target": "Package",
+              "version": "[6.4.1, )"
+            },
             "Microsoft.AspNet.Mvc": {
               "target": "Package",
               "version": "[5.2.7, )"
@@ -67,6 +71,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.0-preview.2.20120.8, )"
             }
           },
           "imports": [

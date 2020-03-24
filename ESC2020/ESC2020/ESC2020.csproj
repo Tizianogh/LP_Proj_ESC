@@ -37,6 +37,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200324103636_esc.cs" />
+    <Compile Remove="Migrations\20200324103636_esc.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ClientApp\src\app\home\NewFile.txt" />
     <None Remove="ClientApp\src\app\Page-election\NewFile.txt" />
     <None Remove="ClientApp\src\app\Page-election\page-election.component.ts" />
