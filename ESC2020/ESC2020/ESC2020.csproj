@@ -43,11 +43,13 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\home\NewFile.txt" />
+    <None Remove="ClientApp\src\app\Model\Users.ts" />
     <None Remove="ClientApp\src\app\Page-election\NewFile.txt" />
     <None Remove="ClientApp\src\app\Page-election\page-election.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\Model\Users.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Page-election\page-election.component.ts" />
   </ItemGroup>
 
