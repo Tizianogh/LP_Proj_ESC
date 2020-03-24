@@ -5,3 +5,14 @@ ESC2020/.vs/ESC2020/config/applicationhost.config
 ESC2020/.vs/ESC2020/DesignTimeBuild/.dtbcache
 ESC2020/.vs/ESC2020/v16/.suo
 ESC2020/.vs/ESC2020/v16/Server/sqlite3/storage.ide
+*.config
+*.ide-*
+*.suo
+*.dll
+*.pdb
+*.gz
+*.json*
+*.txt
+*.cache
+*.g.cs
+*.xml
