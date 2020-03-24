@@ -115,22 +115,22 @@
 
         if (warns.Count == 0)
         {
+
+            //string output = "0," + mail + ","+ pass + "," + "d," + dateNaiss + "," + desc + "," + prenom + "," + nom;
+
             var user = new{
-                userid = 0,
-                email = mail,
-                password = pass,
-                salt = "d",
-                birthdate = dateNaiss,
-                description = desc,
-                lastname = nom,
-                firstname = prenom
+                UserId = 0,
+                Email = mail,
+                Password = pass,
+                Salt = "",
+                BirthDate = dateNaiss,
+                Description = desc,
+                FirstName = prenom,
+                LastName = nom,
+                Job = poste
             };
 
             string output = JsonConvert.SerializeObject(user);
-            System.Diagnostics.Debug.WriteLine(output);
-
-
-
             createUser(output);
         }
 

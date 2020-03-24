@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ESC2020.Migrations
 {
     [DbContext(typeof(ElectionContext))]
-    [Migration("20200319170308_esc2020")]
+    [Migration("20200324104042_esc2020")]
     partial class esc2020
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -219,6 +219,10 @@ namespace ESC2020.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Job")
                         .IsRequired()
                         .HasColumnType("text");
 

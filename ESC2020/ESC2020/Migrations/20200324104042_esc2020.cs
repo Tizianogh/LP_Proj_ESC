@@ -46,7 +46,8 @@ namespace ESC2020.Migrations
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false)
+                    LastName = table.Column<string>(nullable: false),
+                    Job = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

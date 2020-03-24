@@ -79,15 +79,12 @@ namespace ESC2020.Model
         // more details see https://aka.ms/RazorPagesCRUD.
       
         [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(string avion)
+        public async Task<ActionResult<Users>> PostUsers([FromBody] string inputInfos)
         {
-            Users ds = JsonConvert.DeserializeObject<Users>(avion);
-           
+            Users users = JsonConvert.DeserializeObject<Users>(inputInfos);
 
-             _context.User.Add(ds);
 
-     
-
+            _context.User.Add(users);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUsers", new { id = ds.UserId }, ds);

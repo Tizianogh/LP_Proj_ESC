@@ -220,6 +220,10 @@ namespace ESC2020.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Job")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");
