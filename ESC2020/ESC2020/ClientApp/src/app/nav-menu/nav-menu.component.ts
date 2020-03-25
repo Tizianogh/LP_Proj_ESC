@@ -1,52 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Users } from '../Model/Users';
 import { Router } from '@angular/router';
 
+
 @Component({
-  selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+    selector: 'app-nav-menu',
+    templateUrl: './nav-menu.component.html',
+    styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
-  erreur = "";
-  private listeUsers: Users[] = [];
-  connected = false;
-  connectedAccount = null;
+    private showModalBox: boolean = false;
 
-  constructor(private service: HttpClient, private router: Router) { }
+    erreur = "";
+    private listeUsers: Users[] = [];
+    connected = false;
+    connectedAccount = null;
 
-  connect(email: string, password: string) {
-    console.log(email, password);
-    if (email.trim() == "" || password.trim() == "") {
-      this.erreur = "*Tous les champs doivent être remplis";
-    }
-    else {
-      this.service.get(window.location.origin + "/api/Users").subscribe(result => {
-        this.listeUsers = result as Users[];
-        console.log(this.listeUsers);
-      }, error => console.error(error));
+    constructor(private service: HttpClient, private router: Router) { }
 
-      if (this.listeUsers.find(user => user.UserId === email)) {
-        let anUser: Users = this.listeUsers.find(user => user.UserId === email);
-        if (anUser.Password === password) {
-          this.connected = true;
-          this.connectedAccount = anUser;
-          console.log("Connected");
-          this.router.navigate(['']);
+    connect(email: string, password: string) {
+        console.log(email, password);
+        if (email.trim() == "" || password.trim() == "") {
+            this.erreur = "*Tous les champs doivent être remplis";
         }
         else {
-          console.log("Wrong password");
-        }
-      }
-      else {
-        console.log("Cannot find username");
-      }
-    }
-  }
+            this.service.get(window.location.origin + "/api/Users").subscribe(result => {
+                this.listeUsers = result as Users[];
+                console.log(this.listeUsers);
+            }, error => console.error(error));
 
-  disconnect() {
-    this.connected = false;
-    this.connectedAccount = null;
-  }
+            if (this.listeUsers.find(user => user.UserId === email)) {
+                let anUser: Users = this.listeUsers.find(user => user.UserId === email);
+                if (anUser.Password === password) {
+                    this.connected = true;
+                    this.connectedAccount = anUser;
+                    console.log("Connected");
+                    this.router.navigate(['']);
+                }
+                else {
+                    console.log("Wrong password");
+                }
+            }
+            else {
+                console.log("Cannot find username");
+            }
+        }
+    }
+
+    disconnect() {
+        this.connected = false;
+        this.connectedAccount = null;
+    }
+
+    Home() {
+        if (this.connected) {
+            this.showModalBox = false;
+            this.router.navigate(['']);
+        }
+        else {
+            this.showModalBox = true;
+        }
+
+    }
 }

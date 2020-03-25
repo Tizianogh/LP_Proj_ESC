@@ -1,5 +1,6 @@
-.titre{
-    text-align:center;
+.titre {
+    text-align: center;
+    color: #430640;
 }
 
 label {
@@ -17,14 +18,14 @@ p{
 }
 
 #valider {
-  color: #4791E9;
-  border: 2px #4791E9 solid;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 30px;
-  padding-left: 30px;
-  margin-top: 90px;
-  background-color: #F5F5F5;
+    color: #430640;
+    border: 2px #430640 solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-top: 90px;
+    background-color: #fee2d7;
 }
 
 #rappel{
@@ -39,11 +40,10 @@ label {
   font-weight: bold;
 }
 #code {
-  border: 2px #F28118 solid;
-  width: 525px;
-  text-align:center;
- 
+    border: 2px #430640 solid;
+    width: 525px;
+    text-align: center;
 }
 #label_code {
-  color: #F28118;
+    color: #430640;
 }
