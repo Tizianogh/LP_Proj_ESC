@@ -1212,19 +1212,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tizia\\.nuget\\packages\\": {}
+    "C:\\Users\\Dro\\.nuget\\packages\\": {},
+    "c:\\program files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+      "projectUniqueName": "D:\\Projects\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
       "projectName": "CreationCompte",
-      "projectPath": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
-      "packagesPath": "C:\\Users\\tizia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+      "projectPath": "D:\\Projects\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+      "packagesPath": "C:\\Users\\Dro\\.nuget\\packages\\",
+      "outputPath": "D:\\Projects\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "c:\\program files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\tizia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dro\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1286,7 +1290,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
