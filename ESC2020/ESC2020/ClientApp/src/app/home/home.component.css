@@ -1,24 +1,23 @@
 #titre {
+  color: #430640;
   padding-top: 30px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  text-align: left;
   display: block;
-  width: 400px;
+  width: 100%;
   font-weight: 800;
   font-size: 38px;
-  margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .presentation {
   width: 40%;
-  margin-top: 25px;
   font-weight: 400;
   font-size: 16px;
   position: absolute;
   display: inline-block;
-  left: 75px;
+  left: 125px;
   text-align: justify;
+  color:black;
 }
 
 h5 {
@@ -27,6 +26,13 @@ h5 {
 
 .slideDesc {
   color: gray;
+}
+
+.Carousel {
+  width: 40%;
+  position: absolute;
+  right: 75px;
+  margin-top: 100px;
 }
 
 .carousel-control-next-icon,
@@ -46,6 +52,27 @@ h5 {
   width: 100%;
 }
 
+.btnAnimation {
+    font-family: Averta-Bold;
+    font-size: 15px;
+    border: solid 5px rgba(122,36,119,0.52);
+    padding: 10px 0px;
+    transition: all 0.5s 0s ease-out;
+    text-align: left;
+    background-color: transparent !important;
+    white-space: nowrap;
+    width: 90px;
+    overflow: hidden;
+    background-image: url(../../assets/img/plus.png);
+    background-position: left center;
+    background-size: 10px;
+    background-repeat: no-repeat;
+}
+
+.btnAnimation > a {
+    visibility: hidden;
+}
+
 .lien {
-  color: #4791E9;
+    color: #4791E9;
 }

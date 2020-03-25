@@ -26,5 +26,12 @@ html {
 }
 
 .dropdown-menu {
+  border-top: solid;
+  border-top-width:5px;
+  border-top-color:#430640;
   margin-top: 0;
+}
+
+#menuSession {
+  vertical-align:text-bottom;
 }

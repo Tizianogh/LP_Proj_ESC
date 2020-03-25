@@ -1,26 +1,28 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-dark ">
+  <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#f8d9cd;">
     <div class="container" style="margin:0px; max-width:1920px;">
 
       <div class="btn-group" dropdown is-open="status.isopen">
-        <img src="assets/img/menuIcon.png" height="40" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;"/>
-        <div class="dropdown-menu" role="menu" style="min-width: 250px;">
+        <img src="assets/img/menuIcon.png" height="40" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; padding-right:40px;" />
+        <div class="dropdown-menu dropdown-menu-left" role="menu" style="min-width: 250px;">
           <a class="dropdown-item" [routerLink]="['mes-salons']">Accéder à mes salons</a>
           <a class="dropdown-item" [routerLink]="['creationSession']">Créer un nouveau salon</a>
         </div>
       </div>
-
-      <div class="btn-group">
-        <img src="assets/img/chatIcon.png" routerLink="" routerLinkActive="active" height="30" style="margin-left:40px; cursor: pointer;"/>
+      
+      <div class="btn-group" dropdown is-open="status.isopen">
+        <label id="menuSession" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" >
+          Nom de la session
+        </label>
+        <div class="dropdown-menu dropdown-menu-left" role="menu" style="min-width: 200px;">
+          <a class="dropdown-item" [routerLink]="['']">Chat de la session</a>
+          <a class="dropdown-item" [routerLink]="['logs']">Historique de la session</a>
+        </div>
       </div>
 
-      <div class="btn-group">
-        <img src="assets/img/logsIcon.png" [routerLink]="['logs']" routerLinkActive="active" height="30" style="margin-left: 40px; cursor: pointer;"/>
-      </div>
-        
       <div class="navbar-collapse justify-content-end">
         <div class="btn-group">
-          <img src="assets/img/accountIcon.png" height="40" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" />
+          <img src="assets/img/loginIcon.png" height="40" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" />
           <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
 
             <div *ngIf="connected; then thenBlock else elseBlock"></div>
@@ -39,9 +41,9 @@
               </form>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="https://localhost:44318/">Créer un compte</a>
-              
+
             </ng-template>
-              
+
             <ng-template #thenBlock>
               <a class="dropdown-item" [routerLink]="['']">Mon Compte</a>
               <a class="dropdown-item" [routerLink]="['']" (click)="disconnect()">Se déconnecter</a>

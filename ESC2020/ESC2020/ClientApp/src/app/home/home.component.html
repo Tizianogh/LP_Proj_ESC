@@ -1,7 +1,6 @@
 <div id="home">
-  <h2 id="titre">Bienvenue sur votre site d'élection</h2>
-
   <div class="presentation">
+    <h2 id="titre">Bienvenue sur votre site d'élection</h2>
     Le principe d'élections sans candidats, issue de la sociocratie, permet de décider en consentement qui prendra
     la responsabilité d’un rôle, d’un poste ou d’une fonction. <br />
     Cette méthode permet également de faire des choix entre plusieurs options possibles concernant une proposition.
@@ -11,7 +10,7 @@
     du cercle et de nourrir notre besoin de reconnaissance.<br />
     Dans une élection sans candidat nous votons « Avec » et jamais « Pour ou Contre ».
     <br /><br />
-    Une élection sans candidat se décompose en plusieurs phase :
+    Une élection sans candidat se décompose en plusieurs phases :
 
     <ul>
       <li>
@@ -19,11 +18,11 @@
       </li>
       <li>
         Une phase de report de vote. Après avoir voté, vous pourrez consulter les votes
-        des autres participants, et vous disposerez d'une fenêtre de temps pour modifier votre vote.
+        des autres participants, et vous disposerez d'une fenêtre de temps pour modifier votre vote si vous le souhaitez.
       </li>
       <li>
         Une phase d'objections. Après les votes conclus, un participant sera proposé parmi tous les participants ayant reçu au moins une voie.
-        Vous pourrez ainsi emmettre certaines objections, si vous en avez, à ce que ce participant soit élu.
+        Vous pourrez ainsi émmettre certaines objections, si vous en avez, à ce que ce participant soit élu.
       </li>
       <li>
         Si aucune objection n'est émise durant la phase d'objections, ce participant est élu.
@@ -33,7 +32,7 @@
   </div>
 
   <div class="Carousel" style="display:inline-block">
-    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="width:40%; position:absolute; right:75px;">
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
@@ -105,11 +104,14 @@
     </div>
   </div>
   
-  <div id="zone_lien">
-    <a [routerLink]="['creationSession']"><p class="lien">Envie de créer votre première session de vote ?</p></a>
-    <p style="color:#F28118"> ou </p>
-    <a [routerLink]="['mes-salons']"><p class="lien">Rejoindre une séssion de vote ?</p></a>
-  </div>
-
+    <div id="zone_lien">
+        <button class="btnAnimation">
+           
+        <a [routerLink]="['creationSession']"><p class="lien">Envie de créer votre première session de vote ?</p></a>
+        </button>
+        <p style="color:#F28118"> ou </p>
+        <a [routerLink]="['mes-salons']"><p class="lien">Rejoindre une séssion de vote ?</p></a>
+    </div>
+ 
 </div>
 
