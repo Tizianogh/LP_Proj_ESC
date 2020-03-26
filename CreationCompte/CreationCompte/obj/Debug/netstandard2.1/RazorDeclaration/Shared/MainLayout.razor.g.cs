@@ -83,6 +83,20 @@ using Newtonsoft.Json;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 11 "C:\Users\Miste\Source\Repos\nicolasKACEM\LP_Proj_ESC\CreationCompte\CreationCompte\_Imports.razor"
+using BlazorInputFile;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 12 "C:\Users\Miste\Source\Repos\nicolasKACEM\LP_Proj_ESC\CreationCompte\CreationCompte\_Imports.razor"
+using System.IO;
+
+#line default
+#line hidden
+#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
