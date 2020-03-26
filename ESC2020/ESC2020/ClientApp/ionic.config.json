@@ -1,7 +1,8 @@
 {
   "name": "ESC2020_Ionic",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
