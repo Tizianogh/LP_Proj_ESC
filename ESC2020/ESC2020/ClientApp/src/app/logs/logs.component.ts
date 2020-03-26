@@ -40,21 +40,21 @@ export class LogsComponent implements OnInit {
 
   ShowVotes() {
     this.logList = this.voteList;
-    document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid #F28118;";
-    document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("NotificationsTab").style.cssText = "border-bottom: 0px solid #F28118;";
+      document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid #430640;";
+      document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 0px solid #430640;";
+      document.getElementById("NotificationsTab").style.cssText = "border-bottom: 0px solid #430640;";
   }
   ShowObjections() {
     this.logList = this.objectionList;
-    document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid #F28118;";
-    document.getElementById("VotesTab").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("NotificationsTab").style.cssText = "border-bottom: 0px solid #F28118;";
+      document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid #430640;";
+      document.getElementById("VotesTab").style.cssText = "border-bottom: 0px solid #430640;";
+      document.getElementById("NotificationsTab").style.cssText = "border-bottom: 0px solid #430640;";
   }
   ShowNotifications() {
     this.logList = this.notificationList;
-    document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid #F28118;";
-    document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("VotesTab").style.cssText = "border-bottom: 0px solid #F28118;";
+      document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid #430640;";
+      document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 0px solid #430640;";
+      document.getElementById("VotesTab").style.cssText = "border-bottom: 0px solid #430640;";
   }
 
   votePush(title: string, opinion: string, hour: string) {
