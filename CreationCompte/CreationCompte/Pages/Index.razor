@@ -105,67 +105,86 @@
     private DateTime dateNaiss = new DateTime();
     private string desc = "";
     private string sortie = "";
-    private byte[] avatar = { };
+    private byte[] avatar;
+
     private IList<String> warns = new List<String>();
     private IFileListEntry file;
 
 
     public void traiterDemande() {
-    warns.Clear();
-    verifNull();
-    verifMail();
-    verifPass();
+        warns.Clear();
+        verifNull();
+        verifMail();
+        verifPass();
 
-    if (warns.Count == 0){
+        if (warns.Count == 0){
 
-    var user = new{
-    UserId = 0,
-    Email = mail,
-    Password = pass,
-    Salt = "",
-    BirthDate = dateNaiss,
-    Description = desc,
-    FirstName = prenom,
-    LastName = nom,
-    Job = poste
-    //Avatar = avatar
-    };
+            var user = new {
+                UserId = 0,
+                Email = mail,
+                Password = pass,
+                Salt = "",
+                BirthDate = dateNaiss,
+                Description = desc,
+                FirstName = prenom,
+                LastName = nom,
+                Job = poste,
+                Avatar = avatar
+            };
 
-    string output = JsonConvert.SerializeObject(user);
-    createUser(output);
-    }
+            string output = JsonConvert.SerializeObject(user);
+            createUser(output);
+        }
     }
 
     private async Task createUser(string jsonUser) {
-    await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+        List<Object> users = await Http.GetJsonAsync<List<Object>>("https://localhost:44329/api/Users");
+        int countEqual = 0;
+        for (int i = 0; i < users.Count; i++) {
+            String userLine = users[i].ToString();
+            String mailT = userLine.Split(',')[1].Split(':')[1].Split("\"")[1];
+            //await jsRuntime.InvokeAsync<string>("console.log", mail);
+            if(mailT.Equals(mail)) {
+                countEqual++;
+            }
+        }
+        if(countEqual == 0) {
+            await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+            await jsRuntime.InvokeAsync<object>("alert", "Le compte a bien été créé !");
+        }
+        else {
+            await jsRuntime.InvokeAsync<object>("alert", "Le compte éxiste déjà !");
+        }
+
     }
 
-    void HandleFileSelected(IFileListEntry[] files) {
-    file = files.FirstOrDefault();
-    //await jsRuntime.InvokeAsync<string>("console.log", "hello world");
+    public async void HandleFileSelected(IFileListEntry[] files) {
+        file = files.FirstOrDefault();
+        MemoryStream ms = new MemoryStream();
+        await file.Data.CopyToAsync(ms);
+        avatar = ms.ToArray();
+
     }
 
 
     public void verifNull() {
-    if (desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") ||
-    nom.Trim().Equals("") ||
-    prenom.Trim().Equals("") ||
-    dateNaiss.ToString().Trim().Equals("")) {
-    warns.Add("Tous les champs sont obligatoires");
-    }
+        if (desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") || nom.Trim().Equals("") ||
+        prenom.Trim().Equals("") || dateNaiss.ToString().Trim().Equals("")) {
+            warns.Add("Tous les champs sont obligatoires");
+        }
     }
 
     public void verifMail() {
-    Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-    Match match = regex.Match(mail);
-    if (!match.Success || match == null){
-    warns.Add("Le mail " + mail + " est incorrect");
-    }
+        Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        Match match = regex.Match(mail);
+        if (!match.Success || match == null){
+            warns.Add("Le mail " + mail + " est incorrect");
+        }
     }
 
     public void verifPass() {
-    if (pass.Trim().Length < 5 || pass == null){
-    warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
-    }
+        if (pass.Trim().Length < 5 || pass == null){
+            warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
+        }
     }
 }

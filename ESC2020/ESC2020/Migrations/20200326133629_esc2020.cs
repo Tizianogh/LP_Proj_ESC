@@ -47,7 +47,8 @@ namespace ESC2020.Migrations
                     Description = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
-                    Job = table.Column<string>(nullable: false)
+                    Job = table.Column<string>(nullable: false),
+                    Avatar = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {

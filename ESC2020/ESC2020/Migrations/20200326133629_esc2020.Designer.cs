@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ESC2020.Migrations
 {
     [DbContext(typeof(ElectionContext))]
-    [Migration("20200324104042_esc2020")]
+    [Migration("20200326133629_esc2020")]
     partial class esc2020
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -206,6 +206,10 @@ namespace ESC2020.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<byte[]>("Avatar")
+                        .IsRequired()
+                        .HasColumnType("bytea");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp without time zone");
