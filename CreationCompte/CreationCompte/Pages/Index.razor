@@ -1,7 +1,9 @@
 ﻿@page "/"
 @using System.Net.Http
+@using BlazorInputFile
 
 @inject HttpClient Http
+@inject IJSRuntime jsRuntime
 <h1 class="leftPos" id="tvCreer">Créez votre compte</h1>
 <br />
 <br />
@@ -48,11 +50,8 @@
             <label for="prenom">Prenom*</label>
             <input @bind="prenom" type="text" class="form-control" id="prenom" placeholder="Entrer votre prenom">
         </div>
-
-
-
-
     </div>
+
     <div class="div2">
         <div class="form-group">
             <label for="poste">Quel poste occupez-vous ?</label>
@@ -78,15 +77,18 @@
         <button class="btn btn-primary" @onclick="@traiterDemande">Créer mon compte</button>
         @foreach (var warn in warns)
         {
-            <p class="alert alert-danger" role="alert">
-                @warn
-            </p>
+        <p class="alert alert-danger" role="alert">
+            @warn
+        </p>
         }
     </div>
 
-    <p class="alert alert-success" role="alert">
-        @sortie;
-    </p>
+    <div class="div3">
+        <div class="form-group">
+            <label for="avatar">Choisissez votre avatar</label>
+            <InputFile OnChange="HandleFileSelected" />
+        </div>
+    </div>
 
 
 </div>
@@ -103,75 +105,67 @@
     private DateTime dateNaiss = new DateTime();
     private string desc = "";
     private string sortie = "";
+    private byte[] avatar = { };
     private IList<String> warns = new List<String>();
+    private IFileListEntry file;
 
 
-    public void traiterDemande()
-    {
-        warns.Clear();
-        verifNull();
-        verifMail();
-        verifPass();
+    public void traiterDemande() {
+    warns.Clear();
+    verifNull();
+    verifMail();
+    verifPass();
 
-        if (warns.Count == 0)
-        {
+    if (warns.Count == 0){
 
-            //string output = "0," + mail + ","+ pass + "," + "d," + dateNaiss + "," + desc + "," + prenom + "," + nom;
+    var user = new{
+    UserId = 0,
+    Email = mail,
+    Password = pass,
+    Salt = "",
+    BirthDate = dateNaiss,
+    Description = desc,
+    FirstName = prenom,
+    LastName = nom,
+    Job = poste
+    //Avatar = avatar
+    };
 
-            var user = new{
-                UserId = 0,
-                Email = mail,
-                Password = pass,
-                Salt = "",
-                BirthDate = dateNaiss,
-                Description = desc,
-                FirstName = prenom,
-                LastName = nom,
-                Job = poste
-            };
-
-            string output = JsonConvert.SerializeObject(user);
-            createUser(output);
-        }
-
+    string output = JsonConvert.SerializeObject(user);
+    createUser(output);
+    }
     }
 
-    private async Task createUser(string jsonUser)
-    {
-       
-        await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+    private async Task createUser(string jsonUser) {
+    await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+    }
+
+    void HandleFileSelected(IFileListEntry[] files) {
+    file = files.FirstOrDefault();
+    //await jsRuntime.InvokeAsync<string>("console.log", "hello world");
     }
 
 
-    public void verifNull()
-    {
-        if (desc.Trim().Equals("") ||
-            mail.Trim().Equals("") ||
-            pass.Trim().Equals("") ||
-            passConfirm.Trim().Equals("") ||
-            nom.Trim().Equals("") ||
-            prenom.Trim().Equals("") ||
-            dateNaiss.ToString().Trim().Equals(""))
-        {
-            warns.Add("Tous les champs sont obligatoires");
-        }
+    public void verifNull() {
+    if (desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") ||
+    nom.Trim().Equals("") ||
+    prenom.Trim().Equals("") ||
+    dateNaiss.ToString().Trim().Equals("")) {
+    warns.Add("Tous les champs sont obligatoires");
+    }
     }
 
-    public void verifMail()
-    {
-        Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-        Match match = regex.Match(mail);
-        if (!match.Success || match == null)
-        {
-            warns.Add("Le mail " + mail + " est incorrect");
-        }
+    public void verifMail() {
+    Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+    Match match = regex.Match(mail);
+    if (!match.Success || match == null){
+    warns.Add("Le mail " + mail + " est incorrect");
+    }
     }
 
-    public void verifPass()
-    {
-        if (pass.Trim().Length < 5 || pass == null)
-        {
-            warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
-        }
+    public void verifPass() {
+    if (pass.Trim().Length < 5 || pass == null){
+    warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
+    }
     }
 }
