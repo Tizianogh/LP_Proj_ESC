@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using System.Net.Http
+@using BlazorInputFile
 
 @inject HttpClient Http
 @inject IJSRuntime jsRuntime
@@ -109,63 +110,62 @@
     private IFileListEntry file;
 
 
-    public void traiterDemande()
-    {
-        warns.Clear();
-        verifNull();
-        verifMail();
-        verifPass();
+    public void traiterDemande() {
+    warns.Clear();
+    verifNull();
+    verifMail();
+    verifPass();
 
-        if (warns.Count == 0){
+    if (warns.Count == 0){
 
-            var user = new{
-                UserId = 0,
-                Email = mail,
-                Password = pass,
-                Salt = "",
-                BirthDate = dateNaiss,
-                Description = desc,
-                FirstName = prenom,
-                LastName = nom,
-                Job = poste,
-                Avatar = avatar
-            };
+    var user = new{
+    UserId = 0,
+    Email = mail,
+    Password = pass,
+    Salt = "",
+    BirthDate = dateNaiss,
+    Description = desc,
+    FirstName = prenom,
+    LastName = nom,
+    Job = poste
+    //Avatar = avatar
+    };
 
-            string output = JsonConvert.SerializeObject(user);
-            createUser(output);
-        }
+    string output = JsonConvert.SerializeObject(user);
+    createUser(output);
+    }
     }
 
     private async Task createUser(string jsonUser) {
-        await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+    await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
     }
 
     void HandleFileSelected(IFileListEntry[] files) {
-        file = files.FirstOrDefault();
-        await jsRuntime.InvokeAsync<string>("console.log", "hello world");
+    file = files.FirstOrDefault();
+    //await jsRuntime.InvokeAsync<string>("console.log", "hello world");
     }
 
 
-    public void verifNull(){
-        if (desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") ||
-        nom.Trim().Equals("") ||
-        prenom.Trim().Equals("") ||
-        dateNaiss.ToString().Trim().Equals("")) {
-             warns.Add("Tous les champs sont obligatoires");
-        }
+    public void verifNull() {
+    if (desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") ||
+    nom.Trim().Equals("") ||
+    prenom.Trim().Equals("") ||
+    dateNaiss.ToString().Trim().Equals("")) {
+    warns.Add("Tous les champs sont obligatoires");
+    }
     }
 
     public void verifMail() {
-        Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-        Match match = regex.Match(mail);
-        if (!match.Success || match == null){
-            warns.Add("Le mail " + mail + " est incorrect");
-        }
+    Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+    Match match = regex.Match(mail);
+    if (!match.Success || match == null){
+    warns.Add("Le mail " + mail + " est incorrect");
+    }
     }
 
-    public void verifPass(){
-        if (pass.Trim().Length < 5 || pass == null){
-            warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
-        }
+    public void verifPass() {
+    if (pass.Trim().Length < 5 || pass == null){
+    warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
+    }
     }
 }

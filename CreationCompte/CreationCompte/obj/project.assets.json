@@ -2,6 +2,25 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.1": {
+      "BlazorInputFile/0.1.0-preview": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "3.0.0-preview9.19424.4",
+          "Microsoft.AspNetCore.Components.Web": "3.0.0-preview9.19424.4"
+        },
+        "compile": {
+          "lib/netstandard2.1/BlazorInputFile.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/BlazorInputFile.dll": {}
+        },
+        "build": {
+          "buildTransitive/BlazorInputFile.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/BlazorInputFile.props": {}
+        }
+      },
       "Microsoft.AspNetCore.Authorization/3.1.2": {
         "type": "package",
         "dependencies": {
@@ -340,6 +359,24 @@
     }
   },
   "libraries": {
+    "BlazorInputFile/0.1.0-preview": {
+      "sha512": "rVm6FAZ0JzbmonZhuxSSncDyAuPThyRjsqP/zjF3E4QZyWMvx8R30UpIZvARJQbDLA68v1Q8mNfP/100nHF0ig==",
+      "type": "package",
+      "path": "blazorinputfile/0.1.0-preview",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "blazorinputfile.0.1.0-preview.nupkg.sha512",
+        "blazorinputfile.nuspec",
+        "build/BlazorInputFile.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/BlazorInputFile.props",
+        "buildTransitive/BlazorInputFile.props",
+        "lib/netstandard2.0/BlazorInputFile.dll",
+        "lib/netstandard2.1/BlazorInputFile.dll",
+        "staticwebassets/inputfile.js"
+      ]
+    },
     "Microsoft.AspNetCore.Authorization/3.1.2": {
       "sha512": "bbu9qMsOdmNjLLaRawhT3OfjFHleK9D2ICGfmjvkMVNyfx42P5NgypOlqKgK6SDoqtex3DisWd4E3nePtohPCw==",
       "type": "package",
@@ -1204,6 +1241,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.1": [
+      "BlazorInputFile >= 0.1.0-preview",
       "Microsoft.AspNetCore.Blazor.HttpClient >= 3.2.0-preview2.20160.5",
       "Microsoft.AspNetCore.Components.WebAssembly >= 3.2.0-preview2.20160.5",
       "Microsoft.AspNetCore.Components.WebAssembly.Build >= 3.2.0-preview2.20160.5",
@@ -1248,6 +1286,10 @@
     "frameworks": {
       "netstandard2.1": {
         "dependencies": {
+          "BlazorInputFile": {
+            "target": "Package",
+            "version": "[0.1.0-preview, )"
+          },
           "Microsoft.AspNetCore.Blazor.HttpClient": {
             "target": "Package",
             "version": "[3.2.0-preview2.20160.5, )"

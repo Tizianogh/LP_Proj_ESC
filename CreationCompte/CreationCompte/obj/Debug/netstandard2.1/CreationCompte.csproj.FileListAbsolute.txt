@@ -1027,3 +1027,8 @@ D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netsta
 D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\staticwebassets\CreationCompte.StaticWebAssets.xml
 D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.dll
 D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.pdb
+D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\wwwroot\_framework\_bin\BlazorInputFile.dll
+D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\wwwroot\_framework\_bin\BlazorInputFile.dll.gz
+D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\BlazorInputFile.dll
+D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\compressed\_framework\_bin\BlazorInputFile.dll.gz
+D:\Users\user\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\compressed\_framework\_bin\BlazorInputFile.dll.gz.hash
