@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.1": {
-      "BlazorInputFile/0.1.0-preview": {
+      "BlazorInputFile/0.1.0-preview-00002": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "3.0.0-preview9.19424.4",
@@ -359,14 +359,14 @@
     }
   },
   "libraries": {
-    "BlazorInputFile/0.1.0-preview": {
-      "sha512": "rVm6FAZ0JzbmonZhuxSSncDyAuPThyRjsqP/zjF3E4QZyWMvx8R30UpIZvARJQbDLA68v1Q8mNfP/100nHF0ig==",
+    "BlazorInputFile/0.1.0-preview-00002": {
+      "sha512": "CEb6oLkSaKn2p2mepAjMIEabIYxsMcX0mRC16ciKPWPJCQMC/FS39C5kDySqdf6BE8/X714SDKc3fj8bI+L9Ig==",
       "type": "package",
-      "path": "blazorinputfile/0.1.0-preview",
+      "path": "blazorinputfile/0.1.0-preview-00002",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "blazorinputfile.0.1.0-preview.nupkg.sha512",
+        "blazorinputfile.0.1.0-preview-00002.nupkg.sha512",
         "blazorinputfile.nuspec",
         "build/BlazorInputFile.props",
         "build/Microsoft.AspNetCore.StaticWebAssets.props",
@@ -1249,7 +1249,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.1": [
-      "BlazorInputFile >= 0.1.0-preview",
+      "BlazorInputFile >= 0.1.0-preview-00002",
       "Microsoft.AspNetCore.Blazor.HttpClient >= 3.2.0-preview2.20160.5",
       "Microsoft.AspNetCore.Components.WebAssembly >= 3.2.0-preview2.20160.5",
       "Microsoft.AspNetCore.Components.WebAssembly.Build >= 3.2.0-preview2.20160.5",
@@ -1297,7 +1297,7 @@
         "dependencies": {
           "BlazorInputFile": {
             "target": "Package",
-            "version": "[0.1.0-preview, )"
+            "version": "[0.1.0-preview-00002, )"
           },
           "Microsoft.AspNetCore.Blazor.HttpClient": {
             "target": "Package",

@@ -20,11 +20,20 @@ namespace ESC2020.Controllers
             _context = context;
         }
 
+
         // GET: api/Elections
         [HttpGet]
+        [Route("")]
         public async Task<ActionResult<IEnumerable<Election>>> Getelec()
         {
             return await _context.elec.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("code/{code}")]
+        public async Task<ActionResult<Election>> Getelec(string code)
+        {
+            return await _context.elec.FirstOrDefaultAsync(x => x.CodeElection == code);
         }
 
         // GET: api/Elections/5
