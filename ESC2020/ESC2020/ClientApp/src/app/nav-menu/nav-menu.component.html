@@ -8,23 +8,29 @@
 
         <div class="navbar-collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav mr-auto">
+                <div *ngIf="connected; then navThenBlock else navElseBlock"></div>
+                <ng-template #navElseBlock>
 
-                <li class="btn-group justify-content-start" dropdown is-open="status.isopen" style="margin-right:35px; margin-left:35px;">
-                    <a id="menu" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
-                        Navigation
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-left" role="menu" style="min-width: 250px;">
-                        <a class="dropdown-item" [routerLink]="['home']" style="cursor:pointer">
-                            Accueil
+                </ng-template>
+                <ng-template #navThenBlock>
+                    <li class="btn-group justify-content-start" dropdown is-open="status.isopen" style="margin-right:35px; margin-left:35px;">
+                        <a id="menu" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+                            Navigation
                         </a>
-                        <a class="dropdown-item" [routerLink]="['mes-salons']">
-                            Accéder à mes salons
-                        </a>
-                        <a class="dropdown-item" [routerLink]="['creationSession']">
-                            Créer un nouveau salon
-                        </a>
-                    </div>
-                </li>
+                        <div class="dropdown-menu dropdown-menu-left" role="menu" style="min-width: 250px;">
+                            <a class="dropdown-item" [routerLink]="['home']" style="cursor:pointer">
+                                Accueil
+                            </a>
+                            <a class="dropdown-item" [routerLink]="['mes-salons']">
+                                Accéder à mes salons
+                            </a>
+                            <a class="dropdown-item" [routerLink]="['creationSession']">
+                                Créer un nouveau salon
+                            </a>
+                        </div>
+                    </li>
+                </ng-template>
+
 
                 <li class="btn-group justify-content-start" dropdown is-open="status.isopen">
                     <a id="menuSession" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
@@ -39,15 +45,16 @@
             </ul>
         </div>
 
+
         <div class="navbar-collapse w-100 order-3 dual-collapse2 justify-content-end">
             <div class="btn-group justify-content-end">
-                <label id="menuCompte" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
-                    Mon compte
-                </label>
-                <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
+                <div *ngIf="connected; then accountThenBlock else accountElseBlock"></div>
 
-                    <div *ngIf="connected; then thenBlock else elseBlock"></div>
-                    <ng-template #elseBlock>
+                <ng-template #accountElseBlock>
+                    <label id="menuCompte" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+                        Mon Compte
+                    </label>
+                    <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
                         <form>
                             <div class="form-group mr-3 ml-4">
                                 <label for="emailInput">Email</label>
@@ -62,43 +69,19 @@
                         </form>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="https://localhost:44318/">Créer un compte</a>
-                    </ng-template>
+                    </div>
+                </ng-template>
 
-                    <ng-template #thenBlock>
-                        <a class="dropdown-item" [routerLink]="['']">Mon Compte</a>
+                <ng-template #accountThenBlock>
+                    <label id="menuCompte" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+                        {{connectedAccount.firstName}}
+                    </label>
+                    <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
+                        <a class="dropdown-item" [routerLink]="['myAccountPage']">Mon Compte</a>
                         <a class="dropdown-item" [routerLink]="['']" (click)="disconnect()">Se déconnecter</a>
-                    </ng-template>
-                </div>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>
 </nav>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
-            </div>
-        </div>
-    </div>
-</div>

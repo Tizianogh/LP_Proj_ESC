@@ -1,0 +1,92 @@
+﻿
+<div class="row">
+    <div class="col-sm-12">
+        <h1 id="titre">
+            Détails de mon compte
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <p style="text-align:center; margin-bottom:50px;">
+            Vous pouvez ici consulter les détails concernant votre compte.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="offset-md-1 col-sm-2">
+        <ul id="sideBar" class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(profil)" style="cursor:pointer;">
+                    Mon profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(biographie)" style="cursor:pointer;">
+                    Ma biographie
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(informations)" style="cursor:pointer;">
+                    Mes information
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(avatar)" style="cursor:pointer;">
+                    Ma photo de profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(deconnecter)" style="cursor:pointer;">
+                    Se déconnecter
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <div id="profilInformations" align="left">
+            <div style="margin-left:50px;">
+
+                <p #profil style="font-weight:600;">
+                    Mon Profil
+                </p>
+                Nom : {{connectedAccount.lastName}}<br>
+                Prénom : {{connectedAccount.firstName}}<br>
+                Age : {{age}}<br>
+                Poste : {{connectedAccount.job}}<br><br><br>
+
+                <p #biographie style="font-weight:600;">
+                    Ma biographie
+                </p>
+                Ma biographie : {{connectedAccount.description}}<br>
+                <br><br>
+
+                <p #informations style="font-weight:600;">
+                    Mes informations
+                </p>
+                Mon adresse e-mail : {{connectedAccount.email}}
+                <br><br><br>
+
+                <p #avatar style="font-weight:600;">
+                    Ma photo de profil
+                </p>
+                Your target <br>
+                Your target <br>
+                Your target <br>
+                Your target <br>
+                Your target <br>
+                Your target <br><br><br>
+
+
+                <p #deconnecter style="font-weight:600;">
+                    Se déconnecter
+                </p>
+                Your target <br>
+                Your target <br>
+                Your target <br>
+                Your target <br>
+                Your target <br><br><br>
+            </div>
+        </div>
+    </div>
+</div>

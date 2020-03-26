@@ -1,0 +1,33 @@
+﻿#titre {
+    color: #430640;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-weight: 800;
+    font-size: 38px;
+    margin-top: 30px;
+}
+
+#sideBar{
+    border-style:solid;
+}
+
+#profilInformations {
+    border-style: solid;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+
+#profilInformations::-webkit-scrollbar {
+    width: 6px;
+}
+
+#profilInformations::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(56, 56, 56, 0.363);
+}
+
+.nav-link:hover {
+    background-color: #eacec3;
+}

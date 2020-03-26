@@ -17,10 +17,6 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
-.btn-group:hover > .dropdown-menu {
-  display: block;
-}
-
 .dropdown-menu {
     border-top: solid;
     border-top-width: 5px;
