@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
+    "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
+    "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectUniqueName": "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "projectName": "CreationCompte",
-        "projectPath": "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
-        "packagesPath": "C:\\Users\\dany\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+        "projectPath": "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "packagesPath": "C:\\Users\\Miste\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dany\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Miste\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -59,6 +56,10 @@
               "target": "Package",
               "version": "[3.2.0-preview2.20160.5, )"
             },
+            "Microsoft.JSInterop": {
+              "target": "Package",
+              "version": "[5.0.0-preview.1.20120.4, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
@@ -79,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
