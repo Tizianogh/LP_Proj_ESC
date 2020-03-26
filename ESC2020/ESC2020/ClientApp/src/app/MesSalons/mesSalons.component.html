@@ -45,9 +45,9 @@
     </div>
     <hr class="separator">
     <div style="margin-left:10px; margin-right:10px;">
-      <div class="dateD">
-        Début du mandat le : {{session.startDate}}
-      </div>
+        <div class="dateD">
+            Début du mandat le : {{session.startDate |  date:'shortDate' : locale:'fr-FR'}}
+        </div>
       <div class="phase">
         Phase de vote
       </div>

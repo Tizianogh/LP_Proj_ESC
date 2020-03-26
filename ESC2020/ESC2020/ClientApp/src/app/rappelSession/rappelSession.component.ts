@@ -15,7 +15,8 @@ export class RappelSessionComponent implements OnInit {
   missions: string;
   responsabilite: string;
   dateD: string;
-  dateF: string
+    dateF: string;
+    codeElection: string;
 
   ngOnInit() {
 
@@ -25,7 +26,9 @@ export class RappelSessionComponent implements OnInit {
       this.missions = result['mission'];
       this.responsabilite = result['responsability'];
       this.dateD = result['startDate'];
-      this.dateF = result['endDate'];
+        this.dateF = result['endDate'];
+        this.codeElection = result['codeElection'];
+
     }, error => console.error(error));
   }
 }
