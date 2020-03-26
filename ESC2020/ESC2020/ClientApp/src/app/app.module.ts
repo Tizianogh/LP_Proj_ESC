@@ -43,6 +43,7 @@ import { PageElectionComponent } from './Page-election/page-election.component';
         { path: 'logs', component: LogsComponent },
         { path: 'rappel/:id', component: RappelSessionComponent },
         { path: 'mes-salons', component: MesSalonsComponent },
+        { path: 'home', component: HomeComponent},
       { path: 'page-election/:id', component: PageElectionComponent }
     ])
   ],
