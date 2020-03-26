@@ -1,10 +1,10 @@
 obj\Debug\netstandard2.1\CreationCompte.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.blazor.httpclient\3.2.0-preview2.20160.5\lib\netstandard2.0\Microsoft.AspNetCore.Blazor.HttpClient.dll
-C:\Users\Miste\.nuget\packages\system.text.json\4.7.1\lib\netstandard2.0\System.Text.Json.dll
+C:\Users\Miste\.nuget\packages\system.text.json\5.0.0-preview.1.20120.5\lib\netstandard2.0\System.Text.Json.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\mscorlib.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\Facades\System.Buffers.dll
-C:\Users\Miste\.nuget\packages\microsoft.bcl.asyncinterfaces\1.1.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Miste\.nuget\packages\microsoft.bcl.asyncinterfaces\1.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\Facades\netstandard.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\System.Xml.Linq.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\System.Core.dll
@@ -28,7 +28,7 @@ C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runti
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\System.Data.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\Facades\System.Threading.Tasks.Extensions.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\System.Numerics.Vectors.dll
-C:\Users\Miste\.nuget\packages\system.text.encodings.web\4.7.0\lib\netstandard2.1\System.Text.Encodings.Web.dll
+C:\Users\Miste\.nuget\packages\system.text.encodings.web\5.0.0-preview.1.20120.5\lib\netstandard2.1\System.Text.Encodings.Web.dll
 C:\Users\Miste\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\3.1.2\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\Miste\.nuget\packages\newtonsoft.json\12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.web\3.1.2\lib\netstandard2.0\Microsoft.AspNetCore.Components.Web.dll
@@ -37,7 +37,7 @@ C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runti
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0-preview2.20159.2\build\netstandard1.0\..\..\tools\dotnetwasm\bcl\System.ComponentModel.DataAnnotations.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components\3.1.2\lib\netstandard2.0\Microsoft.AspNetCore.Components.dll
 C:\Users\Miste\.nuget\packages\microsoft.extensions.logging.abstractions\3.1.2\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\Miste\.nuget\packages\microsoft.jsinterop\3.1.2\lib\netstandard2.0\Microsoft.JSInterop.dll
+C:\Users\Miste\.nuget\packages\microsoft.jsinterop\5.0.0-preview.1.20120.4\lib\netstandard2.0\Microsoft.JSInterop.dll
 C:\Users\Miste\.nuget\packages\blazorinputfile\0.1.0-preview\lib\netstandard2.1\BlazorInputFile.dll
 C:\Users\Miste\.nuget\packages\microsoft.aspnetcore.components.webassembly\3.2.0-preview2.20160.5\lib\netstandard2.1\Microsoft.AspNetCore.Components.WebAssembly.dll
 C:\Users\Miste\.nuget\packages\microsoft.extensions.dependencyinjection\3.1.2\lib\netstandard2.1\Microsoft.Extensions.DependencyInjection.dll

@@ -36,6 +36,17 @@ export class CreationSessionComponent implements OnInit {
 
     }
 
+    generateCode() {
+        var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var stringLength = 5;
+
+        function pickRandom() {
+            return possible[Math.floor(Math.random() * possible.length)];
+        }
+        var randomString = Array.apply(null, Array(stringLength)).map(pickRandom).join('');
+        return randomString;
+    }
+
     submit() {
         const form = this.formulaireSession.value
         console.log(window.location.origin)
@@ -50,13 +61,14 @@ export class CreationSessionComponent implements OnInit {
                     "Mission": form['missions'],
                     "Responsability": form['responsabilites'],
                     "StartDate": form['dateD'],
-                    "EndDate": form['dateF']
+                    "EndDate": form['dateF'],
+                    "CodeElection": this.generateCode()
                 }).subscribe(result => {
                     console.log(result)
                     console.log("ICI" + result['electionId']);
                     this.id = result['electionId'];
                     this.router.navigate(['rappel/' + this.id]);
-                }, error => console.error(error));
+                }, error => this.submit());
             }
             else {
                 this.erreur = "*Les dates sont incorrectes";

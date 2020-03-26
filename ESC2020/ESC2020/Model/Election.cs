@@ -25,6 +25,8 @@ namespace ESC2020.Model
         public DateTime EndDate { get; set; }
 
 
+        public string CodeElection { get; set; }
+
 
         public List<Notification> Notification { get; set; } = new List<Notification>();
 
