@@ -36,6 +36,10 @@ namespace ESC2020.Model
 		[Required]
 		public string Job { get; set; } // varchar ?
 
+		[Required]
+		public byte[] Avatar { get; set; }
+
+
 		public List<Opinion> Opinion { get; set; } = new List<Opinion>();
 
 		public List<Participant> Participants { get; set; } = new List<Participant>();

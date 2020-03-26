@@ -2,7 +2,7 @@
   Mes salons
 </h2>
 
-<ul class="nav nav-tabs" style="margin-left:75px; margin-right:75px;">
+<ul class="nav nav-tabs color-border " style="margin-left:75px; margin-right:75px;">
 
   <li class="nav-item" id="ongletMesSalons">
     <a class="nav-link" style="cursor: pointer;" (click)="MesSalons()">
@@ -23,15 +23,15 @@
   </li>
 
   <li class="nav-item ml-auto align-text-bottom" id="ongletAjouterSalon">
-    <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" (click)="ajouterSalon()" style="cursor: pointer;">Rejoindre un salon</div>
-      <div class="dropdown-menu dropdown-menu-right align-text-bottom">
+    <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" (click)="ajouterSalon()" style="cursor: pointer; background-color: #fee2d7;">Rejoindre un salon</div>
+      <div class="dropdown-menu dropdown-menu-right align-text-bottom color-border ">
         <form>
           <div class="form-group mr-3 ml-4">
             <label for="codeInput">Lien d'invitation ou code</label>
-            <input #codeInput id="codeInput" type="text" class="form-control">
+            <input #codeInput id="codeInput" type="text" class="form-control color-border">
           </div>
           <div class="btn-group">
-            <button (click)="rajouterSalon(codeInput.value)" type="submit" class="btn btn-primary ml-4"> Rejoindre </button>
+            <button (click)="rajouterSalon(codeInput.value)" type="submit" class="btn color-btn ml-4"> Rejoindre </button>
           </div>
         </form>
       </div>
@@ -40,7 +40,7 @@
 
 <div class="sessions" style="margin-left:75px; margin-right:75px;" >
   <div class="session" *ngFor="let session of listeSessions">
-    <div class="poste" (click)="Navigate((session.electionId))" style="cursor: pointer;">
+    <div class="poste " (click)="Navigate((session.electionId))" style="cursor: pointer;">
       {{session.job}}
     </div>
     <hr class="separator">

@@ -23,38 +23,38 @@ export class MesSalonsComponent implements OnInit {
   }
 
   MesSalons() {
-    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 5px solid #F28118;";
-    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #F28118;";
+    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 5px solid #430640;";
+    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #430640;";
   }
 
   SalonsCrees() {
-    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 5px solid #F28118;";
-    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #F28118;";
+    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 5px solid #430640;";
+    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #430640;";
   }
 
   SalonsTermines() {
-    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 5px solid #F28118;";
-    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #F28118;";
+    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 5px solid #430640;";
+    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #430640;";
   }
 
   ajouterSalon() {
-    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #F28118;";
-    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 5px solid #F28118;";
+    document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+    document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 5px solid #430640;";
   }
 
-  rajouterSalon(codeInput : string) {
-      console.log(codeInput);
+  rajouterSalon(codeInput: string) {
+    console.log(codeInput);
   }
 
-  Navigate(id:number) {
-    this.router.navigate(['page-election/' +id]);
+  Navigate(id: number) {
+    this.router.navigate(['page-election/' + id]);
   }
 }
