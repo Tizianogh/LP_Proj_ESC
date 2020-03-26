@@ -1,24 +1,16 @@
+
 #titre {
-  padding-top: 30px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  width: 400px;
+  color: #430640;
   font-weight: 800;
   font-size: 38px;
-  margin-bottom: 50px;
 }
 
 .presentation {
-  width: 40%;
-  margin-top: 25px;
+  /*width: 40%;*/
   font-weight: 400;
   font-size: 16px;
-  position: absolute;
-  display: inline-block;
-  left: 75px;
   text-align: justify;
+  color: black;
 }
 
 h5 {
@@ -29,23 +21,45 @@ h5 {
   color: gray;
 }
 
+/*.Carousel {
+  width: 40%;
+  position: absolute;
+  right: 75px;
+  margin-top: 100px;
+}*/
+
 .carousel-control-next-icon,
 .carousel-control-prev-icon,
 .carousel-indicators {
   filter: invert(1);
 }
 
+#btnAnimation {
+  background-image: url(../../assets/img/dropDown.png);
+  background-color: white !important;
+  background-position: center center;
+  background-size: 35px;
+  width: 35px;
+  height: 35px;
+}
 
-#zone_lien {
-  position: absolute;
-  bottom: 10px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  width: 100%;
+#link {
+  color: white !important;
+}
+
+.apparait {
+  display: none;
 }
 
 .lien {
-  color: #4791E9;
+  color: white;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #430640;
 }
