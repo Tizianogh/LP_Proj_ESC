@@ -205,6 +205,10 @@ namespace ESC2020.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<byte[]>("Avatar")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp without time zone");
 

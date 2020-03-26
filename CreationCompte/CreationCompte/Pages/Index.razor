@@ -1,8 +1,9 @@
 ﻿@page "/"
 @using System.Net.Http
-
+@using BlazorInputFile
 
 @inject HttpClient Http
+@inject IJSRuntime jsRuntime
 <h1 class="leftPos" id="tvCreer">Créez votre compte</h1>
 <br />
 <br />
@@ -16,7 +17,7 @@
                                 background-position: left;
                                 background-position-x:5%;
                                 background-size: 18px;
-                                padding-left:15%;" 
+                                padding-left:15%;"
                    @bind="mail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer votre email">
         </div>
         <div class="form-group">
@@ -31,7 +32,7 @@
 
         </div>
         <div class="form-group">
-            <label for="confirmerMdp">Confirmez votre mot de passe*</label>
+            <label for="confirmerMdp">Confirmer votre mot de passe*</label>
             <input style=" background: url('resources/pass.png');
                                 background-repeat: no-repeat;
                                 background-position: left;
@@ -49,11 +50,8 @@
             <label for="prenom">Prenom*</label>
             <input @bind="prenom" type="text" class="form-control" id="prenom" placeholder="Entrer votre prenom">
         </div>
-
-
-
-
     </div>
+
     <div class="div2">
         <div class="form-group">
             <label for="poste">Quel poste occupez-vous ?</label>
@@ -79,15 +77,18 @@
         <button class="btn btn-primary" @onclick="@traiterDemande">Créer mon compte</button>
         @foreach (var warn in warns)
         {
-            <p class="alert alert-danger" role="alert">
-                @warn
-            </p>
+        <p class="alert alert-danger" role="alert">
+            @warn
+        </p>
         }
     </div>
 
-    <p class="alert alert-success" role="alert">
-        @sortie;
-    </p>
+    <div class="div3">
+        <div class="form-group">
+            <label for="avatar">Choisissez votre avatar</label>
+            <InputFile OnChange="HandleFileSelected" />
+        </div>
+    </div>
 
 
 </div>
@@ -104,71 +105,85 @@
     private DateTime dateNaiss = new DateTime();
     private string desc = "";
     private string sortie = "";
+    private byte[] avatar;
+
     private IList<String> warns = new List<String>();
+    private IFileListEntry file;
 
 
-    public void traiterDemande()
-    {
+    public void traiterDemande() {
         warns.Clear();
         verifNull();
         verifMail();
         verifPass();
 
-        if (warns.Count == 0)
-        {
-            string hashedPass = HashFunction.hashPassword(pass, out string salt);
-            
-            var user = new{
+        if (warns.Count == 0){
+
+            var user = new {
                 UserId = 0,
                 Email = mail,
-                Password = hashedPass,
-                Salt = salt,
+                Password = pass,
+                Salt = "",
                 BirthDate = dateNaiss,
                 Description = desc,
                 FirstName = prenom,
                 LastName = nom,
-                Job = poste
+                Job = poste,
+                Avatar = avatar
             };
 
             string output = JsonConvert.SerializeObject(user);
             createUser(output);
         }
+    }
+
+    private async Task createUser(string jsonUser) {
+        List<Object> users = await Http.GetJsonAsync<List<Object>>("https://localhost:44329/api/Users");
+        int countEqual = 0;
+        for (int i = 0; i < users.Count; i++) {
+            String userLine = users[i].ToString();
+            String mailT = userLine.Split(',')[1].Split(':')[1].Split("\"")[1];
+            //await jsRuntime.InvokeAsync<string>("console.log", mail);
+            if(mailT.Equals(mail)) {
+                countEqual++;
+            }
+        }
+        if(countEqual == 0) {
+            await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+            await jsRuntime.InvokeAsync<object>("alert", "Le compte a bien été créé !");
+        }
+        else {
+            await jsRuntime.InvokeAsync<object>("alert", "Le compte éxiste déjà !");
+        }
 
     }
 
-    private async Task createUser(string jsonUser)
-    {
-        await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+    public async void HandleFileSelected(IFileListEntry[] files) {
+        file = files.FirstOrDefault();
+        MemoryStream ms = new MemoryStream();
+        await file.Data.CopyToAsync(ms);
+        avatar = ms.ToArray();
+
     }
 
-    public void verifNull()
-    {
-        if (desc.Trim().Equals("") ||
-            mail.Trim().Equals("") ||
-            pass.Trim().Equals("") ||
-            passConfirm.Trim().Equals("") ||
-            nom.Trim().Equals("") ||
-            prenom.Trim().Equals("") ||
-            dateNaiss.ToString().Trim().Equals(""))
-        {
+
+    public void verifNull() {
+        if (desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") || nom.Trim().Equals("") ||
+        prenom.Trim().Equals("") || dateNaiss.ToString().Trim().Equals("")) {
             warns.Add("Tous les champs sont obligatoires");
         }
     }
 
-    public void verifMail()
-    {
+    public void verifMail() {
         Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
         Match match = regex.Match(mail);
-        if (!match.Success || match == null)
-        {
+        if (!match.Success || match == null){
             warns.Add("Le mail " + mail + " est incorrect");
         }
     }
 
-    public void verifPass()
-    {
-        if (pass.Trim().Length < 5 || pass == null)
-        {
+    public void verifPass() {
+        if (pass.Trim().Length < 5 || pass == null){
             warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
         }
     }
