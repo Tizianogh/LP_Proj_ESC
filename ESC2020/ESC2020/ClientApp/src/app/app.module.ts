@@ -16,6 +16,9 @@ import { LogsComponent } from './logs/logs.component';
 import { RappelSessionComponent } from './rappelSession/rappelSession.component';
 import { MesSalonsComponent } from './MesSalons/mesSalons.component';
 import { PageElectionComponent } from './Page-election/page-election.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [

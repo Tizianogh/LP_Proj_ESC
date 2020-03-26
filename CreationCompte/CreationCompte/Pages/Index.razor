@@ -118,10 +118,7 @@
         verifPass();
 
         if (warns.Count == 0){
-
-            string salt;
-            string hashedPass = HashFunction.hashPassword(pass, out salt);
-
+            string hashedPass = HashFunction.hashPassword(pass, out string salt);
             var user = new {
                 UserId = 0,
                 Email = mail,

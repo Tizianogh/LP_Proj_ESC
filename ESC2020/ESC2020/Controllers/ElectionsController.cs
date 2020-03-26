@@ -79,12 +79,21 @@ namespace ESC2020.Controllers
         [HttpPost]
         public async Task<ActionResult<Election>> PostElection(Election election)
         {
-            _context.elec.Add(election);
-            await _context.SaveChangesAsync();
+            if (_context.elec.Any(o => o.CodeElection == election.CodeElection))
+            {
 
-            return CreatedAtAction("GetElection", new { id = election.ElectionId }, election);
+                return NoContent();
+            }
+            else
+            {
+                _context.elec.Add(election);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetElection", new { id = election.ElectionId }, election);
+            }
+
+
+
         }
-
         // DELETE: api/Elections/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Election>> DeleteElection(int id)
