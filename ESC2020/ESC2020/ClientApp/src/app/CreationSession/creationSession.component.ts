@@ -20,6 +20,7 @@ export class CreationSessionComponent implements OnInit {
 
     ngOnInit() {
         this.initForm();
+        console.log(JSON.parse(localStorage.getItem('connectedUser')));
     }
 
 
