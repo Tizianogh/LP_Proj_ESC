@@ -1,0 +1,116 @@
+﻿
+<div class="row">
+    <div class="col-sm-12">
+        <h1 id="titre">
+            Détails de mon compte
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <p style="text-align:center; margin-bottom:50px;">
+            Vous pouvez ici consulter les détails concernant votre compte.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="offset-md-3 col-sm-2">
+        <ul id="sideBar" class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(profil)" style="cursor:pointer;">
+                    Mon profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(biographie)" style="cursor:pointer;">
+                    Ma biographie
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(informations)" style="cursor:pointer;">
+                    Mes information
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(avatar)" style="cursor:pointer;">
+                    Ma photo de profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="scroll(deconnecter)" style="cursor:pointer;">
+                    Se déconnecter
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-sm-4">
+        <p class="sticky-top" style="font-weight:600; font-size:35px; color:#430640;">Mon profil public</p>
+        <hr />
+        <div id="profilInformations" align="left" style="margin-left:15px;">
+
+            <label class="section" #profil>Nom</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.lastName}} readonly>
+
+            <label class="section">Prénom</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.firstName}} readonly>
+
+            <label class="section">Date de naissance</label>
+            <input class="form-control" type="text" placeholder="{{connectedAccount.birthDate |  date:'shortDate' : locale:'fr-FR'}}" readonly>
+
+            <label class="section">Poste</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.job}} readonly>
+            <small id="profileHelpBlock" class="form-text text-muted">
+                Ces informations sont publiques et aideront les autres utilisateurs à vous identifier.
+            </small>
+
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #biographie>Ma biographie</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.description}} readonly>
+            <small id="biographieHelpBlock" class="form-text text-muted">
+                Décrivez-vous et précisez vos compétences pour permettre aux autres utilisateurs à vous connaitre davantage.
+            </small>
+
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #informations>Mon adresse e-mail</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.email}} readonly>
+            <small id="emailHelpBlock" class="form-text text-muted">
+                Cette adresse e-mail constitue votre identifiant de connexion.
+            </small>
+
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #avatar>Ma photo de profil</label>
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" />
+            <small id="avatarHelpBlock" class="form-text text-muted">
+                Indiquez un fichier pour créer votre photo de profil.
+            </small>
+
+            <br />
+
+            <div>
+                <button type="button" class="btn btn-outline-success" style="margin-left:10px;">Importer</button>
+            </div>
+
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #deconnecter>Se déconnecter</label>
+            <div>
+                <button type="button" class="btn btn-outline-danger" style="margin-left:10px;">Déconnexion</button>
+            </div>
+        </div>
+    </div>
+</div>
