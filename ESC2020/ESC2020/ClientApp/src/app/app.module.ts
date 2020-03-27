@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -19,6 +20,8 @@ import { PageElectionComponent } from './Page-election/page-election.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, 'fr');
+import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ registerLocaleData(localeFr, 'fr');
     LogsComponent,
     RappelSessionComponent,
     MesSalonsComponent,
-    PageElectionComponent
+    PageElectionComponent,
+    MyAccountPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,7 +51,9 @@ registerLocaleData(localeFr, 'fr');
         { path: 'rappel/:id', component: RappelSessionComponent },
         { path: 'mes-salons', component: MesSalonsComponent },
         { path: 'home', component: HomeComponent},
-      { path: 'page-election/:id', component: PageElectionComponent }
+        { path: 'page-election/:id', component: PageElectionComponent },
+        { path: 'myAccountPage', component: MyAccountPageComponent }
+
     ])
   ],
   providers: [],
