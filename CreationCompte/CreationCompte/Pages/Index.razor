@@ -4,6 +4,7 @@
 
 @inject HttpClient Http
 @inject IJSRuntime jsRuntime
+
 <h1 class="leftPos" id="tvCreer">Créez votre compte</h1>
 <br />
 <br />
@@ -42,31 +43,31 @@
                    @bind="passConfirm " type="password" class="form-control" id="confirmerMdp" placeholder="Entrer de nouveau votre mot de passe">
         </div>
         <div class="form-group">
-            <label for="nom">Nom*</label>
-            <input @bind="nom" type="text" class="form-control" id="nom" placeholder="Entrer votre nom">
+            <label for="lastName">Nom*</label>
+            <input @bind="lastName" type="text" class="form-control" id="lastName" placeholder="Entrer votre nom">
         </div>
 
         <div class="form-group">
-            <label for="prenom">Prenom*</label>
-            <input @bind="prenom" type="text" class="form-control" id="prenom" placeholder="Entrer votre prenom">
+            <label for="firstName">Prenom*</label>
+            <input @bind="firstName" type="text" class="form-control" id="firstName" placeholder="Entrer votre prenom">
         </div>
     </div>
 
     <div class="div2">
         <div class="form-group">
-            <label for="poste">Quel poste occupez-vous ?</label>
-            <input @bind="poste" type="text" class="form-control" id="poste" placeholder="Entrer votre poste">
+            <label for="job">Quel poste occupez-vous ?</label>
+            <input @bind="job" type="text" class="form-control" id="job" placeholder="Entrer votre poste">
         </div>
 
         <div class="form-group">
-            <label for="dateNaiss">Date de naissance*</label>
+            <label for="birthDate">Date de naissance*</label>
             <input style=" background: url('resources/calendar.png');
                                 background-repeat: no-repeat;
                                 background-position: left;
                                 background-position-x:5%;
                                 background-size: 18px;
                                 padding-left:15%;"
-                   @bind="dateNaiss" type="date" class="form-control" id="dateNaiss" placeholder="Entrer votre poste">
+                   @bind="birthDate" type="date" class="form-control" id="birthDate" placeholder="Entrer votre date de naissance">
         </div>
 
         <div class="form-group">
@@ -74,13 +75,20 @@
             <textarea @bind="desc" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
 
-        <button class="btn btn-primary" @onclick="@traiterDemande">Créer mon compte</button>
-        @foreach (var warn in warns)
-        {
-        <p class="alert alert-danger" role="alert">
-            @warn
-        </p>
+        @if(!querySend) {
+            <button class="btn btn-primary" @onclick="@traiterDemande">Créer mon compte</button>
+            @foreach(var warn in warns) {
+                <p class="alert alert-danger" role="alert">
+                    @warn
+                </p>
+            }
         }
+
+        @if(querySend) {
+            <div class="loader" style=""></div>
+        }
+
+
     </div>
 
     <div class="div3">
@@ -93,54 +101,61 @@
 
 </div>
 
-
 @code{
 
     private string mail = "";
     private string pass = "";
     private string passConfirm = "";
-    private string nom = "";
-    private string prenom = "";
-    private string poste = "";
-    private DateTime dateNaiss = new DateTime();
+    private string lastName = "";
+    private string firstName = "";
+    private string job = "";
+    private DateTime birthDate = new DateTime();
     private string desc = "";
-    private string sortie = "";
     private byte[] avatar;
+    private bool querySend = false;
 
     private IList<String> warns = new List<String>();
     private IFileListEntry file;
 
 
     public void traiterDemande() {
+        querySend = true;
         warns.Clear();
         verifNull();
         verifMail();
         verifPass();
+        verifAvatar();
+        verifDate();
 
-        if (warns.Count == 0){
+        if(warns.Count == 0) {
             string hashedPass = HashFunction.hashPassword(pass, out string salt);
             var user = new {
                 UserId = 0,
                 Email = mail,
                 Password = hashedPass,
                 Salt = salt,
-                BirthDate = dateNaiss,
+                BirthDate = birthDate,
                 Description = desc,
-                FirstName = prenom,
-                LastName = nom,
-                Job = poste,
+                FirstName = firstName,
+                LastName = lastName,
+                Job = job,
                 Avatar = avatar
             };
 
             string output = JsonConvert.SerializeObject(user);
             createUser(output);
         }
+        else {
+            querySend = false;
+        }
+        StateHasChanged();
     }
 
     private async Task createUser(string jsonUser) {
+
         List<Object> users = await Http.GetJsonAsync<List<Object>>("https://localhost:44329/api/Users");
         int countEqual = 0;
-        for (int i = 0; i < users.Count; i++) {
+        for(int i = 0; i < users.Count; i++) {
             String userLine = users[i].ToString();
             String mailT = userLine.Split(',')[1].Split(':')[1].Split("\"")[1];
             //await jsRuntime.InvokeAsync<string>("console.log", mail);
@@ -151,10 +166,14 @@
         if(countEqual == 0) {
             await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
             await jsRuntime.InvokeAsync<object>("alert", "Le compte a bien été créé !");
+            querySend = false;
         }
         else {
             await jsRuntime.InvokeAsync<object>("alert", "Le compte éxiste déjà !");
+            querySend = false;
+
         }
+        StateHasChanged();
 
     }
 
@@ -168,23 +187,47 @@
 
 
     public void verifNull() {
-        if (desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") || nom.Trim().Equals("") ||
-        prenom.Trim().Equals("") || dateNaiss.ToString().Trim().Equals("")) {
-            warns.Add("Tous les champs sont obligatoires");
+        if(desc.Trim().Equals("") || mail.Trim().Equals("") || pass.Trim().Equals("") || passConfirm.Trim().Equals("") || lastName.Trim().Equals("") ||
+        firstName.Trim().Equals("") || birthDate.ToString().Trim().Equals("")) {
+            warns.Add("Merci de remplir les champs obligatoires");
         }
     }
 
     public void verifMail() {
         Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
         Match match = regex.Match(mail);
-        if (!match.Success || match == null){
+        if(!match.Success || match == null) {
             warns.Add("Le mail " + mail + " est incorrect");
         }
     }
 
     public void verifPass() {
-        if (pass.Trim().Length < 5 || pass == null){
+        if(pass.Trim().Length < 5 || pass == null) {
             warns.Add("Mot de passe trop court de " + (5 - pass.Trim().Length));
         }
+        if(!(pass.Equals(passConfirm))) {
+            warns.Add("Les mots de passe de correspondent pas");
+        }
     }
+
+    public void verifAvatar() {
+        if(file == null) {
+            warns.Add("Merci de fournir un avatar");
+        }
+        else {
+            if(!file.Type.Equals("image/png") && !file.Type.Equals("image/jpg") && !file.Type.Equals("image/jpeg")) {
+                warns.Add("Le type de l'avatar doit être jpg, png ou jpeg");
+            }
+        }
+
+    }
+
+    public void verifDate() {
+        if(DateTime.Compare(birthDate, DateTime.Now) >= 0) {
+            warns.Add("Merci d'entrer une date correcte");
+        }
+    }
+
 }
+
+
