@@ -20,14 +20,9 @@ export class MyAccountPageComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
-        const currentDate : number = new Date().getTime();
-        const birthDate : number = new Date(this.connectedAccount.BirthDate).getTime();
-        this.age = Math.abs(new Date(currentDate - birthDate).getFullYear());
-        this.age = birthDate;
     }
 
     scroll(el: HTMLElement) {
-        el.scrollIntoView();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }

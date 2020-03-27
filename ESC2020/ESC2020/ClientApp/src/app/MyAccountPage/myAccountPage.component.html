@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="offset-md-1 col-sm-2">
+    <div class="offset-md-3 col-sm-2">
         <ul id="sideBar" class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" (click)="scroll(profil)" style="cursor:pointer;">
@@ -43,49 +43,73 @@
             </li>
         </ul>
     </div>
-    <div class="col-sm-6">
-        <div id="profilInformations" align="left">
-            <div style="margin-left:50px;">
 
-                <p #profil style="font-weight:600;">
-                    Mon Profil
-                </p>
-                Nom : {{connectedAccount.lastName}}<br>
-                Prénom : {{connectedAccount.firstName}}<br>
-                Age : {{age}}<br>
-                Poste : {{connectedAccount.job}}<br><br><br>
+    <div class="col-sm-4">
+        <p class="sticky-top" style="font-weight:600; font-size:35px; color:#430640;">Mon profil public</p>
+        <hr />
+        <div id="profilInformations" align="left" style="margin-left:15px;">
 
-                <p #biographie style="font-weight:600;">
-                    Ma biographie
-                </p>
-                Ma biographie : {{connectedAccount.description}}<br>
-                <br><br>
+            <label class="section" #profil>Nom</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.lastName}} readonly>
 
-                <p #informations style="font-weight:600;">
-                    Mes informations
-                </p>
-                Mon adresse e-mail : {{connectedAccount.email}}
-                <br><br><br>
+            <label class="section">Prénom</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.firstName}} readonly>
 
-                <p #avatar style="font-weight:600;">
-                    Ma photo de profil
-                </p>
-                Your target <br>
-                Your target <br>
-                Your target <br>
-                Your target <br>
-                Your target <br>
-                Your target <br><br><br>
+            <label class="section">Date de naissance</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.birthDate}} readonly>
 
+            <label class="section">Poste</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.job}} readonly>
+            <small id="profileHelpBlock" class="form-text text-muted">
+                Ces informations sont publiques et aideront les autres utilisateurs à vous identifier.
+            </small>
 
-                <p #deconnecter style="font-weight:600;">
-                    Se déconnecter
-                </p>
-                Your target <br>
-                Your target <br>
-                Your target <br>
-                Your target <br>
-                Your target <br><br><br>
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #biographie>Ma biographie</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.description}} readonly>
+            <small id="biographieHelpBlock" class="form-text text-muted">
+                Décrivez-vous et précisez vos compétences pour permettre aux autres utilisateurs à vous connaitre davantage.
+            </small>
+
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #informations>Mon adresse e-mail</label>
+            <input class="form-control" type="text" placeholder={{connectedAccount.email}} readonly>
+            <small id="emailHelpBlock" class="form-text text-muted">
+                Cette adresse e-mail constitue votre identifiant de connexion.
+            </small>
+
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #avatar>Ma photo de profil</label>
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" />
+            <small id="avatarHelpBlock" class="form-text text-muted">
+                Indiquez un fichier pour créer votre photo de profil.
+            </small>
+
+            <br />
+
+            <div>
+                <button type="button" class="btn btn-outline-success" style="margin-left:10px;">Importer</button>
+            </div>
+
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <label class="section" #deconnecter>Se déconnecter</label>
+            <div>
+                <button type="button" class="btn btn-outline-danger" style="margin-left:10px;">Déconnexion</button>
             </div>
         </div>
     </div>
