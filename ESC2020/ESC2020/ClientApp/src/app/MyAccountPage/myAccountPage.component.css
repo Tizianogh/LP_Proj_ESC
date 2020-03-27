@@ -8,14 +8,22 @@
     margin-top: 30px;
 }
 
-#sideBar{
-    border-style:solid;
+.nav-item {
+    color: #430640;
+    font-weight:500;
+    font-size:14px;
+}
+
+#sideBar {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #edd0c4;
 }
 
 #profilInformations {
-    border-style: solid;
     height: 500px;
     overflow-y: scroll;
+    overflow-x:hidden
 }
 
 
@@ -24,10 +32,35 @@
 }
 
 #profilInformations::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: rgba(56, 56, 56, 0.363);
+    border-radius: 3px;
+    background-color: #edd0c4;
+}
+
+#profilInformations::-webkit-scrollbar-thumb:hover {
+    background-color: #efc9b8;
 }
 
 .nav-link:hover {
     background-color: #eacec3;
+}
+
+.section{
+    font-weight:400;
+    font-size:20px;
+}
+
+.form-control{
+    width: 60%;
+    margin-left:10px;
+    background-color: #ffebe3;
+    border-style:none;
+}
+
+.form-control-file {
+    margin-left: 10px;
+}
+
+.text-muted {
+    width: 60%;
+    margin-left: 10px;
 }
