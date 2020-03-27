@@ -56,7 +56,7 @@
             <input class="form-control" type="text" placeholder={{connectedAccount.firstName}} readonly>
 
             <label class="section">Date de naissance</label>
-            <input class="form-control" type="text" placeholder={{connectedAccount.birthDate}} readonly>
+            <input class="form-control" type="text" placeholder="{{connectedAccount.birthDate |  date:'shortDate' : locale:'fr-FR'}}" readonly>
 
             <label class="section">Poste</label>
             <input class="form-control" type="text" placeholder={{connectedAccount.job}} readonly>

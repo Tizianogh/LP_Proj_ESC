@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ESC2020.Migrations
 {
     [DbContext(typeof(ElectionContext))]
-    [Migration("20200326154640_esc2020")]
+    [Migration("20200327112922_esc2020")]
     partial class esc2020
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
