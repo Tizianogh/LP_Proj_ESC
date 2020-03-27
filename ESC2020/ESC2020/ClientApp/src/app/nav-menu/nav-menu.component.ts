@@ -9,8 +9,6 @@ import { Users, AuthentificationService } from '../services/authentification.ser
     styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
-  erreur = "";
-  private listeUsers: Users[] = [];
   private connected: boolean;
   private connectedAccount: Users;
 

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { Users, AuthentificationService } from '../services/authentification.service';
 
 @Component({
     selector: 'app-creation',
@@ -13,16 +14,20 @@ import { DatePipe } from '@angular/common';
 
 export class CreationSessionComponent implements OnInit {
 
+    private connected: boolean;
+    private connectedAccount: Users;
+
     formulaireSession: FormGroup;
     id: number = 5;
-    constructor(private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe) { }
     erreur: string;
+
+    constructor(private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) { }
 
     ngOnInit() {
         this.initForm();
-        console.log(JSON.parse(localStorage.getItem('connectedUser')));
+        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
     }
-
 
     initForm() {
         this.formulaireSession = this.formbuilder.group({
@@ -33,7 +38,6 @@ export class CreationSessionComponent implements OnInit {
             dateF: '',
 
         });
-
     }
 
     generateCode() {
@@ -64,9 +68,8 @@ export class CreationSessionComponent implements OnInit {
                     "EndDate": form['dateF'],
                     "CodeElection": this.generateCode()
                 }).subscribe(result => {
-                    console.log(result)
-                    console.log("ICI" + result['electionId']);
                     this.id = result['electionId'];
+                    this.linkUsersElection(this.connectedAccount["userId"],this.id);
                     this.router.navigate(['rappel/' + this.id]);
                 }, error => this.submit());
             }
@@ -74,6 +77,12 @@ export class CreationSessionComponent implements OnInit {
                 this.erreur = "*Les dates sont incorrectes";
             }
         }
+    }
+
+    linkUsersElection(aUserId, aElectionId) {
+        this.service.post(window.location.origin + "/api/Participants", { 'UserId': aUserId, 'ElectionId': aElectionId }).subscribe(result => {
+            console.log(result);
+        }, error => console.log(error));
     }
 
     verifDates(date1: string, date2: string) {
@@ -87,7 +96,6 @@ export class CreationSessionComponent implements OnInit {
         }
         return res;
     }
-
 }
 
 class Session {
