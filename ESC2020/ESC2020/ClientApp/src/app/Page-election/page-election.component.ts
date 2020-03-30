@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 
 @Component({
-    selector: 'app-salons',
+    selector: 'app-election',
     templateUrl: './page-election.component.html',
     styleUrls: ['./page-election.component.css']
 })
