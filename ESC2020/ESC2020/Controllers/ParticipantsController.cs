@@ -34,6 +34,14 @@ namespace ESC2020.Controllers
             return  await _context.Participants.Where(p => p.UserId == id).ToListAsync();
         }
 
+        // GET: api/Participants/id
+        [HttpGet]
+        [Route("election/{id}")]
+        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByElection(int id)
+        {
+            return await _context.Participants.Where(p => p.ElectionId == id).ToListAsync();
+        }
+
         // PUT: api/Participants/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

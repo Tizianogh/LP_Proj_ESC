@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Session } from '../Model/Session';
+import { Users } from '../Model/Users';
 import { Router } from '@angular/router';
-import { Users, AuthentificationService } from '../services/authentification.service';
+import { AuthentificationService } from '../services/authentification.service';
 import { partition } from 'rxjs';
 import { async } from '@angular/core/testing';
 
