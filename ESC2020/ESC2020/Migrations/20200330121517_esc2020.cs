@@ -67,23 +67,23 @@ namespace ESC2020.Migrations
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     CodeElection = table.Column<string>(nullable: true),
-                    PhaseId = table.Column<int>(nullable: true),
-                    UsersUserId = table.Column<int>(nullable: true)
+                    HostId = table.Column<int>(nullable: false),
+                    PhaseId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Election", x => x.ElectionId);
                     table.ForeignKey(
+                        name: "FK_Election_Users_HostId",
+                        column: x => x.HostId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Election_Phase_PhaseId",
                         column: x => x.PhaseId,
                         principalTable: "Phase",
                         principalColumn: "PhaseId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Election_Users_UsersUserId",
-                        column: x => x.UsersUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -198,14 +198,14 @@ namespace ESC2020.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Election_HostId",
+                table: "Election",
+                column: "HostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Election_PhaseId",
                 table: "Election",
                 column: "PhaseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Election_UsersUserId",
-                table: "Election",
-                column: "UsersUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Message_ElectionId",
@@ -264,10 +264,10 @@ namespace ESC2020.Migrations
                 name: "Election");
 
             migrationBuilder.DropTable(
-                name: "Phase");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Phase");
         }
     }
 }

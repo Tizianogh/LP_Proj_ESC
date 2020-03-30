@@ -32,6 +32,9 @@ namespace ESC2020.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("HostId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Job")
                         .IsRequired()
                         .HasColumnType("text");
@@ -49,14 +52,11 @@ namespace ESC2020.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("UsersUserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("ElectionId");
 
-                    b.HasIndex("PhaseId");
+                    b.HasIndex("HostId");
 
-                    b.HasIndex("UsersUserId");
+                    b.HasIndex("PhaseId");
 
                     b.ToTable("Election");
                 });
@@ -250,13 +250,15 @@ namespace ESC2020.Migrations
 
             modelBuilder.Entity("ESC2020.Model.Election", b =>
                 {
+                    b.HasOne("ESC2020.Model.Users", "Host")
+                        .WithMany("Election")
+                        .HasForeignKey("HostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ESC2020.Model.Phase", null)
                         .WithMany("Election")
                         .HasForeignKey("PhaseId");
-
-                    b.HasOne("ESC2020.Model.Users", null)
-                        .WithMany("Election")
-                        .HasForeignKey("UsersUserId");
                 });
 
             modelBuilder.Entity("ESC2020.Model.Message", b =>

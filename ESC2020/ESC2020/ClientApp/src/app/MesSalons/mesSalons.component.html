@@ -40,9 +40,14 @@
 
 <div class="sessions" style="margin-left:75px; margin-right:75px;" >
   <div class="session" *ngFor="let session of listeSessions">
-    <div class="poste " (click)="Navigate((session.electionId))" style="cursor: pointer;">
-      {{session.job}}
-    </div>
+      <div >
+          <label>code élection: </label> {{session.codeElection}}
+          <div  class="poste">
+              <label (click)="Navigate((session.electionId))" style="cursor: pointer;">
+                  {{session.job}}
+              </label>
+          </div>
+      </div>
     <hr class="separator">
     <div style="margin-left:10px; margin-right:10px;">
         <div class="dateD">
