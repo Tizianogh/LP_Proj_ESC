@@ -38,7 +38,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-left" role="menu" style="min-width: 200px;">
                         <a class="dropdown-item" [routerLink]="['']">Chat de la session</a>
-                        <a class="dropdown-item" [routerLink]="['logs']">Historique de la session</a>
+                        <a class="dropdown-item" (click)="goToLogs()">Historique de la session</a>
                     </div>
                 </li>
 
