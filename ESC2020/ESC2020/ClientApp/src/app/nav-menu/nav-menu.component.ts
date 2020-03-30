@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Users, AuthentificationService } from '../services/authentification.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,7 +13,7 @@ export class NavMenuComponent {
   private connected: boolean;
   private connectedAccount: Users;
 
-  constructor(private authentificationService: AuthentificationService) { }
+    constructor(private authentificationService: AuthentificationService, private router: Router) { }
 
   ngOnInit() {
     this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -25,5 +26,9 @@ export class NavMenuComponent {
 
   disconnect() {
     this.authentificationService.disconnect();
-  }
+    }
+
+    goToLogs() {
+        this.router.navigate(["logs/" + this.router.url.split('/')[2]]);
+    }
 }
