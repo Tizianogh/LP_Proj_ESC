@@ -14,7 +14,7 @@
 <div class="participants">
     <div class="scroll">
         <div class="participant" *ngFor="let user of listeUsers">
-            <div (click)="actualParticipant(user)">
+            <div (click)="actualParticipant(user, user.birthDate)">
                 <div (click)="changeColor(user.userId)" class="my-2">
                     <img class="participantIcon" id="{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
                     <div class="participantName">
