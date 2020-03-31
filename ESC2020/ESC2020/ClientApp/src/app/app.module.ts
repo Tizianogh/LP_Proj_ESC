@@ -44,7 +44,7 @@ import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component'
         { path: 'counter', component: CounterComponent },
         { path: 'fetch-data', component: FetchDataComponent },
         { path: 'creationSession', component: CreationSessionComponent },
-        { path: 'logs', component: LogsComponent },
+        { path: 'logs/:id', component: LogsComponent },
         { path: 'rappel/:id', component: RappelSessionComponent },
         { path: 'mes-salons', component: MesSalonsComponent },
         { path: 'home', component: HomeComponent},

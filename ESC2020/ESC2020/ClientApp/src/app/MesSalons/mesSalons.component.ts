@@ -26,7 +26,10 @@ export class MesSalonsComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.getElections()
+    }
 
+    getElections() {
         this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
             this.listeParticipants = result as Participant[];
             for (let i in this.listeParticipants) {

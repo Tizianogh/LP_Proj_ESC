@@ -27,6 +27,10 @@ namespace ESC2020.Model
 
         public string CodeElection { get; set; }
 
+        public int HostId { get; set; }
+
+        [ForeignKey("HostId")]
+        public Users Host { get; set; }
 
         public List<Notification> Notification { get; set; } = new List<Notification>();
 
