@@ -19,6 +19,14 @@
                     <img class="participantIcon" id="{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
                     <div class="participantName">
                         {{user.firstName}} {{user.lastName}}
+
+                        <div *ngIf="hasTalked; then ThenBlock else ElseBlock"></div>
+                        <ng-template #ElseBlock>
+                            <span class="badge badge-pill badge-danger" style="font-size: 7px;"> &nbsp; </span>
+                        </ng-template>
+                        <ng-template #ThenBlock>
+                            <span class="badge badge-pill badge-success" style="font-size: 7px;"> &nbsp; </span>
+                        </ng-template>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,8 @@ export class PageElectionComponent implements OnInit {
     private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
 
+    private hasTalked: boolean;
+
     currentUser: Users = new Users();
     session: Session = new Session();
     //currentParticipant: Participant;
@@ -49,6 +51,7 @@ export class PageElectionComponent implements OnInit {
             this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
                 let listeParticipants = participantResult as Participant[];
                 for (let participant in listeParticipants) {
+                    this.hasTalked = participant['hasTalked'];
                     this.service.get(window.location.origin + "/api/Users/" + listeParticipants[participant]['userId']).subscribe(userResult => {
                         this.listeUsers.push(userResult as Users);
                     }, error => console.error(error));
@@ -59,14 +62,29 @@ export class PageElectionComponent implements OnInit {
 
     actualParticipant(user: Users, birthDate: string) {
         document.getElementById("selectParticipant").style.visibility = "visible";
-        
-         //calcul de l'age fonctionnel mais pas optimum
-        const currentDate: number = new Date().getTime();
-        const BirthDate: number = new Date(birthDate).getTime();
-        this.age = Math.floor((currentDate - BirthDate) / 31556952000); // 31556952000 = 1000*60*60*24*365.2425
+
+        this.ageCalculation(birthDate);
         this.currentUser = user;
     }
-    
+
+    private ageCalculation(birthDate: string) {
+        const currentDate: Date = new Date();
+        const BirthDate: Date = new Date(birthDate);
+
+        var Age: number = currentDate.getFullYear() - BirthDate.getFullYear() - 1;
+
+        if (currentDate.getMonth() > BirthDate.getMonth()) {
+            Age++;
+        }
+        else if (currentDate.getMonth() == BirthDate.getMonth()) {
+            if (currentDate.getDate() >= BirthDate.getDate()) {
+                Age++;
+            }
+        }
+
+        this.age = Age;
+    }
+
     changeColor(userId: number) {
         if (userId != this.actualClickedId) {
             document.getElementById(this.actualClickedId.toString()).style.borderColor = "black";
@@ -95,8 +113,24 @@ export class PageElectionComponent implements OnInit {
             }).subscribe(result => {
                 console.log(result);
             }, error => console.log(error));
-
         }, error => console.error(error));
 
+        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
+            let connectedParticipant = result as Participant;
+            connectedParticipant.HasTalked = true;
+            console.log(connectedParticipant);
+
+            this.service.put<Participant>(window.location.origin + "/api/Participants", connectedParticipant).pipe();
+
+        }, error => console.log(error));
     }
 }
+
+/*
+ *
+ *             this.service.put(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'], {
+                'HasTalked': true
+            }).subscribe(result => {
+                console.log(result);
+            }
+            */
