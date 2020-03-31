@@ -1,33 +1,37 @@
 <div id="page_rappel">
   <h2 class="titre">Rappel de votre session </h2>
   <div id="rappel">
-    <div class="zone d-flex ">
-      <label>Poste de l'élu: </label><p> {{poste}}</p><label></label>
-      <br />
-    </div>
-    <div class="zone d-flex ">
-      <label>Missions: </label> <p>{{missions}}</p><label></label>
-      <br />
-    </div>
-    <div class="zone d-flex ">
-      <label>Responsabilité: </label> <p>{{responsabilite}}</p><label></label>
-      <br />
-    </div>
-    <div class="zone d-flex ">
-      <label>Date de début: </label><p> {{dateD |  date:'shortDate' : locale:'fr-FR'}}</p><label></label>
-      <br />
-    </div>
-    <div class="zone d-flex ">
-      <label>Date de fin: </label><p> {{dateF |  date:'shortDate' : locale:'fr-FR'}}</p><label></label>
-      <br />
-    </div>
-    <div class="zone d-flex ">
-      <label id="label_code">Code de votre session</label> <p id="code">{{codeElection}}</p><label></label>
-      <br />
-    </div>
+      <div class="zone d-flex ">
+          <label>Poste de l'élu: </label><p> {{poste}}</p><label></label>
+          <br />
+      </div>
+      <div class="zone d-flex ">
+          <label>Missions: </label> <p>{{missions}}</p><label></label>
+          <br />
+      </div>
+      <div class="zone d-flex ">
+          <label>Responsabilité: </label> <p>{{responsabilite}}</p><label></label>
+          <br />
+      </div>
+      <div class="zone d-flex ">
+          <label>Date de début: </label><p> {{dateD |  date:'shortDate' : locale:'fr-FR'}}</p><label></label>
+          <br />
+      </div>
+      <div class="zone d-flex ">
+          <label>Date de fin: </label><p> {{dateF |  date:'shortDate' : locale:'fr-FR'}}</p><label></label>
+          <br />
+      </div>
+      <div class="zone d-flex ">
+          <label id="label_code">Code de votre session</label> <p id="code">{{codeElection}}</p><label></label>
+          <br />
+      </div>
+      <div class="zone d-flex ">
+          <label id="label_code">Code de votre session</label> <p id="code"><a href="https://localhost:44329/join-election-link/{{codeElection}}">https://localhost:44329/join-election-link/{{codeElection}}</a></p><label></label>
+          <br />
+      </div>
 
-    <div class=" d-flex justify-content-center">
-      <button id="valider" type="submit">Valider</button>
-    </div>
+      <div class=" d-flex justify-content-center">
+          <button id="valider" type="submit">Valider</button>
+      </div>
   </div>
 </div>

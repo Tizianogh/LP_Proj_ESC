@@ -7,5 +7,6 @@ export class Users {
   Description: string;
   FirstName: string;
   LastName: string;
-  Job: string;
+    Job: string;
+    Avatar: Blob;
 }

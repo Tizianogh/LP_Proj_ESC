@@ -102,7 +102,13 @@ namespace ESC2020.Controllers
 
 
 
+
         }
+
+    
+
+
+
         // DELETE: api/Elections/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Election>> DeleteElection(int id)

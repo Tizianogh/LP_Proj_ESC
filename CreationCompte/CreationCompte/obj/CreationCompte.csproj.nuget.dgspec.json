@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
+    "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
+    "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectUniqueName": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "projectName": "CreationCompte",
-        "projectPath": "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
-        "packagesPath": "C:\\Users\\dany\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dany\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+        "projectPath": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "packagesPath": "C:\\Users\\tizia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dany\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tizia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -43,7 +40,7 @@
           "dependencies": {
             "BlazorInputFile": {
               "target": "Package",
-              "version": "[0.1.0-preview, )"
+              "version": "[0.1.0-preview-00002, )"
             },
             "Microsoft.AspNetCore.Blazor.HttpClient": {
               "target": "Package",
@@ -87,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
