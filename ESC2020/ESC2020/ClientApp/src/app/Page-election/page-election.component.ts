@@ -60,13 +60,10 @@ export class PageElectionComponent implements OnInit {
     actualParticipant(user: Users, birthDate: string) {
         document.getElementById("selectParticipant").style.visibility = "visible";
         
-        const currentDate: Date = new Date();
-        currentDate.getTime();
-        console.log(currentDate.toString());
-        const date: number = new Date(birthDate).getTime();
-        console.log(birthDate);
-        this.age = Math.floor(new Date(currentDate - date) / 31536000000); // 31536000000 = 1000*60*60*24*365
-        console.log(this.age);
+         //calcul de l'age fonctionnel mais pas optimum
+        const currentDate: number = new Date().getTime();
+        const BirthDate: number = new Date(birthDate).getTime();
+        this.age = Math.floor((currentDate - BirthDate) / 31556952000); // 31556952000 = 1000*60*60*24*365.2425
         this.currentUser = user;
     }
     
@@ -85,13 +82,13 @@ export class PageElectionComponent implements OnInit {
     }
 
     Vote() {
+        //génération d'une opinion Vote (id du type : 1 = opinion de type vote)
         this.service.get(window.location.origin + "/api/TypeOpinions/1").subscribe(result => {
             this.type = result as TypeOpinion;
             this.service.post(window.location.origin + "/api/Opinions", {
                 'AuthorId': this.connectedAccount["userId"],
                 'ConcernedId': this.currentUser["userId"],
-                'Reason': document.getElementById("argumentaires").value,
-                //this.voteForm.get('arguments').value),
+                'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
                 'TypeId': this.type["typeId"],
                 'Date': Date.now(),
                 'ElectionId': this.session['electionId']
@@ -100,5 +97,6 @@ export class PageElectionComponent implements OnInit {
             }, error => console.log(error));
 
         }, error => console.error(error));
+
     }
 }

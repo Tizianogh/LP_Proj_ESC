@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<div class="description" id="selectParticipant" [formGroup]="voteForm">
+<div class="description" id="selectParticipant">
 
   <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.lastName}} {{currentUser.firstName}}</b></label>
 
@@ -36,7 +36,7 @@
   <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentUser.description}}</label>
 
   <!--<input type="text" id="argumentaires" placeholder="Argumentez votre vote..." class="d-flex justify-content-center" /><br /> -->
-  <textarea formControlName="arguments" class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
+  <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
   <div class="col text-center">
       <button type="submit" class="btn btn-primary" (click)="Vote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
   </div>
