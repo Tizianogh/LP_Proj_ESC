@@ -36,6 +36,5 @@ namespace ESC2020.Model
 
 		[Required]
 		public DateTime DateOpinion { get; set; }
-
 	}
 }

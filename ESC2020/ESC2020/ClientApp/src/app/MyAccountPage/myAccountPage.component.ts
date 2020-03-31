@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Users, AuthentificationService } from '../services/authentification.service';
+import { Users } from '../Model/Users';
+import { AuthentificationService } from '../services/authentification.service';
 
 
 @Component({

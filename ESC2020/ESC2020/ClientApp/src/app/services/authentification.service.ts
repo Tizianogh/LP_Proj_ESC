@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Users } from '../Model/Users';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -15,7 +16,9 @@ export class AuthentificationService {
   constructor(private service: HttpClient, private router: Router) {
     this.connected = new BehaviorSubject(false);
 
-    this.emptyUsers = { UserId: null, Email: "", Password: "", Salt: "", BirthDate: "", Description: "", FirstName: "", LastName: "", Job: "" };
+        this.emptyUsers = {
+            UserId: null, Email: "", Password: "", Salt: "", BirthDate: "", Description: "", FirstName: "", LastName: "", Job: "", Avatar: null //new Blob()
+    };
     this.connectedAccount = new BehaviorSubject(this.emptyUsers);
 
     if (localStorage.getItem('connectedUser') != null) {
@@ -72,16 +75,4 @@ export class AuthentificationService {
     this.setConnectedAccount(this.emptyUsers);
     localStorage.removeItem('connectedUser');
   }
-}
-
-export class Users {
-  UserId: number;
-  Email: string;
-  Password: string;
-  Salt: string;
-  BirthDate: string;
-  Description: string;
-  FirstName: string;
-  LastName: string;
-  Job: string;
 }

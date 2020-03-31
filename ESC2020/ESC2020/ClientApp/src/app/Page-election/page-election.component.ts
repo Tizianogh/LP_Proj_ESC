@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Participant } from '../Model/Participant';
 import { Session } from '../Model/Session';
+import { TypeOpinion } from '../Model/TypeOpinion';
+import { Users } from '../Model/Users';
+import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-
-
+import { AuthentificationService } from '../services/authentification.service';
 
 @Component({
     selector: 'app-election',
@@ -13,72 +16,87 @@ import { Router } from '@angular/router';
 
 export class PageElectionComponent implements OnInit {
 
-    session: Session;
-    participantList: Participant[] = [];
-    currentParticipant: Participant;
+    private connected: boolean;
+    private connectedAccount: Users = new Users();
+    private electionId: string;
+    private type: TypeOpinion = new TypeOpinion();
+
+    currentUser: Users = new Users();
+    session: Session = new Session();
+    //currentParticipant: Participant;
     scrollingItems: number[] = [];
-    
-        
+    actualClickedId: number = 1;
 
-    constructor(private service: HttpClient, private router: Router) {
-        for (let i = 0; i < 5000; i++) {
-            this.scrollingItems.push(i);
-        }}
+    private listeUsers: Users[] = [];
+    private liste: Users[] = [];
 
-    ngOnInit(): void {
-      this.service.get(window.location.origin + "/api/Elections/" + this.router.url.split('/')[2]).subscribe(result => {
-        this.session = result as Session;
-          console.log(this.session);
+    age: number;
 
-          this.pushParticipant("Jean-Franck Tang", 42, "Professeur", "Bonjour");
-          this.pushParticipant("Jean-Francky Tanguy", 24, "Enseignant", "Bonsoir");
-          this.pushParticipant("Julien Dias", 27, "Chanteur", "Holà");
-          this.pushParticipant("Cindy Mendes", 14, "Politicienne", "Hello");
-          this.pushParticipant("Nicolas Kacem", 47, "Pilote", "Au revoir");
-          this.pushParticipant("Rémi Cruzel", 22, "Intellectuel", "Bye");
-          this.pushParticipant("Steven Le Moine", 44, "Normand", "Non");
-          this.pushParticipant("Axel Gasnot", 11, "Scribe", "Neuf");
-          this.pushParticipant("Clement Bisson", 28, "Architecte", "Yolo");
-          this.pushParticipant("Tiziano Ghisotti", 50, "Pizzaïollo", "Grazzie");
-          this.pushParticipant("Maxime Vong", 21, "Dresseur de chauve-souris", "Yes");
-            this.pushParticipant("Jean-Franck Tang", 42, "Professeur", "Bonjour");
-          this.pushParticipant("Jean-Francky Tanguy", 24, "Enseignant", "Bonsoir");
-          this.pushParticipant("Julien Dias", 27, "Chanteur", "Holà");
-          this.pushParticipant("Cindy Mendes", 14, "Politicienne", "Hello");
-          this.pushParticipant("Nicolas Kacem", 47, "Pilote", "Au revoir");
-          this.pushParticipant("Rémi Cruzel", 22, "Intellectuel", "Bye");
-          this.pushParticipant("Steven Le Moine", 44, "Normand", "Non");
-          this.pushParticipant("Axel Gasnot", 11, "Scribe", "Neuf");
-          this.pushParticipant("Clement Bisson", 28, "Architecte", "Yolo");
-          this.pushParticipant("Tiziano Ghisotti", 50, "Pizzaïollo", "Grazzie");
-          this.pushParticipant("Maxime Vong", 21, "Dresseur de chauve-souris", "Yes");
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService) { }
 
-      }, error => console.error(error));
+    ngOnInit() {
+        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+
+        //Récupérer l'id de l'élection actuelle à partir de l'url
+        let regexp: RegExp = /\d/;
+        this.electionId = regexp.exec(this.router.url)[0];
+
+        this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
+            this.session = result as Session;
+
+            //récupérer la liste des participants en fonction de l'id d'une élection
+            this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
+                let listeParticipants = participantResult as Participant[];
+                for (let participant in listeParticipants) {
+                    this.service.get(window.location.origin + "/api/Users/" + listeParticipants[participant]['userId']).subscribe(userResult => {
+                        this.listeUsers.push(userResult as Users);
+                    }, error => console.error(error));
+                }
+            }, error => console.error(error));
+        }, error => console.error(error));
     }
 
+    actualParticipant(user: Users, birthDate: string) {
+        document.getElementById("selectParticipant").style.visibility = "visible";
+        
+         //calcul de l'age fonctionnel mais pas optimum
+        const currentDate: number = new Date().getTime();
+        const BirthDate: number = new Date(birthDate).getTime();
+        this.age = Math.floor((currentDate - BirthDate) / 31556952000); // 31556952000 = 1000*60*60*24*365.2425
+        this.currentUser = user;
+    }
+    
+    changeColor(userId: number) {
+        if (userId != this.actualClickedId) {
+            document.getElementById(this.actualClickedId.toString()).style.borderColor = "black";
+            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "3px";
 
-    pushParticipant(name: string, age: number, job: string, description: string) {
-        let participant = new Participant();
-        participant.name = name;
-        participant.age = age;
-        participant.job = job;
-        participant.description = description;
-        this.participantList.push(participant);
-  }
+            this.actualClickedId = userId
+            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#430640";
+            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
+        } else {
+            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#430640";
+            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
+        }
+    }
 
-  actualParticipant(participant: Participant) {
-    document.getElementById("selectParticipant").style.visibility = "visible";
-    this.currentParticipant = participant;
+    Vote() {
+        //génération d'une opinion Vote (id du type : 1 = opinion de type vote)
+        this.service.get(window.location.origin + "/api/TypeOpinions/1").subscribe(result => {
+            this.type = result as TypeOpinion;
+            this.service.post(window.location.origin + "/api/Opinions", {
+                'AuthorId': this.connectedAccount["userId"],
+                'ConcernedId': this.currentUser["userId"],
+                'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
+                'TypeId': this.type["typeId"],
+                'Date': Date.now(),
+                'ElectionId': this.session['electionId']
+            }).subscribe(result => {
+                console.log(result);
+            }, error => console.log(error));
 
+        }, error => console.error(error));
 
-
-  }
-
-}
-
-export class Participant {
-    public name: string;
-    public age: number;
-    public job: string;
-    public description: string;
+    }
 }
