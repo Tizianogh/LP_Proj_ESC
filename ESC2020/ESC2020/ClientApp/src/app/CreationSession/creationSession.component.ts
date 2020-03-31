@@ -67,7 +67,8 @@ export class CreationSessionComponent implements OnInit {
                     "Responsability": form['responsabilites'],
                     "StartDate": form['dateD'],
                     "EndDate": form['dateF'],
-                    "CodeElection": this.generateCode()
+                    "CodeElection": this.generateCode(),
+                    "HostId": this.connectedAccount["userId"]
                 }).subscribe(result => {
                     this.id = result['electionId'];
                     this.linkUsersElection(this.connectedAccount["userId"],this.id);

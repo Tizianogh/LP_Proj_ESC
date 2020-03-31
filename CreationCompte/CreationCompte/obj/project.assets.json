@@ -1259,19 +1259,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {}
+    "C:\\Users\\Miste\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Users\\user\\Desktop\\projetESC\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+      "projectUniqueName": "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
       "projectName": "CreationCompte",
-      "projectPath": "D:\\Users\\user\\Desktop\\projetESC\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\Users\\user\\Desktop\\projetESC\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+      "projectPath": "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+      "packagesPath": "C:\\Users\\Miste\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Miste\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Miste\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1341,7 +1341,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

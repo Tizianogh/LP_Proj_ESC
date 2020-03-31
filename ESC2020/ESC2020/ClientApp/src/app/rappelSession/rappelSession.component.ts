@@ -19,7 +19,7 @@ export class RappelSessionComponent implements OnInit {
     codeElection: string;
 
   ngOnInit() {
-
+      
     this.service.get(window.location.origin + "/api/Elections/" + this.router.url.split('/')[2]).subscribe(result => {
       console.log(result)
       this.poste = result['job'];
@@ -28,6 +28,7 @@ export class RappelSessionComponent implements OnInit {
       this.dateD = result['startDate'];
         this.dateF = result['endDate'];
         this.codeElection = result['codeElection'];
+        console.log(result['hostId']);
 
     }, error => console.error(error));
   }
