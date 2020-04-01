@@ -43,7 +43,7 @@ namespace ESC2020.Migrations
                     Email = table.Column<string>(nullable: false),
                     Password = table.Column<string>(nullable: false),
                     Salt = table.Column<string>(nullable: false),
-                    BirthDate = table.Column<DateTime>(nullable: false),
+                    BirthDate = table.Column<DateTimeOffset>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
@@ -64,8 +64,8 @@ namespace ESC2020.Migrations
                     Job = table.Column<string>(nullable: false),
                     Mission = table.Column<string>(nullable: false),
                     Responsability = table.Column<string>(nullable: true),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
+                    StartDate = table.Column<DateTimeOffset>(nullable: false),
+                    EndDate = table.Column<DateTimeOffset>(nullable: false),
                     CodeElection = table.Column<string>(nullable: true),
                     HostId = table.Column<int>(nullable: false),
                     PhaseId = table.Column<int>(nullable: true)
@@ -96,7 +96,7 @@ namespace ESC2020.Migrations
                     UserId = table.Column<int>(nullable: false),
                     ElectionId = table.Column<int>(nullable: false),
                     Sentence = table.Column<string>(nullable: false),
-                    DateMessage = table.Column<DateTime>(nullable: false)
+                    DateMessage = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,7 +122,7 @@ namespace ESC2020.Migrations
                     NotifId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Message = table.Column<string>(nullable: false),
-                    DateNotification = table.Column<DateTime>(nullable: false),
+                    DateNotification = table.Column<DateTimeOffset>(nullable: false),
                     ElectionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -148,7 +148,7 @@ namespace ESC2020.Migrations
                     ElectionId = table.Column<int>(nullable: false),
                     Reason = table.Column<string>(nullable: false),
                     TypeId = table.Column<int>(nullable: false),
-                    DateOpinion = table.Column<DateTime>(nullable: false)
+                    DateOpinion = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {

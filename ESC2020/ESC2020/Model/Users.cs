@@ -22,7 +22,7 @@ namespace ESC2020.Model
 		public string Salt { get; set; }
 		
 		[Required]
-		public DateTime BirthDate { get; set; } //date ?
+		public DateTimeOffset BirthDate { get; set; } //date ?
 
 		[Required]
 		public string Description { get; set; } // text ?

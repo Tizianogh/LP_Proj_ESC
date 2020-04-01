@@ -18,7 +18,7 @@ namespace ESC2020.Model
         public string Message { get; set; } // varchar ?
 
         [Required]
-        public DateTime DateNotification { get; set; } // date ?
+        public DateTimeOffset DateNotification { get; set; } // date ?
 
         public int ElectionId { get; set; }
 

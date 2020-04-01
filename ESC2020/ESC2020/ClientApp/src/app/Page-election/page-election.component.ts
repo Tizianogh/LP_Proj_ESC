@@ -87,7 +87,7 @@ export class PageElectionComponent implements OnInit {
             console.log(participant);
 
             this.currentParticipant = participant;
-            console.log("participant : " + this.listeParticipants.get(userResult as Users));
+           // console.log("participant : " + this.listeParticipants.get(userResult as Users));
 
             this.listeUsers.push(userResult as Users);
             //console.log(participant);
@@ -166,12 +166,3 @@ export class PageElectionComponent implements OnInit {
         }, error => console.log(error));
     }
 }
-
-/*
- *
- *             this.service.put(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'], {
-                'HasTalked': true
-            }).subscribe(result => {
-                console.log(result);
-            }
-            */

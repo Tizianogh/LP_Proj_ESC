@@ -29,8 +29,8 @@ namespace ESC2020.Migrations
                     b.Property<string>("CodeElection")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("HostId")
                         .HasColumnType("integer");
@@ -49,8 +49,8 @@ namespace ESC2020.Migrations
                     b.Property<string>("Responsability")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ElectionId");
 
@@ -68,8 +68,8 @@ namespace ESC2020.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("DateMessage")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("DateMessage")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ElectionId")
                         .HasColumnType("integer");
@@ -97,8 +97,8 @@ namespace ESC2020.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("DateNotification")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("DateNotification")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ElectionId")
                         .HasColumnType("integer");
@@ -130,8 +130,8 @@ namespace ESC2020.Migrations
                     b.Property<int>("ConcernedId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("DateOpinion")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("DateOpinion")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ElectionId")
                         .HasColumnType("integer");
@@ -215,8 +215,8 @@ namespace ESC2020.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()

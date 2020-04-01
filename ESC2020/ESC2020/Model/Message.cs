@@ -28,6 +28,6 @@ namespace ESC2020.Model
         public string Sentence { get; set; } // varchar ?
 
         [Required]
-        public DateTime DateMessage { get; set; } // date?
+        public DateTimeOffset DateMessage { get; set; } // date?
     }
 }

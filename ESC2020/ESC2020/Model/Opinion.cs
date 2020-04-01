@@ -35,6 +35,6 @@ namespace ESC2020.Model
 		public TypeOpinion TypeOpinion { get; set; }
 
 		[Required]
-		public DateTime DateOpinion { get; set; }
+		public DateTimeOffset DateOpinion { get; set; }
 	}
 }
