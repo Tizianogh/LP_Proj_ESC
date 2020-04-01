@@ -179,6 +179,7 @@ namespace ESC2020.Migrations
                 {
                     UserId = table.Column<int>(nullable: false),
                     ElectionId = table.Column<int>(nullable: false),
+                    HasTalked = table.Column<bool>(nullable: false),
                     Proposable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

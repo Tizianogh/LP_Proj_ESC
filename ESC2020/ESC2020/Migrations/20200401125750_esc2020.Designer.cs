@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ESC2020.Migrations
 {
     [DbContext(typeof(ElectionContext))]
-    [Migration("20200331135108_esc2020")]
+    [Migration("20200401125750_esc2020")]
     partial class esc2020
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,6 +163,9 @@ namespace ESC2020.Migrations
 
                     b.Property<int>("ElectionId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("HasTalked")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("Proposable")
                         .HasColumnType("boolean");
