@@ -42,6 +42,23 @@ namespace ESC2020.Model
             return users;
         }
 
+        // GET: api/Users/election/5
+        [HttpGet]
+        [Route("election/{idElec}")]
+        public async Task<ActionResult<IEnumerable<Users>>> GetUsersByElec(int idElec) {
+            List<Participant> participants = await _context.Participants.Where(p => p.ElectionId == idElec).ToListAsync();
+            List<Users> users = new List<Users>();
+
+            for(int i=0;i< participants.Count; i++)
+            {
+                Users toAdd = _context.User.Find(participants[i].UserId);
+                if(!users.Contains(toAdd)) {
+                    users.Add(toAdd);
+                }
+            }
+            return users;
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

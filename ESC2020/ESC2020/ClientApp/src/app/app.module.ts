@@ -18,7 +18,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, 'fr');
 import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component';
-
+import { ObjectionsComponent } from './objections/objections.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component'
     RappelSessionComponent,
     MesSalonsComponent,
     PageElectionComponent,
-    MyAccountPageComponent
+    MyAccountPageComponent,
+    ObjectionsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -49,7 +50,9 @@ import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component'
         { path: 'mes-salons', component: MesSalonsComponent },
         { path: 'home', component: HomeComponent},
         { path: 'page-election/:id', component: PageElectionComponent },
-        { path: 'myAccountPage', component: MyAccountPageComponent }
+        { path: 'myAccountPage', component: MyAccountPageComponent },
+        { path: 'objections/:id', component: ObjectionsComponent },
+
 
     ])
   ],

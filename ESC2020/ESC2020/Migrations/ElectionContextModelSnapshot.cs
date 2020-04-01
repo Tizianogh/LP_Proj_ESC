@@ -162,6 +162,9 @@ namespace ESC2020.Migrations
                     b.Property<int>("ElectionId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("Proposable")
+                        .HasColumnType("boolean");
+
                     b.HasKey("UserId", "ElectionId");
 
                     b.HasIndex("ElectionId");

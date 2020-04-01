@@ -15,7 +15,9 @@ export class AuthentificationService {
   constructor(private service: HttpClient, private router: Router) {
     this.connected = new BehaviorSubject(false);
 
-    this.emptyUsers = { UserId: null, Email: "", Password: "", Salt: "", BirthDate: "", Description: "", FirstName: "", LastName: "", Job: "" };
+    this.emptyUsers = {
+        UserId: null, Email: "", Password: "", Salt: "", BirthDate: "", Description: "", FirstName: "", LastName: "", Job: "", Avatar: null //new Blob()
+    };
     this.connectedAccount = new BehaviorSubject(this.emptyUsers);
 
     if (localStorage.getItem('connectedUser') != null) {
@@ -75,13 +77,14 @@ export class AuthentificationService {
 }
 
 export class Users {
-  UserId: number;
-  Email: string;
-  Password: string;
-  Salt: string;
-  BirthDate: string;
-  Description: string;
-  FirstName: string;
-  LastName: string;
-  Job: string;
+    UserId: number;
+    Email: string;
+    Password: string;
+    Salt: string;
+    BirthDate: string;
+    Description: string;
+    FirstName: string;
+    LastName: string;
+    Job: string;
+    Avatar: Blob;
 }

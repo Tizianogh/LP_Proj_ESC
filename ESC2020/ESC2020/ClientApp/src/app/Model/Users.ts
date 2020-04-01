@@ -8,4 +8,5 @@ export class Users {
   FirstName: string;
   LastName: string;
   Job: string;
+  Avatar: Blob;
 }
