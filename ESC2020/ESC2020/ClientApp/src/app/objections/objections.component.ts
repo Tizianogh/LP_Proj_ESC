@@ -46,8 +46,11 @@ export class ObjectionsComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
-
+        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
+            this.connectedParticipant = result as Participant;
+            console.log(this.connectedParticipant);
+        }, error => console.log(error));
+    
         //Récupérer l'id de l'élection actuelle à partir de l'url
         let regexp: RegExp = /\d/;
         this.electionId = regexp.exec(this.router.url)[0];
@@ -61,11 +64,9 @@ export class ObjectionsComponent implements OnInit {
             }
             //récupérer la liste des participants en fonction de l'id d'une élection
             this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
-                this.participantsList = participantResult as Participant[];
-                console.log(window.location.origin + "/api/Users/election/" + this.session['electionId']);
+                this.participantsList = participantResult as Participant[]; 
                 this.service.get(window.location.origin + "/api/Users/election/" + this.session['electionId']).subscribe(userResult => {
 
-                    console.log(this.usersList);
                     this.usersList = userResult as Users[];
                     //Recuperer toutes les opinions de cette election et comptabilisation des votes
                     this.service.get(window.location.origin + "/api/Opinions/election/" + this.electionId).subscribe(result => {
@@ -73,8 +74,8 @@ export class ObjectionsComponent implements OnInit {
                         for (let i in this.usersList) {
                             this.propositions.push(new Proposition(this.usersList[i]['userId'], 0));
                             for (let j in this.opinionsList) {
-                                if (this.opinionsList[j].TypeId == 1) {
-                                    if (this.opinionsList[j].ConcernedId == this.usersList[i].UserId) {
+                                if (this.opinionsList[j]['typeId'] == 1) {
+                                    if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
                                         this.propositions[i].VoteCounter++;
                                     }
                                 }
@@ -85,12 +86,10 @@ export class ObjectionsComponent implements OnInit {
                         this.sortPropositions();
                         console.log(this.propositions);
                         for (let i in this.usersList) {
-                            console.log(this.usersList[i]['userId']);
                             if (this.usersList[i]['userId'] == this.propositions[0].UserId) {
                                 this.actualProposed = this.usersList[i];
                             }
                         }
-                        console.log(this.actualProposed);
                     });
 
                 }, error => console.error(error));
@@ -136,6 +135,7 @@ export class ObjectionsComponent implements OnInit {
                 'Date': Date.now(),
                 'ElectionId': this.session['electionId']
             }).subscribe(result => {
+                document.getElementById("argumentaires").nodeValue="";
             }, error => console.log(error));
         }, error => console.error(error));
     }
@@ -144,7 +144,6 @@ export class ObjectionsComponent implements OnInit {
         this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
             this.connectedParticipant = result as Participant;
             this.connectedParticipant.HasTalked = true;
-            console.log(this.connectedParticipant);
 
             this.service.put<Participant>(window.location.origin + "/api/Participants", this.connectedParticipant).pipe();
 

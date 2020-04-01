@@ -10,6 +10,15 @@
         <div class="profile-usertitle-name">
             {{actualProposed['firstName']}} {{actualProposed['lastName']}}
         </div>
+        <div *ngIf="connectedParticipant['hasTalked']; then test else test2">
+            <ng-template #test>
+                <p>a voté</p>
+            </ng-template>
+
+            <ng-template #test>
+                <p>pas voté</p>
+            </ng-template>
+        </div>
         <div>
             <!--*ngIf="{{connectedParticipant.HasTalked}}; then CanVote else cantVote"-->
             <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre objection..." rows="4"></textarea> <br />
