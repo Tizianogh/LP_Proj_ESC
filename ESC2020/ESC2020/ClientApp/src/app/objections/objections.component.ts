@@ -10,6 +10,7 @@ import { Log } from '../Model/Log';
 import { Opinion } from '../Model/Opinion';
 import { DatePipe } from '@angular/common';
 import { FunctionCall } from '@angular/compiler';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-election',
@@ -155,7 +156,7 @@ export class ObjectionsComponent implements OnInit {
                     this.objectionsList.push(tempObjectionsList[i])
                 }
             }
-            this.service.put<Participant>(window.location.origin + "/api/Participants", this.connectedParticipant).pipe();
+           
         }, error => console.log(error));
     }
 
@@ -181,7 +182,7 @@ export class ObjectionsComponent implements OnInit {
                     this.objectionsList.push(tempObjectionsList[i])
                 }
             }
-            this.service.put<Participant>(window.location.origin + "/api/Participants", this.connectedParticipant).pipe();
+           
 
             this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
                 this.participantsList = participantResult as Participant[];
