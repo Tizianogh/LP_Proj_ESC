@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Session } from '../Model/Session';
@@ -20,12 +20,11 @@ export class PageElectionComponent implements OnInit {
     private connectedAccount: Users = new Users();
     private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
-
-    private hasTalked: boolean;
+    private listeParticipants : Participant[] = []
 
     currentUser: Users = new Users();
     session: Session = new Session();
-    //currentParticipant: Participant;
+    currentParticipant: Participant = new Participant();
     scrollingItems: number[] = [];
     actualClickedId: number = 1;
 
@@ -36,7 +35,33 @@ export class PageElectionComponent implements OnInit {
 
     constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService) { }
 
+
+    IntantiateBadge(id:string){
+        console.log("initBage id : " + id);
+        //console.log("Liste : " +  this.listeParticipants);
+
+        //let regexp: RegExp = /\d/;
+        //this.electionId = regexp.exec(this.router.url)[0];
+
+        //this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
+        //    this.session = result as Session;
+
+        //    //récupérer la liste des participants en fonction de l'id d'une élection
+        //    this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
+        //        this.listeParticipants = participantResult as Participant[];
+        //        this.listeParticipants.forEach((participant) => {
+        //            console.log("oui");
+
+        //        });
+        //    }, error => console.error(error));
+        //}, error => console.error(error));
+    }
+
     ngOnInit() {
+        this.FetchParticipants();
+    }
+
+    async FetchParticipants() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
@@ -44,19 +69,34 @@ export class PageElectionComponent implements OnInit {
         let regexp: RegExp = /\d/;
         this.electionId = regexp.exec(this.router.url)[0];
 
-        this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
+        await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
             this.session = result as Session;
 
             //récupérer la liste des participants en fonction de l'id d'une élection
             this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
-                let listeParticipants = participantResult as Participant[];
-                for (let participant in listeParticipants) {
-                    this.hasTalked = participant['hasTalked'];
-                    this.service.get(window.location.origin + "/api/Users/" + listeParticipants[participant]['userId']).subscribe(userResult => {
-                        this.listeUsers.push(userResult as Users);
-                    }, error => console.error(error));
-                }
+                this.listeParticipants = participantResult as Participant[];
+                this.listeParticipants.forEach((participant) => {
+                    this.FetchUser(participant);
+                });
             }, error => console.error(error));
+        }, error => console.error(error));
+    }
+
+    async FetchUser(participant: Participant) {
+        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
+            console.log(participant);
+
+            this.currentParticipant = participant;
+            console.log("participant : " + this.listeParticipants.get(userResult as Users));
+
+            this.listeUsers.push(userResult as Users);
+            //console.log(participant);
+            //console.log(participant['userId'] + "Voted");
+
+            //if (participant['hasTalked'])
+            //    document.getElementById(participant['userId'] + "Voted").style.visibility = "visible";
+            //else
+            //    document.getElementById(participant['userId'] + "NotVoted").style.visibility = "visible";
         }, error => console.error(error));
     }
 
@@ -91,10 +131,10 @@ export class PageElectionComponent implements OnInit {
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "3px";
 
             this.actualClickedId = userId
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#430640";
+            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
         } else {
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#430640";
+            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
         }
     }
@@ -115,13 +155,14 @@ export class PageElectionComponent implements OnInit {
             }, error => console.log(error));
         }, error => console.error(error));
 
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
-            let connectedParticipant = result as Participant;
-            connectedParticipant.HasTalked = true;
-            console.log(connectedParticipant);
-
-            this.service.put<Participant>(window.location.origin + "/api/Participants", connectedParticipant).pipe();
-
+        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.session['electionId']).subscribe(result => {
+            let participantResult: Participant = result as Participant;
+            this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.session['electionId'], {
+                'UserId': participantResult['userId'],
+                'ElectionId': participantResult['electionId'],
+                'HasTalked': false
+            }).subscribe(result => {
+            }, error => console.log(error));
         }, error => console.log(error));
     }
 }
