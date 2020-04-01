@@ -4,11 +4,12 @@ import { Participant } from '../Model/Participant';
 import { Session } from '../Model/Session';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
-import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { Log } from '../Model/Log';
 import { Opinion } from '../Model/Opinion';
+import { DatePipe } from '@angular/common';
+import { FunctionCall } from '@angular/compiler';
 
 
 
@@ -30,18 +31,34 @@ export class ObjectionsComponent implements OnInit {
     opinionsList: Opinion[] = [];
     propositions: Proposition[] = [];
     private usersList: Users[] = [];
-    actualProposed: Users = null;
+    actualProposed: Users = new Users();
+    connectedParticipant: Participant;
+    objectionsList: Opinion[] = [];
 
-    constructor(private service: HttpClient, private router: Router) { }
+    private connected: boolean;
+    private connectedAccount: Users = new Users();
+    private type: TypeOpinion = new TypeOpinion();
+    host: boolean = false;
+    displayObjectBtn: boolean = false;
+
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService) { }
 
     ngOnInit() {
+        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+
 
         //Récupérer l'id de l'élection actuelle à partir de l'url
         let regexp: RegExp = /\d/;
         this.electionId = regexp.exec(this.router.url)[0];
         this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
             this.session = result as Session;
-
+            if (this.connectedAccount["userId"] == this.session['hostId']) {
+                this.host = true;
+            }
+            else {
+                this.host = false;
+            }
             //récupérer la liste des participants en fonction de l'id d'une élection
             this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
                 this.participantsList = participantResult as Participant[];
@@ -84,21 +101,6 @@ export class ObjectionsComponent implements OnInit {
 
     }
 
-    //    // GET: api/Opinions/election/5
-    //    [HttpGet]
-    //    [Route("election/{idElec}")]
-    //    public async Task<ActionResult<IEnumerable<Opinion>>> GetOpinionsFromElection(int idElec)
-    //{
-    //    var opinion = await _context.Opinions.Where(o => (o.ElectionId == idElec)).ToListAsync();
-
-    //    if (opinion == null) {
-    //        return NotFound();
-    //    }
-
-    //    return opinion;
-    //}
-
-
     sortPropositions() {
 
         let tmp: Proposition[] = [];
@@ -122,7 +124,54 @@ export class ObjectionsComponent implements OnInit {
         console.log(this.currentUser);
     }
 
+    objection() {
+        //génération d'une opinion Vote (id du type : 2 = opinion de type vote)
+        this.service.get(window.location.origin + "/api/TypeOpinions/2").subscribe(result => {
+            this.type = result as TypeOpinion;
+            this.service.post(window.location.origin + "/api/Opinions", {
+                'AuthorId': this.connectedAccount["userId"],
+                'ConcernedId': this.actualProposed["userId"],
+                'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
+                'TypeId': this.type["typeId"],
+                'Date': Date.now(),
+                'ElectionId': this.session['electionId']
+            }).subscribe(result => {
+            }, error => console.log(error));
+        }, error => console.error(error));
+    }
 
+    endObjection() {
+        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
+            this.connectedParticipant = result as Participant;
+            this.connectedParticipant.HasTalked = true;
+            console.log(this.connectedParticipant);
+
+            this.service.put<Participant>(window.location.origin + "/api/Participants", this.connectedParticipant).pipe();
+
+        }, error => console.log(error));
+    }
+
+    getObjections() {
+        this.objectionsList = [];
+        this.service.get(window.location.origin + "/api/Opinions/election/" + this.session['electionId']).subscribe(result => {
+            let tempObjectionsList = result as Opinion[];
+            for (let i in tempObjectionsList) {
+                if (tempObjectionsList[i]['typeId'] == 2 && tempObjectionsList[i]['concernedId'] == this.actualProposed['userId']) {
+                    this.objectionsList.push(tempObjectionsList[i])
+                }
+            }
+            this.service.put<Participant>(window.location.origin + "/api/Participants", this.connectedParticipant).pipe();
+
+        }, error => console.log(error));
+    }
+
+    refuseObjection(anObjectionId: number) {
+        document.getElementById("objection_" + anObjectionId).remove();
+        console.log(document.getElementById("objection_" + anObjectionId));
+        this.service.delete(window.location.origin + "/api/Opinions/" + anObjectionId).subscribe(result => {
+            
+        }, error => console.log(error));
+    }
 }
 
 class Proposition {

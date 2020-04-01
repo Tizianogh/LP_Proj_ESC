@@ -45,19 +45,26 @@ namespace ESC2020.Model
         // GET: api/Users/election/5
         [HttpGet]
         [Route("election/{idElec}")]
-        public async Task<ActionResult<IEnumerable<Users>>> GetUsersByElec(int idElec) {
+        public async Task<ActionResult<IEnumerable<Users>>> GetUsersByElec(int idElec)
+        {
             List<Participant> participants = await _context.Participants.Where(p => p.ElectionId == idElec).ToListAsync();
             List<Users> users = new List<Users>();
 
-            for(int i=0;i< participants.Count; i++)
+            for (int i = 0; i < participants.Count; i++)
             {
                 Users toAdd = _context.User.Find(participants[i].UserId);
-                if(!users.Contains(toAdd)) {
+                toAdd.Opinion = null;
+                toAdd.Participants = null;
+                toAdd.Election = null;
+                toAdd.Message = null;
+                if (!users.Contains(toAdd))
+                {
                     users.Add(toAdd);
                 }
             }
             return users;
         }
+
 
         // PUT: api/Users/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for

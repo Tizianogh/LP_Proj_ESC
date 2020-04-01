@@ -28,6 +28,20 @@ namespace ESC2020.Controllers
             return await _context.Opinions.ToListAsync();
         }
 
+        // GET: api/Opinions/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Opinion>> GetOpinion(int id)
+        {
+            var opinion = await _context.Opinions.FindAsync(id);
+
+            if (opinion == null)
+            {
+                return NotFound();
+            }
+
+            return opinion;
+        }
+
         // GET: api/Opinions/election/5
         [HttpGet]
         [Route("election/{idElec}")]
