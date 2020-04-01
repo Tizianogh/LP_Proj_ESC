@@ -31,14 +31,14 @@
                     </li>
                 </ng-template>
 
-
                 <li class="btn-group justify-content-start" dropdown is-open="status.isopen">
-                    <a id="menuSession" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
-                        Nom de la session
+                    <a id="menuSession" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" [hidden]="!inElection">
+                        {{navBarState}}
                     </a>
+
                     <div class="dropdown-menu dropdown-menu-left" role="menu" style="min-width: 200px;">
                         <a class="dropdown-item" [routerLink]="['']">Chat de la session</a>
-                        <a class="dropdown-item" (click)="goToLogs()">Historique de la session</a>
+                        <a class="dropdown-item" (click)="goToLogs()" style="cursor: pointer;">Historique de la session</a>
                     </div>
                 </li>
 

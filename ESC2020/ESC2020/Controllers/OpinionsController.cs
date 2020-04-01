@@ -22,6 +22,7 @@ namespace ESC2020.Controllers
 
         // GET: api/Opinions
         [HttpGet]
+        [Route("")]
         public async Task<ActionResult<IEnumerable<Opinion>>> GetOpinions()
         {
             return await _context.Opinions.ToListAsync();
@@ -32,6 +33,21 @@ namespace ESC2020.Controllers
         public async Task<ActionResult<Opinion>> GetOpinion(int id)
         {
             var opinion = await _context.Opinions.FindAsync(id);
+
+            if (opinion == null)
+            {
+                return NotFound();
+            }
+
+            return opinion;
+        }
+
+        // GET: api/Opinions/election/5
+        [HttpGet]
+        [Route("election/{idElec}")]
+        public async Task<ActionResult<IEnumerable<Opinion>>> GetOpinionsFromElection(int idElec)
+        {
+            var opinion = await _context.Opinions.Where(o => (o.ElectionId == idElec)).ToListAsync();
 
             if (opinion == null)
             {
