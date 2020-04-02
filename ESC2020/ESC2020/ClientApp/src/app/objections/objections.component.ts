@@ -156,10 +156,11 @@ export class ObjectionsComponent implements OnInit {
                 'ConcernedId': this.actualProposed["userId"],
                 'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
                 'TypeId': this.type["typeId"],
-                'Date': Date.now,
+                'DateOpinion': new Date(),
                 'ElectionId': this.session['electionId']
             }).subscribe(result => {
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
+                console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));
     }
