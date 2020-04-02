@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { Users, AuthentificationService } from '../services/authentification.service';
+import { Users } from '../Model/Users';
+import { AuthentificationService } from '../services/authentification.service';
 
 @Component({
     selector: 'app-creation',

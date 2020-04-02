@@ -50,6 +50,16 @@
     <Compile Remove="Migrations\20200327173622_esc2020.Designer.cs" />
     <Compile Remove="Migrations\20200330115143_esc2020.cs" />
     <Compile Remove="Migrations\20200330115143_esc2020.Designer.cs" />
+    <Compile Remove="Migrations\20200330121517_esc2020.cs" />
+    <Compile Remove="Migrations\20200330121517_esc2020.Designer.cs" />
+    <Compile Remove="Migrations\20200331135541_esc2020.cs" />
+    <Compile Remove="Migrations\20200331135541_esc2020.Designer.cs" />
+    <Compile Remove="Migrations\20200331142009_esc2020.cs" />
+    <Compile Remove="Migrations\20200331142009_esc2020.Designer.cs" />
+    <Compile Remove="Migrations\20200401085132_esc2020.cs" />
+    <Compile Remove="Migrations\20200401085132_esc2020.Designer.cs" />
+    <Compile Remove="Migrations\20200401122153_esc2020.cs" />
+    <Compile Remove="Migrations\20200401122153_esc2020.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,8 +68,6 @@
     <None Remove="ClientApp\src\app\MyAccountPage\myAccountPage.component.css" />
     <None Remove="ClientApp\src\app\MyAccountPage\myAccountPage.component.html" />
     <None Remove="ClientApp\src\app\MyAccountPage\myAccountPage.component.ts" />
-    <None Remove="ClientApp\src\app\Page-election\NewFile.txt" />
-    <None Remove="ClientApp\src\app\Page-election\page-election.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,7 +75,6 @@
     <TypeScriptCompile Include="ClientApp\src\app\MyAccountPage\myAccountPage.component.css" />
     <TypeScriptCompile Include="ClientApp\src\app\MyAccountPage\myAccountPage.component.html" />
     <TypeScriptCompile Include="ClientApp\src\app\MyAccountPage\myAccountPage.component.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\Page-election\page-election.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

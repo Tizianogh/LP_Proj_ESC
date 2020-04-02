@@ -1,0 +1,66 @@
+
+<div class="proposedUser">
+    <p class="intro">
+        Pour le poste de {{ this.session['job'] }}, candidat actuel :
+    </p>
+    <div class="profile-userpic">
+        <img class="img-responsive" id="proposedIcon" src="data:image/png;base64,{{actualProposed['avatar']}}" height="120" />
+    </div>
+    <div class="profile-usertitle">
+        <div class="profile-usertitle-name">
+            {{actualProposed['firstName']}} {{actualProposed['lastName']}}
+        </div>
+
+
+        <div>
+            <div *ngIf="connectedParticipant['hasTalked']; then cantVote else canVote"></div>
+            <ng-template #canVote>
+                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre objection..." rows="4"></textarea> <br />
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-primary" (click)="objection()">Objecter contre {{actualProposed['firstName']}} {{actualProposed['lastName']}} ?</button>
+                    <button type="submit" class="btn btn-primary" (click)="endObjection()">Pas/Plus d'objections ?</button>
+                    <br />
+                    <br />
+                </div>
+            </ng-template>
+            <ng-template #cantVote>
+                <div class="col text-center">
+                    En attente des autres Participants !
+                </div>
+            </ng-template>
+        </div>
+        <div *ngIf="host; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <div class="col text-center">
+                <!--Table-->
+                <table id="objectionTable" class="table table-hover table-sm">
+                    <!--Table head-->
+                    <thead>
+                        <tr>
+                            <th>Objection</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <!--Table head-->
+                    <!--Table body-->
+                    <tbody>
+                        <tr *ngFor="let objection of objectionsList" id="objection_{{objection['opinionId']}}">
+                            <td>{{objection['reason']}}</td>
+                            <td>
+                                <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
+                                (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
+                                <button type="submit" class="btn btn-success" (click)="validateObjection()">Valider l'objection</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!--Table body-->
+                </table>
+                <!--Table-->
+                <button type="submit" class="btn btn-success">Accepter la candidature</button>
+            </div> 
+        </ng-template>
+
+        <ng-template #elseBlock>
+        </ng-template>
+    </div>
+</div>

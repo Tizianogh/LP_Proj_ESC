@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Session } from '../Model/Session';
+import { Users } from '../Model/Users';
 import { Router } from '@angular/router';
-import { Users, AuthentificationService } from '../services/authentification.service';
+import { AuthentificationService } from '../services/authentification.service';
 import { partition } from 'rxjs';
 import { async } from '@angular/core/testing';
 
@@ -33,8 +34,16 @@ export class MesSalonsComponent implements OnInit {
         this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
             this.listeParticipants = result as Participant[];
             for (let i in this.listeParticipants) {
-                this.service.get(window.location.origin + "/api/Elections/" + this.listeParticipants[i]["electionId"]).subscribe(result => {
-                    this.listeSessions.push(result as Session);
+                this.service.get(window.location.origin + "/api/Elections/" + this.listeParticipants[i]["electionId"]).subscribe(electionresult => {
+
+                    let election : Session = electionresult as Session;
+                    this.service.get(window.location.origin + "/api/Participants/election/" + election['electionId']).subscribe(result => {
+                        let participantResult = result as Participant[];
+                        election.nbParticipant = participantResult.length;
+                    }, error => console.error(error));
+
+                    this.listeSessions.push(election);
+                    console.log(election);
                 }, error => console.error(error));
             }
         }, error => console.error(error));
@@ -72,7 +81,11 @@ export class MesSalonsComponent implements OnInit {
         this.service.get(window.location.origin + "/api/Elections/code/" + codeInput).subscribe(result => {
             console.log(result);
             this.listeSessions.push(result as Session);
-            this.service.post(window.location.origin + "/api/Participants", { 'UserId': this.connectedAccount['userId'], 'ElectionId': result['electionId'] }).subscribe(result => {
+            this.service.post(window.location.origin + "/api/Participants", {
+                'UserId': this.connectedAccount['userId'],
+                'ElectionId': result['electionId'],
+                'HasTalked': false
+            }).subscribe(result => {
                 console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));

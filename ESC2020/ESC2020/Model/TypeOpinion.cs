@@ -15,7 +15,5 @@ namespace ESC2020.Model
         public string OpinionName { get; set; }
 
         public List<Opinion> Opinion { get; set; } = new List<Opinion>();
-
-
     }
 }

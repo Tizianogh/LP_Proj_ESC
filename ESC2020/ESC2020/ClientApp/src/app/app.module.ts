@@ -16,9 +16,11 @@ import { MesSalonsComponent } from './MesSalons/mesSalons.component';
 import { PageElectionComponent } from './Page-election/page-election.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-registerLocaleData(localeFr, 'fr');
 import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component';
+import { NextPhaseComponent } from './NextPhase/nextPhase.component';
+import { ObjectionsComponent } from './objections/objections.component';
 
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component'
     RappelSessionComponent,
     MesSalonsComponent,
     PageElectionComponent,
-    MyAccountPageComponent
+    MyAccountPageComponent,
+    ObjectionsComponent,
+    NextPhaseComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -49,7 +53,11 @@ import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component'
         { path: 'mes-salons', component: MesSalonsComponent },
         { path: 'home', component: HomeComponent},
         { path: 'page-election/:id', component: PageElectionComponent },
-        { path: 'myAccountPage', component: MyAccountPageComponent }
+        { path: 'myAccountPage', component: MyAccountPageComponent },
+        { path: 'objections/:id', component: ObjectionsComponent },
+
+     
+        { path: 'nextPhase', component: NextPhaseComponent}
 
     ])
   ],
