@@ -31,9 +31,6 @@ export class ObjectionsComponent implements OnInit {
     type: TypeOpinion = new TypeOpinion();
 
     host: boolean = false;
-    inElection: boolean;
-    logsVisible: boolean;
-    navBarState: string;
 
     participantsList: Participant[] = [];
     opinionsList: Opinion[] = [];
@@ -48,9 +45,9 @@ export class ObjectionsComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.navBarStateService.GetNavState().subscribe(state => this.navBarState = state);
-        this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
-        this.navBarStateService.GetIsInElection().subscribe(inElection => this.inElection = inElection);
+        this.navBarStateService.SetIsInElection(true);
+        this.navBarStateService.SetObjectionsVisible(true);
+        this.navBarStateService.SetLogsVisible(true);
         setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
 
         this.mainRequest();
@@ -62,7 +59,7 @@ export class ObjectionsComponent implements OnInit {
         let electionId = regexp.exec(this.router.url)[0];
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
             this.session = result as Session;
-            console.log(this.session)
+            this.navBarStateService.SetNavState(this.session['job']);
             this.getConnectedParticipant();
             this.checkHost();
             this.preStart();
@@ -72,7 +69,6 @@ export class ObjectionsComponent implements OnInit {
     getConnectedParticipant() {
         this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.session['electionId']).subscribe(result => {
             this.connectedParticipant = result as Participant;
-            console.log(this.connectedParticipant);
         }, error => console.log(error));
     }
 
@@ -160,7 +156,7 @@ export class ObjectionsComponent implements OnInit {
                 'ConcernedId': this.actualProposed["userId"],
                 'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
                 'TypeId': this.type["typeId"],
-                'Date': Date.now(),
+                'Date': Date.now,
                 'ElectionId': this.session['electionId']
             }).subscribe(result => {
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
