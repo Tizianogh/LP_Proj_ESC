@@ -380,7 +380,6 @@ C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\
 C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\System.Text.Encodings.Web.dll
 C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\System.Text.Json.dll
 C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\System.Threading.Tasks.Extensions.dll
-C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.csprojAssemblyReference.cache
 C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.csproj.CoreCompileInputs.cache
 C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.RazorComponent.input.cache
 C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\RazorDeclaration\App.razor.g.cs
