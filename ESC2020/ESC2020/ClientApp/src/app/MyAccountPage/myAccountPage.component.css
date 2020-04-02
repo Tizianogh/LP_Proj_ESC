@@ -56,6 +56,13 @@
     border-style:none;
 }
 
+.form-control-white {
+    width: 60%;
+    margin-left: 10px;
+    background-color: #ffffff;
+    border-style: none;
+}
+
 .form-control-file {
     margin-left: 10px;
 }

@@ -12,16 +12,16 @@ namespace ESC2020.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthentifcationController : ControllerBase
+    public class AuthentificationController : ControllerBase
     {
         private readonly ElectionContext _context;
 
-        public AuthentifcationController(ElectionContext context)
+        public AuthentificationController(ElectionContext context)
         {
             _context = context;
         }
 
-        // GET: api/Authentifcation
+        // GET: api/Authentification
         [HttpGet]
         public async Task<ActionResult<Users>> GetUser(string mail, string password)
         {
@@ -36,7 +36,7 @@ namespace ESC2020.Controllers
             return NotFound();
         }
 
-        // GET: api/Authentifcation/5
+        // GET: api/Authentification/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Users>> GetUsers(int id)
         {
@@ -50,7 +50,7 @@ namespace ESC2020.Controllers
             return users;
         }
 
-        // PUT: api/Authentifcation/5
+        // PUT: api/Authentification/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
@@ -82,7 +82,7 @@ namespace ESC2020.Controllers
             return NoContent();
         }
 
-        // POST: api/Authentifcation
+        // POST: api/Authentification
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
@@ -94,7 +94,7 @@ namespace ESC2020.Controllers
             return CreatedAtAction("GetUsers", new { id = users.UserId }, users);
         }
 
-        // DELETE: api/Authentifcation/5
+        // DELETE: api/Authentification/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Users>> DeleteUsers(int id)
         {
