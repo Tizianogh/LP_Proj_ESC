@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESC2020.Model
@@ -19,5 +22,8 @@ namespace ESC2020.Model
 
         [Required]
         public bool HasTalked { get; set; }
+
+        [DefaultValue("false")]
+        public bool Proposable { get; set; }
     }
 }

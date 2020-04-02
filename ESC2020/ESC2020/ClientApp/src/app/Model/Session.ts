@@ -5,5 +5,6 @@ export class Session {
     responsabilite: string;
     dateD: string;
     dateF: string;
+    HostId: number;
     nbParticipant: number;
 }

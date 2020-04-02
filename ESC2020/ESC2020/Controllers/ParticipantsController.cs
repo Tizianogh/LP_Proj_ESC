@@ -32,7 +32,7 @@ namespace ESC2020.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByUser(int id)
         {
-            return  await _context.Participants.Where(p => p.UserId == id).ToListAsync();
+            return await _context.Participants.Where(p => p.UserId == id).ToListAsync();
         }
 
         // GET: api/Participants/5/5

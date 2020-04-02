@@ -1,0 +1,44 @@
+.proposedUser{
+    text-align:center;
+}
+
+.intro {
+    color: #5a7391;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    margin-top: 20px;
+}
+
+.profile-userpic img {
+    float: none;
+    -webkit-border-radius: 10% !important;
+    -moz-border-radius: 10% !important;
+    border-radius: 10% !important;
+    margin-top:10px;
+}
+
+.profile-usertitle {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.profile-usertitle-name {
+    color: #5a7391;
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+button{
+    margin:0 5%;
+}
+
+#argumentaires{
+    width:70%;
+    text-align:center;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+

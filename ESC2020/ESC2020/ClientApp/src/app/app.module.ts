@@ -18,6 +18,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component';
 import { NextPhaseComponent } from './NextPhase/nextPhase.component';
+import { ObjectionsComponent } from './objections/objections.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -34,7 +35,8 @@ registerLocaleData(localeFr, 'fr');
     MesSalonsComponent,
     PageElectionComponent,
     MyAccountPageComponent,
-    NextPhaseComponent
+    ObjectionsComponent,
+    NextPhaseComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,6 +54,9 @@ registerLocaleData(localeFr, 'fr');
         { path: 'home', component: HomeComponent},
         { path: 'page-election/:id', component: PageElectionComponent },
         { path: 'myAccountPage', component: MyAccountPageComponent },
+        { path: 'objections/:id', component: ObjectionsComponent },
+
+     
         { path: 'nextPhase', component: NextPhaseComponent}
 
     ])
