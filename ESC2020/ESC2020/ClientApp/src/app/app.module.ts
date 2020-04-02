@@ -57,7 +57,7 @@ registerLocaleData(localeFr, 'fr');
         { path: 'home', component: HomeComponent},
         { path: 'page-election/:id', component: PageElectionComponent },
         { path: 'myAccountPage', component: MyAccountPageComponent },
-        { path: 'join-election-link/:id', component: JoinElectionLinkComponent }
+        { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
         { path: 'objections/:id', component: ObjectionsComponent },
 
      
