@@ -132,7 +132,6 @@ export class PageElectionComponent implements OnInit {
                 'Date': Date.now(),
                 'ElectionId': this.session['electionId']
             }).subscribe(result => {
-                console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));
 

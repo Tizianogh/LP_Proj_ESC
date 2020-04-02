@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
+    "C:\\Users\\Max_l\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
+    "C:\\Users\\Max_l\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectUniqueName": "C:\\Users\\Max_l\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "projectName": "CreationCompte",
-        "projectPath": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
-        "packagesPath": "C:\\Users\\tizia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+        "projectPath": "C:\\Users\\Max_l\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "packagesPath": "C:\\Users\\Max_l\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Max_l\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\tizia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Max_l\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
