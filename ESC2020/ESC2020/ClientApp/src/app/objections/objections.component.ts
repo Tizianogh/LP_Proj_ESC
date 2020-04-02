@@ -11,6 +11,7 @@ import { Opinion } from '../Model/Opinion';
 import { DatePipe } from '@angular/common';
 import { FunctionCall } from '@angular/compiler';
 import { FormsModule } from '@angular/forms';
+import { NavBarStateService } from '../services/NavBarState.service';
 
 
 @Component({
@@ -30,7 +31,9 @@ export class ObjectionsComponent implements OnInit {
     type: TypeOpinion = new TypeOpinion();
 
     host: boolean = false;
-
+    inElection: boolean;
+    logsVisible: boolean;
+    navBarState: string;
 
     participantsList: Participant[] = [];
     opinionsList: Opinion[] = [];
@@ -38,14 +41,16 @@ export class ObjectionsComponent implements OnInit {
     objectionsList: Opinion[] = [];
     propositions: Proposition[] = [];
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService) {
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
         
     }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
+        this.navBarStateService.GetNavState().subscribe(state => this.navBarState = state);
+        this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
+        this.navBarStateService.GetIsInElection().subscribe(inElection => this.inElection = inElection);
         setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
 
         this.mainRequest();
@@ -101,7 +106,10 @@ export class ObjectionsComponent implements OnInit {
                         for (let j in this.opinionsList) {
                             if (this.opinionsList[j]['typeId'] == 1) {
                                 if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
-                                    this.propositions[i].VoteCounter++;
+                                    console.log("juste avant" + this.propositions[i]);
+                                    if (this.propositions[i] != null) {
+                                        this.propositions[i].VoteCounter++;
+                                    }
                                 }
                             }
                         }
