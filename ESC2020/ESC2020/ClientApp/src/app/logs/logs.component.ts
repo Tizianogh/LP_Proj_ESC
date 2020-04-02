@@ -4,6 +4,9 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
 import { Users } from '../Model/Users';
+import { NavBarStateService } from '../services/NavBarState.service';
+import { AuthentificationService } from '../services/authentification.service';
+
 
 @Component({
     selector: 'app-logs',
@@ -19,13 +22,22 @@ export class LogsComponent implements OnInit {
     private previousUrl: string;
     private currentUrl: string;
 
+    private logsVisible: boolean;
+    private objectionsVisible: boolean;
+
+    private connectedAccount: Users = new Users();
+
+
     private logList: Log[] = [];
 
-    constructor(private location: Location, private service: HttpClient, private router: Router) {
+    constructor(private location: Location, private service: HttpClient, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) {
 
     }
 
     ngOnInit() {
+        this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
+        this.navBarStateService.GetObjectionsVisible().subscribe(isVisible => this.objectionsVisible = isVisible);
+
         this.getNotifications();
         this.getOpinions();
     }
@@ -33,20 +45,20 @@ export class LogsComponent implements OnInit {
     ShowVotes() {
         this.logList = this.voteList;
         document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("NotificationsTab").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid transparent;";
+        document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid transparent;";
     }
     ShowObjections() {
         this.logList = this.objectionList;
         document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("VotesTab").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("NotificationsTab").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid transparent;";
+        document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid transparent;";
     }
     ShowNotifications() {
         this.logList = this.notificationList;
         document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("VotesTab").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid transparent;";
+        document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid transparent;";
     }
 
     votePush(title: string, opinion: string, hour: string) {
@@ -80,7 +92,6 @@ export class LogsComponent implements OnInit {
     getNotifications() {
         this.service.get(window.location.origin + "/api/Notifications/FromElection/" + this.router.url.split('/')[2]).subscribe(result => {
             this.allListNotifs = result as Log[];
-            console.log(this.allListNotifs);
             for (let i in this.allListNotifs) {
                 let datePubli: string = this.allListNotifs[i]['dateNotification'];
                 this.notificationPush(this.allListNotifs[i]['message'], "",
@@ -123,9 +134,7 @@ export class LogsComponent implements OnInit {
                         }, error => console.error(error));
                     }, error => console.error(error));
                 }
-
             }
-
         }, error => console.error(error));
     }
 }
