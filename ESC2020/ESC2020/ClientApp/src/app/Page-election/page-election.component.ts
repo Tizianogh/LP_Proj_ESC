@@ -7,6 +7,8 @@ import { Users } from '../Model/Users';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
+import { NavBarStateService } from '../services/NavBarState.service';
+
 
 @Component({
     selector: 'app-election',
@@ -33,31 +35,10 @@ export class PageElectionComponent implements OnInit {
 
     age: number;
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService) { }
-
-
-    IntantiateBadge(id:string){
-        console.log("initBage id : " + id);
-        //console.log("Liste : " +  this.listeParticipants);
-
-        //let regexp: RegExp = /\d/;
-        //this.electionId = regexp.exec(this.router.url)[0];
-
-        //this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
-        //    this.session = result as Session;
-
-        //    //récupérer la liste des participants en fonction de l'id d'une élection
-        //    this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
-        //        this.listeParticipants = participantResult as Participant[];
-        //        this.listeParticipants.forEach((participant) => {
-        //            console.log("oui");
-
-        //        });
-        //    }, error => console.error(error));
-        //}, error => console.error(error));
-    }
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
+        this.navBarStateService.SetIsInElection(true);
         this.FetchParticipants();
     }
 
@@ -71,11 +52,14 @@ export class PageElectionComponent implements OnInit {
 
         await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
             this.session = result as Session;
+            this.navBarStateService.SetNavState(this.session['job']);
 
             //récupérer la liste des participants en fonction de l'id d'une élection
             this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
                 this.listeParticipants = participantResult as Participant[];
                 this.listeParticipants.forEach((participant) => {
+                    this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
+
                     this.FetchUser(participant);
                 });
             }, error => console.error(error));
@@ -84,20 +68,17 @@ export class PageElectionComponent implements OnInit {
 
     async FetchUser(participant: Participant) {
         await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            console.log(participant);
+            let user: Users = userResult as Users;
 
-            this.currentParticipant = participant;
-           // console.log("participant : " + this.listeParticipants.get(userResult as Users));
-
+            console.log(this.listeParticipants.find(p => p['userId'] == user['userId']));
             this.listeUsers.push(userResult as Users);
-            //console.log(participant);
-            //console.log(participant['userId'] + "Voted");
-
-            //if (participant['hasTalked'])
-            //    document.getElementById(participant['userId'] + "Voted").style.visibility = "visible";
-            //else
-            //    document.getElementById(participant['userId'] + "NotVoted").style.visibility = "visible";
         }, error => console.error(error));
+    }
+
+    HasUserTalked(user: Users): boolean {
+        let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
+
+        return participant['hasTalked'];
     }
 
     actualParticipant(user: Users, birthDate: string) {
@@ -160,9 +141,15 @@ export class PageElectionComponent implements OnInit {
             this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.session['electionId'], {
                 'UserId': participantResult['userId'],
                 'ElectionId': participantResult['electionId'],
-                'HasTalked': false
+                'HasTalked': true
             }).subscribe(result => {
             }, error => console.log(error));
+        }, error => console.log(error));
+        this.navBarStateService.SetLogsVisible(true);
+    }
+
+    Exclude(currentUserId: number) {
+        this.service.delete(window.location.origin + "/api/Participants/" + currentUserId + "/" + this.session['electionId']).subscribe(result => {
         }, error => console.log(error));
     }
 }

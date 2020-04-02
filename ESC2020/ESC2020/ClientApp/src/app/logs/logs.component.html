@@ -1,48 +1,68 @@
 <h1 id="titre">
-  Historique de la session
+    Historique de la session
 </h1>
 
 <p style="text-align:center">
-  Vous pouvez ici consulter les avis des autres participants <br /> et les étapes clés du processus de l'élection en cours.
+    Vous pouvez ici consulter les avis des autres participants <br /> et les étapes clés du processus de l'élection en cours.
 </p>
 
 <img src="assets/img/close.png" height="20" align="right" style="margin-right:75px; cursor: pointer;" (click)="browserReturn()" />
 
 <ul class="nav nav-tabs color-border" style=" margin-left: 75px; margin-right: 75px;">
-  <li class="nav-item" id="VotesTab">
-    <a class="nav-link" style="cursor: pointer;" (click)="ShowVotes()">
-      Votes
-    </a>
-  </li>
-  <li class="nav-item" id="ObjectionsTab">
-    <a class="nav-link" style="cursor: pointer;" (click)="ShowObjections()">
-      Objections
-    </a>
-  </li>
-  <li class="nav-item" id="NotificationsTab">
-    <a class="nav-link" style="cursor: pointer;" (click)="ShowNotifications()">
-      Notifications
-    </a>
-  </li>
+
+    <div *ngIf="logsVisible == true; then ThenBlock else ElseBlock"></div>
+    <ng-template #ElseBlock>
+        <li class="nav-item" id="VotesTab">
+            <a class="nav-link disabled" style="cursor: pointer;">
+                Votes
+            </a>
+        </li>
+    </ng-template>
+    <ng-template #ThenBlock>
+        <li class="nav-item" id="VotesTab">
+            <a class="nav-link" style="cursor: pointer;" (click)="ShowVotes()">
+                Votes
+            </a>
+        </li>
+    </ng-template>
+
+    <div *ngIf="objectionsVisible == true; then ThenBlock1 else ElseBlock1"></div>
+    <ng-template #ElseBlock1>
+        <li class="nav-item" id="ObjectionsTab">
+            <a class="nav-link disabled" style="cursor: pointer;">
+                Objections
+            </a>
+        </li>
+    </ng-template>
+    <ng-template #ThenBlock1>
+        <li class="nav-item" id="ObjectionsTab">
+            <a class="nav-link" style="cursor: pointer;" (click)="ShowObjections()">
+                Objections
+            </a>
+        </li>
+    </ng-template>
+
+    <li class="nav-item" id="NotificationsTab">
+        <a class="nav-link" style="cursor: pointer;" (click)="ShowNotifications()">
+            Notifications
+        </a>
+    </li>
 </ul>
 
 <div class="logs" style="margin-left: 75px; margin-right: 75px;">
-  <div class="log" *ngFor="let log of logList">
-    <div class="title">
-      {{log.title}}
+    <div class="log" *ngFor="let log of logList">
+        <div class="title">
+            {{log.title}}
+        </div>
+        <table>
+            <tr>
+                <th class="hour">
+                    {{log.hour}}
+                </th>
+                <th class="opinion">
+                    {{log.opinion}}
+                </th>
+            </tr>
+        </table>
     </div>
-    <table>
-      <tr>
-        <th class="hour">
-          {{log.hour}}
-        </th>
-        <th class="opinion">
-          {{log.opinion}}
-        </th>
-      </tr>
-    </table>
-  </div>
 </div>
-
-
-
