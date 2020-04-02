@@ -24,9 +24,6 @@ export class MyAccountPageComponent implements OnInit {
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
         this.service.get(window.location.origin + "/api/Authentification/" + this.connectedAccount['userId']).subscribe(update => {
-
-            console.log(update);
-
             localStorage.clear();
             localStorage.setItem('connectedUser', JSON.stringify(update));
             this.authentificationService.setConnectedAccount(JSON.parse(localStorage.getItem('connectedUser')));
