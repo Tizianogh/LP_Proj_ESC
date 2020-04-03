@@ -37,14 +37,21 @@ namespace ESC2020.Model
 		public string Job { get; set; } // varchar ?
 
 		[Required]
-		public byte[] Avatar { get; set; }
+		public byte[]? Avatar { get; set; }
 
+		[InverseProperty("AuthorOpinion")]
+		public List<Opinion> AuthorOpinion { get; set; } = new List<Opinion>();
 
-		public List<Opinion> Opinion { get; set; } = new List<Opinion>();
+		[InverseProperty("ConcernedOpinion")]
+		public List<Opinion> ConcernedOpinion { get; set; } = new List<Opinion>();
 
 		public List<Participant> Participants { get; set; } = new List<Participant>();
 
-		public List<Election> Election { get; set; } = new List<Election>();
+		[InverseProperty("HostElection")]
+		public List<Election> HostElection { get; set; } = new List<Election>();
+
+		[InverseProperty("ElectedElection")]
+		public List<Election> ElectedElection { get; set; } = new List<Election>();
 
 		public List<Message> Message { get; set; } = new List<Message>();
 	}

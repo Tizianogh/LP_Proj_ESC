@@ -68,11 +68,18 @@ namespace ESC2020.Migrations
                     EndDate = table.Column<DateTimeOffset>(nullable: false),
                     CodeElection = table.Column<string>(nullable: true),
                     HostId = table.Column<int>(nullable: false),
+                    ElectedId = table.Column<int>(nullable: true),
                     PhaseId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Election", x => x.ElectionId);
+                    table.ForeignKey(
+                        name: "FK_Election_Users_ElectedId",
+                        column: x => x.ElectedId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Election_Users_HostId",
                         column: x => x.HostId,
@@ -144,7 +151,6 @@ namespace ESC2020.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AuthorId = table.Column<int>(nullable: false),
                     ConcernedId = table.Column<int>(nullable: false),
-                    AuthorIdConcernedId = table.Column<int>(nullable: true),
                     ElectionId = table.Column<int>(nullable: false),
                     Reason = table.Column<string>(nullable: false),
                     TypeId = table.Column<int>(nullable: false),
@@ -154,11 +160,17 @@ namespace ESC2020.Migrations
                 {
                     table.PrimaryKey("PK_Opinion", x => x.OpinionId);
                     table.ForeignKey(
-                        name: "FK_Opinion_Users_AuthorIdConcernedId",
-                        column: x => x.AuthorIdConcernedId,
+                        name: "FK_Opinion_Users_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Opinion_Users_ConcernedId",
+                        column: x => x.ConcernedId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Opinion_Election_ElectionId",
                         column: x => x.ElectionId,
@@ -179,7 +191,8 @@ namespace ESC2020.Migrations
                 {
                     UserId = table.Column<int>(nullable: false),
                     ElectionId = table.Column<int>(nullable: false),
-                    HasTalked = table.Column<bool>(nullable: false)
+                    HasTalked = table.Column<bool>(nullable: false),
+                    Proposable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,6 +210,11 @@ namespace ESC2020.Migrations
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Election_ElectedId",
+                table: "Election",
+                column: "ElectedId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Election_HostId",
@@ -224,9 +242,14 @@ namespace ESC2020.Migrations
                 column: "ElectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Opinion_AuthorIdConcernedId",
+                name: "IX_Opinion_AuthorId",
                 table: "Opinion",
-                column: "AuthorIdConcernedId");
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Opinion_ConcernedId",
+                table: "Opinion",
+                column: "ConcernedId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Opinion_ElectionId",

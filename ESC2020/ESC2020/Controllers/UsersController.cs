@@ -53,9 +53,11 @@ namespace ESC2020.Model
             for (int i = 0; i < participants.Count; i++)
             {
                 Users toAdd = _context.User.Find(participants[i].UserId);
-                toAdd.Opinion = null;
+                toAdd.AuthorOpinion = null;
+                toAdd.ConcernedOpinion = null;
                 toAdd.Participants = null;
-                toAdd.Election = null;
+                toAdd.HostElection = null;
+                toAdd.ElectedElection = null;
                 toAdd.Message = null;
                 if (!users.Contains(toAdd))
                 {

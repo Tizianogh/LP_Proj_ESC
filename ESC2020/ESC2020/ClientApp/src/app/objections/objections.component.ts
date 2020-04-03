@@ -239,6 +239,30 @@ export class ObjectionsComponent implements OnInit {
             }
         }, error => console.error(error));
     }
+
+    acceptCandidate() {
+        this.service.put(window.location.origin + "/api/Elections/" + this.session['electionId'], {
+            "ElectionId": this.session['electionId'],
+            "Job": this.session['job'],
+            "Mission": this.session['mission'],
+            "Responsability": this.session['responsabilites'],
+            "StartDate": this.session['dateD'],
+            "EndDate": this.session['dateF'],
+            "CodeElection": this.session['codeElection'],
+            "HostId": this.session["hostId"],
+            "ElectedId": this.actualProposed['userId']
+        }).subscribe(result => {
+            console.log("passage à la phase de bonification");
+            this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.session['electionId'], {
+                "UserId": this.actualProposed['userId'],
+                "ElectionId": this.session['electionId'],
+                "HasTalked": false,
+                "Proposable": true
+            }).subscribe(result => {
+                this.router.navigate(['bonification/' + this.session['electionId']]);
+            }, error => console.log(error));
+        }, error => console.log(error));
+    }
 }
 
 class Proposition {

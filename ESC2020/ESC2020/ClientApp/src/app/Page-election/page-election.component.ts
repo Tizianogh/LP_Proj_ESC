@@ -8,7 +8,8 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
-
+import { Opinion } from '../Model/Opinion';
+        
 
 @Component({
     selector: 'app-election',
@@ -22,7 +23,8 @@ export class PageElectionComponent implements OnInit {
     private connectedAccount: Users = new Users();
     private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
-    private listeParticipants : Participant[] = []
+    private listeParticipants: Participant[] = []
+    opinionsList: Opinion[] = [];
 
     currentUser: Users = new Users();
     session: Session = new Session();
@@ -145,10 +147,42 @@ export class PageElectionComponent implements OnInit {
             }, error => console.log(error));
         }, error => console.log(error));
         this.navBarStateService.SetLogsVisible(true);
+
+        this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.session['electionId']).subscribe(result => {
+            let participantResult: Participant = result as Participant;
+            this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.session['electionId'], {
+                "UserId": participantResult["userId"],
+                "ElectionId": this.session['electionId'],
+                "HasTalked": participantResult['hasTalked'],
+                "Proposable": true
+            }).subscribe(result => {
+
+            }, error => console.log(error));
+        }, error => console.log(error));
+
+        
     }
 
     Exclude(currentUserId: number) {
         this.service.delete(window.location.origin + "/api/Participants/" + currentUserId + "/" + this.session['electionId']).subscribe(result => {
         }, error => console.log(error));
+    }
+
+    goToNextPhase() {
+        this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
+            this.listeParticipants = participantResult as Participant[];
+            for (let i in this.listeParticipants) {
+                this.service.put(window.location.origin + "/api/Participants/" + this.listeParticipants[i]['userId'] + "/" + this.session['electionId'], {
+                    "UserId": this.listeParticipants[i]['userId'],
+                    "ElectionId": this.session['electionId'],
+                    "HasTalked": false,
+                    "Proposable": this.listeParticipants[i]['proposable']
+                }).subscribe(result => {
+                    
+                }, error => console.log(error));
+            }
+
+            this.router.navigate(['objections/'+this.session['electionId']]);
+        }, error => console.error(error));
     }
 }
