@@ -11,6 +11,7 @@ import { Opinion } from '../Model/Opinion';
 import { DatePipe } from '@angular/common';
 import { FunctionCall } from '@angular/compiler';
 import { FormsModule } from '@angular/forms';
+import { NavBarStateService } from '../services/NavBarState.service';
 
 
 @Component({
@@ -31,21 +32,22 @@ export class ObjectionsComponent implements OnInit {
 
     host: boolean = false;
 
-
     participantsList: Participant[] = [];
     opinionsList: Opinion[] = [];
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
     propositions: Proposition[] = [];
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService) {
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
         
     }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
+        this.navBarStateService.SetIsInElection(true);
+        this.navBarStateService.SetObjectionsVisible(true);
+        this.navBarStateService.SetLogsVisible(true);
         setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
 
         this.mainRequest();
@@ -57,7 +59,7 @@ export class ObjectionsComponent implements OnInit {
         let electionId = regexp.exec(this.router.url)[0];
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
             this.session = result as Session;
-            console.log(this.session)
+            this.navBarStateService.SetNavState(this.session['job']);
             this.getConnectedParticipant();
             this.checkHost();
             this.preStart();
@@ -67,7 +69,6 @@ export class ObjectionsComponent implements OnInit {
     getConnectedParticipant() {
         this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.session['electionId']).subscribe(result => {
             this.connectedParticipant = result as Participant;
-            console.log(this.connectedParticipant);
         }, error => console.log(error));
     }
 
@@ -101,7 +102,10 @@ export class ObjectionsComponent implements OnInit {
                         for (let j in this.opinionsList) {
                             if (this.opinionsList[j]['typeId'] == 1) {
                                 if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
-                                    this.propositions[i].VoteCounter++;
+                                    console.log("juste avant" + this.propositions[i]);
+                                    if (this.propositions[i] != null) {
+                                        this.propositions[i].VoteCounter++;
+                                    }
                                 }
                             }
                         }
@@ -152,10 +156,11 @@ export class ObjectionsComponent implements OnInit {
                 'ConcernedId': this.actualProposed["userId"],
                 'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
                 'TypeId': this.type["typeId"],
-                'Date': Date.now(),
+                'DateOpinion': new Date(),
                 'ElectionId': this.session['electionId']
             }).subscribe(result => {
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
+                console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));
     }

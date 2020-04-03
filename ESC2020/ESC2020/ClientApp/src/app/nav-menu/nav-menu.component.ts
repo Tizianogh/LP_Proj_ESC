@@ -20,7 +20,7 @@ export class NavMenuComponent {
     private logsVisible: boolean;
     private inElection: boolean;
 
-    constructor(private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) { }
+    constructor(private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router, private service: HttpClient) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
