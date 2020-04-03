@@ -96,6 +96,9 @@
             <br />
 
             <label class="section" #avatar>Ma photo de profil</label>
+            <br/>
+            <img class="participantIcon" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" height="60" />
+            <br/><br/>
             <input type="file" class="form-control-file" id="exampleFormControlFile1" />
             <small id="avatarHelpBlock" class="form-text text-muted">
                 Indiquez un fichier pour créer votre photo de profil.

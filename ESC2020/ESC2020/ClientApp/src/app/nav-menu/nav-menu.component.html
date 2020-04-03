@@ -73,8 +73,10 @@
                 </ng-template>
 
                 <ng-template #accountThenBlock>
+                    
                     <label id="menuCompte" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
                         {{connectedAccount.firstName}}
+                        <img class="participantIcon" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" height="20" />
                     </label>
                     <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
                         <a class="dropdown-item" [routerLink]="['myAccountPage']">Mon Compte</a>
