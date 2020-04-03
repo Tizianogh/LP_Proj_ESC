@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
-import { Session } from '../Model/Session';
+import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ export class ObjectionsComponent implements OnInit {
     connected: boolean;
     connectedAccount: Users = new Users();
 
-    session: Session = new Session();
+    election: Election = new Election();
     actualProposed: Users = new Users();
     connectedParticipant: Participant = new Participant();
     type: TypeOpinion = new TypeOpinion();
@@ -58,8 +58,8 @@ export class ObjectionsComponent implements OnInit {
         let regexp: RegExp = /\d/;
         let electionId = regexp.exec(this.router.url)[0];
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
-            this.session = result as Session;
-            this.navBarStateService.SetNavState(this.session['job']);
+            this.election = result as Election;
+            this.navBarStateService.SetNavState(this.election['job']);
             this.getConnectedParticipant();
             this.checkHost();
             this.preStart();
@@ -67,13 +67,13 @@ export class ObjectionsComponent implements OnInit {
     }
 
     getConnectedParticipant() {
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.session['electionId']).subscribe(result => {
+        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
             this.connectedParticipant = result as Participant;
         }, error => console.log(error));
     }
 
     checkHost() {
-        if (this.connectedAccount["userId"] == this.session['hostId']) {
+        if (this.connectedAccount["userId"] == this.election['hostId']) {
             this.host = true;
         }
         else {
@@ -83,18 +83,18 @@ export class ObjectionsComponent implements OnInit {
 
     preStart() {
         //récupérer la liste des participants en fonction de l'id d'une élection
-        this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
+        this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
             this.participantsList = participantResult as Participant[];
             this.startCounting();
         }, error => console.error(error));
     }
 
     startCounting() {
-        this.service.get(window.location.origin + "/api/Users/election/" + this.session['electionId']).subscribe(userResult => {
+        this.service.get(window.location.origin + "/api/Users/election/" + this.election['electionId']).subscribe(userResult => {
 
             this.usersList = userResult as Users[];
             //Recuperer toutes les opinions de cette election et comptabilisation des votes
-            this.service.get(window.location.origin + "/api/Opinions/election/" + this.session['electionId']).subscribe(result => {
+            this.service.get(window.location.origin + "/api/Opinions/election/" + this.election['electionId']).subscribe(result => {
                 this.opinionsList = result as Opinion[];
                 for (let i in this.usersList) {
                     if (this.getParticipant(this.usersList[i]['userId'])['proposable']) {
@@ -157,7 +157,7 @@ export class ObjectionsComponent implements OnInit {
                 'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
                 'TypeId': this.type["typeId"],
                 'DateOpinion': new Date(),
-                'ElectionId': this.session['electionId']
+                'ElectionId': this.election['electionId']
             }).subscribe(result => {
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
                 console.log(result);
@@ -167,9 +167,9 @@ export class ObjectionsComponent implements OnInit {
 
     endObjection() {
         this.connectedParticipant['hasTalked'] = true;
-        this.service.put(window.location.origin + "/api/Participants/" + this.connectedParticipant['userId'] + "/" + this.session['electionId'], {
+        this.service.put(window.location.origin + "/api/Participants/" + this.connectedParticipant['userId'] + "/" + this.election['electionId'], {
             "UserId": this.connectedParticipant['userId'],
-            "ElectionId": this.session['electionId'],
+            "ElectionId": this.election['electionId'],
             "HasTalked": true,
             "Proposable": this.connectedParticipant['proposable'],
         }).subscribe(result => {
@@ -178,7 +178,7 @@ export class ObjectionsComponent implements OnInit {
     }
 
     getObjections() {
-        this.service.get(window.location.origin + "/api/Opinions/election/" + this.session['electionId']).subscribe(result => {
+        this.service.get(window.location.origin + "/api/Opinions/election/" + this.election['electionId']).subscribe(result => {
             let tempObjectionsList: Opinion[] = result as Opinion[];
             for (let i in tempObjectionsList) {
                 if (tempObjectionsList[i]['typeId'] == 2 && tempObjectionsList[i]['concernedId'] == this.actualProposed['userId'] && !this.alreadyInObjections(tempObjectionsList[i])) {
@@ -199,9 +199,9 @@ export class ObjectionsComponent implements OnInit {
     }
 
     validateObjection() {
-        this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.session['electionId'], {
+        this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.election['electionId'], {
             "UserId": this.actualProposed['userId'],
-            "ElectionId": this.session['electionId'],
+            "ElectionId": this.election['electionId'],
             "HasTalked": false,
             "Proposable": false,
         }).subscribe(result => {
@@ -225,12 +225,12 @@ export class ObjectionsComponent implements OnInit {
 
     updateParticipantForVote() {
 
-        this.service.get(window.location.origin + "/api/Participants/election/" + this.session['electionId']).subscribe(participantResult => {
+        this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
             this.participantsList = participantResult as Participant[];
             for (let i = 0; i < this.participantsList.length; i++) {
-                this.service.put(window.location.origin + "/api/Participants/" + this.participantsList[i]['userId'] + "/" + this.session['electionId'], {
+                this.service.put(window.location.origin + "/api/Participants/" + this.participantsList[i]['userId'] + "/" + this.election['electionId'], {
                     "UserId": this.participantsList[i]['userId'],
-                    "ElectionId": this.session['electionId'],
+                    "ElectionId": this.election['electionId'],
                     "HasTalked": false,
                     "Proposable": this.participantsList[i]["proposable"]
                 }).subscribe(result => {
@@ -241,25 +241,25 @@ export class ObjectionsComponent implements OnInit {
     }
 
     acceptCandidate() {
-        this.service.put(window.location.origin + "/api/Elections/" + this.session['electionId'], {
-            "ElectionId": this.session['electionId'],
-            "Job": this.session['job'],
-            "Mission": this.session['mission'],
-            "Responsability": this.session['responsabilites'],
-            "StartDate": this.session['dateD'],
-            "EndDate": this.session['dateF'],
-            "CodeElection": this.session['codeElection'],
-            "HostId": this.session["hostId"],
+        this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+            "ElectionId": this.election['electionId'],
+            "Job": this.election['job'],
+            "Mission": this.election['mission'],
+            "Responsability": this.election['responsabilites'],
+            "StartDate": this.election['dateD'],
+            "EndDate": this.election['dateF'],
+            "CodeElection": this.election['codeElection'],
+            "HostId": this.election["hostId"],
             "ElectedId": this.actualProposed['userId']
         }).subscribe(result => {
             console.log("passage à la phase de bonification");
-            this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.session['electionId'], {
+            this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.election['electionId'], {
                 "UserId": this.actualProposed['userId'],
-                "ElectionId": this.session['electionId'],
+                "ElectionId": this.election['electionId'],
                 "HasTalked": false,
                 "Proposable": true
             }).subscribe(result => {
-                this.router.navigate(['bonification/' + this.session['electionId']]);
+                this.router.navigate(['bonification/' + this.election['electionId']]);
             }, error => console.log(error));
         }, error => console.log(error));
     }

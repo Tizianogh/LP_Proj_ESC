@@ -8,17 +8,17 @@ import { AuthentificationService } from '../services/authentification.service';
 
 @Component({
     selector: 'app-creation',
-    templateUrl: './creationSession.component.html',
-    styleUrls: ['./creationSession.component.css'],
+    templateUrl: './create-election.component.html',
+    styleUrls: ['./create-election.component.css'],
     providers: [DatePipe]
 })
 
-export class CreationSessionComponent implements OnInit {
+export class CreateElectionComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users;
 
-    formulaireSession: FormGroup;
+    formulaireElection: FormGroup;
     id: number = 5;
     erreur: string;
 
@@ -31,7 +31,7 @@ export class CreationSessionComponent implements OnInit {
     }
 
     initForm() {
-        this.formulaireSession = this.formbuilder.group({
+        this.formulaireElection = this.formbuilder.group({
             poste: '',
             missions: '',
             responsabilites: '',
@@ -53,7 +53,7 @@ export class CreationSessionComponent implements OnInit {
     }
 
     submit() {
-        const form = this.formulaireSession.value
+        const form = this.formulaireElection.value
         console.log(window.location.origin)
 
         if (form['poste'].trim() == "" || form['missions'].trim() == "" || form['responsabilites'].trim() == "" || form['dateD'].trim() == "" || form['dateF'].trim() == "") {
@@ -101,7 +101,7 @@ export class CreationSessionComponent implements OnInit {
     }
 }
 
-class Session {
+class Election {
     constructor(public poste: string, public missions: string, public responsabilite: string, public dateD: string, public dateF: string) { }
 
 

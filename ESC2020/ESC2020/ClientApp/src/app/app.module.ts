@@ -9,18 +9,18 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { CreationSessionComponent } from './CreationSession/creationSession.component';
+import { CreateElectionComponent } from './create-election/create-election.component';
 import { LogsComponent } from './logs/logs.component';
-import { RappelSessionComponent } from './rappelSession/rappelSession.component';
-import { MesSalonsComponent } from './MesSalons/mesSalons.component';
-import { PageElectionComponent } from './Page-election/page-election.component';
+import { ElectionReminderComponent } from './election-reminder/election-reminder.component';
+import { MyElectionsComponent } from './my-elections/my-elections.component';
+import { ElectionComponent } from './election/election.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component';
-import { NextPhaseComponent } from './NextPhase/nextPhase.component';
+import { MyAccountComponent } from './my-account/my-account.component';
+import { NextPhaseComponent } from './next-phase/next-phase.component';
 import { ObjectionsComponent } from './objections/objections.component';
 import { BonificationComponent } from './bonification/bonification.component';
-import { JoinElectionLinkComponent } from './join-election-link/joinElectionLink.component';
+import { JoinElectionLinkComponent } from './join-election-link/join-election-link.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -31,12 +31,12 @@ registerLocaleData(localeFr, 'fr');
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    CreationSessionComponent,
+        CreateElectionComponent,
     LogsComponent,
-    RappelSessionComponent,
-    MesSalonsComponent,
-    PageElectionComponent,
-    MyAccountPageComponent,
+        ElectionReminderComponent,
+    MyElectionsComponent,
+    ElectionComponent,
+    MyAccountComponent,
     ObjectionsComponent,
     BonificationComponent,
     NextPhaseComponent,
@@ -52,18 +52,17 @@ registerLocaleData(localeFr, 'fr');
         { path: '', component: HomeComponent, pathMatch: 'full' },
         { path: 'counter', component: CounterComponent },
         { path: 'fetch-data', component: FetchDataComponent },
-        { path: 'creationSession', component: CreationSessionComponent },
+        { path: 'create-election', component: CreateElectionComponent },
         { path: 'logs/:id', component: LogsComponent },
-        { path: 'rappel/:id', component: RappelSessionComponent },
-        { path: 'mes-salons', component: MesSalonsComponent },
+        { path: 'election-reminder/:id', component: ElectionReminderComponent },
+        { path: 'my-elections', component: MyElectionsComponent },
         { path: 'home', component: HomeComponent},
-        { path: 'page-election/:id', component: PageElectionComponent },
-        { path: 'myAccountPage', component: MyAccountPageComponent },
+        { path: 'election/:id', component: ElectionComponent },
+        { path: 'my-account', component: MyAccountComponent },
         { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
         { path: 'objections/:id', component: ObjectionsComponent },
-        { path: 'bonification/:id', component: BonificationComponent },
-     
-        { path: 'nextPhase', component: NextPhaseComponent}
+        { path: 'bonification/:id', component: BonificationComponent },     
+        { path: 'next-phase', component: NextPhaseComponent}
 
     ])
   ],

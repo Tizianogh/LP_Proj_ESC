@@ -1,7 +1,7 @@
-<h2 id="titre" class="d-flex justify-content-center">Création de votre session de vote</h2>
+<h2 id="titre" class="d-flex justify-content-center">Création de votre élection de vote</h2>
 
 <div class="form-group">
-  <form [formGroup]="formulaireSession">
+  <form [formGroup]="formulaireElection">
     <div class="zone d-flex justify-content-center">
       <label>Poste de l'élu</label>
       <input type="text" class="input" name="poste" formControlName="poste">
@@ -34,7 +34,7 @@
     <label id="erreur" >{{erreur}}</label>
 
     <div class="d-flex justify-content-center">
-      <button id="send" (click)="submit()" >créer votre session</button>
+      <button id="send" (click)="submit()" >créer votre élection</button>
     </div>
   </form>
 </div>
