@@ -16,10 +16,13 @@ namespace ESC2020.Model
 
 		public int AuthorId { get; set; }
 
+		[ForeignKey("AuthorId")]
+		public Users AuthorOpinion { get; set; }
+
 		public int ConcernedId { get; set; }
 
-		[ForeignKey("AuthorId" + "ConcernedId")]
-		public Users User { get; set; }
+		[ForeignKey("ConcernedId")]
+		public Users ConcernedOpinion { get; set; }
 
 		public int ElectionId { get; set; }
 

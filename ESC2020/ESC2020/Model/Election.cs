@@ -30,7 +30,12 @@ namespace ESC2020.Model
         public int HostId { get; set; }
 
         [ForeignKey("HostId")]
-        public Users Host { get; set; }
+        public Users HostElection { get; set; }
+
+        public int? ElectedId { get; set; }
+
+        [ForeignKey("ElectedId")]
+        public Users ElectedElection { get; set; }
 
         public List<Notification> Notification { get; set; } = new List<Notification>();
 

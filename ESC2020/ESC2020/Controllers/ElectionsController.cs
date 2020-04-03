@@ -50,6 +50,14 @@ namespace ESC2020.Controllers
             return election;
         }
 
+        //// GET: api/Elections/5/5
+        //[HttpGet]
+        //[Route("{electionId}/{userId}")]
+        //public async Task<ActionResult<Election>> GetElectedUser(int electionId, int userId)
+        //{
+        //    return await _context.elec.Where(p => p.ElectionId == electionId && p.UserId == userId).FirstOrDefaultAsync();
+        //}
+
         // PUT: api/Elections/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -99,15 +107,7 @@ namespace ESC2020.Controllers
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetElection", new { id = election.ElectionId }, election);
             }
-
-
-
-
         }
-
-    
-
-
 
         // DELETE: api/Elections/5
         [HttpDelete("{id}")]

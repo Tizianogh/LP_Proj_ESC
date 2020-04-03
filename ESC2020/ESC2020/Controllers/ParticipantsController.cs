@@ -70,8 +70,9 @@ namespace ESC2020.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException) 
             {
+                Debug.WriteLine("");
                 if (!ParticipantExists(userId, electionId))
                 {
                     Debug.WriteLine("Not found 2");
