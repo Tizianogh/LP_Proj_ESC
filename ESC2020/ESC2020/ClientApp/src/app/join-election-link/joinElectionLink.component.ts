@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { AuthentificationService } from '../services/authentification.service';
 import { Participant } from '../Model/Participant';
 import { Session } from '../Model/Session';
-import { Users } from '../Model/Users';
+import { Users } from '../Model/Users'
 @Component({
     selector: 'app-creation',
     templateUrl: './joinElectionLink.component.html',
