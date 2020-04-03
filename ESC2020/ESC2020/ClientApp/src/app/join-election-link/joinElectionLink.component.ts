@@ -2,9 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { Users, AuthentificationService } from '../services/authentification.service';
+import { AuthentificationService } from '../services/authentification.service';
 import { Participant } from '../Model/Participant';
 import { Session } from '../Model/Session';
+import { Users } from '../Model/Users';
 @Component({
     selector: 'app-creation',
     templateUrl: './joinElectionLink.component.html',
