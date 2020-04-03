@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ESC2020.Migrations
 {
     [DbContext(typeof(ElectionContext))]
-    [Migration("20200402090356_esc2020")]
+    [Migration("20200403083400_esc2020")]
     partial class esc2020
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,9 @@ namespace ESC2020.Migrations
 
                     b.Property<string>("CodeElection")
                         .HasColumnType("text");
+
+                    b.Property<int?>("ElectedId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("EndDate")
                         .HasColumnType("timestamp with time zone");
@@ -55,6 +58,8 @@ namespace ESC2020.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ElectionId");
+
+                    b.HasIndex("ElectedId");
 
                     b.HasIndex("HostId");
 
@@ -126,9 +131,6 @@ namespace ESC2020.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("AuthorIdConcernedId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ConcernedId")
                         .HasColumnType("integer");
 
@@ -147,7 +149,9 @@ namespace ESC2020.Migrations
 
                     b.HasKey("OpinionId");
 
-                    b.HasIndex("AuthorIdConcernedId");
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ConcernedId");
 
                     b.HasIndex("ElectionId");
 
@@ -165,6 +169,9 @@ namespace ESC2020.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("HasTalked")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Proposable")
                         .HasColumnType("boolean");
 
                     b.HasKey("UserId", "ElectionId");
@@ -255,8 +262,12 @@ namespace ESC2020.Migrations
 
             modelBuilder.Entity("ESC2020.Model.Election", b =>
                 {
-                    b.HasOne("ESC2020.Model.Users", "Host")
-                        .WithMany("Election")
+                    b.HasOne("ESC2020.Model.Users", "ElectedElection")
+                        .WithMany("ElectedElection")
+                        .HasForeignKey("ElectedId");
+
+                    b.HasOne("ESC2020.Model.Users", "HostElection")
+                        .WithMany("HostElection")
                         .HasForeignKey("HostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -292,9 +303,17 @@ namespace ESC2020.Migrations
 
             modelBuilder.Entity("ESC2020.Model.Opinion", b =>
                 {
-                    b.HasOne("ESC2020.Model.Users", "User")
-                        .WithMany("Opinion")
-                        .HasForeignKey("AuthorIdConcernedId");
+                    b.HasOne("ESC2020.Model.Users", "AuthorOpinion")
+                        .WithMany("AuthorOpinion")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ESC2020.Model.Users", "ConcernedOpinion")
+                        .WithMany("ConcernedOpinion")
+                        .HasForeignKey("ConcernedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ESC2020.Model.Election", "Election")
                         .WithMany("Opinion")

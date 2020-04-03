@@ -19,6 +19,7 @@ import localeFr from '@angular/common/locales/fr';
 import { MyAccountPageComponent } from './MyAccountPage/myAccountPage.component';
 import { NextPhaseComponent } from './NextPhase/nextPhase.component';
 import { ObjectionsComponent } from './objections/objections.component';
+import { BonificationComponent } from './bonification/bonification.component';
 import { JoinElectionLinkComponent } from './join-election-link/joinElectionLink.component';
 
 registerLocaleData(localeFr, 'fr');
@@ -37,8 +38,9 @@ registerLocaleData(localeFr, 'fr');
     PageElectionComponent,
     MyAccountPageComponent,
     ObjectionsComponent,
+    BonificationComponent,
     NextPhaseComponent,
-        JoinElectionLinkComponent
+    JoinElectionLinkComponent
 
   ],
   imports: [
@@ -57,9 +59,9 @@ registerLocaleData(localeFr, 'fr');
         { path: 'home', component: HomeComponent},
         { path: 'page-election/:id', component: PageElectionComponent },
         { path: 'myAccountPage', component: MyAccountPageComponent },
-        { path: 'join-election-link/:id', component: JoinElectionLinkComponent }
+        { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
         { path: 'objections/:id', component: ObjectionsComponent },
-
+        { path: 'bonification/:id', component: BonificationComponent },
      
         { path: 'nextPhase', component: NextPhaseComponent}
 
