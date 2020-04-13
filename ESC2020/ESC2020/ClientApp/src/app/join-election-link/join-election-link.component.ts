@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { AuthentificationService } from '../services/authentification.service';
 import { Participant } from '../Model/Participant';
-import { Session } from '../Model/Session';
+import { Election } from '../Model/Election';
 import { Users } from '../Model/Users'
 @Component({
     selector: 'app-creation',
-    templateUrl: './joinElectionLink.component.html',
-    styleUrls: ['./joinElectionLink.component.css'],
+    templateUrl: './join-election-link.component.html',
+    styleUrls: ['./join-election-link.component.css'],
     providers: [DatePipe]
 })
 
@@ -17,7 +17,7 @@ export class JoinElectionLinkComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users;
-    private listeSessions: Session[] = [];
+    private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
 
     code: string;
@@ -41,9 +41,9 @@ export class JoinElectionLinkComponent implements OnInit {
     submit() {
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
             console.log(result);
-            this.listeSessions.push(result as Session);
+            this.listeElections.push(result as Election);
             this.service.post(window.location.origin + "/api/Participants", { 'UserId': this.connectedAccount['userId'], 'ElectionId': result['electionId'] }).subscribe(result => {
-                this.router.navigate(["mes-salons"]);
+                this.router.navigate(["my-elections"]);
                 console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));

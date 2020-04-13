@@ -1,4 +1,4 @@
-export class Session {
+export class Election {
     Id: number;
     poste: string;
     missions: string;

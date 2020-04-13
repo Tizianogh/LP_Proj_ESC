@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
-import { Session } from '../Model/Session';
+import { Election } from '../Model/Election';
 import { Users } from '../Model/Users';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
@@ -10,15 +10,15 @@ import { async } from '@angular/core/testing';
 
 @Component({
     selector: 'app-salons',
-    templateUrl: './mesSalons.component.html',
-    styleUrls: ['./mesSalons.component.css']
+    templateUrl: './my-elections.component.html',
+    styleUrls: ['./my-elections.component.css']
 })
 
-export class MesSalonsComponent implements OnInit {
+export class MyElectionsComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users;
-    private listeSessions: Session[] = [];
+    private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
 
     constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router) { }
@@ -36,51 +36,51 @@ export class MesSalonsComponent implements OnInit {
             for (let i in this.listeParticipants) {
                 this.service.get(window.location.origin + "/api/Elections/" + this.listeParticipants[i]["electionId"]).subscribe(electionresult => {
 
-                    let election : Session = electionresult as Session;
+                    let election: Election = electionresult as Election;
                     this.service.get(window.location.origin + "/api/Participants/election/" + election['electionId']).subscribe(result => {
                         let participantResult = result as Participant[];
                         election.nbParticipant = participantResult.length;
                     }, error => console.error(error));
 
-                    this.listeSessions.push(election);
+                    this.listeElections.push(election);
                     console.log(election);
                 }, error => console.error(error));
             }
         }, error => console.error(error));
     }
 
-    MesSalons() {
-        document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #430640;";
+    MesElections() {
+        document.getElementById("ongletMesElections").style.cssText = "border-bottom: 5px solid #430640;";
+        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
     }
 
-    SalonsCrees() {
-        document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #430640;";
+    ElectionsCrees() {
+        document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 5px solid #430640;";
+        document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
     }
 
-    SalonsTermines() {
-        document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 0px solid #430640;";
+    ElectionsTermines() {
+        document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 5px solid #430640;";
+        document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
     }
 
-    ajouterSalon() {
-        document.getElementById("ongletMesSalons").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletSalonsCrees").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletSalonsTermines").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletAjouterSalon").style.cssText = "border-bottom: 5px solid #430640;";
+    ajouterElections() {
+        document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+        document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 5px solid #430640;";
     }
 
-    rajouterSalon(codeInput: string) {
+    rajouterElections(codeInput: string) {
         this.service.get(window.location.origin + "/api/Elections/code/" + codeInput).subscribe(result => {
             console.log(result);
-            this.listeSessions.push(result as Session);
+            this.listeElections.push(result as Election);
             this.service.post(window.location.origin + "/api/Participants", {
                 'UserId': this.connectedAccount['userId'],
                 'ElectionId': result['electionId'],
@@ -92,6 +92,6 @@ export class MesSalonsComponent implements OnInit {
     }
 
     Navigate(id: number) {
-        this.router.navigate(['page-election/' + id]);
+        this.router.navigate(['election/' + id]);
     }
 }

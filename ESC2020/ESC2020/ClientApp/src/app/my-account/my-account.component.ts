@@ -6,10 +6,10 @@ import { AuthentificationService } from '../services/authentification.service';
 
 @Component({
     selector: 'app-accountPage',
-    templateUrl: './myAccountPage.component.html',
-    styleUrls: ['./myAccountPage.component.css']
+    templateUrl: './my-account.component.html',
+    styleUrls: ['./my-account.component.css']
 })
-export class MyAccountPageComponent implements OnInit {
+export class MyAccountComponent implements OnInit {
     private erreur = "";
     private listeUsers: Users[] = [];
     private connected: boolean;

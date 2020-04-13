@@ -43,23 +43,23 @@ h5 {
   height: 35px;
 }
 
-#link {
+/*#link {
   color: white !important;
-}
+}*/
 
-.apparait {
+/*.apparait {
   display: none;
 }
 
 .lien {
   color: white;
-}
+}*/
 
-footer {
+/*footer {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   text-align: center;
   background-color: #430640;
-}
+}*/

@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rappel',
-  templateUrl: './rappelSession.component.html',
-  styleUrls: ['./rappelSession.component.css']
+    templateUrl: './election-reminder.component.html',
+    styleUrls: ['./election-reminder.component.css']
 })
-export class RappelSessionComponent implements OnInit {
+export class ElectionReminderComponent implements OnInit {
 
   constructor(private service: HttpClient, private router: Router) { }
   poste: string;

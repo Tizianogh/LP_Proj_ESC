@@ -1,7 +1,7 @@
 <h2 id="titre" class="d-flex justify-content-center">Phase de vote</h2>
 
 <div class="row justify-content-center" id="date">
-    <div class="center-block align-self-center" *ngIf="session.hostId == connectedAccount.userId; then ThenBlock1"></div>
+    <div class="center-block align-self-center" *ngIf="election.hostId == connectedAccount.userId; then ThenBlock1"></div>
     <ng-template #ThenBlock1>
         <button class="btn btn-primary" (click)="goToNextPhase()">Terminer la phase</button>
     </ng-template>
@@ -9,7 +9,7 @@
         <div class="progress-bar ml-0" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     <div class="col-3 center-block align-self-center">
-        Date de fin de scrutin {{session.startDate |  date:'shortDate' : locale:'fr-FR'}}
+        Date de fin de scrutin {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
     </div>
 </div>
 
@@ -18,7 +18,7 @@
 <div class="participants">
     <div class="scroll">
         <div class="participant" *ngFor="let user of listeUsers">
-            <div (click)="actualParticipant(user, user.birthDate)">
+            <div (click)="actualParticipant(user, user.birthDate)"> 
                 <div (click)="changeColor(user.userId)" class="my-2">
                     <img class="participantIcon" id="{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
                     <div class="participantName" (ngInit)="Init()">
@@ -41,7 +41,7 @@
 <div class="description" id="selectParticipant">
     <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.lastName}} {{currentUser.firstName}}</b></label>
 
-    <div *ngIf="session.hostId == connectedAccount.userId && session.hostId != currentUser.userId; then ThenBlock2 else ElseBlock2"></div>
+    <div *ngIf="election.hostId == connectedAccount.userId && election.hostId != currentUser.userId; then ThenBlock2 else ElseBlock2"></div>
     <ng-template #ElseBlock2>
         <button id="exclude" type="submit" class="btn btn-primary" hidden>Exclure</button>
     </ng-template>
