@@ -24,8 +24,8 @@
                             <a class="dropdown-item" [routerLink]="['my-elections']">
                                 Accéder à mes élections
                             </a>
-                            <a class="dropdown-item" [routerLink]="['creationElection']">
-                                Créer un nouveau salon
+                            <a class="dropdown-item" [routerLink]="['create-election']">
+                                Créer une nouvelle élection
                             </a>
                         </div>
                     </li>
@@ -79,7 +79,7 @@
                         <img class="participantIcon" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" height="20" />
                     </label>
                     <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
-                        <a class="dropdown-item" [routerLink]="['myAccountPage']">Mon Compte</a>
+                        <a class="dropdown-item" [routerLink]="['my-account']">Mon Compte</a>
                         <a class="dropdown-item" [routerLink]="['']" (click)="disconnect()">Se déconnecter</a>
                     </div>
                 </ng-template>

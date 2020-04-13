@@ -109,6 +109,7 @@ export class ElectionComponent implements OnInit {
     }
 
     changeColor(userId: number) {
+        console.log(userId);
         if (userId != this.actualClickedId) {
             document.getElementById(this.actualClickedId.toString()).style.borderColor = "black";
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "3px";

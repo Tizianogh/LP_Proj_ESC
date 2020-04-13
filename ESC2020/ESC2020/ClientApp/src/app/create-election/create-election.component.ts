@@ -73,7 +73,7 @@ export class CreateElectionComponent implements OnInit {
                 }).subscribe(result => {
                     this.id = result['electionId'];
                     this.linkUsersElection(this.connectedAccount["userId"],this.id);
-                    this.router.navigate(['rappel/' + this.id]);
+                    this.router.navigate(['election-reminder/' + this.id]);
                 }, error => this.submit());
             }
             else {

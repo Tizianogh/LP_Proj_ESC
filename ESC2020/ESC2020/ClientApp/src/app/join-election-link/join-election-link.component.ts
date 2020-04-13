@@ -43,7 +43,7 @@ export class JoinElectionLinkComponent implements OnInit {
             console.log(result);
             this.listeElections.push(result as Election);
             this.service.post(window.location.origin + "/api/Participants", { 'UserId': this.connectedAccount['userId'], 'ElectionId': result['electionId'] }).subscribe(result => {
-                this.router.navigate(["mes-salons"]);
+                this.router.navigate(["my-elections"]);
                 console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));

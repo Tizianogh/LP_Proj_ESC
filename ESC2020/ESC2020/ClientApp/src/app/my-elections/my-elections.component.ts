@@ -92,6 +92,6 @@ export class MyElectionsComponent implements OnInit {
     }
 
     Navigate(id: number) {
-        this.router.navigate(['page-election/' + id]);
+        this.router.navigate(['election/' + id]);
     }
 }
