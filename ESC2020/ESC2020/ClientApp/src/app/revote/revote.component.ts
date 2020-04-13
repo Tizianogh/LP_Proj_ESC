@@ -12,12 +12,12 @@ import { Opinion } from '../Model/Opinion';
         
 
 @Component({
-    selector: 'app-election',
-    templateUrl: './election.component.html',
-    styleUrls: ['./election.component.css']
+    selector: 'app-revote',
+    templateUrl: './revote.component.html',
+    styleUrls: ['./revote.component.css']
 })
 
-export class ElectionComponent implements OnInit {
+export class RevoteComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users = new Users();
@@ -30,7 +30,7 @@ export class ElectionComponent implements OnInit {
     election: Election = new Election();
     currentParticipant: Participant = new Participant();
     scrollingItems: number[] = [];
-    actualClickedId: number = 0;
+    actualClickedId: number = 1;
 
     private listeUsers: Users[] = [];
     private liste: Users[] = [];
@@ -41,6 +41,7 @@ export class ElectionComponent implements OnInit {
 
     ngOnInit() {
         this.navBarStateService.SetIsInElection(true);
+        this.navBarStateService.SetLogsVisible(true);
         this.FetchParticipants();
     }
 
@@ -60,8 +61,6 @@ export class ElectionComponent implements OnInit {
             this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
                 this.listeParticipants = participantResult as Participant[];
                 this.listeParticipants.forEach((participant) => {
-                    this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-
                     this.FetchUser(participant);
                 });
             }, error => console.error(error));
@@ -109,29 +108,23 @@ export class ElectionComponent implements OnInit {
     }
 
     changeColor(userId: number) {
-        console.log()
-        if (this.actualClickedId == 0) {
-            this.actualClickedId = userId
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
-        }
-        else if (userId != this.actualClickedId) {
+        console.log(userId);
+        if (userId != this.actualClickedId) {
             document.getElementById(this.actualClickedId.toString()).style.borderColor = "black";
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "3px";
 
             this.actualClickedId = userId
             document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
-        }
-        else {
+        } else {
             document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
         }
     }
 
-    Vote() {
-        //génération d'une opinion Vote (id du type : 1 = opinion de type vote)
-        this.service.get(window.location.origin + "/api/TypeOpinions/1").subscribe(result => {
+    Revote() {
+        //génération d'une opinion Vote (id du type : 3 = opinion de type revote)
+        this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
             this.type = result as TypeOpinion;
             this.service.post(window.location.origin + "/api/Opinions", {
                 'AuthorId': this.connectedAccount["userId"],
@@ -166,8 +159,6 @@ export class ElectionComponent implements OnInit {
 
             }, error => console.log(error));
         }, error => console.log(error));
-
-        
     }
 
     Exclude(currentUserId: number) {
@@ -189,7 +180,7 @@ export class ElectionComponent implements OnInit {
                 }, error => console.log(error));
             }
 
-            this.router.navigate(['revote/'+this.election['electionId']]);
+            this.router.navigate(['objections/'+this.election['electionId']]);
         }, error => console.error(error));
     }
 }

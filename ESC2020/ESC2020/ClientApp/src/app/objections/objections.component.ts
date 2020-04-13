@@ -38,9 +38,7 @@ export class ObjectionsComponent implements OnInit {
     objectionsList: Opinion[] = [];
     propositions: Proposition[] = [];
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-        
-    }
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {}
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -100,7 +98,10 @@ export class ObjectionsComponent implements OnInit {
                     if (this.getParticipant(this.usersList[i]['userId'])['proposable']) {
                         this.propositions.push(new Proposition(this.usersList[i]['userId'], 0));
                         for (let j in this.opinionsList) {
-                            if (this.opinionsList[j]['typeId'] == 1) {
+                            //Comptabilise tous les revotes et les votes qui n'ont pas de revotes du meme auteur
+                            console.log("Verifie si un revote existe "+this.opinionsList.find(anOpinion => anOpinion.TypeId == 2 && anOpinion.AuthorId == this.opinionsList[j].AuthorId));
+                            //console.log(this.opinionsList.find(anOpinion => anOpinion['typeId'] == 2 && anOpinion['authorId'] == this.opinionsList[j]['authorId']));
+                            if (this.opinionsList[j]['typeId'] == 2 || (this.opinionsList[j]['typeId'] == 1 && (this.opinionsList.find(anOpinion => anOpinion.TypeId == 2 && anOpinion.AuthorId==this.opinionsList[j].AuthorId)) == undefined)) {
                                 if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
                                     console.log("juste avant" + this.propositions[i]);
                                     if (this.propositions[i] != null) {

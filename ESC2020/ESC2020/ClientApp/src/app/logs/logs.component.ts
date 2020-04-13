@@ -134,6 +134,20 @@ export class LogsComponent implements OnInit {
                         }, error => console.error(error));
                     }, error => console.error(error));
                 }
+                else if (this.allListOpinion[i]['typeId'] == 3) {
+                    //revote
+                    let objecting: Users;
+                    let objected: Users;
+                    this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['authorId']).subscribe(result => {
+                        objecting = result as Users;
+                        this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['concernedId']).subscribe(result => {
+                            objected = result as Users;
+                            let datePubli: string = this.allListOpinion[i]['dateOpinion'];
+                            this.votePush(objecting["firstName"] + " " + objecting["lastName"] + " a modifié son vote afin de voter pour " + objected["firstName"] + " " + objected["lastName"],
+                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 5));
+                        }, error => console.error(error));
+                    }, error => console.error(error));
+                }
             }
         }, error => console.error(error));
     }
