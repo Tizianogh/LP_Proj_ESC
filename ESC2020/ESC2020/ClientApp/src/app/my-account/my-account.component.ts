@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
+import { formatDate, DatePipe } from '@angular/common';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class MyAccountComponent implements OnInit {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    modifyProfile() {
+    modifyProfile() {        
         //si l'utilisateur a terminé la modification de ses informations
         if (!this.isReadOnly) {
             //verifier si les modifications sont valides
@@ -43,13 +44,14 @@ export class MyAccountComponent implements OnInit {
                     'Email': userResult['email'],
                     'Password': userResult['password'],
                     'Salt': userResult['salt'],
-                    'BirthDate': userResult['birthDate'],
+                    'BirthDate': (<HTMLInputElement>document.getElementById("birthDate")).value,//form['birthDate'],//userResult['birthDate'],
                     'Description': (<HTMLInputElement>document.getElementById("description")).value,
                     'Job': (<HTMLInputElement>document.getElementById("job")).value,
                     'LastName': (<HTMLInputElement>document.getElementById("lastName")).value,
                     'FirstName': (<HTMLInputElement>document.getElementById("firstName")).value,
                     'Avatar': userResult['avatar']
                 }).subscribe(result => {
+                    
                     this.actualize();
                 }, error => console.log(error));
             }, error => console.log(error));
@@ -61,7 +63,7 @@ export class MyAccountComponent implements OnInit {
         }
         this.isReadOnly = !this.isReadOnly;
     }
-
+    /*
     onFileSelected(event) {
         if (event.target.files.length > 0) {
 
@@ -69,7 +71,7 @@ export class MyAccountComponent implements OnInit {
 
 
 
-        }
+        }*/
 
         //if (event.target.files && event.target.files[0]) {
         //    console.log("yes");
@@ -87,7 +89,7 @@ export class MyAccountComponent implements OnInit {
         //    console.log(newFile)
         //    this.service.upload(newFile).subscribe()
         //}
-    }
+        //  }
 
     verifyProfile() {
        

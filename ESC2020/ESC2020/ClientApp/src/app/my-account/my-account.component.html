@@ -58,7 +58,9 @@
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="firstName">
 
             <label class="section">Date de naissance</label>
-            <input class="form-control" type="text" value="{{connectedAccount.birthDate |  date:'shortDate' : locale:'fr-FR'}}" [readonly]="isReadOnly"
+            <!--<input class="form-control" type="text" value="{{connectedAccount.birthDate |  date:'shortDate' : locale:'fr-FR'}}" [readonly]="isReadOnly"
+            [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">-->
+            <input id="birthDate" class="form-control" type="date" value="{{connectedAccount.birthDate |  date:'yyyy-MM-dd' : locale:'fr-FR'}}" [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">
 
             <label class="section">Poste</label>
@@ -96,10 +98,10 @@
             <br />
 
             <label class="section" #avatar>Ma photo de profil</label>
-            <br/>
+            <br />
             <img class="participantIcon" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" height="60" />
-            <br/><br/>
-            <input type="file"  class="form-control-file" id="avatar" [(ngModel)]="currentInput" (change)="onFileSelected($event)" />
+            <br /><br />
+            <input type="file" class="form-control-file" id="avatar" [(ngModel)]="currentInput" (change)="onFileSelected($event)" />
             <small id="avatarHelpBlock" class="form-text text-muted">
                 Indiquez un fichier pour modifier votre photo de profil.
             </small>
