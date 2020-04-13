@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, ViewChild, SystemJsNgModuleLoader } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
@@ -28,7 +28,6 @@ export class MyAccountComponent implements OnInit {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-
     modifyProfile() {
         //si l'utilisateur a terminé la modification de ses informations
         if (!this.isReadOnly) {
@@ -54,8 +53,40 @@ export class MyAccountComponent implements OnInit {
                     this.actualize();
                 }, error => console.log(error));
             }, error => console.log(error));
+            //console.log((<HTMLInputElement>document.getElementById("firstName")).files[0]);
+            //let b64Data = (<HTMLInputElement>document.getElementById("description")).value.split(',', 2)[1];
+            //var byteArray = new Buffer(b64Data, 'base64').toString('binary');
+            //var blob = new Blob([byteArray], { type: 'application/pdf' });
+            //console.log(blob);
         }
         this.isReadOnly = !this.isReadOnly;
+    }
+
+    onFileSelected(event) {
+        if (event.target.files.length > 0) {
+
+            console.log(event.target.files[0]);
+
+
+
+        }
+
+        //if (event.target.files && event.target.files[0]) {
+        //    console.log("yes");
+        //    let file = event.target.files[0];
+        //    let newFile;
+        //    let fr = new FileReader();
+        //    fr.onload = (event: any) => {
+        //        let base64 = event.target.result
+        //        let img = base64.split(',')[1]
+        //        let blob = new Blob([window.atob(img)], { type: 'image/jpeg' })
+        //        newFile = this.blobToFile(blob, 'test')
+        //    }
+        //    fr.readAsDataURL(file)
+        //    console.log(file)
+        //    console.log(newFile)
+        //    this.service.upload(newFile).subscribe()
+        //}
     }
 
     verifyProfile() {
@@ -76,7 +107,7 @@ export class MyAccountComponent implements OnInit {
             localStorage.clear();
             localStorage.setItem('connectedUser', JSON.stringify(update));
             this.authentificationService.setConnectedAccount(JSON.parse(localStorage.getItem('connectedUser')));
-
+            /*
             let updateUser: Users = update as Users;
             this.service.put<Users>(window.location.origin + "/api/Users/" + this.connectedAccount['userId'], {
                 'UserId': updateUser['userId'],
@@ -89,7 +120,7 @@ export class MyAccountComponent implements OnInit {
                 'LastName': (<HTMLInputElement>document.getElementById("lastName")).value,
                 'FirstName': (<HTMLInputElement>document.getElementById("firstName")).value,
                 'Avatar': updateUser['avatar']
-            })
+            })*/
         }, error => console.log(error));
     }
 }
