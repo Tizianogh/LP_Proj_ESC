@@ -1,4 +1,4 @@
-<h2 id="titre" class="d-flex justify-content-center">Phase de vote</h2>
+<h2 id="titre">Phase de vote</h2>
 
 <div class="row justify-content-center" id="date">
     <div class="center-block align-self-center" *ngIf="election.hostId == connectedAccount.userId; then ThenBlock1"></div>
@@ -20,7 +20,7 @@
         <div class="participant" *ngFor="let user of listeUsers">
             <div (click)="actualParticipant(user, user.birthDate)"> 
                 <div (click)="changeColor(user.userId)" class="my-2">
-                    <img class="participantIcon" id="{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
+                    <img class="participantIcon" id="userId{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
                     <div class="participantName" (ngInit)="Init()">
                         {{user.firstName}} {{user.lastName}}
 

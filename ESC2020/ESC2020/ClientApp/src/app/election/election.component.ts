@@ -109,24 +109,14 @@ export class ElectionComponent implements OnInit {
     }
 
     changeColor(userId: number) {
-        console.log()
-        if (this.actualClickedId == 0) {
-            this.actualClickedId = userId
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
-        }
-        else if (userId != this.actualClickedId) {
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "black";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "3px";
+        Array.from(document.getElementsByClassName("participantIcon")).forEach((participant) => {
+            let el = participant as HTMLElement;
+            el.style.borderColor = "black";
+            el.style.borderWidth = "3px";
+        });
 
-            this.actualClickedId = userId
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
-        }
-        else {
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
-        }
+        document.getElementById(("userId") + userId.toString()).style.borderColor = "#640a60";
+        document.getElementById(("userId") + userId.toString()).style.borderWidth = "5px";
     }
 
     Vote() {
@@ -138,7 +128,7 @@ export class ElectionComponent implements OnInit {
                 'ConcernedId': this.currentUser["userId"],
                 'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
                 'TypeId': this.type["typeId"],
-                'Date': Date.now(),
+                'DateOpinion': new Date,
                 'ElectionId': this.election['electionId']
             }).subscribe(result => {
             }, error => console.log(error));
@@ -185,10 +175,8 @@ export class ElectionComponent implements OnInit {
                     "HasTalked": false,
                     "Proposable": this.listeParticipants[i]['proposable']
                 }).subscribe(result => {
-                    
                 }, error => console.log(error));
             }
-
             this.router.navigate(['revote/'+this.election['electionId']]);
         }, error => console.error(error));
     }

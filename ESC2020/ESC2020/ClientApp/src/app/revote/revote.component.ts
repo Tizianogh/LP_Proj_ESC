@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
-        
+
 
 @Component({
     selector: 'app-revote',
@@ -55,24 +55,65 @@ export class RevoteComponent implements OnInit {
 
         await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
             this.election = result as Election;
+            this.setSubTitle();
             this.navBarStateService.SetNavState(this.election['job']);
 
             //récupérer la liste des participants en fonction de l'id d'une élection
-            this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-                this.listeParticipants = participantResult as Participant[];
+            this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participants => {
+
+                this.listeParticipants = participants as Participant[];
+                this.listeParticipants.sort((p1, p2) => {
+                    if (p1['userId'] > p2['userId']) {
+                        return 1;
+                    }
+                    if (p1['userId'] < p2['userId']) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                console.log(this.listeParticipants);
+
                 this.listeParticipants.forEach((participant) => {
+                    console.log(participant);
                     this.FetchUser(participant);
                 });
             }, error => console.error(error));
         }, error => console.error(error));
     }
 
+    setSubTitle() {
+        this.service.get(window.location.origin + "/api/Opinions/election/" + this.electionId).subscribe(result => {
+            let opinion: Opinion[] = result as Opinion[];
+            console.log(opinion);
+
+            opinion.sort((l1, l2) => {
+                if (l1['dateOpinion'] > l2['dateOpinion']) {
+                    return -1;
+                }
+                if (l1['dateOpinion'] < l2['dateOpinion']) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            console.log(opinion);
+
+
+            console.log(opinion[0]["concernedId"]);
+
+            this.service.get(window.location.origin + "/api/Users/" + opinion[0]["concernedId"]).subscribe(result => {
+                console.log(result['firstName'] + ' ' + result['lastName']);
+                document.getElementById("sous-titre").innerText += ' ' + result['firstName'] + ' ' + result['lastName'];
+            }, error => console.error(error));
+
+        }, error => console.error(error));
+    }
+
     async FetchUser(participant: Participant) {
         await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
             let user: Users = userResult as Users;
-
-            console.log(this.listeParticipants.find(p => p['userId'] == user['userId']));
             this.listeUsers.push(userResult as Users);
+            console.log(this.listeUsers);
         }, error => console.error(error));
     }
 
@@ -108,18 +149,15 @@ export class RevoteComponent implements OnInit {
     }
 
     changeColor(userId: number) {
-        console.log(userId);
-        if (userId != this.actualClickedId) {
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "black";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "3px";
 
-            this.actualClickedId = userId
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
-        } else {
-            document.getElementById(this.actualClickedId.toString()).style.borderColor = "#640a60";
-            document.getElementById(this.actualClickedId.toString()).style.borderWidth = "5px";
-        }
+        Array.from(document.getElementsByClassName("participantIcon")).forEach((participant) => {
+            let el = participant as HTMLElement;
+            el.style.borderColor = "black";
+            el.style.borderWidth = "3px";
+        });
+
+        document.getElementById(("userId") + userId.toString()).style.borderColor = "#640a60";
+        document.getElementById(("userId") + userId.toString()).style.borderWidth = "5px";
     }
 
     Revote() {
@@ -131,7 +169,7 @@ export class RevoteComponent implements OnInit {
                 'ConcernedId': this.currentUser["userId"],
                 'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
                 'TypeId': this.type["typeId"],
-                'Date': Date.now(),
+                'DateOpinion': new Date(),
                 'ElectionId': this.election['electionId']
             }).subscribe(result => {
             }, error => console.log(error));
@@ -176,11 +214,11 @@ export class RevoteComponent implements OnInit {
                     "HasTalked": false,
                     "Proposable": this.listeParticipants[i]['proposable']
                 }).subscribe(result => {
-                    
+
                 }, error => console.log(error));
             }
 
-            this.router.navigate(['objections/'+this.election['electionId']]);
+            this.router.navigate(['objections/' + this.election['electionId']]);
         }, error => console.error(error));
     }
 }
