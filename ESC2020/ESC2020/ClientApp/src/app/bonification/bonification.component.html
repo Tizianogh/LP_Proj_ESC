@@ -1,49 +1,57 @@
-﻿<div class="proposedUser">
-    
-
-        <div *ngIf="isElectedNotNull; then canChoose else cantChoose"></div>
-        <ng-template #canChoose>
-            <p class="intro">
-                La personne élue est : 
-            </p>
-            <div class="profile-userpic">
-                <img class="img-responsive" id="proposedIcon" src="data:image/png;base64,{{actualElected['avatar']}}" height="120" />
+﻿    <div class="container text-center">
+        <div class="row">
+            <div class="col-sm-5">
+                <p class="intro">
+                    Détails de l'élection : <br /><br />
+                    poste : {{election.job}} <br />
+                    mission : {{election.mission}} <br />
+                    responsabilité : {{election.responsability}}
+                </p>
             </div>
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">
-                    {{actualElected['firstName']}} {{actualElected['lastName']}}
-                </div>
 
-
-                <div>
-                    <div *ngIf="connectedAccount.userId == actualElected['userId']; then show else dontShow"></div>
-                    <ng-template #show>
-                        <p class="intro">
-                            Acceptez vous votre nouveau rôle ?
-                        </p>
-                        <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Si vous refusez, merci de nous expliquer pourquoi..." rows="4"></textarea> <br />
-                        <div class="col text-center">
-                            <button type="submit" class="btn btn-success mr-5" (click)="celebration()">Accepter</button>
-                            <button type="submit" class="btn btn-danger ml-5" (click)="refus()">Refuser</button>
-                            <br />
-                            <br />
+            <div class="col-sm-5">
+                <div *ngIf="isElectedNotNull; then canChoose else cantChoose"></div>
+                <ng-template #canChoose>
+                    <p class="intro">
+                        La personne élue est :
+                    </p>
+                    <div class="profile-userpic">
+                        <img class="img-responsive" id="proposedIcon" src="data:image/png;base64,{{actualElected['avatar']}}" height="120" />
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {{actualElected['firstName']}} {{actualElected['lastName']}}
                         </div>
-                    </ng-template>
-                    <ng-template #dontShow>
-                        <div class="col text-center">
-                            <p class="intro">
-                                Nous attendons la réponse finale de {{actualElected['firstName']}}, pour le poste de {{election.job}}
+
+
+                        <div *ngIf="connectedAccount.userId == actualElected['userId']; then show else dontShow"></div>
+                        <ng-template #show>
+                            <p class="intro mt-5">
+                                Acceptez vous votre nouveau rôle ?
                             </p>
-                        </div>
-                    </ng-template>
-                </div>
+                            <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Si vous refusez, merci de nous expliquer pourquoi..." rows="4"></textarea> <br />
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-success mr-5" (click)="celebration()">Accepter</button>
+                                <button type="submit" class="btn btn-danger ml-5" (click)="refus()">Refuser</button>
+                                <br />
+                                <br />
+                            </div>
+                        </ng-template>
+                        <ng-template #dontShow>
+                            <div class="col text-center">
+                                <p class="intro">
+                                    Nous attendons la réponse finale de {{actualElected['firstName']}}, pour le poste de {{election.job}}
+                                </p>
+                            </div>
+                        </ng-template>
+                        
+                    </div>
+                </ng-template>
+                <ng-template #cantChoose>
+                    <div class="col text-center">
+                        Aucun participant n'a été élu !
+                    </div>
+                </ng-template>
             </div>
-        </ng-template>
-        <ng-template #cantChoose>
-            <div class="col text-center">
-                Aucun participant n'a été élu !
-            </div>
-        </ng-template>
-
-    
-</div>
+        </div>
+    </div>

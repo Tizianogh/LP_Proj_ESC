@@ -17,6 +17,7 @@ import { ElectionComponent } from './election/election.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MyAccountComponent } from './my-account/my-account.component';
+import { CelebrationComponent } from './celebration/celebration.component';
 import { NextPhaseComponent } from './next-phase/next-phase.component';
 import { ObjectionsComponent } from './objections/objections.component';
 import { BonificationComponent } from './bonification/bonification.component';
@@ -25,48 +26,50 @@ import { JoinElectionLinkComponent } from './join-election-link/join-election-li
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
+    declarations: [
+        AppComponent,
+        NavMenuComponent,
+        HomeComponent,
+        CounterComponent,
+        FetchDataComponent,
         CreateElectionComponent,
-    LogsComponent,
+        LogsComponent,
         ElectionReminderComponent,
-    MyElectionsComponent,
-    ElectionComponent,
-    MyAccountComponent,
-    ObjectionsComponent,
-    BonificationComponent,
-    NextPhaseComponent,
-    JoinElectionLinkComponent
+        MyElectionsComponent,
+        ElectionComponent,
+        MyAccountComponent,
+        ObjectionsComponent,
+        BonificationComponent,
+        NextPhaseComponent,
+        CelebrationComponent,
+        JoinElectionLinkComponent
 
-  ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([
-        { path: '', component: HomeComponent, pathMatch: 'full' },
-        { path: 'counter', component: CounterComponent },
-        { path: 'fetch-data', component: FetchDataComponent },
-        { path: 'create-election', component: CreateElectionComponent },
-        { path: 'logs/:id', component: LogsComponent },
-        { path: 'election-reminder/:id', component: ElectionReminderComponent },
-        { path: 'my-elections', component: MyElectionsComponent },
-        { path: 'home', component: HomeComponent},
-        { path: 'election/:id', component: ElectionComponent },
-        { path: 'my-account', component: MyAccountComponent },
-        { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
-        { path: 'objections/:id', component: ObjectionsComponent },
-        { path: 'bonification/:id', component: BonificationComponent },     
-        { path: 'next-phase', component: NextPhaseComponent}
+    ],
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot([
+            { path: '', component: HomeComponent, pathMatch: 'full' },
+            { path: 'counter', component: CounterComponent },
+            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'celebration/:id', component: CelebrationComponent },
+            { path: 'create-election', component: CreateElectionComponent },
+            { path: 'logs/:id', component: LogsComponent },
+            { path: 'election-reminder/:id', component: ElectionReminderComponent },
+            { path: 'my-elections', component: MyElectionsComponent },
+            { path: 'home', component: HomeComponent },
+            { path: 'election/:id', component: ElectionComponent },
+            { path: 'my-account', component: MyAccountComponent },
+            { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
+            { path: 'objections/:id', component: ObjectionsComponent },
+            { path: 'bonification/:id', component: BonificationComponent },
+            { path: 'next-phase', component: NextPhaseComponent }
 
-    ])
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+        ])
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

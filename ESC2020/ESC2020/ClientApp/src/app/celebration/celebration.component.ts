@@ -11,18 +11,17 @@ import { NavBarStateService } from '../services/NavBarState.service';
 
 
 @Component({
-    selector: 'app-bonification',
-    templateUrl: './bonification.component.html',
-    styleUrls: ['./bonification.component.css']
+    selector: 'app-celebration',
+    templateUrl: './celebration.component.html',
+    styleUrls: ['./celebration.component.css']
 })
 
-export class BonificationComponent implements OnInit {
+export class CelebrationComponent implements OnInit {
 
     connected: boolean;
     connectedAccount: Users = new Users();
 
     election: Election = new Election();
-    isElectedNotNull: boolean = false;
     actualElected: Users = new Users();
     connectedParticipant: Participant = new Participant();
     type: TypeOpinion = new TypeOpinion();
@@ -35,7 +34,7 @@ export class BonificationComponent implements OnInit {
     objectionsList: Opinion[] = [];
 
     constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-        
+
     }
 
     ngOnInit() {
@@ -44,7 +43,7 @@ export class BonificationComponent implements OnInit {
         this.navBarStateService.SetIsInElection(true);
         this.navBarStateService.SetObjectionsVisible(true);
         this.navBarStateService.SetLogsVisible(true);
-       // setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
+        // setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
 
         this.mainRequest();
     }
@@ -80,61 +79,9 @@ export class BonificationComponent implements OnInit {
     preStart() {
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
-            this.isElectedNotNull = true;
             this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
                 this.actualElected = userResult as Users;
             }, error => console.error(error));
-        } 
+        }
     }
-
-
-    refus() {
-         // génération d'une opinion Bonification (id du type : 3 = opinion de type bonification)
-         this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
-            this.type = result as TypeOpinion;
-            this.service.post(window.location.origin + "/api/Opinions", {
-                'AuthorId': this.connectedAccount["userId"],
-                'ConcernedId': this.actualElected["userId"],
-                'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
-                'TypeId': this.type["typeId"],
-                'DateOpinion': new Date(),
-                'ElectionId': this.election['electionId']
-            }).subscribe(result => {
-                (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
-                console.log(result);
-            }, error => console.log(error));
-         }, error => console.error(error));
-
-        this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
-            "ElectionId": this.election['electionId'],
-            "Job": this.election['job'],
-            "Mission": this.election['mission'],
-            "Responsability": this.election['responsabilites'],
-            "StartDate": this.election['dateD'],
-            "EndDate": this.election['dateF'],
-            "CodeElection": this.election['codeElection'],
-            "HostId": this.election["hostId"],
-            "ElectedId": null
-        }).subscribe(result => {
-
-        }, error => console.log(error));
-
-        this.service.put(window.location.origin + "/api/Participants/" + this.actualElected['userId'] + "/" + this.election['electionId'], {
-            "UserId": this.actualElected['userId'],
-            "ElectionId": this.election['electionId'],
-            "HasTalked": false,
-            "Proposable": false
-        }).subscribe(result => {
-        }, error => console.log(error));
-
-
-        this.router.navigate(['objections/' + this.election['electionId']]);
-    }
-
-    celebration() {
-        this.router.navigate(['celebration/' + this.election['electionId']]);
-    }
-
-
-
 }
