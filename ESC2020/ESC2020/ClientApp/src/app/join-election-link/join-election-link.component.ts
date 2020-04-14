@@ -6,6 +6,7 @@ import { AuthentificationService } from '../services/authentification.service';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { Users } from '../Model/Users'
+import * as signalR from "@microsoft/signalr";
 @Component({
     selector: 'app-creation',
     templateUrl: './join-election-link.component.html',
@@ -19,9 +20,13 @@ export class JoinElectionLinkComponent implements OnInit {
     private connectedAccount: Users;
     private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
-
+    electionId: number;
     code: string;
     erreur: string;
+
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
 
     constructor(private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) { }
 
@@ -35,14 +40,16 @@ export class JoinElectionLinkComponent implements OnInit {
             console.log(this.connectedAccount);
        
           
-        
+        this.hubConnection.start().catch(err => console.log(err));
     }
 
     submit() {
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
             console.log(result);
             this.listeElections.push(result as Election);
+            this.electionId = result['electionId'];
             this.service.post(window.location.origin + "/api/Participants", { 'UserId': this.connectedAccount['userId'], 'ElectionId': result['electionId'] }).subscribe(result => {
+                this.hubConnection.send("changeParticipants", this.electionId);
                 this.router.navigate(["my-elections"]);
                 console.log(result);
             }, error => console.log(error));

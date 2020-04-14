@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { partition } from 'rxjs';
 import { async } from '@angular/core/testing';
+import * as signalR from "@microsoft/signalr";
 
 @Component({
     selector: 'app-salons',
@@ -18,8 +19,14 @@ export class MyElectionsComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users;
+    private electionId: number;
     private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
+
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
+
 
     constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router) { }
 
@@ -27,6 +34,7 @@ export class MyElectionsComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.hubConnection.start().catch(err => console.log(err));
         this.getElections()
     }
 
@@ -86,6 +94,7 @@ export class MyElectionsComponent implements OnInit {
                 'ElectionId': result['electionId'],
                 'HasTalked': false
             }).subscribe(result => {
+                this.hubConnection.send("changeParticipants",result['electionId']);
                 console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));

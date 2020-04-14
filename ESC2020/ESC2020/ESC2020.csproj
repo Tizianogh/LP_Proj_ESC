@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -39,7 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\src\app\SignalR\DataHub.cs" />
     <Compile Remove="Migrations\20200324103636_esc.cs" />
     <Compile Remove="Migrations\20200324103636_esc.Designer.cs" />
     <Compile Remove="Migrations\20200324104042_esc2020.cs" />
@@ -83,6 +83,10 @@
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.css" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.html" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Hubs\DataHub.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

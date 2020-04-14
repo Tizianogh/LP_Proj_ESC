@@ -7,9 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ESC2020.ClientApp.
-
-
+using ESC2020.Hubs;
 namespace ESC2020
 {
     public class Startup
@@ -55,10 +53,6 @@ namespace ESC2020
             }
             app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
-            app.UseSignalR(builder =>
-            {
-                builder.MapHub<DataHub>("data");
-            });
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
@@ -72,6 +66,7 @@ namespace ESC2020
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<DataHub>("/data");
             });
 
             app.UseSpa(spa =>
