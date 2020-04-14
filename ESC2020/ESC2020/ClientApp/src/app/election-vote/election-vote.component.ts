@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
@@ -11,19 +11,22 @@ import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
 import * as signalR from "@microsoft/signalr";
 
+import { ElectionService } from '../services/election.service';
+import { Phase } from '../Model/Phase';
+
 
 
 @Component({
-    selector: 'app-election',
-    templateUrl: './election.component.html',
-    styleUrls: ['./election.component.css']
+    selector: 'app-election-vote',
+    templateUrl: './election-vote.component.html',
+    styleUrls: ['./election-vote.component.css'],
+
 })
 
-export class ElectionComponent implements OnInit {
+export class ElectionVoteComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users = new Users();
-    private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = []
 
@@ -41,9 +44,13 @@ export class ElectionComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
+    constructor(private service: HttpClient, private router: Router, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
+        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
+        this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+
         this.navBarStateService.SetIsInElection(true);
         this.FetchParticipants();
         this.setOnSignalReceived();
@@ -241,8 +248,25 @@ export class ElectionComponent implements OnInit {
                 }).subscribe(result => {
                 }, error => console.log(error));
             }
+            let phase: Phase = new Phase();
+            this.service.get(window.location.origin + "/api/Phases/2").subscribe(phaseResult => {
+                phase = phaseResult as Phase;
 
-            this.hubConnection.send("endVote", Number(this.electionId));
+                this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+                    "ElectionId": this.election['electionId'],
+                    "Job": this.election['job'],
+                    "Mission": this.election['mission'],
+                    "Responsability": this.election['responsability'],
+                    "StartDate": this.election['startDate'],
+                    "EndDate": this.election['endDate'],
+                    "CodeElection": this.election['codeElection'],
+                    "HostId": this.election["hostId"],
+                    "ElectedId": null,
+                    "ElectionPhaseId": phase['phaseId']
+                }).subscribe(result => {
+                    this.hubConnection.send("endVote", Number(this.electionId));
+                }, error => console.log(error));
+            });
         }, error => console.error(error));
     }
 }

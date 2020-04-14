@@ -59,8 +59,6 @@ namespace ESC2020.Controllers
         {
             if ((userId != participant.UserId) && (electionId != participant.ElectionId))
             {
-                Debug.WriteLine("Not found 1" + participant.UserId.ToString() + participant.ElectionId.ToString());
-
                 return BadRequest();
             }
 
@@ -75,12 +73,10 @@ namespace ESC2020.Controllers
                 Debug.WriteLine("");
                 if (!ParticipantExists(userId, electionId))
                 {
-                    Debug.WriteLine("Not found 2");
                     return NotFound();
                 }
                 else
                 {
-                    Debug.WriteLine("Not found 3");
                     throw;
                 }
             }
