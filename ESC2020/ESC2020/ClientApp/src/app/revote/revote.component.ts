@@ -48,8 +48,7 @@ export class RevoteComponent implements OnInit {
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
         //Récupérer l'id de l'élection actuelle à partir de l'url
-        let regexp: RegExp = /\d/;
-        this.electionId = regexp.exec(this.router.url)[0];
+        this.electionId = this.router.url.split("/")[2];
 
         await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
             this.election = result as Election;

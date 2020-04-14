@@ -53,8 +53,7 @@ export class ObjectionsComponent implements OnInit {
 
     mainRequest() {
         //Récupérer l'id de l'élection actuelle à partir de l'url
-        let regexp: RegExp = /\d/;
-        let electionId = regexp.exec(this.router.url)[0];
+        let electionId = this.router.url.split("/")[2];
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
             this.election = result as Election;
             this.navBarStateService.SetNavState(this.election['job']);
@@ -88,23 +87,29 @@ export class ObjectionsComponent implements OnInit {
     }
 
     startCounting() {
+        //Recupere les "Users" de l'"Election" actuelle
         this.service.get(window.location.origin + "/api/Users/election/" + this.election['electionId']).subscribe(userResult => {
             this.usersList = userResult as Users[];
-            //Recuperer toutes les opinions de cette election et comptabilisation des votes
+            console.log(this.usersList);
+            //Recuperer toutes les "Opinions" de cette "Election" et comptabilisation des votes
             this.service.get(window.location.origin + "/api/Opinions/election/" + this.election['electionId']).subscribe(result => {
                 this.opinionsList = result as Opinion[];
+
+                //Pour chaque "Users" qui est "Propasable=true" crée une "Proposition" dans le tableau "propositions"
                 for (let i in this.usersList) {
+                    console.log(this.getParticipant(this.usersList[i]['userId'])['proposable']);
                     if (this.getParticipant(this.usersList[i]['userId'])['proposable']) {
                         this.propositions.push(new Proposition(this.usersList[i]['userId'], 0));
+                        //Pour chaque "Opinions"
                         for (let j in this.opinionsList) {
                             //Comptabilise tous les revotes et les votes qui n'ont pas de revotes du meme auteur
-                            console.log("Verifie si un revote existe "+this.opinionsList.find(anOpinion => anOpinion.TypeId == 2 && anOpinion.AuthorId == this.opinionsList[j].AuthorId));
-                            //console.log(this.opinionsList.find(anOpinion => anOpinion['typeId'] == 2 && anOpinion['authorId'] == this.opinionsList[j]['authorId']));
-                            if (this.opinionsList[j]['typeId'] == 1 || (this.opinionsList[j]['typeId'] == 1 && (this.opinionsList.find(anOpinion => anOpinion.TypeId == 3 && anOpinion.AuthorId==this.opinionsList[j].AuthorId)) == undefined)) {
+                            console.log(this.opinionsList.find(anOpinion => anOpinion['typeId'] == 3 && anOpinion['authorId'] == this.opinionsList[j]['authorId']));
+                            if (this.opinionsList[j]['typeId'] == 3 || (this.opinionsList[j]['typeId'] == 1 && (this.opinionsList.find(anOpinion => anOpinion['typeId'] == 3 && anOpinion['authorId'] == this.opinionsList[j]['authorId'])) == undefined)) {
                                 if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
-                                    console.log("juste avant" + this.propositions[i]);
+                                    console.log("juste avant" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
                                     if (this.propositions[i] != null) {
                                         this.propositions[i].VoteCounter++;
+                                        console.log("juste après" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
                                     }
                                 }
                             }
