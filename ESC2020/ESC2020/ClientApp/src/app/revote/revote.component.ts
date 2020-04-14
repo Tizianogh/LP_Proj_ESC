@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
+import { isUndefined } from 'util';
 
 
 @Component({
@@ -24,16 +25,13 @@ export class RevoteComponent implements OnInit {
     private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = []
-    opinionsList: Opinion[] = [];
 
     currentUser: Users = new Users();
     election: Election = new Election();
     currentParticipant: Participant = new Participant();
     scrollingItems: number[] = [];
-    actualClickedId: number = 1;
 
     private listeUsers: Users[] = [];
-    private liste: Users[] = [];
 
     age: number;
 
@@ -62,19 +60,7 @@ export class RevoteComponent implements OnInit {
             this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participants => {
 
                 this.listeParticipants = participants as Participant[];
-                this.listeParticipants.sort((p1, p2) => {
-                    if (p1['userId'] > p2['userId']) {
-                        return 1;
-                    }
-                    if (p1['userId'] < p2['userId']) {
-                        return -1;
-                    }
-                    return 0;
-                });
-                console.log(this.listeParticipants);
-
                 this.listeParticipants.forEach((participant) => {
-                    console.log(participant);
                     this.FetchUser(participant);
                 });
             }, error => console.error(error));
@@ -84,8 +70,6 @@ export class RevoteComponent implements OnInit {
     setSubTitle() {
         this.service.get(window.location.origin + "/api/Opinions/election/" + this.electionId).subscribe(result => {
             let opinion: Opinion[] = result as Opinion[];
-            console.log(opinion);
-
             opinion.sort((l1, l2) => {
                 if (l1['dateOpinion'] > l2['dateOpinion']) {
                     return -1;
@@ -95,37 +79,42 @@ export class RevoteComponent implements OnInit {
                 }
                 return 0;
             });
-
-            console.log(opinion);
-
-
-            console.log(opinion[0]["concernedId"]);
-
-            this.service.get(window.location.origin + "/api/Users/" + opinion[0]["concernedId"]).subscribe(result => {
-                console.log(result['firstName'] + ' ' + result['lastName']);
-                document.getElementById("sous-titre").innerText += ' ' + result['firstName'] + ' ' + result['lastName'];
-            }, error => console.error(error));
-
+            if (isUndefined(opinion[0])) {
+                document.getElementById("sous-titre").innerText += ' aucun candidat';
+            }
+            else {
+                this.service.get(window.location.origin + "/api/Users/" + opinion[0]["concernedId"]).subscribe(result => {
+                    document.getElementById("sous-titre").innerText += ' ' + result['firstName'] + ' ' + result['lastName'];
+                }, error => console.error(error));
+            }
         }, error => console.error(error));
     }
 
     async FetchUser(participant: Participant) {
         await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            let user: Users = userResult as Users;
             this.listeUsers.push(userResult as Users);
-            console.log(this.listeUsers);
+            this.listeUsers.sort((u1, u2) => {
+                if (u1['userId'] > u2['userId']) {
+                    return -1;
+                }
+                if (u1['userId'] < u2['userId']) {
+                    return 1;
+                }
+                return 0;
+            });
         }, error => console.error(error));
     }
 
     HasUserTalked(user: Users): boolean {
-        let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
-
-        return participant['hasTalked'];
+        try {
+            let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
+            return participant['hasTalked'];
+        }
+        catch (e) {}
     }
 
     actualParticipant(user: Users, birthDate: string) {
         document.getElementById("selectParticipant").style.visibility = "visible";
-
         this.ageCalculation(birthDate);
         this.currentUser = user;
     }
@@ -133,7 +122,6 @@ export class RevoteComponent implements OnInit {
     private ageCalculation(birthDate: string) {
         const currentDate: Date = new Date();
         const BirthDate: Date = new Date(birthDate);
-
         var Age: number = currentDate.getFullYear() - BirthDate.getFullYear() - 1;
 
         if (currentDate.getMonth() > BirthDate.getMonth()) {
@@ -144,18 +132,15 @@ export class RevoteComponent implements OnInit {
                 Age++;
             }
         }
-
         this.age = Age;
     }
 
     changeColor(userId: number) {
-
         Array.from(document.getElementsByClassName("participantIcon")).forEach((participant) => {
             let el = participant as HTMLElement;
             el.style.borderColor = "black";
             el.style.borderWidth = "3px";
         });
-
         document.getElementById(("userId") + userId.toString()).style.borderColor = "#640a60";
         document.getElementById(("userId") + userId.toString()).style.borderWidth = "5px";
     }
@@ -194,7 +179,6 @@ export class RevoteComponent implements OnInit {
                 "HasTalked": participantResult['hasTalked'],
                 "Proposable": true
             }).subscribe(result => {
-
             }, error => console.log(error));
         }, error => console.log(error));
     }
@@ -214,10 +198,8 @@ export class RevoteComponent implements OnInit {
                     "HasTalked": false,
                     "Proposable": this.listeParticipants[i]['proposable']
                 }).subscribe(result => {
-
                 }, error => console.log(error));
             }
-
             this.router.navigate(['objections/' + this.election['electionId']]);
         }, error => console.error(error));
     }

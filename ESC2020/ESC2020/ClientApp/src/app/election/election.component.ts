@@ -24,16 +24,13 @@ export class ElectionComponent implements OnInit {
     private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = []
-    opinionsList: Opinion[] = [];
 
     currentUser: Users = new Users();
     election: Election = new Election();
     currentParticipant: Participant = new Participant();
     scrollingItems: number[] = [];
-    actualClickedId: number = 0;
 
     private listeUsers: Users[] = [];
-    private liste: Users[] = [];
 
     age: number;
 
@@ -61,7 +58,6 @@ export class ElectionComponent implements OnInit {
                 this.listeParticipants = participantResult as Participant[];
                 this.listeParticipants.forEach((participant) => {
                     this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-
                     this.FetchUser(participant);
                 });
             }, error => console.error(error));
@@ -70,22 +66,29 @@ export class ElectionComponent implements OnInit {
 
     async FetchUser(participant: Participant) {
         await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            let user: Users = userResult as Users;
-
-            console.log(this.listeParticipants.find(p => p['userId'] == user['userId']));
             this.listeUsers.push(userResult as Users);
+            this.listeUsers.sort((u1, u2) => {
+                if (u1['userId'] > u2['userId']) {
+                    return -1;
+                }
+                if (u1['userId'] < u2['userId']) {
+                    return 1;
+                }
+                return 0;
+            });
         }, error => console.error(error));
     }
 
     HasUserTalked(user: Users): boolean {
-        let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
-
-        return participant['hasTalked'];
+        try {
+            let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
+            return participant['hasTalked'];
+        }
+        catch (e) {}
     }
 
     actualParticipant(user: Users, birthDate: string) {
         document.getElementById("selectParticipant").style.visibility = "visible";
-
         this.ageCalculation(birthDate);
         this.currentUser = user;
     }
@@ -93,7 +96,6 @@ export class ElectionComponent implements OnInit {
     private ageCalculation(birthDate: string) {
         const currentDate: Date = new Date();
         const BirthDate: Date = new Date(birthDate);
-
         var Age: number = currentDate.getFullYear() - BirthDate.getFullYear() - 1;
 
         if (currentDate.getMonth() > BirthDate.getMonth()) {
@@ -104,7 +106,6 @@ export class ElectionComponent implements OnInit {
                 Age++;
             }
         }
-
         this.age = Age;
     }
 
@@ -153,11 +154,8 @@ export class ElectionComponent implements OnInit {
                 "HasTalked": participantResult['hasTalked'],
                 "Proposable": true
             }).subscribe(result => {
-
             }, error => console.log(error));
         }, error => console.log(error));
-
-        
     }
 
     Exclude(currentUserId: number) {
