@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 import { FunctionCall } from '@angular/compiler';
 import { FormsModule } from '@angular/forms';
 import { NavBarStateService } from '../services/NavBarState.service';
-
+import * as signalR from "@microsoft/signalr";
 
 @Component({
     selector: 'app-election',
@@ -37,6 +37,9 @@ export class ObjectionsComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
     propositions: Proposition[] = [];
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
 
     constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {}
 
@@ -46,13 +49,47 @@ export class ObjectionsComponent implements OnInit {
         this.navBarStateService.SetIsInElection(true);
         this.navBarStateService.SetObjectionsVisible(true);
         this.navBarStateService.SetLogsVisible(true);
-        setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
 
+        this.setOnSignalReceived();
+
+        this.hubConnection.start().catch(err => console.log(err));
         this.mainRequest();
+    }
+
+    setOnSignalReceived() {
+
+        this.hubConnection.on("nextParticipant", (electionId : number) => {
+            if (electionId == this.election["electionId"]) {
+                this.mainRequest();
+            }
+        });
+
+        this.hubConnection.on("updateObjections", (electionId: number) => {
+            if (electionId == this.election["electionId"]) {
+                this.getObjections();
+            }
+         
+        });
+
+        this.hubConnection.on("validateCandidature", (electionId: number) => {
+            if (electionId == this.election["electionId"]) {
+                this.router.navigate(['bonification/' + this.election['electionId']]);
+            }
+
+        });
     }
 
     mainRequest() {
         //Récupérer l'id de l'élection actuelle à partir de l'url
+        this.actualProposed = new Users();
+        this.participantsList = [];
+        this.opinionsList = [];
+        this.usersList = [];
+        this.objectionsList = [];
+        this.propositions = [];
+
+     
+     
         let electionId = this.router.url.split("/")[2];
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
             this.election = result as Election;
@@ -125,6 +162,7 @@ export class ObjectionsComponent implements OnInit {
                         this.actualProposed = this.usersList[i];
                     }
                 }
+                this.getObjections();
             });
         }, error => console.error(error));
     }
@@ -165,7 +203,7 @@ export class ObjectionsComponent implements OnInit {
                 'ElectionId': this.election['electionId']
             }).subscribe(result => {
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
-                console.log(result);
+                this.hubConnection.send("updateObjections", this.election["electionId"]);
             }, error => console.log(error));
         }, error => console.error(error));
     }
@@ -217,7 +255,7 @@ export class ObjectionsComponent implements OnInit {
                 }
             }
 
-            this.updateParticipantForVote()
+            this.updateParticipantForVote();
 
 
         }, error => console.log(error));
@@ -239,10 +277,15 @@ export class ObjectionsComponent implements OnInit {
                     "HasTalked": false,
                     "Proposable": this.participantsList[i]["proposable"]
                 }).subscribe(result => {
-
+                    this.sendNextSignal();
                 }, error => console.log(error));
             }
+           
         }, error => console.error(error));
+    }
+
+    sendNextSignal() {
+        this.hubConnection.send("nextParticipant", this.election["electionId"]);
     }
 
     acceptCandidate() {
@@ -264,7 +307,8 @@ export class ObjectionsComponent implements OnInit {
                 "HasTalked": false,
                 "Proposable": true
             }).subscribe(result => {
-                this.router.navigate(['bonification/' + this.election['electionId']]);
+                this.hubConnection.send("validateCandidature", this.election['electionId']);
+                
             }, error => console.log(error));
         }, error => console.log(error));
     }

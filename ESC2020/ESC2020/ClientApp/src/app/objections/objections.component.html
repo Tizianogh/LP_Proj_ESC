@@ -1,4 +1,3 @@
-
 <div class="proposedUser">
     <p class="intro">
         Pour le poste de {{ this.election['job'] }}, candidat actuel :
@@ -29,8 +28,7 @@
                 </div>
             </ng-template>
         </div>
-        <div *ngIf="host; then thenBlock else elseBlock"></div>
-        <ng-template #thenBlock>
+        
             <div class="col text-center">
                 <!--Table-->
                 <table id="objectionTable" class="table table-hover table-sm">
@@ -38,8 +36,11 @@
                     <thead>
                         <tr>
                             <th>Objection</th>
-                            <th>Action</th>
-                        </tr>
+                            <div *ngIf="host; then thenBlockA"></div>
+                            <ng-template #thenBlockA>
+                                <th>Action</th>
+                            </ng-template>
+                        </tr> 
                     </thead>
                     <!--Table head-->
                     <!--Table body-->
@@ -49,18 +50,23 @@
                             <td>
                                 <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
                                 (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
-                                <button type="submit" class="btn btn-success" (click)="validateObjection()">Valider l'objection</button>
+                                <div *ngIf="host; then thenBlock"></div>
+                                <ng-template #thenBlock>
+                                    <button type="submit" class="btn btn-success" (click)="validateObjection()">Valider l'objection</button>
+                                </ng-template>
                             </td>
                         </tr>
                     </tbody>
                     <!--Table body-->
                 </table>
                 <!--Table-->
+                 <div *ngIf="host; then thenBlockV"></div>
+            <ng-template #thenBlockV>
                 <button type="submit" class="btn btn-success" (click)="acceptCandidate()">Accepter la candidature</button>
+            </ng-template> 
             </div> 
-        </ng-template>
+      
 
-        <ng-template #elseBlock>
-        </ng-template>
+        
     </div>
 </div>

@@ -1,4 +1,4 @@
 ﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\Users\dany\Source\Repos\nicolasKACEM\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\wwwroot\" />
-  <ContentRoot BasePath="_content/BlazorInputFile" Path="C:\Users\dany\.nuget\packages\blazorinputfile\0.1.0-preview-00002\build\..\staticwebassets\" />
+  <ContentRoot BasePath="/" Path="C:\Users\tizia\source\repos\LP_Proj_ESC\CreationCompte\CreationCompte\bin\Debug\netstandard2.1\wwwroot\" />
+  <ContentRoot BasePath="_content/BlazorInputFile" Path="C:\Users\tizia\.nuget\packages\blazorinputfile\0.1.0-preview-00002\build\..\staticwebassets\" />
 </StaticWebAssets>

@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-
+using ESC2020.Hubs;
 namespace ESC2020
 {
     public class Startup
@@ -27,7 +26,7 @@ namespace ESC2020
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSignalR();
             services.AddDbContext<ElectionContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllersWithViews();
@@ -67,6 +66,7 @@ namespace ESC2020
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<DataHub>("/data");
             });
 
             app.UseSpa(spa =>

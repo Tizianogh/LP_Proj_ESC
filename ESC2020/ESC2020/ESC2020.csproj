@@ -13,9 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
@@ -77,10 +79,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Utils\DataHub.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\Model\Users.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.css" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.html" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Hubs\DataHub.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
