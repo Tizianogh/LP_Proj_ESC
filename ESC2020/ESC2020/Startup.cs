@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ESC2020.ClientApp.
 
 
 namespace ESC2020
@@ -27,7 +28,7 @@ namespace ESC2020
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSignalR();
             services.AddDbContext<ElectionContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllersWithViews();
@@ -54,6 +55,10 @@ namespace ESC2020
             }
             app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
+            app.UseSignalR(builder =>
+            {
+                builder.MapHub<DataHub>("data");
+            });
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
