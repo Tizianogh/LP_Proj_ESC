@@ -1,0 +1,19 @@
+<div [ngSwitch]="electionPhase">
+
+    <h2 id="titre" *ngSwitchCase="'1'">
+        <app-election-vote></app-election-vote>
+    </h2>
+
+    <h2 id="titre" *ngSwitchCase="'2'">
+        Phase de report de votes
+    </h2>
+
+    <h2 id="titre" *ngSwitchCase="'3'">
+        Phase d'objections
+    </h2>
+
+    <h2 id="titre" *ngSwitchDefault>
+        {{election['job']}}
+    </h2>
+
+</div>

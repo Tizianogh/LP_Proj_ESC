@@ -1,0 +1,65 @@
+.participants {
+  display: inline-block;
+  width: 40%;
+  height: auto;
+  position: absolute;
+  left: 50px;
+  border: 3px solid black;
+  text-align: center;
+}
+
+#titre {
+    color: #430640;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-weight: 800;
+    font-size: 38px;
+    margin-top: 30px;
+}
+
+.participant {
+  display: inline-block;
+}
+
+.description {
+  display: inline-block;
+  width: 40%;
+  height: auto;
+  position: absolute;
+  right: 40px;
+  border: 3px solid black;
+  visibility: collapse
+}
+
+.progress {
+  height: 8px;
+  padding: 0px;
+}
+
+.participantName {
+  overflow: hidden;
+  height: 50px;
+  line-height: 50px;
+  width: 150px;
+}
+
+.participantIcon {
+    cursor: pointer;
+    border: solid;
+    border-radius: 100px 100px 100px 100px;
+}
+
+.scroll {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: rgba(56, 56, 56, 0.363);
+}

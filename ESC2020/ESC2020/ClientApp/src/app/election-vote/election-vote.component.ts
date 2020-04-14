@@ -12,12 +12,12 @@ import { Opinion } from '../Model/Opinion';
         
 
 @Component({
-    selector: 'app-election',
-    templateUrl: './election.component.html',
-    styleUrls: ['./election.component.css']
+    selector: 'app-election-vote',
+    templateUrl: './election-vote.component.html',
+    styleUrls: ['./election-vote.component.css']
 })
 
-export class ElectionComponent implements OnInit {
+export class ElectionVoteComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users = new Users();
@@ -40,6 +40,7 @@ export class ElectionComponent implements OnInit {
     constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
+        console.log("Oui");
         this.navBarStateService.SetIsInElection(true);
         this.FetchParticipants();
     }

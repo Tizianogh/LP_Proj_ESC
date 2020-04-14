@@ -24,16 +24,17 @@ namespace ESC2020.Model
 
         public DateTimeOffset EndDate { get; set; }
 
-
         public string CodeElection { get; set; }
 
         public int HostId { get; set; }
-
         [ForeignKey("HostId")]
         public Users HostElection { get; set; }
 
-        public int? ElectedId { get; set; }
+        public int ElectionPhaseId { get; set; }
+        [ForeignKey("ElectionPhaseId")]
+        public Phase IdPhase { get; set; }
 
+        public int? ElectedId { get; set; }
         [ForeignKey("ElectedId")]
         public Users ElectedElection { get; set; }
 

@@ -13,7 +13,7 @@ import { CreateElectionComponent } from './create-election/create-election.compo
 import { LogsComponent } from './logs/logs.component';
 import { ElectionReminderComponent } from './election-reminder/election-reminder.component';
 import { MyElectionsComponent } from './my-elections/my-elections.component';
-import { ElectionComponent } from './election/election.component';
+import { ElectionVoteComponent } from './election-vote/election-vote.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MyAccountComponent } from './my-account/my-account.component';
@@ -21,52 +21,56 @@ import { NextPhaseComponent } from './next-phase/next-phase.component';
 import { ObjectionsComponent } from './objections/objections.component';
 import { BonificationComponent } from './bonification/bonification.component';
 import { JoinElectionLinkComponent } from './join-election-link/join-election-link.component';
+import { ElectionMasterPageComponent } from './election-master-page/election-master-page.component';
+
 
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
+    declarations: [
+        AppComponent,
+        NavMenuComponent,
+        HomeComponent,
+        CounterComponent,
+        FetchDataComponent,
         CreateElectionComponent,
-    LogsComponent,
+        LogsComponent,
         ElectionReminderComponent,
-    MyElectionsComponent,
-    ElectionComponent,
-    MyAccountComponent,
-    ObjectionsComponent,
-    BonificationComponent,
-    NextPhaseComponent,
-    JoinElectionLinkComponent
+        MyElectionsComponent,
+        ElectionVoteComponent,
+        MyAccountComponent,
+        ObjectionsComponent,
+        BonificationComponent,
+        NextPhaseComponent,
+        JoinElectionLinkComponent,
+        ElectionMasterPageComponent
+    ],
 
-  ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([
-        { path: '', component: HomeComponent, pathMatch: 'full' },
-        { path: 'counter', component: CounterComponent },
-        { path: 'fetch-data', component: FetchDataComponent },
-        { path: 'create-election', component: CreateElectionComponent },
-        { path: 'logs/:id', component: LogsComponent },
-        { path: 'election-reminder/:id', component: ElectionReminderComponent },
-        { path: 'my-elections', component: MyElectionsComponent },
-        { path: 'home', component: HomeComponent},
-        { path: 'election/:id', component: ElectionComponent },
-        { path: 'my-account', component: MyAccountComponent },
-        { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
-        { path: 'objections/:id', component: ObjectionsComponent },
-        { path: 'bonification/:id', component: BonificationComponent },     
-        { path: 'next-phase', component: NextPhaseComponent}
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot([
+            { path: '', component: HomeComponent, pathMatch: 'full' },
+            { path: 'counter', component: CounterComponent },
+            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'create-election', component: CreateElectionComponent },
+            { path: 'logs/:id', component: LogsComponent },
+            { path: 'election-reminder/:id', component: ElectionReminderComponent },
+            { path: 'my-elections', component: MyElectionsComponent },
+            { path: 'home', component: HomeComponent },
+            { path: 'election-vote/:id', component: ElectionVoteComponent },
+            { path: 'my-account', component: MyAccountComponent },
+            { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
+            { path: 'objections/:id', component: ObjectionsComponent },
+            { path: 'bonification/:id', component: BonificationComponent },
+            { path: 'next-phase', component: NextPhaseComponent },
+            { path: 'election/:id', component: ElectionMasterPageComponent }
+        ])
+    ],
 
-    ])
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
