@@ -29,8 +29,6 @@ export class NavBarStateService {
         this.navState.next(newState);
         if (this.navState.value == "voteSent")
             this.SetLogsVisible(true);
-            
-        console.log(this.navState);
     }
 
     GetNavState() {

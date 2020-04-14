@@ -1,37 +1,47 @@
+#titre {
+    color: #430640;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-weight: 800;
+    font-size: 38px;
+    margin-top: 30px;
+}
+
 .participants {
-  display: inline-block;
-  width: 40%;
-  height: auto;
-  position: absolute;
-  left: 50px;
-  border: 3px solid black;
-  text-align: center;
+    display: inline-block;
+    width: 40%;
+    height: auto;
+    position: absolute;
+    left: 50px;
+    border: 3px solid black;
+    text-align: center;
 }
 
 .participant {
-  display: inline-block;
+    display: inline-block;
 }
 
 .description {
-  display: inline-block;
-  width: 40%;
-  height: auto;
-  position: absolute;
-  right: 40px;
-  border: 3px solid black;
-  visibility: collapse
+    display: inline-block;
+    width: 40%;
+    height: auto;
+    position: absolute;
+    right: 40px;
+    border: 3px solid black;
+    visibility: collapse
 }
 
 .progress {
-  height: 8px;
-  padding: 0px;
+    height: 8px;
+    padding: 0px;
 }
 
 .participantName {
-  overflow: hidden;
-  height: 50px;
-  line-height: 50px;
-  width: 150px;
+    overflow: hidden;
+    height: 50px;
+    line-height: 50px;
+    width: 150px;
 }
 
 .participantIcon {

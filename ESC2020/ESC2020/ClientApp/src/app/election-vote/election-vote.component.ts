@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
@@ -9,19 +9,21 @@ import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
-        
+import { ElectionService } from '../services/election.service';
+import { Phase } from '../Model/Phase';
+
 
 @Component({
     selector: 'app-election-vote',
     templateUrl: './election-vote.component.html',
-    styleUrls: ['./election-vote.component.css']
+    styleUrls: ['./election-vote.component.css'],
+
 })
 
 export class ElectionVoteComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users = new Users();
-    private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = []
     opinionsList: Opinion[] = [];
@@ -37,50 +39,20 @@ export class ElectionVoteComponent implements OnInit {
 
     age: number;
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
+    constructor(private service: HttpClient, private router: Router, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
-        console.log("Oui");
-        this.navBarStateService.SetIsInElection(true);
-        this.FetchParticipants();
-    }
+        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
+        this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
 
-    async FetchParticipants() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
-        //Récupérer l'id de l'élection actuelle à partir de l'url
-        let regexp: RegExp = /\d/;
-        this.electionId = regexp.exec(this.router.url)[0];
-
-        await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
-            this.election = result as Election;
-            this.navBarStateService.SetNavState(this.election['job']);
-
-            //récupérer la liste des participants en fonction de l'id d'une élection
-            this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-                this.listeParticipants = participantResult as Participant[];
-                this.listeParticipants.forEach((participant) => {
-                    this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-
-                    this.FetchUser(participant);
-                });
-            }, error => console.error(error));
-        }, error => console.error(error));
     }
 
-    async FetchUser(participant: Participant) {
-        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            let user: Users = userResult as Users;
-
-            console.log(this.listeParticipants.find(p => p['userId'] == user['userId']));
-            this.listeUsers.push(userResult as Users);
-        }, error => console.error(error));
-    }
 
     HasUserTalked(user: Users): boolean {
         let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
-
         return participant['hasTalked'];
     }
 
@@ -110,7 +82,6 @@ export class ElectionVoteComponent implements OnInit {
     }
 
     changeColor(userId: number) {
-        console.log(userId);
         if (userId != this.actualClickedId) {
             document.getElementById(this.actualClickedId.toString()).style.borderColor = "black";
             document.getElementById(this.actualClickedId.toString()).style.borderWidth = "3px";
@@ -162,7 +133,7 @@ export class ElectionVoteComponent implements OnInit {
             }, error => console.log(error));
         }, error => console.log(error));
 
-        
+
     }
 
     Exclude(currentUserId: number) {
@@ -180,11 +151,26 @@ export class ElectionVoteComponent implements OnInit {
                     "HasTalked": false,
                     "Proposable": this.listeParticipants[i]['proposable']
                 }).subscribe(result => {
-                    
                 }, error => console.log(error));
             }
+            let phase: Phase = new Phase();
+            this.service.get(window.location.origin + "/api/Phases/2").subscribe(phaseResult => {
+                phase = phaseResult as Phase;
 
-            this.router.navigate(['objections/'+this.election['electionId']]);
+                this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+                    "ElectionId": this.election['electionId'],
+                    "Job": this.election['job'],
+                    "Mission": this.election['mission'],
+                    "Responsability": this.election['responsability'],
+                    "StartDate": this.election['startDate'],
+                    "EndDate": this.election['endDate'],
+                    "CodeElection": this.election['codeElection'],
+                    "HostId": this.election["hostId"],
+                    "ElectedId": null,
+                    "ElectionPhaseId": phase['phaseId']
+                }).subscribe(result => {
+                }, error => console.log(error));
+            });
         }, error => console.error(error));
     }
 }
