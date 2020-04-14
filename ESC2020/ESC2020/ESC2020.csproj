@@ -79,6 +79,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Utils\DataHub.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\Model\Users.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.css" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.html" />
