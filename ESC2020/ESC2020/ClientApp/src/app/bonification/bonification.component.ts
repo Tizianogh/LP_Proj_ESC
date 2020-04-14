@@ -51,8 +51,7 @@ export class BonificationComponent implements OnInit {
 
     mainRequest() {
         //Récupérer l'id de l'élection actuelle à partir de l'url
-        let regexp: RegExp = /\d/;
-        let electionId = regexp.exec(this.router.url)[0];
+        let electionId = this.router.url.split('/')[2];
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
             this.election = result as Election;
             this.navBarStateService.SetNavState(this.election['job']);
@@ -124,7 +123,4 @@ export class BonificationComponent implements OnInit {
     celebration() {
         alert("Fécilitation, vous avez accepté le rôle de " + this.election['job']);
     }
-
-
-
 }
