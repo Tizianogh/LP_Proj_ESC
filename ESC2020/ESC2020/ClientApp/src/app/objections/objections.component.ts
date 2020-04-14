@@ -89,7 +89,6 @@ export class ObjectionsComponent implements OnInit {
 
     startCounting() {
         this.service.get(window.location.origin + "/api/Users/election/" + this.election['electionId']).subscribe(userResult => {
-
             this.usersList = userResult as Users[];
             //Recuperer toutes les opinions de cette election et comptabilisation des votes
             this.service.get(window.location.origin + "/api/Opinions/election/" + this.election['electionId']).subscribe(result => {
@@ -101,7 +100,7 @@ export class ObjectionsComponent implements OnInit {
                             //Comptabilise tous les revotes et les votes qui n'ont pas de revotes du meme auteur
                             console.log("Verifie si un revote existe "+this.opinionsList.find(anOpinion => anOpinion.TypeId == 2 && anOpinion.AuthorId == this.opinionsList[j].AuthorId));
                             //console.log(this.opinionsList.find(anOpinion => anOpinion['typeId'] == 2 && anOpinion['authorId'] == this.opinionsList[j]['authorId']));
-                            if (this.opinionsList[j]['typeId'] == 2 || (this.opinionsList[j]['typeId'] == 1 && (this.opinionsList.find(anOpinion => anOpinion.TypeId == 2 && anOpinion.AuthorId==this.opinionsList[j].AuthorId)) == undefined)) {
+                            if (this.opinionsList[j]['typeId'] == 1 || (this.opinionsList[j]['typeId'] == 1 && (this.opinionsList.find(anOpinion => anOpinion.TypeId == 3 && anOpinion.AuthorId==this.opinionsList[j].AuthorId)) == undefined)) {
                                 if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
                                     console.log("juste avant" + this.propositions[i]);
                                     if (this.propositions[i] != null) {

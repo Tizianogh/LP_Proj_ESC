@@ -135,27 +135,41 @@ export class ElectionComponent implements OnInit {
             }, error => console.log(error));
         }, error => console.error(error));
 
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            let participantResult: Participant = result as Participant;
-            this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId'], {
-                'UserId': participantResult['userId'],
-                'ElectionId': participantResult['electionId'],
-                'HasTalked': true
-            }).subscribe(result => {
+        if (this.connectedAccount['userId'] == this.currentUser['userId']) {
+            this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
+                let participantResult: Participant = result as Participant;
+                this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId'], {
+                    'UserId': participantResult['userId'],
+                    'ElectionId': participantResult['electionId'],
+                    'HasTalked': true,
+                    "Proposable": true
+                }).subscribe(result => {
+                }, error => console.log(error));
             }, error => console.log(error));
-        }, error => console.log(error));
-        this.navBarStateService.SetLogsVisible(true);
+            this.navBarStateService.SetLogsVisible(true);
+        }
+        else {
+            this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
+                let participantResult: Participant = result as Participant;
+                this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId'], {
+                    'UserId': participantResult['userId'],
+                    'ElectionId': participantResult['electionId'],
+                    'HasTalked': true
+                }).subscribe(result => {
+                }, error => console.log(error));
+            }, error => console.log(error));
+            this.navBarStateService.SetLogsVisible(true);
 
-        this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            let participantResult: Participant = result as Participant;
-            this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
-                "UserId": participantResult["userId"],
-                "ElectionId": this.election['electionId'],
-                "HasTalked": participantResult['hasTalked'],
-                "Proposable": true
-            }).subscribe(result => {
+            this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
+                let participantResult: Participant = result as Participant;
+                this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
+                    "UserId": participantResult["userId"],
+                    "ElectionId": this.election['electionId'],
+                    "Proposable": true
+                }).subscribe(result => {
+                }, error => console.log(error));
             }, error => console.log(error));
-        }, error => console.log(error));
+        }
     }
 
     Exclude(currentUserId: number) {
