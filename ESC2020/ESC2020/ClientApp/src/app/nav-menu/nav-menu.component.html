@@ -1,4 +1,85 @@
-<nav class="navbar navbar-expand-sm align-items-end navbar-dark" style="background-color:white;">
+<nav class="navbar navbar-expand-md navbar-light bg-light px-5">
+    <a class="navbar-brand" href="#">
+        <img src="assets/img/brand.png" height="100" />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <div *ngIf="connected; then navThenBlock else navElseBlock"></div>
+            <ng-template #navElseBlock>
+            </ng-template>
+            <ng-template #navThenBlock>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Navigation
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" [routerLink]="['home']">Accueil</a>
+                        <a class="dropdown-item" [routerLink]="['my-elections']">Accéder à mes élections</a>
+                        <a class="dropdown-item" [routerLink]="['create-election']">Créer une nouvelle élection</a>
+                    </div>
+                </li>
+            </ng-template>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [hidden]="!inElection">
+                    {{navBarState}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" [routerLink]="['']">Chat de l'élection</a>
+                    <a class="dropdown-item" (click)="goToLogs()">Historique de l'élection</a>
+                </div>
+            </li>
+        </ul>
+        <div class="navbar-collapse justify-content-end">            
+            <ul class="navbar-nav d-flex justify-content-end">
+                <div *ngIf="connected; then accountThenBlock else accountElseBlock"></div>
+                <ng-template #accountElseBlock>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Mon Compte
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <form>
+                                <div class="form-group mr-3 ml-4">
+                                    <label for="emailInput">Email</label>
+                                    <input #emailInput type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" width="250">
+                                </div>
+                                <div class="form-group mr-3 ml-4">
+                                    <label for="passwordInput">Mot de passe</label>
+                                    <input #passwordInput type="password" class="form-control" id="exampleInputPassword1">
+                                </div>
+                                <button type="submit" class="btn color-btn ml-4" (click)="connect(emailInput.value, passwordInput.value)">Se connecter</button>
+                                <div class="form-group mr-3 ml-4">{{erreur}}</div>
+                            </form>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="https://localhost:44318/">Créer un compte</a>
+                        </div>
+                    </li>
+                </ng-template>
+
+                <ng-template #accountThenBlock>
+
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{connectedAccount.firstName}}
+                            <img class="img-responsive" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" height="30"/>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" [routerLink]="['my-account']">Mon Compte</a>
+                            <a class="dropdown-item" [routerLink]="['']" (click)="disconnect()">Se déconnecter</a>
+                        </div>
+                    </li>
+
+                </ng-template>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--<nav class="navbar navbar-expand-sm align-items-end navbar-dark" style="background-color:white;">
     <div class="container" style="margin:0px; max-width:1920px;">
         <div class="mx-auto order-0">
             <a class="navbar-brand" href="">
@@ -86,4 +167,4 @@
             </div>
         </div>
     </div>
-</nav>
+</nav>-->

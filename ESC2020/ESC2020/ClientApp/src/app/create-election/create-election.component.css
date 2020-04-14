@@ -1,46 +1,26 @@
 #titre {
-    margin-top: 25px;
-    margin-bottom: 60px;
     color: #430640;
+    font-weight: 800;
+    font-size: 38px;
 }
 
-.input {
+form{
+    font-size: 18px;
+}
+
+.input, .input_date {
     border: 2px #430640 solid;
-    width: 400px;
-    margin-right: 25px;
-    margin-left: 25px;
     background-color: #F5F5F5;
 }
 
-.zone {
-  margin-top: 50px;
-}
-
-  .zone label {
-    width: 150px;
-    text-align: end;
-  }
-
 #send {
-    color: #430640;
-    border: 2px #430640 solid;
+    color: white;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 30px;
     padding-left: 30px;
     margin-top: 90px;
-    background-color: #fee2d7;
-}
-
-.date {
-  margin-top: 50px;
-}
-
-.input_date {
-    background-color: #F5F5F5;
-    border: 2px #430640 solid;
-    margin-left: 15px;
-    margin-right: 15px
+    background-color: #430640;
 }
 
 #erreur {
@@ -49,3 +29,4 @@
   margin-left:25%;
   margin-top:25px;
 }
+

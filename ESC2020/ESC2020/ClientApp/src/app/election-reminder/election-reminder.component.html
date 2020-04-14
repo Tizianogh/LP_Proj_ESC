@@ -1,5 +1,33 @@
-<div id="page_rappel">
-  <h2 class="titre">Rappel de votre élection </h2>
+<div class="container justify-content-center">
+    <h2 id="titre" class="align-center">Rappel de votre élection</h2>
+    <div class="form-group">
+        <form [formGroup]="formulaireElection">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Nom">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Prénom">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Nom">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Prénom">
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+
+<!--<div id="page_rappel">
+  <h2 class="titre"> Rappel de votre élection </h2>
   <div id="rappel">
       <div class="zone d-flex ">
           <label>Poste de l'élu: </label><p> {{poste}}</p><label></label>
@@ -34,4 +62,4 @@
           <button id="valider" type="submit">Valider</button>
       </div>
   </div>
-</div>
+</div>-->
