@@ -34,6 +34,7 @@ export class ElectionVoteComponent implements OnInit {
     election: Election = new Election();
     currentParticipant: Participant = new Participant();
     scrollingItems: number[] = [];
+    electionId: string;
 
     private listeUsers: Users[] = [];
 
@@ -51,11 +52,17 @@ export class ElectionVoteComponent implements OnInit {
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
 
+        console.log(this.election);
+        console.log(this.election['electionId']);
+
+
         this.navBarStateService.SetIsInElection(true);
         this.FetchParticipants();
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
         this.getCurrentParticipant();
+
+        this.electionId = this.election['electionId'];
     }
 
     setOnSignalReceived() {
@@ -212,19 +219,20 @@ export class ElectionVoteComponent implements OnInit {
             }, error => console.log(error));
             this.navBarStateService.SetLogsVisible(true);
 
-        this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            let participantResult: Participant = result as Participant;
-            this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
-                "UserId": participantResult["userId"],
-                "ElectionId": this.election['electionId'],
-                "HasTalked": participantResult['hasTalked'],
-                "Proposable": true
-            }).subscribe(result => {
+            this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
+                let participantResult: Participant = result as Participant;
+                this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
+                    "UserId": participantResult["userId"],
+                    "ElectionId": this.election['electionId'],
+                    "HasTalked": participantResult['hasTalked'],
+                    "Proposable": true
+                }).subscribe(result => {
 
+                }, error => console.log(error));
             }, error => console.log(error));
-        }, error => console.log(error));
 
 
+        }
     }
 
     Exclude(currentUserId: number) {

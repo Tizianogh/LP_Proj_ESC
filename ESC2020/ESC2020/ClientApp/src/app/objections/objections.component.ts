@@ -13,6 +13,7 @@ import { FunctionCall } from '@angular/compiler';
 import { FormsModule } from '@angular/forms';
 import { NavBarStateService } from '../services/NavBarState.service';
 import * as signalR from "@microsoft/signalr";
+import { Phase } from '../Model/Phase';
 
 @Component({
     selector: 'app-election',
@@ -289,28 +290,34 @@ export class ObjectionsComponent implements OnInit {
     }
 
     acceptCandidate() {
-        this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
-            "ElectionId": this.election['electionId'],
-            "Job": this.election['job'],
-            "Mission": this.election['mission'],
-            "Responsability": this.election['responsabilites'],
-            "StartDate": this.election['dateD'],
-            "EndDate": this.election['dateF'],
-            "CodeElection": this.election['codeElection'],
-            "HostId": this.election["hostId"],
-            "ElectedId": this.actualProposed['userId']
-        }).subscribe(result => {
-            console.log("passage à la phase de bonification");
-            this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.election['electionId'], {
-                "UserId": this.actualProposed['userId'],
+        let phase: Phase = new Phase();
+        this.service.get(window.location.origin + "/api/Phases/2").subscribe(phaseResult => {
+            phase = phaseResult as Phase;
+
+            this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
                 "ElectionId": this.election['electionId'],
-                "HasTalked": false,
-                "Proposable": true
+                "Job": this.election['job'],
+                "Mission": this.election['mission'],
+                "Responsability": this.election['responsabilites'],
+                "StartDate": this.election['dateD'],
+                "EndDate": this.election['dateF'],
+                "CodeElection": this.election['codeElection'],
+                "HostId": this.election["hostId"],
+                "ElectedId": this.actualProposed['userId'],
+                "ElectionPhaseId": phase['phaseId']
             }).subscribe(result => {
-                this.hubConnection.send("validateCandidature", this.election['electionId']);
-                
+                console.log("passage à la phase de bonification");
+                this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.election['electionId'], {
+                    "UserId": this.actualProposed['userId'],
+                    "ElectionId": this.election['electionId'],
+                    "HasTalked": false,
+                    "Proposable": true
+                }).subscribe(result => {
+                    this.hubConnection.send("validateCandidature", this.election['electionId']);
+
+                }, error => console.log(error));
             }, error => console.log(error));
-        }, error => console.log(error));
+        });
     }
 }
 
