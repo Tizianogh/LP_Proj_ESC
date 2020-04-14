@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { partition } from 'rxjs';
 import { async } from '@angular/core/testing';
+import { NavBarStateService } from '../services/NavBarState.service';
 
 @Component({
     selector: 'app-salons',
@@ -21,12 +22,13 @@ export class MyElectionsComponent implements OnInit {
     private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
 
-    constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router) { }
-
+    constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.navBarStateService.SetIsInElection(false);
+
         this.getElections()
     }
 

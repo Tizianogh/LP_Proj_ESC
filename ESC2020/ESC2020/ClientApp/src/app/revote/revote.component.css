@@ -8,6 +8,15 @@
     margin-top: 30px;
 }
 
+#sous-titre {
+    color: #430640;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-weight: 400;
+    font-size: 22px;
+}
+
 .participants {
   display: inline-block;
   width: 40%;

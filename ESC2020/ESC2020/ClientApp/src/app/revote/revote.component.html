@@ -1,11 +1,12 @@
-<h2 id="titre">Phase de vote</h2>
+﻿<h2 id="titre">Phase de report de vote</h2>
+<div id="sous-titre">Vous aviez précédemment voté pour </div>
 
 <div class="row justify-content-center" id="date">
     <div class="center-block align-self-center" *ngIf="election.hostId == connectedAccount.userId; then ThenBlock1"></div>
     <ng-template #ThenBlock1>
         <button class="btn btn-primary" (click)="goToNextPhase()">Terminer la phase</button>
     </ng-template>
-    <div class="progress offset-3 col-4 center-block align-self-center">
+    <div class="progress offset-2 col-4 center-block align-self-center">
         <div class="progress-bar ml-0" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     <div class="col-3 center-block align-self-center">
@@ -58,7 +59,7 @@
     <ng-template #ElseBlock3>
         <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
         <div class="col text-center">
-            <button type="submit" class="btn btn-primary" (click)="Vote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
+            <button type="submit" class="btn btn-primary" (click)="Revote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
         </div>
     </ng-template>
     <ng-template #ThenBlock3>

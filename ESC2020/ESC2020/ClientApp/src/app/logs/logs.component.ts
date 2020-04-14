@@ -67,6 +67,8 @@ export class LogsComponent implements OnInit {
         customLog.opinion = opinion;
         customLog.hour = hour;
         this.voteList.push(customLog);
+        this.sort(this.voteList);
+
     }
 
     objectionPush(title: string, opinion: string, hour: string) {
@@ -75,6 +77,8 @@ export class LogsComponent implements OnInit {
         customLog.opinion = opinion;
         customLog.hour = hour;
         this.objectionList.push(customLog);
+        this.sort(this.objectionList);
+
     }
 
     notificationPush(title: string, opinion: string, hour: string) {
@@ -83,6 +87,19 @@ export class LogsComponent implements OnInit {
         customLog.opinion = opinion;
         customLog.hour = hour;
         this.notificationList.push(customLog);
+        this.sort(this.notificationList);
+    }
+
+    sort(array: Log[]) {
+        array.sort((l1, l2) => {
+            if (l1.hour > l2.hour) {
+                return -1;
+            }
+            if (l1.hour < l2.hour) {
+                return 1;
+            }
+            return 0;
+        });
     }
 
     browserReturn() {
@@ -103,6 +120,7 @@ export class LogsComponent implements OnInit {
     getOpinions() {
         this.service.get(window.location.origin + "/api/Opinions/election/" + this.router.url.split('/')[2]).subscribe(result => {
             this.allListOpinion = result as Log[];
+
             for (let i in this.allListOpinion) {
                 if (this.allListOpinion[i]['typeId'] == 1) {
                     //vote
@@ -114,7 +132,7 @@ export class LogsComponent implements OnInit {
                             voted = result as Users;
                             let datePubli: string = this.allListOpinion[i]['dateOpinion'];
                             this.votePush(voting["firstName"] + " " + voting["lastName"] + " a voté pour " + voted["firstName"] + " " + voted["lastName"],
-                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 5));
+                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
                         }, error => console.error(error));
                     }, error => console.error(error));
 
@@ -130,7 +148,21 @@ export class LogsComponent implements OnInit {
                             objected = result as Users;
                             let datePubli: string = this.allListOpinion[i]['dateOpinion'];
                             this.objectionPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre " + objected["firstName"] + " " + objected["lastName"],
-                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 5));
+                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                        }, error => console.error(error));
+                    }, error => console.error(error));
+                }
+                else if (this.allListOpinion[i]['typeId'] == 3) {
+                    //revote
+                    let objecting: Users;
+                    let objected: Users;
+                    this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['authorId']).subscribe(result => {
+                        objecting = result as Users;
+                        this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['concernedId']).subscribe(result => {
+                            objected = result as Users;
+                            let datePubli: string = this.allListOpinion[i]['dateOpinion'];
+                            this.votePush(objecting["firstName"] + " " + objecting["lastName"] + " a modifié son vote afin de voter pour " + objected["firstName"] + " " + objected["lastName"],
+                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
                         }, error => console.error(error));
                     }, error => console.error(error));
                 }
