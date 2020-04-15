@@ -11,6 +11,7 @@ import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
 import { templateJitUrl } from '@angular/compiler';
 import { ElectionService } from '../services/election.service';
+import * as signalR from "@microsoft/signalr";
         
 
 @Component({
@@ -34,6 +35,10 @@ export class ElectionMasterPageComponent implements OnInit {
 
     age: number;
 
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
+
     constructor(private service: HttpClient, private electionService: ElectionService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
@@ -46,8 +51,32 @@ export class ElectionMasterPageComponent implements OnInit {
         this.navBarStateService.SetIsInElection(true);
 
         this.fetchElection();
+        
     }
 
+  setOnSignalReceived() {
+
+        this.hubConnection.on("endVote", (electionId: number) => {
+            if (electionId == Number(this.electionId)) {
+                this.router.navigate(['objections/' + this.election['electionId']]);
+            }
+
+        });
+
+        this.hubConnection.on("changeParticipants", (electionId: number) => {
+            if (electionId == Number(this.electionId)) {
+                this.listeParticipants = [];
+                this.fetchElection();
+            }
+        });
+        this.hubConnection.on("userHasVoted", (electionId: number) => {
+            if (electionId == Number(this.electionId)) {
+                this.fetchElection();
+            }
+
+        });
+    }
+     
     async fetchElection() {
         //Récupérer l'id de l'élection actuelle à partir de l'url
         this.electionId = this.router.url.split('/')[2];
