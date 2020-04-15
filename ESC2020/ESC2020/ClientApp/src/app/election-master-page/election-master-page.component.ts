@@ -11,10 +11,11 @@ import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
 import { templateJitUrl } from '@angular/compiler';
 import { ElectionService } from '../services/election.service';
+import * as signalR from "@microsoft/signalr";
         
 
 @Component({
-    selector: 'app-election',
+    selector: 'app-election-master-page',
     templateUrl: './election-master-page.component.html',
 })
 
@@ -34,6 +35,10 @@ export class ElectionMasterPageComponent implements OnInit {
 
     age: number;
 
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
+
     constructor(private service: HttpClient, private electionService: ElectionService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
@@ -46,6 +51,19 @@ export class ElectionMasterPageComponent implements OnInit {
         this.navBarStateService.SetIsInElection(true);
 
         this.fetchElection();
+
+        this.setOnSignalReceived();
+        this.hubConnection.start().catch(err => console.log(err));
+    }
+
+    setOnSignalReceived() {
+        //this.hubConnection.send("endVote", Number(this.electionId));
+
+        this.hubConnection.on("updatePhase", (electionId: number) => {
+
+            this.fetchElection();
+            console.log("Phase actuelle "+ this.electionPhase)
+        });
     }
 
     async fetchElection() {

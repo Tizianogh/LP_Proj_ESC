@@ -40,7 +40,6 @@ export class ElectionVoteComponent implements OnInit {
 
     age: number;
 
-
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
         .build();
@@ -49,8 +48,7 @@ export class ElectionVoteComponent implements OnInit {
 
     ngOnInit() {
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
-        this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+        
 
         console.log(this.election);
         console.log(this.election['electionId']);
@@ -67,19 +65,12 @@ export class ElectionVoteComponent implements OnInit {
 
     setOnSignalReceived() {
 
-
-        this.hubConnection.on("endVote", (electionId: number) => {
-            if (electionId == Number(this.electionId)) {
-                this.router.navigate(['objections/' + this.election['electionId']]);
-            }
-
-        });
-
         this.hubConnection.on("changeParticipants", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
                 this.listeParticipants = [];
                 this.listeUsers = [];
-                this.FetchParticipants();
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
         });
 
@@ -87,7 +78,8 @@ export class ElectionVoteComponent implements OnInit {
             if (electionId == Number(this.electionId)) {
                 this.getCurrentParticipant();
                 this.listeUsers = [];
-                this.FetchParticipants();
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
 
             }
         
@@ -272,7 +264,7 @@ export class ElectionVoteComponent implements OnInit {
                     "ElectedId": null,
                     "ElectionPhaseId": phase['phaseId']
                 }).subscribe(result => {
-                    this.hubConnection.send("endVote", Number(this.electionId));
+                    this.hubConnection.send("updatePhase", Number(this.electionId));
                 }, error => console.log(error));
             });
         }, error => console.error(error));

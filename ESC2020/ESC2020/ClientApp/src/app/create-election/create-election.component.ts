@@ -8,7 +8,7 @@ import { AuthentificationService } from '../services/authentification.service';
 import { Phase } from '../Model/Phase';
 
 @Component({
-    selector: 'app-creation',
+    selector: 'app-create-election',
     templateUrl: './create-election.component.html',
     styleUrls: ['./create-election.component.css'],
     providers: [DatePipe]
