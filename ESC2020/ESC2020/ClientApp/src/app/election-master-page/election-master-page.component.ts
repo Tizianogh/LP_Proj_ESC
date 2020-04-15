@@ -25,7 +25,7 @@ export class ElectionMasterPageComponent implements OnInit {
     private connectedAccount: Users = new Users();
     private electionId: string;
     private listeParticipants: Participant[] = [];
-    private electionPhase: string = '0';
+    public electionPhase: string = '0';
 
     opinionsList: Opinion[] = [];
 
@@ -51,25 +51,46 @@ export class ElectionMasterPageComponent implements OnInit {
 
         this.electionService.fetchElection(this.router.url.split('/')[2]);
         this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
+        this.hubConnection.start().catch(err => console.log(err));
+        
+        this.onSignalReceived();
+    }
+
+    onSignalReceived() {
+        console.log("Setup hub connection");
+        this.hubConnection.on("updatePhase", (electionId: number) => {
+            if (electionId == Number(this.electionId)) {
+                this.electionPhase = '';
+                this.electionService.fetchElection(this.electionId);
+                this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
+            }
+        });
     }
 
     setElectionStatus(anElection: Election) {
+        this.election = null;
+        this.electionPhase = null;
         this.election = anElection;
+        this.electionId = this.election['electionId'];
         this.electionPhase = this.election['electionPhaseId'];
+        console.log(this.electionPhase)
         switch (Number(this.electionPhase)) {
             case 1:
                 this.navBarStateService.SetLogsVisible(false);
                 this.navBarStateService.SetObjectionsVisible(false);
+                this.navBarStateService.SetNavState(this.election['job']);
                 break;
 
             case 2:
                 this.navBarStateService.SetLogsVisible(true);
                 this.navBarStateService.SetObjectionsVisible(false);
+                this.navBarStateService.SetNavState(this.election['job']);
                 break;
 
             default:
                 this.navBarStateService.SetLogsVisible(true);
                 this.navBarStateService.SetObjectionsVisible(true);
+                this.navBarStateService.SetNavState(this.election['job']);
                 break;
         }
     }

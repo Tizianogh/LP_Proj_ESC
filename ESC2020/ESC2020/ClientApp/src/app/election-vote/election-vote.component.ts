@@ -54,6 +54,7 @@ export class ElectionVoteComponent implements OnInit {
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
         this.electionId = this.election['electionId'];
         this.navBarStateService.SetIsInElection(true);
+        this.navBarStateService.SetLogsVisible(true);
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
 
@@ -72,10 +73,8 @@ export class ElectionVoteComponent implements OnInit {
         this.hubConnection.on("changeParticipants", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
                 this.listeParticipants = [];
-                this.listeUsers = [];
+                this.listeUsers = []; 
                 this.electionService.fetchElection(this.electionId);
-                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
         });
 
@@ -90,6 +89,7 @@ export class ElectionVoteComponent implements OnInit {
             }
 
         });
+
     }
 
    

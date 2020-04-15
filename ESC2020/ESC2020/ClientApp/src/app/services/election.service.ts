@@ -41,6 +41,8 @@ export class ElectionService {
     }
 
     async fetchParticipants(electionId: string) {
+        this.ClearParticipantList();
+        this.ClearUserList();
         //récupérer la liste des participants en fonction de l'id d'une élection
         await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
             this.participants = participantResult as Participant[];
