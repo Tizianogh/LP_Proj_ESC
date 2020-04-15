@@ -74,9 +74,9 @@ export class ElectionVoteComponent implements OnInit {
             if (electionId == Number(this.electionId)) {
                 this.listeParticipants = [];
                 this.listeUsers = [];
-                //this.electionService.ClearParticipantList();
-                //this.electionService.ClearUserList();
-                this.fetchParticipants();
+                this.electionService.fetchElection(this.electionId);
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
         });
 
@@ -84,6 +84,7 @@ export class ElectionVoteComponent implements OnInit {
             if (electionId == Number(this.electionId)) {
                 this.getCurrentParticipant();
                 this.listeUsers = [];
+                this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
 
@@ -92,25 +93,7 @@ export class ElectionVoteComponent implements OnInit {
         });
     }
 
-    async fetchParticipants() {
-        //récupérer la liste des participants en fonction de l'id d'une élection
-        await this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-            this.listeParticipants = participantResult as Participant[];
-            this.listeParticipants.forEach((participant) => {
-                this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-                this.electionService.AddParticipant(participant);
-                this.fetchUser(participant);
-            });
-        }, error => console.error(error));
-    }
-
-    async fetchUser(participant: Participant) {
-        //Récupérer un utilisateur en fonction d'un participant d'une élection passé en paramètred
-        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            let user: Users = userResult as Users;
-            this.electionService.AddUser(user);
-        }, error => console.error(error));
-    }
+   
 
 
     getCurrentParticipant() {
