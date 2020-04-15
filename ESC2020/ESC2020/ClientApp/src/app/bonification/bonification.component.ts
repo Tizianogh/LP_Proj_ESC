@@ -4,12 +4,14 @@ import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
+import { Phase } from '../Model/Phase';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
 import { NavBarStateService } from '../services/NavBarState.service';
-import { Phase } from '../Model/Phase';
+
 import { ElectionService } from '../services/election.service';
+import * as signalR from "@microsoft/signalr";
 
 
 @Component({
@@ -27,7 +29,7 @@ export class BonificationComponent implements OnInit {
     actualElected: Users = new Users();
     connectedParticipant: Participant = new Participant();
     type: TypeOpinion = new TypeOpinion();
-
+    electionId: string;
     host: boolean = false;
 
     participantsList: Participant[] = [];
@@ -35,7 +37,11 @@ export class BonificationComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
 
-    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService) {
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
+
+    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
 
     }
 
@@ -46,6 +52,8 @@ export class BonificationComponent implements OnInit {
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
 
         this.mainRequest();
+
+        this.hubConnection.start().catch(err => console.log(err));
     }
 
     mainRequest() {
@@ -96,24 +104,8 @@ export class BonificationComponent implements OnInit {
                 console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));
-        let phase: Phase = new Phase();
-        this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {
-            phase = phaseResult as Phase;
-            this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
-                "ElectionId": this.election['electionId'],
-                "Job": this.election['job'],
-                "Mission": this.election['mission'],
-                "Responsability": this.election['responsabilites'],
-                "StartDate": this.election['dateD'],
-                "EndDate": this.election['dateF'],
-                "CodeElection": this.election['codeElection'],
-                "HostId": this.election["hostId"],
-                "ElectedId": null,
-                "ElectionPhaseId": phase['phaseId']
-            }).subscribe(result => {
 
-            }, error => console.log(error));
-        });
+        
         this.service.put(window.location.origin + "/api/Participants/" + this.actualElected['userId'] + "/" + this.election['electionId'], {
             "UserId": this.actualElected['userId'],
             "ElectionId": this.election['electionId'],
@@ -121,24 +113,46 @@ export class BonificationComponent implements OnInit {
             "Proposable": false
         }).subscribe(result => {
         }, error => console.log(error));
-    }
 
-    celebration() {
         let phase: Phase = new Phase();
-        this.service.get(window.location.origin + "/api/Phases/5").subscribe(phaseResult => {
+        this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {
             phase = phaseResult as Phase;
+
             this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
                 "ElectionId": this.election['electionId'],
                 "Job": this.election['job'],
                 "Mission": this.election['mission'],
-                "Responsability": this.election['responsabilites'],
-                "StartDate": this.election['dateD'],
-                "EndDate": this.election['dateF'],
+                "Responsability": this.election['responsability'],
+                "StartDate": this.election['startDate'],
+                "EndDate": this.election['endDate'],
                 "CodeElection": this.election['codeElection'],
                 "HostId": this.election["hostId"],
                 "ElectedId": null,
                 "ElectionPhaseId": phase['phaseId']
             }).subscribe(result => {
+                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+            }, error => console.log(error));
+        });
+    }
+
+    goToNextPhase() {
+        let phase: Phase = new Phase();
+        this.service.get(window.location.origin + "/api/Phases/5").subscribe(phaseResult => {
+            phase = phaseResult as Phase;
+
+            this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+                "ElectionId": this.election['electionId'],
+                "Job": this.election['job'],
+                "Mission": this.election['mission'],
+                "Responsability": this.election['responsability'],
+                "StartDate": this.election['startDate'],
+                "EndDate": this.election['endDate'],
+                "CodeElection": this.election['codeElection'],
+                "HostId": this.election["hostId"],
+                "ElectedId": null,
+                "ElectionPhaseId": phase['phaseId']
+            }).subscribe(result => {
+                this.hubConnection.send("updatePhase", Number(this.electionId));
             }, error => console.log(error));
         });
     }

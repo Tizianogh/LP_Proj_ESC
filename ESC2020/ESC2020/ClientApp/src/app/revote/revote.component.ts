@@ -4,12 +4,14 @@ import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
+import { Phase } from '../Model/Phase';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
 import { isUndefined } from 'util';
+import * as signalR from "@microsoft/signalr";
 
 
 @Component({
@@ -35,12 +37,18 @@ export class RevoteComponent implements OnInit {
 
     age: number;
 
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
+
     constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
         this.navBarStateService.SetIsInElection(true);
         this.navBarStateService.SetLogsVisible(true);
         this.FetchParticipants();
+
+        this.hubConnection.start().catch(err => console.log(err));
     }
 
     async FetchParticipants() {
@@ -109,7 +117,7 @@ export class RevoteComponent implements OnInit {
             let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
             return participant['hasTalked'];
         }
-        catch (e) {}
+        catch (e) { }
     }
 
     actualParticipant(user: Users, birthDate: string) {
@@ -199,7 +207,25 @@ export class RevoteComponent implements OnInit {
                 }).subscribe(result => {
                 }, error => console.log(error));
             }
-            this.router.navigate(['objections/' + this.election['electionId']]);
+            let phase: Phase = new Phase();
+            this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {
+                phase = phaseResult as Phase;
+
+                this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+                    "ElectionId": this.election['electionId'],
+                    "Job": this.election['job'],
+                    "Mission": this.election['mission'],
+                    "Responsability": this.election['responsability'],
+                    "StartDate": this.election['startDate'],
+                    "EndDate": this.election['endDate'],
+                    "CodeElection": this.election['codeElection'],
+                    "HostId": this.election["hostId"],
+                    "ElectedId": null,
+                    "ElectionPhaseId": phase['phaseId']
+                }).subscribe(result => {
+                    this.hubConnection.send("updatePhase", Number(this.electionId));
+                }, error => console.log(error));
+            });
         }, error => console.error(error));
     }
 }

@@ -15,7 +15,7 @@ import * as signalR from "@microsoft/signalr";
         
 
 @Component({
-    selector: 'app-election',
+    selector: 'app-election-master-page',
     templateUrl: './election-master-page.component.html',
 })
 
@@ -41,10 +41,9 @@ export class ElectionMasterPageComponent implements OnInit {
 
     constructor(private service: HttpClient, private electionService: ElectionService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
-    async ngOnInit() {
+    ngOnInit() {
         this.electionService.ClearParticipantList();
         this.electionService.ClearUserList();
-
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
@@ -54,8 +53,8 @@ export class ElectionMasterPageComponent implements OnInit {
         this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
     }
 
-    setElectionStatus(enElection: Election) {
-        this.election = enElection;
+    setElectionStatus(anElection: Election) {
+        this.election = anElection;
         this.electionPhase = this.election['electionPhaseId'];
         switch (Number(this.electionPhase)) {
             case 1:

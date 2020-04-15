@@ -16,7 +16,7 @@ import * as signalR from "@microsoft/signalr";
 import { Phase } from '../Model/Phase';
 
 @Component({
-    selector: 'app-election',
+    selector: 'app-objections',
     templateUrl: './objections.component.html',
     styleUrls: ['./objections.component.css']
 })
@@ -67,13 +67,6 @@ export class ObjectionsComponent implements OnInit {
                 this.getObjections();
             }
          
-        });
-
-        this.hubConnection.on("validateCandidature", (electionId: number) => {
-            if (electionId == this.election["electionId"]) {
-                this.router.navigate(['bonification/' + this.election['electionId']]);
-            }
-
         });
     }
 
@@ -288,7 +281,7 @@ export class ObjectionsComponent implements OnInit {
 
     acceptCandidate() {
         let phase: Phase = new Phase();
-        this.service.get(window.location.origin + "/api/Phases/2").subscribe(phaseResult => {
+        this.service.get(window.location.origin + "/api/Phases/4").subscribe(phaseResult => {
             phase = phaseResult as Phase;
 
             this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
@@ -310,7 +303,7 @@ export class ObjectionsComponent implements OnInit {
                     "HasTalked": false,
                     "Proposable": true
                 }).subscribe(result => {
-                    this.hubConnection.send("validateCandidature", this.election['electionId']);
+                    this.hubConnection.send("updatePhase", this.election['electionId']);
 
                 }, error => console.log(error));
             }, error => console.log(error));

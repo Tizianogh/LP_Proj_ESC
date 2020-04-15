@@ -18,6 +18,7 @@ export class ElectionService {
 
     private electionValue: Election;
     private election: BehaviorSubject<Election>;
+    private electionO: Election;
     private participants: Participant[];
     private participantList: BehaviorSubject<Participant[]>;
     private users: Users[];
@@ -117,9 +118,5 @@ export class ElectionService {
 
     GetUserList() {
         return this.userList.asObservable();
-    }
-
-    GetUserListValue() {
-        return this.users;
     }
 }

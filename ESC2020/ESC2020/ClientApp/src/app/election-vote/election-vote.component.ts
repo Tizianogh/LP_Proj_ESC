@@ -40,7 +40,6 @@ export class ElectionVoteComponent implements OnInit {
 
     age: number;
 
-
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
         .build();
@@ -72,56 +71,28 @@ export class ElectionVoteComponent implements OnInit {
 
         this.hubConnection.on("changeParticipants", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
-
-                console.log(this.listeParticipants)
-                this.listeParticipants = null;
-                console.log(this.listeParticipants)
-                this.listeParticipants = this.electionService.GetParticipantListValue();
-                console.log(this.listeParticipants)
-
-                this.listeUsers = this.electionService.GetUserListValue();
-                //this.electionService.ClearParticipantList();
-                //this.electionService.ClearUserList();
-                this.fetchParticipants();
+                this.listeParticipants = [];
+                this.listeUsers = [];
+                this.electionService.fetchElection(this.electionId);
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
         });
 
         this.hubConnection.on("userHasVoted", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
-
-                console.log(this.listeParticipants)
-                this.listeParticipants = null;
-                console.log(this.listeParticipants)
-                this.listeParticipants = this.electionService.GetParticipantListValue();
-                console.log(this.listeParticipants)
-
-                this.listeUsers = null;
-                this.listeUsers = this.electionService.GetUserListValue();
+                this.getCurrentParticipant();
+                this.listeUsers = [];
+                this.electionService.fetchElection(String(electionId));
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
 
             }
 
         });
     }
 
-    async fetchParticipants() {
-        //récupérer la liste des participants en fonction de l'id d'une élection
-        await this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-            this.listeParticipants = participantResult as Participant[];
-            this.listeParticipants.forEach((participant) => {
-                this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-                this.electionService.AddParticipant(participant);
-                this.fetchUser(participant);
-            });
-        }, error => console.error(error));
-    }
-
-    async fetchUser(participant: Participant) {
-        //Récupérer un utilisateur en fonction d'un participant d'une élection passé en paramètred
-        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            let user: Users = userResult as Users;
-            this.electionService.AddUser(user);
-        }, error => console.error(error));
-    }
+   
 
 
     getCurrentParticipant() {
@@ -266,7 +237,7 @@ export class ElectionVoteComponent implements OnInit {
                     "ElectedId": null,
                     "ElectionPhaseId": phase['phaseId']
                 }).subscribe(result => {
-                    this.hubConnection.send("endVote", Number(this.electionId));
+                    this.hubConnection.send("updatePhase", Number(this.electionId));
                 }, error => console.log(error));
             });
         }, error => console.error(error));
