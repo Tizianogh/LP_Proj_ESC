@@ -169,8 +169,8 @@ namespace ESC2020.Migrations
                     b.Property<bool>("HasTalked")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("Proposable")
-                        .HasColumnType("boolean");
+                    b.Property<int>("VoteCounter")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId", "ElectionId");
 

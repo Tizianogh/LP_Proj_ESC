@@ -67,10 +67,12 @@ export class CelebrationComponent implements OnInit {
     }
 
     preStart() {
+            
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
                 this.actualElected = userResult as Users;
+                console.log("le gagnant"+this.actualElected)
             }, error => console.error(error));
         }
     }

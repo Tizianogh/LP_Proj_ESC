@@ -55,7 +55,7 @@
 
     <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentUser.description}}</label>
 
-    <div *ngIf="HasUserTalked(connectedAccount); then ThenBlock3 else ElseBlock3"></div>
+    <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
     <ng-template #ElseBlock3>
         <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
         <div class="col text-center">

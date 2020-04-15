@@ -23,7 +23,7 @@ namespace ESC2020.Model
         [Required]
         public bool HasTalked { get; set; }
 
-        [DefaultValue("false")]
-        public bool Proposable { get; set; }
+        [DefaultValue(0)]
+        public int VoteCounter { get; set; }
     }
 }

@@ -62,7 +62,6 @@ export class ElectionMasterPageComponent implements OnInit {
             if (electionId == Number(this.electionId)) {
                 this.electionPhase = '';
                 this.electionService.fetchElection(this.electionId);
-                this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
             }
         });
     }

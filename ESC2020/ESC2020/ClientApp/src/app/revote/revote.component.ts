@@ -12,7 +12,7 @@ import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
 import { isUndefined } from 'util';
 import * as signalR from "@microsoft/signalr";
-
+import { ElectionService } from '../services/election.service';
 
 @Component({
     selector: 'app-revote',
@@ -26,8 +26,7 @@ export class RevoteComponent implements OnInit {
     private connectedAccount: Users = new Users();
     private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
-    private listeParticipants: Participant[] = []
-
+    private listeParticipants: Participant[] = [];
     currentUser: Users = new Users();
     election: Election = new Election();
     currentParticipant: Participant = new Participant();
@@ -41,41 +40,60 @@ export class RevoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) { }
 
     ngOnInit() {
-        this.navBarStateService.SetIsInElection(true);
-        this.navBarStateService.SetLogsVisible(true);
-        this.FetchParticipants();
-
-        this.hubConnection.start().catch(err => console.log(err));
-    }
-
-    async FetchParticipants() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
-        //Récupérer l'id de l'élection actuelle à partir de l'url
-        this.electionId = this.router.url.split("/")[2];
-
-        await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
-            this.election = result as Election;
-            this.setSubTitle();
-            this.navBarStateService.SetNavState(this.election['job']);
-
-            //récupérer la liste des participants en fonction de l'id d'une élection
-            this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participants => {
-
-                this.listeParticipants = participants as Participant[];
-                this.listeParticipants.forEach((participant) => {
-                    this.FetchUser(participant);
-                });
-            }, error => console.error(error));
-        }, error => console.error(error));
+        this.navBarStateService.SetIsInElection(true);
+        this.navBarStateService.SetLogsVisible(true);
+        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
+        this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+        this.getCurrentParticipant();
+        this.setOnSignalReceived();
+        this.hubConnection.start().catch(err => console.log(err));
+        this.setSubTitle();
     }
 
+    setOnSignalReceived() {
+
+
+        this.hubConnection.on("changeParticipants", (electionId: number) => {
+            if (electionId == Number(this.election['electionId'])) {
+                console.log("changeParticipants");
+                this.listeParticipants = [];
+                this.listeUsers = [];
+                this.electionService.fetchElection(this.election['electionId']);
+            }
+        });
+
+        this.hubConnection.on("userHasVoted", (electionId: number) => {
+            if (electionId == Number(this.election['electionId'])) {
+                console.log('userVoted');
+                this.getCurrentParticipant();
+                this.listeParticipants = [];
+                this.listeUsers = [];
+                this.electionService.fetchElection(String(electionId));
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+
+            }
+
+        });
+
+    }
+
+    getCurrentParticipant() {
+        this.currentParticipant = new Participant();
+        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
+            this.currentParticipant = result as Participant;
+        }, error => console.log(error));
+    }
+
+
     setSubTitle() {
-        this.service.get(window.location.origin + "/api/Opinions/election/" + this.electionId).subscribe(result => {
+        this.service.get(window.location.origin + "/api/Opinions/" + this.election['electionId'] + '/' + this.connectedAccount['userId']).subscribe(result => {
             let opinion: Opinion[] = result as Opinion[];
             opinion.sort((l1, l2) => {
                 if (l1['dateOpinion'] > l2['dateOpinion']) {
@@ -86,29 +104,19 @@ export class RevoteComponent implements OnInit {
                 }
                 return 0;
             });
+            console.log(opinion)
             if (isUndefined(opinion[0])) {
                 document.getElementById("sous-titre").innerText += ' aucun candidat';
+                console.log("nope")
+
             }
             else {
                 this.service.get(window.location.origin + "/api/Users/" + opinion[0]["concernedId"]).subscribe(result => {
+                    console.log(result)
+
                     document.getElementById("sous-titre").innerText += ' ' + result['firstName'] + ' ' + result['lastName'];
                 }, error => console.error(error));
             }
-        }, error => console.error(error));
-    }
-
-    async FetchUser(participant: Participant) {
-        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            this.listeUsers.push(userResult as Users);
-            this.listeUsers.sort((u1, u2) => {
-                if (u1['userId'] > u2['userId']) {
-                    return -1;
-                }
-                if (u1['userId'] < u2['userId']) {
-                    return 1;
-                }
-                return 0;
-            });
         }, error => console.error(error));
     }
 
@@ -153,79 +161,112 @@ export class RevoteComponent implements OnInit {
     }
 
     Revote() {
-        //génération d'une opinion Vote (id du type : 3 = opinion de type revote)
-        this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
-            this.type = result as TypeOpinion;
-            this.service.post(window.location.origin + "/api/Opinions", {
-                'AuthorId': this.connectedAccount["userId"],
-                'ConcernedId': this.currentUser["userId"],
-                'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
-                'TypeId': this.type["typeId"],
-                'DateOpinion': new Date(),
-                'ElectionId': this.election['electionId']
-            }).subscribe(result => {
-            }, error => console.log(error));
+        this.service.get(window.location.origin + "/api/Opinions/vote/" + this.election['electionId'] + '/' + this.connectedAccount['userId']).subscribe(result => {
+            let opinion: Opinion[] = result as Opinion[];
+            opinion.sort((l1, l2) => {
+                if (l1['dateOpinion'] > l2['dateOpinion']) {
+                    return -1;
+                }
+                if (l1['dateOpinion'] < l2['dateOpinion']) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            if (isUndefined(opinion[0])) {
+
+            }
+            else {
+                this.service.get(window.location.origin + "/api/Participants/" + opinion[0]["concernedId"] + '/' + this.election['electionId']).subscribe(participantResult => {
+                    let participant = participantResult as Participant;
+                    let voteCounter = participant['voteCounter'] - 1;
+                    this.service.put(window.location.origin + "/api/Participants/" + participant['userId'] + "/" + this.election['electionId'], {
+                        "UserId": participant['userId'],
+                        "ElectionId": this.election['electionId'],
+                        "HasTalked": participant['hasTalked'],
+                        "VoteCounter": voteCounter
+                    }).subscribe(result => {
+
+                        //génération d'une opinion revote (id du type : 3 = opinion de type revote)
+                        this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
+                            this.type = result as TypeOpinion;
+                            this.service.post(window.location.origin + "/api/Opinions", {
+                                'AuthorId': this.connectedAccount["userId"],
+                                'ConcernedId': this.currentUser["userId"],
+                                'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
+                                'TypeId': this.type["typeId"],
+                                'DateOpinion': new Date(),
+                                'ElectionId': this.election['electionId']
+                            }).subscribe(result => {
+                                this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
+                                    let participantResult: Participant = result as Participant;
+                                    this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId'], {
+                                        'UserId': participantResult['userId'],
+                                        'ElectionId': participantResult['electionId'],
+                                        'HasTalked': true,
+                                        'VoteCounter': participantResult['voteCounter']
+                                    }).subscribe(result => {
+                                        this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
+                                            let participantResult: Participant = result as Participant;
+                                            let voteCounter = participantResult['voteCounter'] + 1;
+                                            this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
+                                                "UserId": participantResult["userId"],
+                                                "ElectionId": this.election['electionId'],
+                                                "HasTalked": participantResult['hasTalked'],
+                                                "VoteCounter": voteCounter
+                                            }).subscribe(result => {
+                                                this.hubConnection.send("userHasVoted", Number(this.election['electionId']));
+                                            }, error => console.log(error));
+                                        }, error => console.log(error));
+                                    }, error => console.log(error));
+                                }, error => console.log(error));
+                                this.navBarStateService.SetLogsVisible(true);
+                            }, error => console.log(error));
+                        }, error => console.error(error));
+                    }, error => console.log(error));
+                }, error => console.error(error));
+            }
         }, error => console.error(error));
-
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            let participantResult: Participant = result as Participant;
-            this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId'], {
-                'UserId': participantResult['userId'],
-                'ElectionId': participantResult['electionId'],
-                'HasTalked': true
-            }).subscribe(result => {
-            }, error => console.log(error));
-        }, error => console.log(error));
-        this.navBarStateService.SetLogsVisible(true);
-
-        this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            let participantResult: Participant = result as Participant;
-            this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
-                "UserId": participantResult["userId"],
-                "ElectionId": this.election['electionId'],
-                "HasTalked": participantResult['hasTalked'],
-                "Proposable": true
-            }).subscribe(result => {
-            }, error => console.log(error));
-        }, error => console.log(error));
     }
 
     Exclude(currentUserId: number) {
         this.service.delete(window.location.origin + "/api/Participants/" + currentUserId + "/" + this.election['electionId']).subscribe(result => {
+            this.hubConnection.send("changeParticipants", Number(this.election['electionId']));
         }, error => console.log(error));
     }
 
     goToNextPhase() {
-        this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-            this.listeParticipants = participantResult as Participant[];
+        this.listeParticipants = [];
+        this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(result => {
+            this.listeParticipants = result as Participant[];
             for (let i in this.listeParticipants) {
                 this.service.put(window.location.origin + "/api/Participants/" + this.listeParticipants[i]['userId'] + "/" + this.election['electionId'], {
                     "UserId": this.listeParticipants[i]['userId'],
                     "ElectionId": this.election['electionId'],
                     "HasTalked": false,
-                    "Proposable": this.listeParticipants[i]['proposable']
+                    "VoteCounter": this.listeParticipants[i]['voteCounter']
                 }).subscribe(result => {
+                    let phase: Phase = new Phase();
+                    this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {
+                        phase = phaseResult as Phase;
+
+                        this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+                            "ElectionId": this.election['electionId'],
+                            "Job": this.election['job'],
+                            "Mission": this.election['mission'],
+                            "Responsability": this.election['responsability'],
+                            "StartDate": this.election['startDate'],
+                            "EndDate": this.election['endDate'],
+                            "CodeElection": this.election['codeElection'],
+                            "HostId": this.election["hostId"],
+                            "ElectedId": null,
+                            "ElectionPhaseId": phase['phaseId']
+                        }).subscribe(result => {
+                            this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                        }, error => console.log(error));
+                    });
                 }, error => console.log(error));
             }
-            let phase: Phase = new Phase();
-            this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {
-                phase = phaseResult as Phase;
-
-                this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
-                    "ElectionId": this.election['electionId'],
-                    "Job": this.election['job'],
-                    "Mission": this.election['mission'],
-                    "Responsability": this.election['responsability'],
-                    "StartDate": this.election['startDate'],
-                    "EndDate": this.election['endDate'],
-                    "CodeElection": this.election['codeElection'],
-                    "HostId": this.election["hostId"],
-                    "ElectedId": null,
-                    "ElectionPhaseId": phase['phaseId']
-                }).subscribe(result => {
-                    this.hubConnection.send("updatePhase", Number(this.electionId));
-                }, error => console.log(error));
-            });
         }, error => console.error(error));
     }
 }

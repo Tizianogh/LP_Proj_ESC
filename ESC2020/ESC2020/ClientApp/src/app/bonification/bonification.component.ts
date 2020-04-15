@@ -52,9 +52,9 @@ export class BonificationComponent implements OnInit {
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
 
         this.mainRequest();
-
         this.hubConnection.start().catch(err => console.log(err));
     }
+
 
     mainRequest() {
         this.getConnectedParticipant();
@@ -139,7 +139,6 @@ export class BonificationComponent implements OnInit {
         let phase: Phase = new Phase();
         this.service.get(window.location.origin + "/api/Phases/5").subscribe(phaseResult => {
             phase = phaseResult as Phase;
-
             this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
                 "ElectionId": this.election['electionId'],
                 "Job": this.election['job'],
@@ -149,10 +148,10 @@ export class BonificationComponent implements OnInit {
                 "EndDate": this.election['endDate'],
                 "CodeElection": this.election['codeElection'],
                 "HostId": this.election["hostId"],
-                "ElectedId": null,
+                "ElectedId": this.election['electedId'],
                 "ElectionPhaseId": phase['phaseId']
             }).subscribe(result => {
-                this.hubConnection.send("updatePhase", Number(this.electionId));
+                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
             }, error => console.log(error));
         });
     }
