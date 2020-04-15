@@ -47,28 +47,33 @@ export class ElectionVoteComponent implements OnInit {
     constructor(private service: HttpClient, private router: Router, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
+        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
-        
-
-        console.log(this.election);
-        console.log(this.election['electionId']);
-
-
+        this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+        this.electionId = this.election['electionId'];
         this.navBarStateService.SetIsInElection(true);
-        this.FetchParticipants();
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
-        this.getCurrentParticipant();
 
-        this.electionId = this.election['electionId'];
+
+        this.getCurrentParticipant();
     }
 
     setOnSignalReceived() {
+        this.hubConnection.on("endVote", (electionId: number) => {
+            if (electionId == Number(this.electionId)) {
+                this.router.navigate(['objections/' + this.election['electionId']]);
+            }
+
+        });
 
         this.hubConnection.on("changeParticipants", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
                 this.listeParticipants = [];
                 this.listeUsers = [];
+                this.electionService.fetchElection(this.electionId);
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
@@ -78,49 +83,17 @@ export class ElectionVoteComponent implements OnInit {
             if (electionId == Number(this.electionId)) {
                 this.getCurrentParticipant();
                 this.listeUsers = [];
+                this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
 
             }
-        
+
         });
     }
-    async FetchParticipants() {
-        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
-        //Récupérer l'id de l'élection actuelle à partir de l'url
-        this.electionId =this.router.url.split("/")[2];
+   
 
-        await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
-            this.election = result as Election;
-            this.navBarStateService.SetNavState(this.election['job']);
-
-            //récupérer la liste des participants en fonction de l'id d'une élection
-            this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-                this.listeParticipants = participantResult as Participant[];
-                this.listeParticipants.forEach((participant) => {
-                    this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-                    this.FetchUser(participant);
-                });
-            }, error => console.error(error));
-        }, error => console.error(error));
-    }
-
-    async FetchUser(participant: Participant) {
-        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            this.listeUsers.push(userResult as Users);
-            this.listeUsers.sort((u1, u2) => {
-                if (u1['userId'] > u2['userId']) {
-                    return -1;
-                }
-                if (u1['userId'] < u2['userId']) {
-                    return 1;
-                }
-                return 0;
-            });
-        }, error => console.error(error));
-    }
 
     getCurrentParticipant() {
         this.currentParticipant = new Participant();
@@ -134,7 +107,7 @@ export class ElectionVoteComponent implements OnInit {
             let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
             return participant['hasTalked'];
         }
-        catch (e) {}
+        catch (e) { }
     }
 
     actualParticipant(user: Users, birthDate: string) {

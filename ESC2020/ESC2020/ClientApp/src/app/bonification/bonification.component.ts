@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
 import { NavBarStateService } from '../services/NavBarState.service';
+
+import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 
 
@@ -19,7 +21,6 @@ import * as signalR from "@microsoft/signalr";
 })
 
 export class BonificationComponent implements OnInit {
-
     connected: boolean;
     connectedAccount: Users = new Users();
 
@@ -40,17 +41,15 @@ export class BonificationComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
+    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
 
     }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.navBarStateService.SetIsInElection(true);
-        this.navBarStateService.SetObjectionsVisible(true);
-        this.navBarStateService.SetLogsVisible(true);
-        // setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
+
+        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
 
         this.mainRequest();
 
@@ -58,15 +57,9 @@ export class BonificationComponent implements OnInit {
     }
 
     mainRequest() {
-        //Récupérer l'id de l'élection actuelle à partir de l'url
-        this.electionId = this.router.url.split('/')[2];
-        this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
-            this.election = result as Election;
-            this.navBarStateService.SetNavState(this.election['job']);
-            this.getConnectedParticipant();
-            this.checkHost();
-            this.preStart();
-        }, error => console.error(error));
+        this.getConnectedParticipant();
+        this.checkHost();
+        this.preStart();
     }
 
     getConnectedParticipant() {
@@ -137,7 +130,7 @@ export class BonificationComponent implements OnInit {
                 "ElectedId": null,
                 "ElectionPhaseId": phase['phaseId']
             }).subscribe(result => {
-                this.hubConnection.send("updatePhase", Number(this.electionId));
+                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
             }, error => console.log(error));
         });
     }

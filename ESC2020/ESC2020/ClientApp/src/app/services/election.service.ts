@@ -15,10 +15,12 @@ import { Phase } from '../Model/Phase';
 export class ElectionService {
 
     private election: BehaviorSubject<Election>;
+    private electionO: Election;
     private participants: Participant[];
     private participantList: BehaviorSubject<Participant[]>;
     private users: Users[];
     private userList: BehaviorSubject<Users[]>;
+
 
     constructor(private service: HttpClient, private router: Router) {
         this.election = new BehaviorSubject(new Election());
@@ -84,5 +86,34 @@ export class ElectionService {
 
     GetUserList() {
         return this.userList.asObservable();
+    }
+
+    async fetchElection(electionId: string) {
+        await this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
+            this.electionO = result as Election;
+            this.SetElection(this.electionO);
+            this.fetchParticipants(electionId);
+        }, error => console.error(error));
+    }
+
+    async fetchParticipants(electionId:string) {
+        this.ClearParticipantList();
+        //récupérer la liste des participants en fonction de l'id d'une élection
+        await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
+            this.participants = participantResult as Participant[];
+            this.participants.forEach((participant) => {
+                this.AddParticipant(participant);
+                this.fetchUser(participant);
+            });
+        }, error => console.error(error));
+    }
+
+    async fetchUser(participant: Participant) {
+        this.ClearUserList();
+        //Récupérer un utilisateur en fonction d'un participant d'une élection passé en paramètred
+        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
+            let user: Users = userResult as Users;
+            this.AddUser(user);
+        }, error => console.error(error));
     }
 }

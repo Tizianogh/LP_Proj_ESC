@@ -68,8 +68,8 @@ namespace ESC2020.Migrations
                     EndDate = table.Column<DateTimeOffset>(nullable: false),
                     CodeElection = table.Column<string>(nullable: true),
                     HostId = table.Column<int>(nullable: false),
-                    ElectedId = table.Column<int>(nullable: true),
-                    PhaseId = table.Column<int>(nullable: true)
+                    ElectionPhaseId = table.Column<int>(nullable: false),
+                    ElectedId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,17 +81,17 @@ namespace ESC2020.Migrations
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Election_Phase_ElectionPhaseId",
+                        column: x => x.ElectionPhaseId,
+                        principalTable: "Phase",
+                        principalColumn: "PhaseId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Election_Users_HostId",
                         column: x => x.HostId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Election_Phase_PhaseId",
-                        column: x => x.PhaseId,
-                        principalTable: "Phase",
-                        principalColumn: "PhaseId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,14 +217,14 @@ namespace ESC2020.Migrations
                 column: "ElectedId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Election_ElectionPhaseId",
+                table: "Election",
+                column: "ElectionPhaseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Election_HostId",
                 table: "Election",
                 column: "HostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Election_PhaseId",
-                table: "Election",
-                column: "PhaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Message_ElectionId",

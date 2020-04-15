@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
+    "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
+    "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectUniqueName": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "projectName": "CreationCompte",
-        "projectPath": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectPath": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "packagesPath": "C:\\Users\\tizia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tizia\\source\\repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+        "outputPath": "C:\\Users\\tizia\\Source\\Repos\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tizia\\AppData\\Roaming\\NuGet\\NuGet.Config",
