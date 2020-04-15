@@ -1,7 +1,20 @@
+.container{
+
+}
+
+.dropdown-menu {
+    border-top: solid;
+    border-top-width: 5px;
+    border-top-color: #430640;
+    border-color: #430640;
+    border-style: ridge;
+    margin-top: 0;
+}
+
 #titre {
     color: #430640;
-    margin-top: 25px;
-    margin-bottom: 60px;
+    font-weight: 800;
+    font-size: 38px;
 }
 
 .elections {
