@@ -18,6 +18,7 @@ import { ElectionVoteComponent } from './election-vote/election-vote.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MyAccountComponent } from './my-account/my-account.component';
+import { CelebrationComponent } from './celebration/celebration.component';
 import { NextPhaseComponent } from './next-phase/next-phase.component';
 import { ObjectionsComponent } from './objections/objections.component';
 import { BonificationComponent } from './bonification/bonification.component';
@@ -45,6 +46,7 @@ registerLocaleData(localeFr, 'fr');
         NextPhaseComponent,
         JoinElectionLinkComponent,
         ElectionMasterPageComponent,
+        CelebrationComponent,
         RevoteComponent
     ],
 
@@ -65,6 +67,7 @@ registerLocaleData(localeFr, 'fr');
             { path: 'election-vote/:id', component: ElectionVoteComponent },
             { path: 'my-account', component: MyAccountComponent },
             { path: 'join-election-link/:id', component: JoinElectionLinkComponent },
+            { path: 'celebration/:id', component: CelebrationComponent },
             { path: 'objections/:id', component: ObjectionsComponent },
             { path: 'bonification/:id', component: BonificationComponent },
             { path: 'next-phase', component: NextPhaseComponent },
