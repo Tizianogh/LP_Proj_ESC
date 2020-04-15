@@ -72,8 +72,14 @@ export class ElectionVoteComponent implements OnInit {
 
         this.hubConnection.on("changeParticipants", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
-                this.listeParticipants = [];
-                this.listeUsers = [];
+
+                console.log(this.listeParticipants)
+                this.listeParticipants = null;
+                console.log(this.listeParticipants)
+                this.listeParticipants = this.electionService.GetParticipantListValue();
+                console.log(this.listeParticipants)
+
+                this.listeUsers = this.electionService.GetUserListValue();
                 //this.electionService.ClearParticipantList();
                 //this.electionService.ClearUserList();
                 this.fetchParticipants();
@@ -82,10 +88,15 @@ export class ElectionVoteComponent implements OnInit {
 
         this.hubConnection.on("userHasVoted", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
-                this.getCurrentParticipant();
-                this.listeUsers = [];
-                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+
+                console.log(this.listeParticipants)
+                this.listeParticipants = null;
+                console.log(this.listeParticipants)
+                this.listeParticipants = this.electionService.GetParticipantListValue();
+                console.log(this.listeParticipants)
+
+                this.listeUsers = null;
+                this.listeUsers = this.electionService.GetUserListValue();
 
             }
 

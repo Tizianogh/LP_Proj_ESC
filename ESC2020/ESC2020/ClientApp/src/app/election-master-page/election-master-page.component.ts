@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
@@ -41,7 +41,7 @@ export class ElectionMasterPageComponent implements OnInit {
 
     constructor(private service: HttpClient, private electionService: ElectionService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.electionService.ClearParticipantList();
         this.electionService.ClearUserList();
 
@@ -50,66 +50,12 @@ export class ElectionMasterPageComponent implements OnInit {
 
         this.navBarStateService.SetIsInElection(true);
 
-        this.fetchElection();
-        
+        this.electionService.fetchElection(this.router.url.split('/')[2]);
+        this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
     }
 
-  setOnSignalReceived() {
-
-        this.hubConnection.on("endVote", (electionId: number) => {
-            if (electionId == Number(this.electionId)) {
-                this.router.navigate(['objections/' + this.election['electionId']]);
-            }
-
-        });
-
-        this.hubConnection.on("changeParticipants", (electionId: number) => {
-            if (electionId == Number(this.electionId)) {
-                this.listeParticipants = [];
-                this.fetchElection();
-            }
-        });
-        this.hubConnection.on("userHasVoted", (electionId: number) => {
-            if (electionId == Number(this.electionId)) {
-                this.fetchElection();
-            }
-
-        });
-    }
-     
-    async fetchElection() {
-        //Récupérer l'id de l'élection actuelle à partir de l'url
-        this.electionId = this.router.url.split('/')[2];
-        await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
-            this.election = result as Election;
-            this.electionService.SetElection(this.election);
-            this.navBarStateService.SetNavState(this.election['job']);
-            this.fetchParticipants();
-        }, error => console.error(error));
-    }
-
-    async fetchParticipants() {
-        //récupérer la liste des participants en fonction de l'id d'une élection
-        await this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-            this.listeParticipants = participantResult as Participant[];
-            this.listeParticipants.forEach((participant) => {
-                this.navBarStateService.SetLogsVisible(this.listeParticipants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-                this.electionService.AddParticipant(participant);
-                this.fetchUser(participant);
-            });
-        }, error => console.error(error));
-    }
-
-    async fetchUser(participant: Participant) {
-        //Récupérer un utilisateur en fonction d'un participant d'une élection passé en paramètred
-        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            let user: Users = userResult as Users;
-            this.electionService.AddUser(user);
-            this.setElectionStatus();
-        }, error => console.error(error));
-    }
-
-    setElectionStatus() {
+    setElectionStatus(enElection: Election) {
+        this.election = enElection;
         this.electionPhase = this.election['electionPhaseId'];
         switch (Number(this.electionPhase)) {
             case 1:
