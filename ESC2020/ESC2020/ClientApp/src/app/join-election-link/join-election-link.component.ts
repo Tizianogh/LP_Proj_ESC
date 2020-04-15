@@ -19,7 +19,7 @@ export class JoinElectionLinkComponent implements OnInit {
     private connectedAccount: Users;
     private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
-
+    election: Election = new Election();
     code: string;
     erreur: string;
 
@@ -30,10 +30,12 @@ export class JoinElectionLinkComponent implements OnInit {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.code = this.router.url.split('/')[2];
-        
-            console.log(this.connected);
-            console.log(this.connectedAccount);
-       
+        console.log(this.code);
+        console.log(this.connected);
+        console.log(this.connectedAccount);
+        this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
+            this.election = result as Election;
+        }, error => console.error(error));
           
         
     }
@@ -43,10 +45,10 @@ export class JoinElectionLinkComponent implements OnInit {
             console.log(result);
             this.listeElections.push(result as Election);
             this.service.post(window.location.origin + "/api/Participants", { 'UserId': this.connectedAccount['userId'], 'ElectionId': result['electionId'] }).subscribe(result => {
-                this.router.navigate(["my-elections"]);
                 console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));
+        this.router.navigate(["my-elections"]);
     }
 
 

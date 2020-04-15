@@ -1,3 +1,14 @@
+/*.carousel .item {
+    height: 5000px !important;
+}
+
+.item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 5000px !important;
+}*/
+
 .container-fluid {
     max-width: 1500px !important;
 }

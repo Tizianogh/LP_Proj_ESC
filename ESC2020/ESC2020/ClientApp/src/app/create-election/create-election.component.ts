@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
+import { Phase } from '../Model/Phase';
 
 @Component({
     selector: 'app-creation',
@@ -66,20 +67,25 @@ export class CreateElectionComponent implements OnInit {
         }
         else {
             if (this.verifDates(form['dateD'], form['dateF'])) {
-                this.service.post(window.location.origin + "/api/Elections", {
-                    "Job": form['poste'],
-                    "Mission": form['missions'],
-                    "Responsability": form['responsabilites'],
-                    "StartDate": form['dateD'],
-                    "EndDate": form['dateF'],
-                    "CodeElection": this.generateCode(),
-                    "HostId": this.connectedAccount["userId"],
-                    "ElectedId":null
-                }).subscribe(result => {
-                    this.id = result['electionId'];
-                    this.linkUsersElection(this.connectedAccount["userId"],this.id);
-                    this.router.navigate(['election-reminder/' + this.id]);
-                }, error => this.submit());
+                let phase: Phase = new Phase();
+                this.service.get(window.location.origin + "/api/Phases/1").subscribe(phaseResult => {
+                    phase = phaseResult as Phase;
+                    this.service.post(window.location.origin + "/api/Elections", {
+                        "Job": form['poste'],
+                        "Mission": form['missions'],
+                        "Responsability": form['responsabilites'],
+                        "StartDate": form['dateD'],
+                        "EndDate": form['dateF'],
+                        "CodeElection": this.generateCode(),
+                        "HostId": this.connectedAccount["userId"],
+                        "ElectedId": null,
+                        "PhaseId": phase['phaseId']
+                    }).subscribe(result => {
+                        this.id = result['electionId'];
+                        this.linkUsersElection(this.connectedAccount["userId"], this.id);
+                        this.router.navigate(['election-reminder/' + this.id]);
+                    }, error => this.submit());
+                }, error => console.error(error));
             }
             else {
                 this.erreur = "*Les dates sont incorrectes";
