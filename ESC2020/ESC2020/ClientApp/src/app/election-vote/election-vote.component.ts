@@ -99,7 +99,6 @@ export class ElectionVoteComponent implements OnInit {
 
         //Récupérer l'id de l'élection actuelle à partir de l'url
         this.electionId =this.router.url.split("/")[2];
-
         await this.service.get(window.location.origin + "/api/Elections/" + this.electionId).subscribe(result => {
             this.election = result as Election;
             this.navBarStateService.SetNavState(this.election['job']);

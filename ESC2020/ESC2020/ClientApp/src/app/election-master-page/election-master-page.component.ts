@@ -82,5 +82,21 @@ export class ElectionMasterPageComponent implements OnInit {
 
     setElectionStatus() {
         this.electionPhase = this.election['electionPhaseId'];
+        switch (Number(this.electionPhase)) {
+            case 1:
+                this.navBarStateService.SetLogsVisible(false);
+                this.navBarStateService.SetObjectionsVisible(false);
+                break;
+
+            case 2:
+                this.navBarStateService.SetLogsVisible(true);
+                this.navBarStateService.SetObjectionsVisible(false);
+                break;
+
+            default:
+                this.navBarStateService.SetLogsVisible(true);
+                this.navBarStateService.SetObjectionsVisible(true);
+                break;
+        }
     }
 }
