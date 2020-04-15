@@ -47,9 +47,6 @@ export class ObjectionsComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.navBarStateService.SetIsInElection(true);
-        this.navBarStateService.SetObjectionsVisible(true);
-        this.navBarStateService.SetLogsVisible(true);
 
         this.setOnSignalReceived();
 

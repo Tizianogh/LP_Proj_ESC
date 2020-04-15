@@ -5,11 +5,19 @@
     </div>
 
     <div *ngSwitchCase="'2'">
-        Phase de report de votes
+        <app-revote></app-revote>
     </div>
 
     <div *ngSwitchCase="'3'">
         Phase d'objections
+    </div>
+
+    <div *ngSwitchCase="'4'">
+        <app-bonification></app-bonification>
+    </div>
+
+    <div *ngSwitchCase="'5'">
+        <app-celebration></app-celebration>
     </div>
 
     <div *ngSwitchDefault>
