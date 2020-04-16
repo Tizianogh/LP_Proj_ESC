@@ -50,21 +50,21 @@
         <div id="profilInformations" align="left" style="margin-left:15px;">
 
             <label class="section" #profil>Nom</label>
-            <input class="form-control" type="text" value={{connectedAccount.lastName}} [readonly]="isReadOnly"
+            <input class="form-control" type="text" value={{connectedAccount.LastName}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="lastName">
 
             <label class="section">Prénom</label>
-            <input class="form-control" type="text" value={{connectedAccount.firstName}} [readonly]="isReadOnly"
+            <input class="form-control" type="text" value={{connectedAccount.FirstName}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="firstName">
 
             <label class="section">Date de naissance</label>
-            <!--<input class="form-control" type="text" value="{{connectedAccount.birthDate |  date:'shortDate'}}" [readonly]="isReadOnly"
+            <!--<input class="form-control" type="text" value="{{connectedAccount.BirthDate |  date:'shortDate'}}" [readonly]="isReadOnly"
     [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">-->
-            <input id="birthDate" class="form-control" type="date" value="{{connectedAccount.birthDate |  date:'yyyy-MM-dd'}}" [readonly]="isReadOnly"
+            <input id="birthDate" class="form-control" type="date" value="{{connectedAccount.BirthDate |  date:'yyyy-MM-dd'}}" [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">
 
             <label class="section">Poste</label>
-            <input class="form-control" type="text" value={{connectedAccount.job}} [readonly]="isReadOnly"
+            <input class="form-control" type="text" value={{connectedAccount.Job}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="job">
 
             <small id="profileHelpBlock" class="form-text text-muted">
@@ -76,7 +76,7 @@
             <br />
 
             <label class="section" #biographie>Ma biographie</label>
-            <input class="form-control" type="text" value={{connectedAccount.description}} [readonly]="isReadOnly"
+            <input class="form-control" type="text" value={{connectedAccount.Description}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="description">
 
             <small id="biographieHelpBlock" class="form-text text-muted">
@@ -88,7 +88,7 @@
             <br />
 
             <label class="section" #informations>Mon adresse e-mail</label>
-            <input class="form-control" type="text" placeholder={{connectedAccount.email}} readonly>
+            <input class="form-control" type="text" placeholder={{connectedAccount.Email}} readonly>
             <small id="emailHelpBlock" class="form-text text-muted">
                 Cette adresse e-mail constitue votre identifiant de connexion.
             </small>
@@ -104,7 +104,7 @@
 
             <br /><br />
             <span [hidden]="isReadOnly">
-                <input type="file" class="form-control-file" id="avatar" accept="image/png, image/jpeg" [(ngModel)]="currentInput" (change)="changeListener($event)"/>
+                <input type="file" class="form-control-file" id="avatar" accept="image/png, image/jpeg" (change)="changeListener($event)"/>
 
                 <small id="avatarHelpBlock" class="form-text text-muted">
                     Indiquez un fichier pour modifier votre photo de profil.

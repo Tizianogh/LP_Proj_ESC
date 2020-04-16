@@ -24,12 +24,22 @@ export class MyAccountComponent implements OnInit {
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
+        
         this.navBarStateService.SetIsInElection(false);
     }
 
     scroll(el: HTMLElement) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    setupConnectedAccount(anUser: Users) {
+        this.connectedAccount = anUser;
+        this.connectedAccount.BirthDate = anUser['birthDate'];
+        this.connectedAccount.FirstName = anUser['firstName'];
+        this.connectedAccount.Email = anUser['email'];
+        this.connectedAccount.Description = anUser['description'];
+        this.connectedAccount.Job = anUser['job'];
     }
 
     modifyProfile() {
