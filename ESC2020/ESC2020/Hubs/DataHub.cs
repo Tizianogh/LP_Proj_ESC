@@ -32,5 +32,9 @@ namespace ESC2020.Hubs {
         public async Task validateCandidature(int electionId) {
             await Clients.All.SendAsync("validateCandidature", electionId);
         }
+        public async Task updatePhase(int electionId)
+        {
+            await Clients.All.SendAsync("updatePhase", electionId);
+        }
     }
 }

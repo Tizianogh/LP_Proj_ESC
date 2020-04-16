@@ -16,7 +16,7 @@ import * as signalR from "@microsoft/signalr";
 import { Phase } from '../Model/Phase';
 
 @Component({
-    selector: 'app-election',
+    selector: 'app-objections',
     templateUrl: './objections.component.html',
     styleUrls: ['./objections.component.css']
 })
@@ -47,9 +47,6 @@ export class ObjectionsComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.navBarStateService.SetIsInElection(true);
-        this.navBarStateService.SetObjectionsVisible(true);
-        this.navBarStateService.SetLogsVisible(true);
 
         this.setOnSignalReceived();
 
@@ -70,13 +67,6 @@ export class ObjectionsComponent implements OnInit {
                 this.getObjections();
             }
          
-        });
-
-        this.hubConnection.on("validateCandidature", (electionId: number) => {
-            if (electionId == this.election["electionId"]) {
-                this.router.navigate(['bonification/' + this.election['electionId']]);
-            }
-
         });
     }
 
@@ -135,23 +125,23 @@ export class ObjectionsComponent implements OnInit {
 
                 //Pour chaque "Users" qui est "Propasable=true" crée une "Proposition" dans le tableau "propositions"
                 for (let i in this.usersList) {
-                    console.log(this.getParticipant(this.usersList[i]['userId'])['proposable']);
-                    if (this.getParticipant(this.usersList[i]['userId'])['proposable']) {
-                        this.propositions.push(new Proposition(this.usersList[i]['userId'], 0));
-                        //Pour chaque "Opinions"
-                        for (let j in this.opinionsList) {
-                            //Comptabilise tous les revotes et les votes qui n'ont pas de revotes du meme auteur
-                            console.log(this.opinionsList.find(anOpinion => anOpinion['typeId'] == 3 && anOpinion['authorId'] == this.opinionsList[j]['authorId']));
-                            if (this.opinionsList[j]['typeId'] == 3 || (this.opinionsList[j]['typeId'] == 1 && (this.opinionsList.find(anOpinion => anOpinion['typeId'] == 3 && anOpinion['authorId'] == this.opinionsList[j]['authorId'])) == undefined)) {
-                                if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
-                                    console.log("juste avant" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
-                                    if (this.propositions[i] != null) {
-                                        this.propositions[i].VoteCounter++;
-                                        console.log("juste après" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
-                                    }
-                                }
-                            }
-                        }
+                    console.log(this.getParticipant(this.usersList[i]['userId'])['voteCounter']);
+                    if (this.getParticipant(this.usersList[i]['userId'])['voteCounter']>0) {
+                        this.propositions.push(new Proposition(this.usersList[i]['userId'], Number(this.getParticipant(this.usersList[i]['userId'])['voteCounter'])));
+                        ////Pour chaque "Opinions"
+                        //for (let j in this.opinionsList) {
+                        //    //Comptabilise tous les revotes et les votes qui n'ont pas de revotes du meme auteur
+                        //    console.log(this.opinionsList.find(anOpinion => anOpinion['typeId'] == 3 && anOpinion['authorId'] == this.opinionsList[j]['authorId']));
+                        //    if (this.opinionsList[j]['typeId'] == 3 || (this.opinionsList[j]['typeId'] == 1 && (this.opinionsList.find(anOpinion => anOpinion['typeId'] == 3 && anOpinion['authorId'] == this.opinionsList[j]['authorId'])) == undefined)) {
+                        //        if (this.opinionsList[j]['concernedId'] == this.usersList[i]['userId']) {
+                        //            console.log("juste avant" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
+                        //            if (this.propositions[i] != null) {
+                        //                this.propositions[i].VoteCounter++;
+                        //                console.log("juste après" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
+                        //            }
+                        //        }
+                        //    }
+                        //}
                     }
                 }
 
@@ -215,7 +205,7 @@ export class ObjectionsComponent implements OnInit {
             "UserId": this.connectedParticipant['userId'],
             "ElectionId": this.election['electionId'],
             "HasTalked": true,
-            "Proposable": this.connectedParticipant['proposable'],
+            "VoteCounter": this.connectedParticipant['voteCounter'],
         }).subscribe(result => {
         }, error => console.log(error));
 
@@ -247,7 +237,7 @@ export class ObjectionsComponent implements OnInit {
             "UserId": this.actualProposed['userId'],
             "ElectionId": this.election['electionId'],
             "HasTalked": false,
-            "Proposable": false,
+            "VoteCounter": 0,
         }).subscribe(result => {
             let tempObjectionsList: Opinion[] = result as Opinion[];
             for (let i in tempObjectionsList) {
@@ -276,7 +266,7 @@ export class ObjectionsComponent implements OnInit {
                     "UserId": this.participantsList[i]['userId'],
                     "ElectionId": this.election['electionId'],
                     "HasTalked": false,
-                    "Proposable": this.participantsList[i]["proposable"]
+                    "VoteCounter": this.participantsList[i]["voteCounter"]
                 }).subscribe(result => {
                     this.sendNextSignal();
                 }, error => console.log(error));
@@ -291,7 +281,7 @@ export class ObjectionsComponent implements OnInit {
 
     acceptCandidate() {
         let phase: Phase = new Phase();
-        this.service.get(window.location.origin + "/api/Phases/2").subscribe(phaseResult => {
+        this.service.get(window.location.origin + "/api/Phases/4").subscribe(phaseResult => {
             phase = phaseResult as Phase;
 
             this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
@@ -311,9 +301,9 @@ export class ObjectionsComponent implements OnInit {
                     "UserId": this.actualProposed['userId'],
                     "ElectionId": this.election['electionId'],
                     "HasTalked": false,
-                    "Proposable": true
+                    "VoteCounter": this.getParticipant(this.actualProposed['userId'])['voteCounter']
                 }).subscribe(result => {
-                    this.hubConnection.send("validateCandidature", this.election['electionId']);
+                    this.hubConnection.send("updatePhase", this.election['electionId']);
 
                 }, error => console.log(error));
             }, error => console.log(error));

@@ -45,16 +45,28 @@ namespace ESC2020.Controllers
         // GET: api/Opinions/election/5
         [HttpGet]
         [Route("election/{idElec}")]
-        public async Task<ActionResult<IEnumerable<Opinion>>> GetOpinionsFromElection(int idElec)
-        {
+        public async Task<ActionResult<IEnumerable<Opinion>>> GetOpinionsFromElection(int idElec) {
             var opinion = await _context.Opinions.Where(o => (o.ElectionId == idElec)).ToListAsync();
 
-            if (opinion == null)
-            {
+            if(opinion == null) {
                 return NotFound();
             }
 
             return opinion;
+        }
+
+        // GET: api/Opinions/5/5
+        [HttpGet]
+        [Route("{electionId}/{userId}")]
+        public async Task<ActionResult<IEnumerable<Opinion>>> GetOpinionsOfParticipant(int electionId, int userId) {
+            return await _context.Opinions.Where(o => o.AuthorId == userId && o.ElectionId == electionId).ToListAsync();
+        }
+
+        // GET: api/Opinions/vote/5/5
+        [HttpGet]
+        [Route("vote/{electionId}/{userId}")]
+        public async Task<ActionResult<IEnumerable<Opinion>>> GetVoteOfParticipant(int electionId, int userId) {
+            return await _context.Opinions.Where(o => o.AuthorId == userId && o.ElectionId == electionId && o.TypeOpinion.TypeId==1).ToListAsync();
         }
 
         // PUT: api/Opinions/5

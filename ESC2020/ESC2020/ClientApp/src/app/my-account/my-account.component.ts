@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
+import { NavBarStateService } from '../services/NavBarState.service';
 
 
 @Component({
@@ -17,11 +18,12 @@ export class MyAccountComponent implements OnInit {
     private age: number;
     private isReadOnly: boolean = true;
 
-    constructor(private authentificationService: AuthentificationService, private service: HttpClient) { }
+    constructor(private authentificationService: AuthentificationService, private service: HttpClient, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.navBarStateService.SetIsInElection(false);
     }
 
     scroll(el: HTMLElement) {

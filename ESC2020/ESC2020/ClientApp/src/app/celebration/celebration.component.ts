@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
 import { NavBarStateService } from '../services/NavBarState.service';
+import { ElectionService } from '../services/election.service';
 
 
 @Component({
@@ -33,32 +34,23 @@ export class CelebrationComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
+    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
 
     }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.navBarStateService.SetIsInElection(true);
-        this.navBarStateService.SetObjectionsVisible(true);
-        this.navBarStateService.SetLogsVisible(true);
-        // setInterval(() => this.getObjections(), 5000); // solution temporaire avant SignalR
+
+        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
 
         this.mainRequest();
     }
 
     mainRequest() {
-        //Récupérer l'id de l'élection actuelle à partir de l'url
-        let regexp: RegExp = /\d/;
-        let electionId = regexp.exec(this.router.url)[0];
-        this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
-            this.election = result as Election;
-            this.navBarStateService.SetNavState(this.election['job']);
-            this.getConnectedParticipant();
-            this.checkHost();
-            this.preStart();
-        }, error => console.error(error));
+        this.getConnectedParticipant();
+        this.checkHost();
+        this.preStart();
     }
 
     getConnectedParticipant() {
@@ -68,19 +60,19 @@ export class CelebrationComponent implements OnInit {
     }
 
     checkHost() {
-        if (this.connectedAccount["userId"] == this.election['hostId']) {
+        if (this.connectedAccount["userId"] == this.election['hostId'])
             this.host = true;
-        }
-        else {
+        else 
             this.host = false;
-        }
     }
 
     preStart() {
+            
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
                 this.actualElected = userResult as Users;
+                console.log("le gagnant"+this.actualElected)
             }, error => console.error(error));
         }
     }

@@ -53,9 +53,29 @@
         <div class="dateD">
             Début du mandat le : {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
         </div>
-      <div class="phase">
-        Phase de vote
-      </div>
+
+        <div class="phase" [ngSwitch]="election.electionPhaseId">
+            <div *ngSwitchCase=1>
+                Votes
+            </div>
+
+            <div *ngSwitchCase=2>
+                Report des votes
+            </div>
+
+            <div *ngSwitchCase=3>
+                Objections
+            </div>
+
+            <div *ngSwitchCase=4>
+                Bonifications
+            </div>
+
+            <div *ngSwitchCase=5>
+                Célébration
+            </div>
+        </div>
+
       <div class="participants">
         {{election.nbParticipant}} participants
       </div>

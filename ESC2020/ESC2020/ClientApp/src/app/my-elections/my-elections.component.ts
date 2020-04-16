@@ -27,16 +27,12 @@ export class MyElectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
     constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router, private navBarStateService: NavBarStateService) { }
- 
-
-
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.hubConnection.start().catch(err => console.log(err));
         this.navBarStateService.SetIsInElection(false);
-
+        this.hubConnection.start().catch(err => console.log(err));
         this.getElections()
     }
 

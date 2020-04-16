@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ESC2020.Migrations
 {
     [DbContext(typeof(ElectionContext))]
-    [Migration("20200414092301_esc2020")]
+    [Migration("20200415125031_esc2020")]
     partial class esc2020
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,9 @@ namespace ESC2020.Migrations
                     b.Property<int?>("ElectedId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ElectionPhaseId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTimeOffset>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -48,9 +51,6 @@ namespace ESC2020.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("PhaseId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Responsability")
                         .HasColumnType("text");
 
@@ -61,9 +61,9 @@ namespace ESC2020.Migrations
 
                     b.HasIndex("ElectedId");
 
-                    b.HasIndex("HostId");
+                    b.HasIndex("ElectionPhaseId");
 
-                    b.HasIndex("PhaseId");
+                    b.HasIndex("HostId");
 
                     b.ToTable("Election");
                 });
@@ -171,8 +171,8 @@ namespace ESC2020.Migrations
                     b.Property<bool>("HasTalked")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("Proposable")
-                        .HasColumnType("boolean");
+                    b.Property<int>("VoteCounter")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId", "ElectionId");
 
@@ -266,15 +266,17 @@ namespace ESC2020.Migrations
                         .WithMany("ElectedElection")
                         .HasForeignKey("ElectedId");
 
+                    b.HasOne("ESC2020.Model.Phase", "IdPhase")
+                        .WithMany("Election")
+                        .HasForeignKey("ElectionPhaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ESC2020.Model.Users", "HostElection")
                         .WithMany("HostElection")
                         .HasForeignKey("HostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ESC2020.Model.Phase", null)
-                        .WithMany("Election")
-                        .HasForeignKey("PhaseId");
                 });
 
             modelBuilder.Entity("ESC2020.Model.Message", b =>

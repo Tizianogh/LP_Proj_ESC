@@ -58,7 +58,7 @@
     <ng-template #ElseBlock3>
         <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
         <div class="col text-center">
-            <button type="submit" class="btn btn-primary" (click)="Vote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
+            <button type="submit" id="voteBtn" class="btn btn-primary" (click)="Vote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
         </div>
     </ng-template>
     <ng-template #ThenBlock3>
