@@ -14,9 +14,9 @@ export class MyAccountComponent implements OnInit {
     private erreur = "";
     private listeUsers: Users[] = [];
     private connected: boolean;
-    private connectedAccount: Users;
+    public connectedAccount: Users;
     private age: number;
-    private isReadOnly: boolean = true;
+    public isReadOnly: boolean = true;
 
     constructor(private authentificationService: AuthentificationService, private service: HttpClient, private navBarStateService: NavBarStateService) { }
 
