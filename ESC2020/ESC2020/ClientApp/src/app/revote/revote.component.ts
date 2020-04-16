@@ -23,7 +23,7 @@ import { ElectionService } from '../services/election.service';
 export class RevoteComponent implements OnInit {
 
     private connected: boolean;
-    private connectedAccount: Users = new Users();
+    public connectedAccount: Users = new Users();
     private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = [];
@@ -32,7 +32,7 @@ export class RevoteComponent implements OnInit {
     currentParticipant: Participant = new Participant();
     scrollingItems: number[] = [];
 
-    private listeUsers: Users[] = [];
+    public listeUsers: Users[] = [];
 
     age: number;
 

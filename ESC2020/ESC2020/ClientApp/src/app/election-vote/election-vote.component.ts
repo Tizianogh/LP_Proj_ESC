@@ -22,7 +22,7 @@ import { Phase } from '../Model/Phase';
 export class ElectionVoteComponent implements OnInit {
 
     private connected: boolean;
-    private connectedAccount: Users = new Users();
+    public connectedAccount: Users = new Users();
     private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = []
 
@@ -32,7 +32,7 @@ export class ElectionVoteComponent implements OnInit {
     scrollingItems: number[] = [];
     electionId: string;
 
-    private listeUsers: Users[] = [];
+    public listeUsers: Users[] = [];
 
     age: number;
 

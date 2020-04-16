@@ -22,13 +22,13 @@ export class LogsComponent implements OnInit {
     private previousUrl: string;
     private currentUrl: string;
 
-    private logsVisible: boolean;
-    private objectionsVisible: boolean;
+    public logsVisible: boolean;
+    public objectionsVisible: boolean;
 
     private connectedAccount: Users = new Users();
 
 
-    private logList: Log[] = [];
+    public logList: Log[] = [];
 
     constructor(private location: Location, private service: HttpClient, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) {
 

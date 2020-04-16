@@ -15,10 +15,10 @@ export class MyAccountComponent implements OnInit {
     private erreur = "";
     private listeUsers: Users[] = [];
     private connected: boolean;
-    private connectedAccount: Users;
+    public connectedAccount: Users;
     private age: number;
-    private isReadOnly: boolean = true;
-    private image: any;
+    public isReadOnly: boolean = true;
+    public image: any;
 
     constructor(private authentificationService: AuthentificationService, private service: HttpClient, private sanitizer: DomSanitizer, private navBarStateService: NavBarStateService) { }
 
