@@ -42,7 +42,7 @@ export class MyAccountComponent implements OnInit {
             if (this.image != null) {
                 this.image = this.decodeBase64(this.image);
             } else {
-                this.image = this.connectedAccount.avatar;
+                this.image = this.connectedAccount['avatar'];
             }
             //il faudra éventuellement rajouter des vérifications par exemple : une limite de chaine de caractères, pas de nombre dans le nom...
             //remplacement

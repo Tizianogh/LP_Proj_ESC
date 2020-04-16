@@ -42,7 +42,7 @@
 
 
 <div class="description" id="selectParticipant">
-    <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser['lastName']}} {{currentUser['firstName]}}</b></label>
+    <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser['lastName']}} {{currentUser['firstName']}}</b></label>
 
     <div *ngIf="election['hostId'] == connectedAccount['userId'] && election['hostId'] != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
     <ng-template #ElseBlock2>
