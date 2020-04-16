@@ -58,17 +58,14 @@ export class ElectionVoteComponent implements OnInit {
     }
 
     setOnSignalReceived() {
-        this.hubConnection.on("endVote", (electionId: number) => {
-            if (electionId == Number(this.electionId)) {
-                this.router.navigate(['objections/' + this.election['electionId']]);
-            }
-        });
-
         this.hubConnection.on("changeParticipants", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
                 this.listeParticipants = [];
                 this.listeUsers = [];
                 this.electionService.fetchElection(this.electionId);
+
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
         });
 
@@ -133,6 +130,8 @@ export class ElectionVoteComponent implements OnInit {
     }
 
     Vote() {
+        //grisage btn
+        document.getElementById("voteBtn").setAttribute('disabled', 'disabled');
         //génération d'une opinion Vote (id du type : 1 = opinion de type vote)
         this.service.get(window.location.origin + "/api/TypeOpinions/1").subscribe(result => {
             this.type = result as TypeOpinion;

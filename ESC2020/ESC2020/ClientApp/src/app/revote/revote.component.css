@@ -41,6 +41,16 @@
   visibility: collapse
 }
 
+#noChange {
+    display: inline-block;
+    width: 25%;
+    height: auto;
+    margin-left:auto;
+    margin-right:auto;
+    border: 1px solid black;
+    
+}
+
 .progress {
   height: 8px;
   padding: 0px;

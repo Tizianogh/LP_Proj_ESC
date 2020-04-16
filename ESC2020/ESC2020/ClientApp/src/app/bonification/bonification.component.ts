@@ -105,14 +105,29 @@ export class BonificationComponent implements OnInit {
             }, error => console.log(error));
         }, error => console.error(error));
 
+
+        this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
+            let participantsList: Participant[] = participantResult as Participant[];
+            for (let i = 0; i < participantsList.length; i++) {
+                this.service.put(window.location.origin + "/api/Participants/" + participantsList[i]['userId'] + "/" + this.election['electionId'], {
+                    "UserId": participantsList[i]['userId'],
+                    "ElectionId": this.election['electionId'],
+                    "HasTalked": false,
+                    "VoteCounter": participantsList[i]["voteCounter"]
+                }).subscribe(result => {
+                    this.service.put(window.location.origin + "/api/Participants/" + this.actualElected['userId'] + "/" + this.election['electionId'], {
+                        "UserId": this.actualElected['userId'],
+                        "ElectionId": this.election['electionId'],
+                        "HasTalked": false,
+                        "VoteCounter": 0
+                    }).subscribe(result => {
+                    }, error => console.log(error));
+                }, error => console.log(error));
+            }
+
+        }, error => console.error(error));
+
         
-        this.service.put(window.location.origin + "/api/Participants/" + this.actualElected['userId'] + "/" + this.election['electionId'], {
-            "UserId": this.actualElected['userId'],
-            "ElectionId": this.election['electionId'],
-            "HasTalked": false,
-            "Proposable": false
-        }).subscribe(result => {
-        }, error => console.log(error));
 
         let phase: Phase = new Phase();
         this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {

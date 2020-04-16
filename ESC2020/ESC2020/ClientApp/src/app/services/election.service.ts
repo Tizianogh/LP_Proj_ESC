@@ -23,7 +23,7 @@ export class ElectionService {
     private participantList: BehaviorSubject<Participant[]>;
     private users: Users[];
     private userList: BehaviorSubject<Users[]>;
-    
+
 
     constructor(private service: HttpClient, private navBarStateService: NavBarStateService, private router: Router) {
         this.election = new BehaviorSubject(new Election());
@@ -31,7 +31,7 @@ export class ElectionService {
         this.userList = <BehaviorSubject<Users[]>>new BehaviorSubject([]);
     }
 
-    fetchElection(electionId: string){
+    fetchElection(electionId: string) {
         //Récupérer l'id de l'élection actuelle à partir de l'url
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
             this.electionValue = result as Election;
@@ -60,6 +60,13 @@ export class ElectionService {
             let user: Users = userResult as Users;
             this.AddUser(user);
         }, error => console.error(error));
+        this.participants.sort((u1, u2) => {
+            if (u1['userId'] > u2['userId'])
+                return -1;
+            if (u1['userId'] < u2['userId'])
+                return 1;
+            return 0;
+        });
     }
 
     SetElection(newState: Election) {
@@ -71,6 +78,8 @@ export class ElectionService {
     }
 
     AddParticipant(newEntry: Participant) {
+        console.log("Adding : ")
+        console.log(newEntry)
         this.participants.push(newEntry);
         this.participantList.next(this.participants);
     }
@@ -81,7 +90,10 @@ export class ElectionService {
     }
 
     ClearParticipantList() {
+        console.log("Before clear : " + this.participants)
         this.participants = [];
+        console.log("After clear : " + this.participants)
+
         this.participantList.next(this.participants);
     }
 

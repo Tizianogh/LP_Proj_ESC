@@ -50,6 +50,7 @@ export class RevoteComponent implements OnInit {
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+
         this.getCurrentParticipant();
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
@@ -58,30 +59,25 @@ export class RevoteComponent implements OnInit {
 
     setOnSignalReceived() {
 
-
         this.hubConnection.on("changeParticipants", (electionId: number) => {
             if (electionId == Number(this.election['electionId'])) {
-                console.log("changeParticipants");
                 this.listeParticipants = [];
                 this.listeUsers = [];
                 this.electionService.fetchElection(this.election['electionId']);
+                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
         });
 
         this.hubConnection.on("userHasVoted", (electionId: number) => {
             if (electionId == Number(this.election['electionId'])) {
-                console.log('userVoted');
                 this.getCurrentParticipant();
-                this.listeParticipants = [];
                 this.listeUsers = [];
                 this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
-
             }
-
         });
-
     }
 
     getCurrentParticipant() {
@@ -90,7 +86,6 @@ export class RevoteComponent implements OnInit {
             this.currentParticipant = result as Participant;
         }, error => console.log(error));
     }
-
 
     setSubTitle() {
         this.service.get(window.location.origin + "/api/Opinions/" + this.election['electionId'] + '/' + this.connectedAccount['userId']).subscribe(result => {
@@ -161,6 +156,7 @@ export class RevoteComponent implements OnInit {
     }
 
     Revote() {
+        document.getElementById("voteBtn").setAttribute('disabled', 'disabled');
         this.service.get(window.location.origin + "/api/Opinions/vote/" + this.election['electionId'] + '/' + this.connectedAccount['userId']).subscribe(result => {
             let opinion: Opinion[] = result as Opinion[];
             opinion.sort((l1, l2) => {
@@ -232,6 +228,20 @@ export class RevoteComponent implements OnInit {
     Exclude(currentUserId: number) {
         this.service.delete(window.location.origin + "/api/Participants/" + currentUserId + "/" + this.election['electionId']).subscribe(result => {
             this.hubConnection.send("changeParticipants", Number(this.election['electionId']));
+        }, error => console.log(error));
+    }
+
+    noChange() {
+        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
+            let participantResult: Participant = result as Participant;
+            this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
+                "UserId": participantResult["userId"],
+                "ElectionId": this.election['electionId'],
+                "HasTalked": true,
+                "VoteCounter": participantResult['voteCounter']
+            }).subscribe(result => {
+                this.hubConnection.send("userHasVoted", Number(this.election['electionId']));
+            }, error => console.log(error));
         }, error => console.log(error));
     }
 

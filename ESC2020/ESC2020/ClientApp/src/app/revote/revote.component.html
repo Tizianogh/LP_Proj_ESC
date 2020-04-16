@@ -19,7 +19,7 @@
 <div class="participants">
     <div class="scroll">
         <div class="participant" *ngFor="let user of listeUsers">
-            <div (click)="actualParticipant(user, user.birthDate)"> 
+            <div (click)="actualParticipant(user, user.birthDate)">
                 <div (click)="changeColor(user.userId)" class="my-2">
                     <img class="participantIcon" id="userId{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
                     <div class="participantName" (ngInit)="Init()">
@@ -37,7 +37,9 @@
             </div>
         </div>
     </div>
+    <button id="noChange" (click)="noChange()" class="btn btn-primary">Je ne change pas mon vote</button>
 </div>
+
 
 <div class="description" id="selectParticipant">
     <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.lastName}} {{currentUser.firstName}}</b></label>
@@ -59,7 +61,7 @@
     <ng-template #ElseBlock3>
         <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
         <div class="col text-center">
-            <button type="submit" class="btn btn-primary" (click)="Revote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
+            <button  id="voteBtn" type="submit" class="btn btn-primary" (click)="Revote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
         </div>
     </ng-template>
     <ng-template #ThenBlock3>

@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
 import { Phase } from '../Model/Phase';
+import { NavBarStateService } from '../services/NavBarState.service';
 
 @Component({
     selector: 'app-create-election',
@@ -23,12 +24,13 @@ export class CreateElectionComponent implements OnInit {
     id: number = 5;
     erreur: string;
 
-    constructor(private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) { }
+    constructor(private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) { }
 
     ngOnInit() {
         this.initForm();
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.navBarStateService.SetIsInElection(false);
     }
 
     initForm() {
