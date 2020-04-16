@@ -13,12 +13,12 @@ import { NavBarStateService } from '../services/NavBarState.service';
     styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
-    private connected: boolean;
+    public connected: boolean;
     private connectedAccount: Users;
-    private navBarState: string;
+    public navBarState: string;
 
     private logsVisible: boolean;
-    private inElection: boolean;
+    public inElection: boolean;
 
     constructor(private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router, private service: HttpClient) { }
 

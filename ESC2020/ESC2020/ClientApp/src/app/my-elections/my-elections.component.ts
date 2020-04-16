@@ -21,7 +21,7 @@ export class MyElectionsComponent implements OnInit {
     private connected: boolean;
     private connectedAccount: Users;
     private electionId: number;
-    private listeElections: Election[] = [];
+    public listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")

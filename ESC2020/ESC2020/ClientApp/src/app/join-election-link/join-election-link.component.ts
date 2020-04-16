@@ -17,7 +17,7 @@ import * as signalR from "@microsoft/signalr";
 export class JoinElectionLinkComponent implements OnInit {
 
     private connected: boolean;
-    private connectedAccount: Users;
+    public connectedAccount: Users;
     private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
     electionId: number;
