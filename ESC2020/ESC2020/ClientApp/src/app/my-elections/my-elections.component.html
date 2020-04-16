@@ -1,37 +1,47 @@
 <div class="container">
-    <h2 id="titre" class="text-center">
+    <h2 id="titre" class="text-center my-5">
         Mes élections
     </h2>
 
     <div class="row">
-        <div class="col-md-2">
-            <a class="nav-link" style="cursor: pointer;" (click)="MesElections()">
-                Elections en cours
-            </a>
-        </div>
-        <div class="col-md">
-            <a class="nav-link" style="cursor: pointer;" (click)="ElectionsCrees()">
-                Elections créées
-            </a>
-        </div>
-        <div class="col-md">
-            <a class="nav-link" style="cursor: pointer;" (click)="ElectionsTermines()">
-                Elections terminées
-            </a>
-        </div>
-        <div class="offset-md-1 col-md">
-            <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" (click)="ajouterElection()" style="cursor: pointer; background-color: #fee2d7;">Rejoindre une élection</div>
-            <div class="dropdown-menu dropdown-menu-right align-text-bottom color-border " style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink">
-                <form>
-                    <div class="form-group mr-3 ml-4">
-                        <label for="codeInput">Lien d'invitation ou code</label>
-                        <input #codeInput id="codeInput" type="text" class="form-control color-border">
-                    </div>
-                    <div class="btn-group">
-                        <button (click)="rajouterElection(codeInput.value)" type="submit" class="btn color-btn ml-4"> Rejoindre </button>
-                    </div>
-                </form>
-            </div>
+        <div class="col">
+            <nav class="navbar navbar-expand-md">
+                <ul class="navbar-nav color-border">
+                    <li class="nav-item" id="ongletMesElections">
+                        <a class="nav-link" style="cursor: pointer;" (click)="MesElections()">
+                            Elections en cours
+                        </a>
+                    </li>
+                    <li class="nav-item" id="ongletElectionsCrees">
+                        <a class="nav-link" style="cursor: pointer;" (click)="ElectionsCrees()">
+                            Elections créées
+                        </a>
+                    </li>
+                    <li class="nav-item" id="ongletElectionsTermines">
+                        <a class="nav-link" style="cursor: pointer;" (click)="ElectionsTermines()">
+                            Elections terminées
+                        </a>
+                    </li>
+                </ul>
+                <div class="navbar-collapse justify-content-end">
+                    <ul class="navbar-nav d-flex justify-content-end">
+                        <li class="nav-item align-text-bottom" id="ongletAjouterElections">
+                            <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" (click)="ajouterElections()" style="cursor: pointer; background-color: #fee2d7;">Rejoindre une élection</div>
+                            <div class="dropdown-menu dropdown-menu-right align-text-bottom color-border " style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink">
+                                <form>
+                                    <div class="form-group mr-3 ml-4">
+                                        <label for="codeInput">Lien d'invitation ou code</label>
+                                        <input #codeInput id="codeInput" type="text" class="form-control color-border">
+                                    </div>
+                                    <div class="btn-group">
+                                        <button (click)="rajouterElections(codeInput.value)" type="submit" class="btn color-btn ml-4"> Rejoindre </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     </div>
 
@@ -40,8 +50,7 @@
 
 
 
-
-    <!--<ul class="nav nav-tabs color-border " style="margin-left:75px; margin-right:75px;">
+    <!--<ul class="nav navbar-expand-md color-border " style="margin-left:75px; margin-right:75px;">
 
         <li class="nav-item" id="ongletMesElections">
             <a class="nav-link" style="cursor: pointer;" (click)="MesElections()">
@@ -77,32 +86,43 @@
         </li>
     </ul>-->
 
-    <div class="elections" style="margin-left:75px; margin-right:75px;">
-        <div class="election" *ngFor="let election of listeElections">
+    <div class="elections">
+        <div class="election" *ngFor="let election of listeElections" (click)="Navigate((election.electionId))" style="cursor: pointer;">
             <div class="row">
                 <div class="col">
-                    <label>code élection: </label> {{election.codeElection}}
+                    <label style="cursor: pointer;">code élection: </label> {{election.codeElection}}
                 </div>
             </div>
-            <div class="row text-center">
-                <label (click)="Navigate((election.electionId))" class="text-center" style="cursor: pointer;">
+            <div class="row d-flex align-items-end justify-content-center">
+                <label style="cursor: pointer;">
                     {{election.job}}
                 </label>
+            </div>
+            <hr class="separator">
+            <div class="row">
+                <div class="col-md-4 dateD" style="cursor: pointer;">
+                    Début du mandat le : {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
+                </div>
+                <div class="col-md-4 text-center phase" style="cursor: pointer;">
+                    Phase de vote
+                </div>
+                <div class="col-md-4 text-right " style="cursor: pointer;">
+                    {{election.nbParticipant}} participants
+                </div>
             </div>
 
 
 
 
             <!--<div>
-        <label>code élection: </label> {{election.codeElection}}
-        <div class="poste">
-            <label (click)="Navigate((election.electionId))" style="cursor: pointer;">
-                {{election.job}}
-            </label>
-        </div>
-    </div>-->
-            <hr class="separator">
-            <div style="margin-left:10px; margin-right:10px;">
+                <label>code élection: </label> {{election.codeElection}}
+                <div class="poste">
+                    <label (click)="Navigate((election.electionId))" style="cursor: pointer;">
+                        {{election.job}}
+                    </label>
+                </div>
+            </div>-->
+            <!--<div style="margin-left:10px; margin-right:10px;">
                 <div class="dateD">
                     Début du mandat le : {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
                 </div>
@@ -112,7 +132,7 @@
                 <div class="participants">
                     {{election.nbParticipant}} participants
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>

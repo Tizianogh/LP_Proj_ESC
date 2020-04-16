@@ -72,10 +72,10 @@ export class MyElectionsComponent implements OnInit {
     }
 
     ajouterElections() {
-        document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 5px solid #430640;";
+        //document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
+        //document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+        //document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+        //document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 5px solid #430640;";
     }
 
     rajouterElections(codeInput: string) {
