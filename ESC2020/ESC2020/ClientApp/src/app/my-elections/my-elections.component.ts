@@ -85,15 +85,13 @@ export class MyElectionsComponent implements OnInit {
 
     rajouterElections(codeInput: string) {
         this.service.get(window.location.origin + "/api/Elections/code/" + codeInput).subscribe(result => {
-            console.log(result);
             this.listeElections.push(result as Election);
             this.service.post(window.location.origin + "/api/Participants", {
                 'UserId': this.connectedAccount['userId'],
                 'ElectionId': result['electionId'],
                 'HasTalked': false
-            }).subscribe(result => {
-                this.hubConnection.send("changeParticipants",result['electionId']);
-                console.log(result);
+            }).subscribe(participantResult => {
+                this.hubConnection.send("changeParticipants", Number(result['electionId']), Number(result['electionPhaseId']));
             }, error => console.log(error));
         }, error => console.error(error));
     }

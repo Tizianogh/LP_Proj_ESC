@@ -13,6 +13,7 @@ export class ElectionReminderComponent implements OnInit {
 
     constructor(private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) { }
 
+    electionId: number;
     poste: string;
     missions: string;
     responsabilite: string;
@@ -24,6 +25,7 @@ export class ElectionReminderComponent implements OnInit {
         this.navBarStateService.SetIsInElection(false);
 
         this.service.get(window.location.origin + "/api/Elections/" + this.router.url.split('/')[2]).subscribe(result => {
+            this.electionId = result['electionId'];
             this.poste = result['job'];
             this.missions = result['mission'];
             this.responsabilite = result['responsability'];
@@ -31,5 +33,9 @@ export class ElectionReminderComponent implements OnInit {
             this.dateF = result['endDate'];
             this.codeElection = result['codeElection'];
         }, error => console.error(error));
+    }
+
+    navigate() {
+        this.router.navigate(['election/' + this.electionId]);
     }
 }

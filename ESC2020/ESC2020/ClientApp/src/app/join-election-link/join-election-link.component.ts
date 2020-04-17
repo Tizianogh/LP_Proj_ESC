@@ -35,26 +35,20 @@ export class JoinElectionLinkComponent implements OnInit {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.code = this.router.url.split('/')[2];
-        
-            console.log(this.connected);
-            console.log(this.connectedAccount);
-       
-          
         this.hubConnection.start().catch(err => console.log(err));
     }
 
     submit() {
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
-            console.log(result);
             this.listeElections.push(result as Election);
             this.electionId = result['electionId'];
-            this.service.post(window.location.origin + "/api/Participants", { 'UserId': this.connectedAccount['userId'], 'ElectionId': result['electionId'] }).subscribe(result => {
-                this.hubConnection.send("changeParticipants", this.electionId);
+            this.service.post(window.location.origin + "/api/Participants", {
+                'UserId': this.connectedAccount['userId'],
+                'ElectionId': result['electionId']
+            }).subscribe(result => {
+                this.hubConnection.send("changeParticipants", Number(result['electionId']), Number(result['electionPhaseId']));
                 this.router.navigate(["my-elections"]);
-                console.log(result);
             }, error => console.log(error));
         }, error => console.error(error));
     }
-
-
 }

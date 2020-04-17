@@ -57,8 +57,8 @@ export class RevoteComponent implements OnInit {
 
     setOnSignalReceived() {
 
-        this.hubConnection.on("changeParticipants", (electionId: number) => {
-            if (electionId == Number(this.election['electionId'])) {
+        this.hubConnection.on("changeParticipants", (electionId: number, phaseId: number) => {
+            if (electionId == Number(this.election['electionId']) && phaseId == 2) {
                 this.listeParticipants = [];
                 this.listeUsers = [];
                 this.electionService.fetchElection(this.election['electionId']);
@@ -69,10 +69,8 @@ export class RevoteComponent implements OnInit {
 
         this.hubConnection.on("userHasVoted", (electionId: number, phaseId: number) => {
             if (electionId == Number(this.election['electionId']) && phaseId == 2) {
-                console.log("user has voted 2")
                 this.getCurrentParticipant();
                 this.listeUsers = [];
-
                 this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
@@ -97,7 +95,6 @@ export class RevoteComponent implements OnInit {
                     return 1;
                 return 0;
             });
-            console.log(opinion)
             if (isUndefined(opinion[0])) {
                 document.getElementById("sous-titre").innerText += ' aucun candidat';
             }
@@ -217,7 +214,7 @@ export class RevoteComponent implements OnInit {
 
     Exclude(currentUserId: number) {
         this.service.delete(window.location.origin + "/api/Participants/" + currentUserId + "/" + this.election['electionId']).subscribe(result => {
-            this.hubConnection.send("changeParticipants", Number(this.election['electionId']));
+            this.hubConnection.send("changeParticipants", Number(this.election['electionId']), Number(this.election['electionPhaseId']));
         }, error => console.log(error));
     }
 

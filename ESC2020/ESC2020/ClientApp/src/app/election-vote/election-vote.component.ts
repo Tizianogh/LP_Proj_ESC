@@ -51,17 +51,16 @@ export class ElectionVoteComponent implements OnInit {
         this.electionId = this.election['electionId'];
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
-
         this.getCurrentParticipant();
     }
 
     setOnSignalReceived() {
-        this.hubConnection.on("changeParticipants", (electionId: number) => {
-            if (electionId == Number(this.electionId)) {
+        this.hubConnection.on("changeParticipants", (electionId: number, phaseId: number) => {
+            if (electionId == Number(this.electionId) && phaseId == 1) {
                 this.listeParticipants = [];
                 this.listeUsers = [];
-                this.electionService.fetchElection(this.electionId);
 
+                this.electionService.fetchElection(this.electionId);
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
@@ -69,10 +68,9 @@ export class ElectionVoteComponent implements OnInit {
 
         this.hubConnection.on("userHasVoted", (electionId: number, phaseId: number) => {
             if (electionId == Number(this.electionId) && phaseId == 1) {
-                console.log("user has voted 1")
-
                 this.getCurrentParticipant();
                 this.listeUsers = [];
+
                 this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
@@ -107,13 +105,11 @@ export class ElectionVoteComponent implements OnInit {
         const BirthDate: Date = new Date(birthDate);
         var Age: number = currentDate.getFullYear() - BirthDate.getFullYear() - 1;
 
-        if (currentDate.getMonth() > BirthDate.getMonth()) {
+        if (currentDate.getMonth() > BirthDate.getMonth()) 
             Age++;
-        }
         else if (currentDate.getMonth() == BirthDate.getMonth()) {
-            if (currentDate.getDate() >= BirthDate.getDate()) {
+            if (currentDate.getDate() >= BirthDate.getDate()) 
                 Age++;
-            }
         }
         this.age = Age;
     }
@@ -150,7 +146,6 @@ export class ElectionVoteComponent implements OnInit {
         if (this.connectedAccount['userId'] == this.currentUser['userId']) {
             this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
                 let participantResult: Participant = result as Participant;
-                console.log(participantResult['voteCounter']);
                 var voteCounter: number = Number(participantResult['voteCounter']) + 1;
                 this.service.put<Participant>(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId'], {
                     'UserId': participantResult['userId'],
@@ -182,7 +177,6 @@ export class ElectionVoteComponent implements OnInit {
             //Ajoute +1 au VoteCounter
             this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
                 let participantResult: Participant = result as Participant;
-                console.log(participantResult['voteCounter']);
                 var voteCounter : number = Number(participantResult['voteCounter'])+1;
                 this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
                     "UserId": participantResult["userId"],
@@ -197,7 +191,7 @@ export class ElectionVoteComponent implements OnInit {
 
     Exclude(currentUserId: number) {
         this.service.delete(window.location.origin + "/api/Participants/" + currentUserId + "/" + this.election['electionId']).subscribe(result => {
-            this.hubConnection.send("changeParticipants", Number(this.electionId));
+            this.hubConnection.send("changeParticipants", Number(this.electionId), Number(this.election['electionPhaseId']));
         }, error => console.log(error));
     }
 
