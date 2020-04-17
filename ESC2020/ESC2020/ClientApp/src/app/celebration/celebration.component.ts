@@ -42,8 +42,8 @@ export class CelebrationComponent implements OnInit {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
-        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
-
+        this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
+        this.actualElected = null;
         this.mainRequest();
     }
 
@@ -51,6 +51,11 @@ export class CelebrationComponent implements OnInit {
         this.getConnectedParticipant();
         this.checkHost();
         this.preStart();
+    }
+
+    setupElection(anElection: Election) {
+        this.election = anElection;
+        this.election.poste = anElection['job'];
     }
 
     getConnectedParticipant() {
@@ -62,18 +67,21 @@ export class CelebrationComponent implements OnInit {
     checkHost() {
         if (this.connectedAccount["userId"] == this.election['hostId'])
             this.host = true;
-        else 
+        else
             this.host = false;
     }
 
     preStart() {
-            
+
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
                 this.actualElected = userResult as Users;
-                console.log("le gagnant"+this.actualElected)
+                this.actualElected.FirstName = userResult['firstName'];
+                this.actualElected.LastName = userResult['lastName'];
+                this.actualElected.Avatar = userResult['avatar'];
             }, error => console.error(error));
         }
     }
+
 }

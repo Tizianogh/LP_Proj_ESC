@@ -49,7 +49,7 @@ export class BonificationComponent implements OnInit {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
-        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
+        this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
 
         this.mainRequest();
         this.hubConnection.start().catch(err => console.log(err));
@@ -66,6 +66,13 @@ export class BonificationComponent implements OnInit {
         this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
             this.connectedParticipant = result as Participant;
         }, error => console.log(error));
+    }
+
+    setupElection(anElection: Election) {
+        this.election = anElection;
+        this.election.poste = anElection['job'];
+        this.election.missions = anElection['mission'];
+        this.election.responsabilite = anElection['responsability'];
     }
 
     checkHost() {
@@ -127,7 +134,7 @@ export class BonificationComponent implements OnInit {
 
         }, error => console.error(error));
 
-        
+
 
         let phase: Phase = new Phase();
         this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {

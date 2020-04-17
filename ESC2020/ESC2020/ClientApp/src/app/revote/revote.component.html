@@ -2,7 +2,7 @@
 <div id="sous-titre">Vous aviez précédemment voté pour </div>
 
 <div class="row justify-content-center" id="date">
-    <div class="center-block align-self-center" *ngIf="election['hostId'] == connectedAccount['userId']; then ThenBlock1"></div>
+    <div class="center-block align-self-center" *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock1"></div>
     <ng-template #ThenBlock1>
         <button class="btn btn-primary" (click)="goToNextPhase()">Terminer la phase</button>
     </ng-template>
@@ -10,7 +10,7 @@
         <div class="progress-bar ml-0" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     <div class="col-3 center-block align-self-center">
-        Date de fin de scrutin {{election['startDate'] |  date:'shortDate'}}
+        Date de fin de scrutin {{election.dateD |  date:'shortDate'}}
     </div>
 </div>
 
@@ -42,9 +42,9 @@
 
 
 <div class="description" id="selectParticipant">
-    <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser['lastName']}} {{currentUser['firstName']}}</b></label>
+    <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.LastName}} {{currentUser.FirstName}}</b></label>
 
-    <div *ngIf="election['hostId'] == connectedAccount['userId'] && election['hostId'] != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
+    <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser.UserId; then ThenBlock2 else ElseBlock2"></div>
     <ng-template #ElseBlock2>
         <button id="exclude" type="submit" class="btn btn-primary" hidden>Exclure</button>
     </ng-template>
@@ -52,16 +52,16 @@
         <button id="exclude" type="submit" class="btn btn-primary" (click)="Exclude(currentUser.userId)">Exclure</button>
     </ng-template>
 
-    <label id="participantJob" class="d-flex justify-content-start"> Poste : {{currentUser['job']}}</label>
+    <label id="participantJob" class="d-flex justify-content-start"> Poste : {{currentUser.Job}}</label>
     <label id="participantAge" class="d-flex justify-content-start">Age : {{age}}</label>
 
-    <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentUser['description']}}</label>
+    <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentUser.Description}}</label>
 
     <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
     <ng-template #ElseBlock3>
         <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
         <div class="col text-center">
-            <button  id="voteBtn" type="submit" class="btn btn-primary" (click)="Revote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
+            <button id="voteBtn" type="submit" class="btn btn-primary" (click)="Revote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
         </div>
     </ng-template>
     <ng-template #ThenBlock3>

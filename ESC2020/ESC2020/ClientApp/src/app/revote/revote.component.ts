@@ -44,8 +44,10 @@ export class RevoteComponent implements OnInit {
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
+        this.navBarStateService.SetIsInElection(true);
+        this.navBarStateService.SetLogsVisible(true);
+        this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
 
@@ -54,6 +56,18 @@ export class RevoteComponent implements OnInit {
         this.hubConnection.start().catch(err => console.log(err));
         this.setSubTitle();
     }
+
+    setupConnectedAccount(anUser: Users) {
+        this.connectedAccount = anUser;
+        this.connectedAccount.UserId = anUser['userId'];
+    }
+
+    setupElection(anElection: Election) {
+        this.election = anElection;
+        this.election.HostId = anElection['hostId'];
+        this.election.dateD = anElection['startDate'];
+    }
+
 
     setOnSignalReceived() {
 
@@ -66,7 +80,6 @@ export class RevoteComponent implements OnInit {
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
             }
         });
-
         this.hubConnection.on("userHasVoted", (electionId: number, phaseId: number) => {
             if (electionId == Number(this.election['electionId']) && phaseId == 2) {
                 this.getCurrentParticipant();
@@ -95,6 +108,7 @@ export class RevoteComponent implements OnInit {
                     return 1;
                 return 0;
             });
+
             if (isUndefined(opinion[0])) {
                 document.getElementById("sous-titre").innerText += ' aucun candidat';
             }
@@ -105,7 +119,6 @@ export class RevoteComponent implements OnInit {
             }
         }, error => console.error(error));
     }
-
     HasUserTalked(user: Users): boolean {
         try {
             let participant: Participant = this.listeParticipants.find(p => p['userId'] == user['userId']);
@@ -118,6 +131,11 @@ export class RevoteComponent implements OnInit {
         document.getElementById("selectParticipant").style.visibility = "visible";
         this.ageCalculation(birthDate);
         this.currentUser = user;
+        this.currentUser.FirstName = user['firstName'];
+        this.currentUser.LastName = user['lastName'];
+        this.currentUser.Description = user['description'];
+        this.currentUser.Job = user['job'];
+
     }
 
     private ageCalculation(birthDate: string) {
@@ -125,11 +143,13 @@ export class RevoteComponent implements OnInit {
         const BirthDate: Date = new Date(birthDate);
         var Age: number = currentDate.getFullYear() - BirthDate.getFullYear() - 1;
 
-        if (currentDate.getMonth() > BirthDate.getMonth())
+        if (currentDate.getMonth() > BirthDate.getMonth()) {
             Age++;
+        }
         else if (currentDate.getMonth() == BirthDate.getMonth()) {
-            if (currentDate.getDate() >= BirthDate.getDate())
+            if (currentDate.getDate() >= BirthDate.getDate()) {
                 Age++;
+            }
         }
         this.age = Age;
     }
