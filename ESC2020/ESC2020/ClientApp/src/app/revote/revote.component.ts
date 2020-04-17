@@ -45,8 +45,6 @@ export class RevoteComponent implements OnInit {
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.navBarStateService.SetIsInElection(true);
-        this.navBarStateService.SetLogsVisible(true);
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
@@ -69,10 +67,12 @@ export class RevoteComponent implements OnInit {
             }
         });
 
-        this.hubConnection.on("userHasVoted", (electionId: number) => {
-            if (electionId == Number(this.election['electionId'])) {
+        this.hubConnection.on("userHasVoted", (electionId: number, phaseId: number) => {
+            if (electionId == Number(this.election['electionId']) && phaseId == 2) {
+                console.log("user has voted 2")
                 this.getCurrentParticipant();
                 this.listeUsers = [];
+
                 this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
@@ -91,24 +91,18 @@ export class RevoteComponent implements OnInit {
         this.service.get(window.location.origin + "/api/Opinions/" + this.election['electionId'] + '/' + this.connectedAccount['userId']).subscribe(result => {
             let opinion: Opinion[] = result as Opinion[];
             opinion.sort((l1, l2) => {
-                if (l1['dateOpinion'] > l2['dateOpinion']) {
+                if (l1['dateOpinion'] > l2['dateOpinion'])
                     return -1;
-                }
-                if (l1['dateOpinion'] < l2['dateOpinion']) {
+                if (l1['dateOpinion'] < l2['dateOpinion'])
                     return 1;
-                }
                 return 0;
             });
             console.log(opinion)
             if (isUndefined(opinion[0])) {
                 document.getElementById("sous-titre").innerText += ' aucun candidat';
-                console.log("nope")
-
             }
             else {
                 this.service.get(window.location.origin + "/api/Users/" + opinion[0]["concernedId"]).subscribe(result => {
-                    console.log(result)
-
                     document.getElementById("sous-titre").innerText += ' ' + result['firstName'] + ' ' + result['lastName'];
                 }, error => console.error(error));
             }
@@ -134,13 +128,11 @@ export class RevoteComponent implements OnInit {
         const BirthDate: Date = new Date(birthDate);
         var Age: number = currentDate.getFullYear() - BirthDate.getFullYear() - 1;
 
-        if (currentDate.getMonth() > BirthDate.getMonth()) {
+        if (currentDate.getMonth() > BirthDate.getMonth())
             Age++;
-        }
         else if (currentDate.getMonth() == BirthDate.getMonth()) {
-            if (currentDate.getDate() >= BirthDate.getDate()) {
+            if (currentDate.getDate() >= BirthDate.getDate())
                 Age++;
-            }
         }
         this.age = Age;
     }
@@ -160,12 +152,10 @@ export class RevoteComponent implements OnInit {
         this.service.get(window.location.origin + "/api/Opinions/vote/" + this.election['electionId'] + '/' + this.connectedAccount['userId']).subscribe(result => {
             let opinion: Opinion[] = result as Opinion[];
             opinion.sort((l1, l2) => {
-                if (l1['dateOpinion'] > l2['dateOpinion']) {
+                if (l1['dateOpinion'] > l2['dateOpinion'])
                     return -1;
-                }
-                if (l1['dateOpinion'] < l2['dateOpinion']) {
+                if (l1['dateOpinion'] < l2['dateOpinion'])
                     return 1;
-                }
                 return 0;
             });
 
@@ -211,7 +201,7 @@ export class RevoteComponent implements OnInit {
                                                 "HasTalked": participantResult['hasTalked'],
                                                 "VoteCounter": voteCounter
                                             }).subscribe(result => {
-                                                this.hubConnection.send("userHasVoted", Number(this.election['electionId']));
+                                                this.hubConnection.send("userHasVoted", Number(this.election['electionId']), Number(this.election['electionPhaseId']));
                                             }, error => console.log(error));
                                         }, error => console.log(error));
                                     }, error => console.log(error));
@@ -240,7 +230,7 @@ export class RevoteComponent implements OnInit {
                 "HasTalked": true,
                 "VoteCounter": participantResult['voteCounter']
             }).subscribe(result => {
-                this.hubConnection.send("userHasVoted", Number(this.election['electionId']));
+                this.hubConnection.send("userHasVoted", Number(this.election['electionId']), Number(this.election['electionPhaseId']));
             }, error => console.log(error));
         }, error => console.log(error));
     }
