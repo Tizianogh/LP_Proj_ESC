@@ -37,6 +37,7 @@ export class MyAccountComponent implements OnInit {
         this.connectedAccount = anUser;
         this.connectedAccount.BirthDate = anUser['birthDate'];
         this.connectedAccount.FirstName = anUser['firstName'];
+        this.connectedAccount.LastName = anUser['lastName'];
         this.connectedAccount.Email = anUser['email'];
         this.connectedAccount.Description = anUser['description'];
         this.connectedAccount.Job = anUser['job'];
