@@ -20,9 +20,9 @@ namespace ESC2020.Hubs {
             await Clients.All.SendAsync("endVote", electionId);
         }
 
-        public async Task userHasVoted(int electionId)
+        public async Task userHasVoted(int electionId, int phaseId)
         {
-            await Clients.All.SendAsync("userHasVoted", electionId);
+            await Clients.All.SendAsync("userHasVoted", electionId, phaseId);
         }
 
         public async Task changeParticipants(int electionId) {

@@ -49,8 +49,6 @@ export class ElectionVoteComponent implements OnInit {
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
         this.electionId = this.election['electionId'];
-        this.navBarStateService.SetIsInElection(true);
-        this.navBarStateService.SetLogsVisible(true);
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
 
@@ -69,8 +67,10 @@ export class ElectionVoteComponent implements OnInit {
             }
         });
 
-        this.hubConnection.on("userHasVoted", (electionId: number) => {
-            if (electionId == Number(this.electionId)) {
+        this.hubConnection.on("userHasVoted", (electionId: number, phaseId: number) => {
+            if (electionId == Number(this.electionId) && phaseId == 1) {
+                console.log("user has voted 1")
+
                 this.getCurrentParticipant();
                 this.listeUsers = [];
                 this.electionService.fetchElection(String(electionId));
@@ -158,7 +158,7 @@ export class ElectionVoteComponent implements OnInit {
                     'HasTalked': true,
                     "VoteCounter": voteCounter
                 }).subscribe(result => {
-                    this.hubConnection.send("userHasVoted", Number(this.electionId));
+                    this.hubConnection.send("userHasVoted", Number(this.electionId), Number(this.election['ElectionPhaseId']));
                 }, error => console.log(error));
             }, error => console.log(error));
             this.navBarStateService.SetLogsVisible(true);
@@ -174,7 +174,7 @@ export class ElectionVoteComponent implements OnInit {
                     'HasTalked': true,
                     'VoteCounter':participantResult['voteCounter']
                 }).subscribe(result => {
-                    this.hubConnection.send("userHasVoted", Number(this.electionId));
+                    this.hubConnection.send("userHasVoted", Number(this.electionId), Number(this.election['electionPhaseId']));
                 }, error => console.log(error));
             }, error => console.log(error));
             this.navBarStateService.SetLogsVisible(true);
