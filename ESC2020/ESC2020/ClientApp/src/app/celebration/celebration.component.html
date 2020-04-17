@@ -6,20 +6,20 @@
         <div class="col-sm-2 align-self-center">
 
             <p class="intro">
-                Félicitation à {{actualElected['firstName']}} {{actualElected['lastName']}} pour avoir été élu(e) au poste de {{election['job']}} !!!
+                Félicitation à {{actualElected.FirstName}} {{actualElected.LastName}} pour avoir été élu(e) au poste de {{election.poste}} !!!
             </p>
             <div class="profile-userpic">
-                 
-                <img class="img-fluid" id="proposedIcon" src="data:image/png;base64,{{actualElected['avatar']}}" width="200px"/>
+
+                <img class="img-fluid" id="proposedIcon" src="data:image/png;base64,{{actualElected.Avatar}}" width="200px" />
             </div>
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
-                    {{actualElected['firstName']}} {{actualElected['lastName']}}
+                    {{actualElected.FirstName}} {{actualElected.LastName}}
                 </div>
             </div>
         </div>
         <div class="col-sm-5 align-self-center">
-            <img class="img-fluid" src="assets/img/celebration.gif"  width="1000px">
+            <img class="img-fluid" src="assets/img/celebration.gif" width="1000px">
         </div>
     </div>
 </div>

@@ -42,7 +42,7 @@ export class ObjectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {}
+    constructor(private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -56,7 +56,7 @@ export class ObjectionsComponent implements OnInit {
 
     setOnSignalReceived() {
 
-        this.hubConnection.on("nextParticipant", (electionId : number) => {
+        this.hubConnection.on("nextParticipant", (electionId: number) => {
             if (electionId == this.election["electionId"]) {
                 this.mainRequest();
             }
@@ -66,12 +66,12 @@ export class ObjectionsComponent implements OnInit {
             if (electionId == this.election["electionId"]) {
                 this.getObjections();
             }
-         
+
         });
     }
 
     mainRequest() {
-        //Récupérer l'id de l'élection actuelle à partir de l'url
+        //RÃ©cupÃ©rer l'id de l'Ã©lection actuelle Ã  partir de l'url
         this.actualProposed = new Users();
         this.participantsList = [];
         this.opinionsList = [];
@@ -79,8 +79,8 @@ export class ObjectionsComponent implements OnInit {
         this.objectionsList = [];
         this.propositions = [];
 
-     
-     
+
+
         let electionId = this.router.url.split("/")[2];
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
             this.election = result as Election;
@@ -107,7 +107,7 @@ export class ObjectionsComponent implements OnInit {
     }
 
     preStart() {
-        //récupérer la liste des participants en fonction de l'id d'une élection
+        //rÃ©cupÃ©rer la liste des participants en fonction de l'id d'une Ã©lection
         this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
             this.participantsList = participantResult as Participant[];
             this.startCounting();
@@ -123,10 +123,10 @@ export class ObjectionsComponent implements OnInit {
             this.service.get(window.location.origin + "/api/Opinions/election/" + this.election['electionId']).subscribe(result => {
                 this.opinionsList = result as Opinion[];
 
-                //Pour chaque "Users" qui est "Propasable=true" crée une "Proposition" dans le tableau "propositions"
+                //Pour chaque "Users" qui est "Propasable=true" crÃ©e une "Proposition" dans le tableau "propositions"
                 for (let i in this.usersList) {
                     console.log(this.getParticipant(this.usersList[i]['userId'])['voteCounter']);
-                    if (this.getParticipant(this.usersList[i]['userId'])['voteCounter']>0) {
+                    if (this.getParticipant(this.usersList[i]['userId'])['voteCounter'] > 0) {
                         this.propositions.push(new Proposition(this.usersList[i]['userId'], Number(this.getParticipant(this.usersList[i]['userId'])['voteCounter'])));
                         ////Pour chaque "Opinions"
                         //for (let j in this.opinionsList) {
@@ -137,7 +137,7 @@ export class ObjectionsComponent implements OnInit {
                         //            console.log("juste avant" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
                         //            if (this.propositions[i] != null) {
                         //                this.propositions[i].VoteCounter++;
-                        //                console.log("juste après" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
+                        //                console.log("juste aprÃ¨s" + this.propositions[i].UserId + this.propositions[i].VoteCounter);
                         //            }
                         //        }
                         //    }
@@ -182,7 +182,7 @@ export class ObjectionsComponent implements OnInit {
     }
 
     objection() {
-        //génération d'une opinion Vote (id du type : 2 = opinion de type vote)
+        //gÃ©nÃ©ration d'une opinion Vote (id du type : 2 = opinion de type vote)
         this.service.get(window.location.origin + "/api/TypeOpinions/2").subscribe(result => {
             this.type = result as TypeOpinion;
             this.service.post(window.location.origin + "/api/Opinions", {
@@ -254,7 +254,7 @@ export class ObjectionsComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        
+
     }
 
     updateParticipantForVote() {
@@ -271,7 +271,7 @@ export class ObjectionsComponent implements OnInit {
                     this.sendNextSignal();
                 }, error => console.log(error));
             }
-           
+
         }, error => console.error(error));
     }
 
@@ -283,20 +283,18 @@ export class ObjectionsComponent implements OnInit {
         let phase: Phase = new Phase();
         this.service.get(window.location.origin + "/api/Phases/4").subscribe(phaseResult => {
             phase = phaseResult as Phase;
-
             this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
                 "ElectionId": this.election['electionId'],
                 "Job": this.election['job'],
                 "Mission": this.election['mission'],
-                "Responsability": this.election['responsabilites'],
-                "StartDate": this.election['dateD'],
-                "EndDate": this.election['dateF'],
+                "Responsability": this.election['responsability'],
+                "StartDate": this.election['starteDate'],
+                "EndDate": this.election['endDate'],
                 "CodeElection": this.election['codeElection'],
                 "HostId": this.election["hostId"],
                 "ElectedId": this.actualProposed['userId'],
                 "ElectionPhaseId": phase['phaseId']
             }).subscribe(result => {
-                console.log("passage à la phase de bonification");
                 this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.election['electionId'], {
                     "UserId": this.actualProposed['userId'],
                     "ElectionId": this.election['electionId'],

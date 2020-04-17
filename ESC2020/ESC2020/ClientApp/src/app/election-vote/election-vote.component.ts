@@ -44,14 +44,28 @@ export class ElectionVoteComponent implements OnInit {
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.electionService.GetElection().subscribe(anElection => this.election = anElection);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
+        this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
         this.electionId = this.election['electionId'];
+        this.navBarStateService.SetIsInElection(true);
+        this.navBarStateService.SetLogsVisible(true);
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
+
         this.getCurrentParticipant();
+    }
+
+    setupConnectedAccount(anUser: Users) {
+        this.connectedAccount = anUser;
+        this.connectedAccount.UserId = anUser['userId'];
+    }
+
+    setupElection(anElection: Election) {
+        this.election = anElection;
+        this.election.HostId = anElection['hostId'];
+        this.election.dateD = anElection['startDate'];
     }
 
     setOnSignalReceived() {
@@ -98,6 +112,11 @@ export class ElectionVoteComponent implements OnInit {
         document.getElementById("selectParticipant").style.visibility = "visible";
         this.ageCalculation(birthDate);
         this.currentUser = user;
+        this.currentUser.FirstName = user['firstName'];
+        this.currentUser.LastName = user['lastName'];
+        this.currentUser.Description = user['description'];
+        this.currentUser.Job = user['job'];
+
     }
 
     private ageCalculation(birthDate: string) {
@@ -105,11 +124,13 @@ export class ElectionVoteComponent implements OnInit {
         const BirthDate: Date = new Date(birthDate);
         var Age: number = currentDate.getFullYear() - BirthDate.getFullYear() - 1;
 
-        if (currentDate.getMonth() > BirthDate.getMonth()) 
+        if (currentDate.getMonth() > BirthDate.getMonth()) {
             Age++;
+        }
         else if (currentDate.getMonth() == BirthDate.getMonth()) {
-            if (currentDate.getDate() >= BirthDate.getDate()) 
+            if (currentDate.getDate() >= BirthDate.getDate()) {
                 Age++;
+            }
         }
         this.age = Age;
     }
@@ -167,7 +188,7 @@ export class ElectionVoteComponent implements OnInit {
                     'UserId': participantResult['userId'],
                     'ElectionId': participantResult['electionId'],
                     'HasTalked': true,
-                    'VoteCounter':participantResult['voteCounter']
+                    'VoteCounter': participantResult['voteCounter']
                 }).subscribe(result => {
                     this.hubConnection.send("userHasVoted", Number(this.electionId), Number(this.election['electionPhaseId']));
                 }, error => console.log(error));
@@ -177,7 +198,7 @@ export class ElectionVoteComponent implements OnInit {
             //Ajoute +1 au VoteCounter
             this.service.get(window.location.origin + "/api/Participants/" + this.currentUser['userId'] + "/" + this.election['electionId']).subscribe(result => {
                 let participantResult: Participant = result as Participant;
-                var voteCounter : number = Number(participantResult['voteCounter'])+1;
+                var voteCounter: number = Number(participantResult['voteCounter']) + 1;
                 this.service.put(window.location.origin + "/api/Participants/" + participantResult['userId'] + "/" + this.election['electionId'], {
                     "UserId": participantResult["userId"],
                     "ElectionId": this.election['electionId'],
@@ -208,7 +229,7 @@ export class ElectionVoteComponent implements OnInit {
                 }).subscribe(result => {
                 }, error => console.log(error));
             }
-            //Créer un objet Phase 2
+            //CrÃ©er un objet Phase 2
             let phase: Phase = new Phase();
             this.service.get(window.location.origin + "/api/Phases/2").subscribe(phaseResult => {
                 phase = phaseResult as Phase;
@@ -225,7 +246,7 @@ export class ElectionVoteComponent implements OnInit {
                     "ElectedId": null,
                     "ElectionPhaseId": phase['phaseId']
                 }).subscribe(result => {
-                    //Informe que la phase de l'Election a changé
+                    //Informe que la phase de l'Election a changÃ©
                     this.hubConnection.send("updatePhase", Number(this.electionId));
                 }, error => console.log(error));
             });
