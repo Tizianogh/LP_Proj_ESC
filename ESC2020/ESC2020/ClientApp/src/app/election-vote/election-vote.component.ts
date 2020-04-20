@@ -162,7 +162,7 @@ export class ElectionVoteComponent implements OnInit {
             }).subscribe(result => {
             }, error => console.log(error));
         }, error => console.error(error));
-
+        
         //Si l'User vote pour lui même, HasTalked en true et ajoute +1 au VoteCounter
         if (this.connectedAccount['userId'] == this.currentUser['userId']) {
             this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
