@@ -85,14 +85,13 @@ export class MyAccountComponent implements OnInit {
 
     //Supprime une partie inutile de la chaine de caractère de l'image
     decodeBase64(image: any) {
-        if (image.includes("data:image/png;base64,")) {
+        if (image.includes("data:image/png;base64,")) 
             image = image.replace("data:image/png;base64,", "");
-        } else if (image.includes("data:image/jpg;base64,")) {
+        else if (image.includes("data:image/jpg;base64,"))
             image = image.replace("data:image/jpg;base64,", "");
-        } else if (image.includes("data:image/jpeg;base64,")) {
+        else if (image.includes("data:image/jpeg;base64,"))
             image = image.replace("data:image/jpeg;base64,", "");
-        }
-
+        
         return image;
     }
 
@@ -103,9 +102,8 @@ export class MyAccountComponent implements OnInit {
         myReader.onloadend = (e) => {
             this.image = myReader.result;
         }
-        if (file != null) {
+        if (file != null)
             myReader.readAsDataURL(file);
-        }
     }
 
     //vérifier que le nom, le prénom, le job et la description sont non-vides

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Log } from '../Model/Log';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { Users } from '../Model/Users';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { AuthentificationService } from '../services/authentification.service';
@@ -19,20 +19,13 @@ export class LogsComponent implements OnInit {
     private notificationList: Log[] = [];
     private allListOpinion: Log[] = [];
     private allListNotifs: Log[] = [];
-    private previousUrl: string;
-    private currentUrl: string;
 
     public logsVisible: boolean;
     public objectionsVisible: boolean;
 
-    private connectedAccount: Users = new Users();
-
-
     public logList: Log[] = [];
 
-    constructor(private location: Location, private service: HttpClient, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) {
-
-    }
+    constructor(private location: Location, private service: HttpClient, private navBarStateService: NavBarStateService, private router: Router) {}
 
     ngOnInit() {
         this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
@@ -92,12 +85,10 @@ export class LogsComponent implements OnInit {
 
     sort(array: Log[]) {
         array.sort((l1, l2) => {
-            if (l1.hour > l2.hour) {
+            if (l1.hour > l2.hour)
                 return -1;
-            }
-            if (l1.hour < l2.hour) {
+            if (l1.hour < l2.hour)
                 return 1;
-            }
             return 0;
         });
     }
@@ -135,24 +126,8 @@ export class LogsComponent implements OnInit {
                                 this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
                         }, error => console.error(error));
                     }, error => console.error(error));
-
-
                 }
                 else if (this.allListOpinion[i]['typeId'] == 2) {
-                    //objection
-                    let objecting: Users;
-                    let objected: Users;
-                    this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['authorId']).subscribe(result => {
-                        objecting = result as Users;
-                        this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['concernedId']).subscribe(result => {
-                            objected = result as Users;
-                            let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                            this.objectionPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre " + objected["firstName"] + " " + objected["lastName"],
-                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
-                        }, error => console.error(error));
-                    }, error => console.error(error));
-                }
-                else if (this.allListOpinion[i]['typeId'] == 3) {
                     //revote
                     let objecting: Users;
                     let objected: Users;
@@ -162,6 +137,20 @@ export class LogsComponent implements OnInit {
                             objected = result as Users;
                             let datePubli: string = this.allListOpinion[i]['dateOpinion'];
                             this.votePush(objecting["firstName"] + " " + objecting["lastName"] + " a modifié son vote afin de voter pour " + objected["firstName"] + " " + objected["lastName"],
+                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                        }, error => console.error(error));
+                    }, error => console.error(error));
+                }
+                else if (this.allListOpinion[i]['typeId'] == 3) {
+                    //objection
+                    let objecting: Users;
+                    let objected: Users;
+                    this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['authorId']).subscribe(result => {
+                        objecting = result as Users;
+                        this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['concernedId']).subscribe(result => {
+                            objected = result as Users;
+                            let datePubli: string = this.allListOpinion[i]['dateOpinion'];
+                            this.objectionPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre " + objected["firstName"] + " " + objected["lastName"],
                                 this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
                         }, error => console.error(error));
                     }, error => console.error(error));

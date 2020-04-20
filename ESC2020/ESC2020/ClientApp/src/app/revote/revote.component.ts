@@ -68,7 +68,6 @@ export class RevoteComponent implements OnInit {
         this.election.dateD = anElection['startDate'];
     }
 
-
     setOnSignalReceived() {
 
         this.hubConnection.on("changeParticipants", (electionId: number, phaseId: number) => {

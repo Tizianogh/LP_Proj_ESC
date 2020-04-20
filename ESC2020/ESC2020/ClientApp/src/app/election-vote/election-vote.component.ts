@@ -4,11 +4,9 @@ import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
-import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
-import { Opinion } from '../Model/Opinion';
 import * as signalR from "@microsoft/signalr";
 import { ElectionService } from '../services/election.service';
 import { Phase } from '../Model/Phase';
@@ -40,7 +38,7 @@ export class ElectionVoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private service: HttpClient, private router: Router, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
+    constructor(private service: HttpClient, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -65,7 +63,6 @@ export class ElectionVoteComponent implements OnInit {
     setupElection(anElection: Election) {
         this.election = anElection;
         this.election.HostId = anElection['hostId'];
-        this.election.dateD = anElection['startDate'];
     }
 
     setOnSignalReceived() {
@@ -116,7 +113,6 @@ export class ElectionVoteComponent implements OnInit {
         this.currentUser.LastName = user['lastName'];
         this.currentUser.Description = user['description'];
         this.currentUser.Job = user['job'];
-
     }
 
     private ageCalculation(birthDate: string) {

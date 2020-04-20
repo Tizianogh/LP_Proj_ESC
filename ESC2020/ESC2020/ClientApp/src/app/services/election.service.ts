@@ -16,9 +16,7 @@ import { isUndefined } from 'util';
 
 export class ElectionService {
 
-    private electionValue: Election;
     private election: BehaviorSubject<Election>;
-    private electionO: Election;
     private participants: Participant[];
     private participantList: BehaviorSubject<Participant[]>;
     private users: Users[];
@@ -32,22 +30,21 @@ export class ElectionService {
     }
 
     fetchElection(electionId: string) {
+        this.ClearParticipantList();
+        this.ClearUserList();
         //Récupérer l'id de l'élection actuelle à partir de l'url
         this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
-            this.electionValue = result as Election;
-            this.SetElection(this.electionValue);
+            this.SetElection(result as Election);
             this.fetchParticipants(electionId);
         }, error => console.error(error));
     }
 
     async fetchParticipants(electionId: string) {
-        this.ClearParticipantList();
-        this.ClearUserList();
+
         //récupérer la liste des participants en fonction de l'id d'une élection
         await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
             this.participants = participantResult as Participant[];
             this.participants.forEach((participant) => {
-                //this.navBarStateService.SetLogsVisible(this.participants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
                 this.AddParticipant(participant);
                 this.fetchUser(participant);
             });
@@ -78,8 +75,6 @@ export class ElectionService {
     }
 
     AddParticipant(newEntry: Participant) {
-        console.log("Adding : ")
-        console.log(newEntry)
         this.participants.push(newEntry);
         this.participantList.next(this.participants);
     }
@@ -90,10 +85,7 @@ export class ElectionService {
     }
 
     ClearParticipantList() {
-        console.log("Before clear : " + this.participants)
         this.participants = [];
-        console.log("After clear : " + this.participants)
-
         this.participantList.next(this.participants);
     }
 

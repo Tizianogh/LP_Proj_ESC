@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Users } from '../Model/Users';
@@ -26,7 +26,8 @@ export class CreateElectionComponent implements OnInit {
     id: number = 5;
     erreur: string;
 
-    constructor(private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) { }
+    constructor(private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
+    }
 
     ngOnInit() {
         this.initForm();
@@ -63,9 +64,8 @@ export class CreateElectionComponent implements OnInit {
     submit() {
         const form = this.formulaireElection.value
 
-        if (form['poste'].trim() == "" || form['missions'].trim() == "" || form['responsabilites'].trim() == "" || form['dateD'].trim() == "" || form['dateF'].trim() == "") {
+        if (form['poste'].trim() == "" || form['missions'].trim() == "" || form['responsabilites'].trim() == "" || form['dateD'].trim() == "" || form['dateF'].trim() == "")
             this.erreur = "*Tous les champs doivent être remplis";
-        }
         else {
             if (this.verifDates(form['dateD'], form['dateF'])) {
                 let phase: Phase = new Phase();
@@ -95,9 +95,8 @@ export class CreateElectionComponent implements OnInit {
                     }, error => this.submit());
                 }, error => console.error(error));
             }
-            else {
+            else 
                 this.erreur = "*Les dates sont incorrectes";
-            }
         }
     }
 
@@ -113,15 +112,8 @@ export class CreateElectionComponent implements OnInit {
         let dateDeux = new Date(date2);
         let myDate = new Date();
         this.datePipe.transform(myDate, 'yyyy-MM-dd');
-        if (dateUne.getTime() > dateDeux.getTime() || dateUne.getTime() < myDate.getTime()) {
+        if (dateUne.getTime() > dateDeux.getTime() || dateUne.getTime() < myDate.getTime())
             res = true;
-        }
         return res;
     }
-}
-
-class Election {
-    constructor(public poste: string, public missions: string, public responsabilite: string, public dateD: string, public dateF: string) { }
-
-
 }

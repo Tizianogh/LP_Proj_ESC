@@ -35,20 +35,20 @@ namespace ESC2020.Controllers
             return await _context.Participants.Where(p => p.UserId == id).ToListAsync();
         }
 
+        // GET: api/Participants/election/5
+        [HttpGet]
+        [Route("election/{id}")]
+        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByElection(int id)
+        {
+            return await _context.Participants.Where(p => p.ElectionId == id).ToListAsync();
+        }
+
         // GET: api/Participants/5/5
         [HttpGet]
         [Route("{userId}/{electionId}")]
         public async Task<ActionResult<Participant>> GetParticipant(int userId, int electionId)
         {
             return await _context.Participants.Where(p => p.UserId == userId && p.ElectionId == electionId).FirstOrDefaultAsync();
-        }
-
-        // GET: api/Participants/id
-        [HttpGet]
-        [Route("election/{id}")]
-        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByElection(int id)
-        {
-            return await _context.Participants.Where(p => p.ElectionId == id).ToListAsync();
         }
 
         // PUT: api/Participants/5

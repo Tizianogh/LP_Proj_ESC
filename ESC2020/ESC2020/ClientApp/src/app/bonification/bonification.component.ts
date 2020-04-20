@@ -1,18 +1,14 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
 import { Phase } from '../Model/Phase';
-import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
-import { NavBarStateService } from '../services/NavBarState.service';
-
 import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
-
 
 @Component({
     selector: 'app-bonification',
@@ -41,8 +37,7 @@ export class BonificationComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-
+    constructor(private electionService: ElectionService, private service: HttpClient, private authentificationService: AuthentificationService) {
     }
 
     ngOnInit() {
@@ -54,7 +49,6 @@ export class BonificationComponent implements OnInit {
         this.mainRequest();
         this.hubConnection.start().catch(err => console.log(err));
     }
-
 
     mainRequest() {
         this.getConnectedParticipant();
@@ -76,12 +70,10 @@ export class BonificationComponent implements OnInit {
     }
 
     checkHost() {
-        if (this.connectedAccount["userId"] == this.election['hostId']) {
+        if (this.connectedAccount["userId"] == this.election['hostId'])
             this.host = true;
-        }
-        else {
+        else
             this.host = false;
-        }
     }
 
     preStart() {
@@ -112,9 +104,7 @@ export class BonificationComponent implements OnInit {
                     "Message": this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a refusé de pourvoir le rôle de " + this.election['job'],
                     "DateNotification": new Date(),
                     "ElectionId": this.election['electionId']
-                }).subscribe(result => {
-                }, error => console.log(error));
-
+                }).subscribe(result => {}, error => console.log(error));
             }, error => console.log(error));
         }, error => console.error(error));
 
@@ -133,14 +123,11 @@ export class BonificationComponent implements OnInit {
                         "ElectionId": this.election['electionId'],
                         "HasTalked": false,
                         "VoteCounter": 0
-                    }).subscribe(result => {
-                    }, error => console.log(error));
+                    }).subscribe(result => {}, error => console.log(error));
                 }, error => console.log(error));
             }
 
         }, error => console.error(error));
-
-
 
         let phase: Phase = new Phase();
         this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {
@@ -184,9 +171,7 @@ export class BonificationComponent implements OnInit {
                     "Message": this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
                     "DateNotification": new Date(),
                     "ElectionId": this.election['electionId']
-                }).subscribe(result => {
-                }, error => console.log(error));
-
+                }).subscribe(result => {}, error => console.log(error));
                 this.hubConnection.send("updatePhase", Number(this.election['electionId']));
             }, error => console.log(error));
         });

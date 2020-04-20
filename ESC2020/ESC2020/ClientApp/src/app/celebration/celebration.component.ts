@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
@@ -9,7 +9,6 @@ import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { ElectionService } from '../services/election.service';
-
 
 @Component({
     selector: 'app-celebration',
@@ -34,9 +33,7 @@ export class CelebrationComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
 
-    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-
-    }
+    constructor(private electionService: ElectionService, private service: HttpClient, private authentificationService: AuthentificationService) {}
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -83,5 +80,4 @@ export class CelebrationComponent implements OnInit {
             }, error => console.error(error));
         }
     }
-
 }
