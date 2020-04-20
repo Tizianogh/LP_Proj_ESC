@@ -32,6 +32,7 @@
                     <a class="dropdown-item" (click)="goToLogs()">Historique de l'élection</a>
                 </div>
             </li>
+            <app-chat [hidden]="!inElection"></app-chat>
         </ul>
         <div class="navbar-collapse justify-content-end">            
             <ul class="navbar-nav d-flex justify-content-end">
