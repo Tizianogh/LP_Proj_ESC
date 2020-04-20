@@ -7,4 +7,5 @@ export class Election {
     dateF: string;
     HostId: number;
     nbParticipant: number;
+    ElectionPhaseId: number;
 }

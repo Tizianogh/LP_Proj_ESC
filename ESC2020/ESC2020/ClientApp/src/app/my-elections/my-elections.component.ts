@@ -19,8 +19,11 @@ import { NavBarStateService } from '../services/NavBarState.service';
 export class MyElectionsComponent implements OnInit {
 
     private connected: boolean;
+    public buttonClicked: string;
     private connectedAccount: Users;
     private electionId: number;
+    public FinishedElectionsList: Election[] = [];
+    public OngoingElectionsList: Election[] = [];
     public listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
     hubConnection = new signalR.HubConnectionBuilder()
@@ -53,35 +56,28 @@ export class MyElectionsComponent implements OnInit {
                     console.log(election);
                 }, error => console.error(error));
             }
+            this.listeElections.forEach(election => {
+                if (election['ElectionPhaseId'] == 5) {
+                    this.FinishedElectionsList.push(election);
+                } else {
+                    this.OngoingElectionsList.push(election);
+                }
+            });
         }, error => console.error(error));
     }
 
     MesElections() {
         document.getElementById("ongletMesElections").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
         document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
         document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
-    }
-
-    ElectionsCrees() {
-        document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
+        this.listeElections = this.FinishedElectionsList;
     }
 
     ElectionsTermines() {
         document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
         document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 5px solid #430640;";
         document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
-    }
-
-    ajouterElections() {
-        //document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
-        //document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
-        //document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
-        //document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 5px solid #430640;";
+        this.listeElections = this.OngoingElectionsList;
     }
 
     rajouterElections(codeInput: string) {

@@ -28,6 +28,11 @@ nav {
     font-size: 38px;
 }
 
+.badge-primary {
+    color: #430640;
+    background-color: #fee2d7;
+}
+
 .sous-titre {
     font-weight: 700;
     font-size: 20px;
