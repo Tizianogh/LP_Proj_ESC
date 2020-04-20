@@ -20,6 +20,7 @@ export class JoinElectionLinkComponent implements OnInit {
     public connectedAccount: Users;
     private listeElections: Election[] = [];
     private listeParticipants: Participant[] = [];
+    election: Election = new Election();
     electionId: number;
     code: string;
     erreur: string;
@@ -35,6 +36,11 @@ export class JoinElectionLinkComponent implements OnInit {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.code = this.router.url.split('/')[2];
+        this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
+            this.election = result as Election;
+        }, error => console.error(error));
+          
+        
         this.hubConnection.start().catch(err => console.log(err));
     }
 

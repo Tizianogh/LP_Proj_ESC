@@ -1,4 +1,72 @@
-<h2 id="titre" class="d-flex justify-content-center">Création de votre élection de vote</h2>
+<div class="container">
+    <h2 id="titre" class="text-center my-5">Création de votre élection</h2>
+
+    <form [formGroup]="formulaireElection">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Poste de l'élu</label>
+                <input type="text" class="input form-control" name="poste" formControlName="poste" placeholder="Chef d'équipe, ....">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Ses missions</label>
+                <input type="text" class="input form-control" name="missions" formControlName="missions" placeholder="Superviser une équipe, ..." />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Ses responsabilités</label>
+            <input type="text" class="input form-control" name="responsabilités" formControlName="responsabilites" placeholder="Donner des instructions, guider une équipe, ..." />
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label> Date de début de mandat</label>
+                <input class="input_date form-control" type="date" name="dateD" formControlName="dateD" />
+            </div>
+            <div class="form-group col-md-6">
+                <label> Date de fin de mandat</label>
+                <input class="input_date form-control" type="date" name="dateF" formControlName="dateF">
+            </div>
+        </div>
+
+        <label id="erreur">{{erreur}}</label>
+
+        <div class="d-flex justify-content-center">
+            <button id="send" (click)="submit()" class="btn mb-5">Créer votre élection</button>
+        </div>
+    </form>
+</div>
+
+
+
+    <!--<h2 id="titre" class="text-center mb-5">Création de votre élection de vote</h2>
+    <form [formGroup]="formulaireElection" class="mx-5">
+        <div class="row mb-3">
+            <div class="col text-center">
+                <input type="text" class="form-control" placeholder="Poste de l'élu">
+            </div>
+        </div>
+        <div class="row mb-3 ">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Ses missions">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Ses responsabilités">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label> Date de début de mandat</label>
+                <input class="input_date" type="date" name="dateD" formControlName="dateD" />
+                <label> Date de fin de mandat</label>
+                <input class="input_date" type="date" name="dateF" formControlName="dateF">
+                <br />
+            </div>
+        </div>
+    </form>-->
+
+
+<!--<h2 id="titre" class="d-flex justify-content-center">Création de votre élection de vote</h2>
 
 <div class="form-group">
   <form [formGroup]="formulaireElection">
@@ -37,4 +105,4 @@
       <button id="send" (click)="submit()" >créer votre élection</button>
     </div>
   </form>
-</div>
+</div>-->

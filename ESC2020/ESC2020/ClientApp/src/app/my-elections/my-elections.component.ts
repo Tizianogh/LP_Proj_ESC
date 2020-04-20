@@ -33,7 +33,8 @@ export class MyElectionsComponent implements OnInit {
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.navBarStateService.SetIsInElection(false);
         this.hubConnection.start().catch(err => console.log(err));
-        this.getElections()
+        this.getElections();
+        this.MesElections();
     }
 
     getElections() {
@@ -77,10 +78,10 @@ export class MyElectionsComponent implements OnInit {
     }
 
     ajouterElections() {
-        document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
-        document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 5px solid #430640;";
+        //document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
+        //document.getElementById("ongletElectionsCrees").style.cssText = "border-bottom: 0px solid #430640;";
+        //document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
+        //document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 5px solid #430640;";
     }
 
     rajouterElections(codeInput: string) {

@@ -2,18 +2,29 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    align-items: center;
     background-color: #FEE2D7;
 }
 
-.leftPos{
-    margin-left:10vw;
+.container {
+    font-size: 18px;
 }
 
-#tvCreer{
-    font-size:3vw;
-    font-weight:bold;
+#titre {
+    color: #430640;
+    font-weight: 800;
+    font-size: 38px;
 }
+
+#send {
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-top: 90px;
+    background-color: #430640;
+}
+/*------------------------------------------------------------------*/
 
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
@@ -38,14 +49,14 @@ html, body {
     border-color: #ffa528;
 }
 
-.parent {
+/*.parent {
     align-content:center;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
     grid-column-gap: 5vw;
     grid-row-gap: 0px;
-}
+}*/
 
 .div1 {
     grid-area: 1 / 1 / 2 / 2;

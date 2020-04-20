@@ -38,6 +38,11 @@ namespace ESC2020.Model
         [ForeignKey("ElectedId")]
         public Users ElectedElection { get; set; }
 
+        public int PhaseId { get; set; }
+
+        [ForeignKey("PhaseId")]
+        public Phase Phase { get; set; }
+
         public List<Notification> Notification { get; set; } = new List<Notification>();
 
         public List<Message> Message { get; set; } = new List<Message>();

@@ -1,13 +1,43 @@
-#titre {
-    color: #430640;
-    margin-top: 25px;
-    margin-bottom: 60px;
+.container{
+    font-size: 18px;
 }
 
-.elections {
-  height: 700px;
-  overflow: auto;
-  margin-top: 10px;
+
+nav {
+    /* border-bottom: solid #430640;*/
+    /*width: 100% !important;*/
+    white-space: nowrap;
+}
+
+/*ul{
+    width: 100%;
+}*/
+
+.dropdown-menu {
+    border-top: solid;
+    border-top-width: 5px;
+    border-top-color: #430640 !important;
+    border-color: #430640 !important;
+    border-style: ridge;
+    margin-top: 0;
+}
+
+#titre {
+    color: #430640;
+    font-weight: 800;
+    font-size: 38px;
+}
+
+/*.elections {
+    height: 700px;
+    overflow: auto;*/
+    /*margin-top: 10px;*/
+/*}*/
+
+.poste {
+    color: #430640;
+    font-weight: 500;
+    font-size: 20px;
 }
 
 .color-btn {
@@ -16,57 +46,30 @@
     border-color: #f8d9cd;
 }
 
-.elections::-webkit-scrollbar {
+/*.elections::-webkit-scrollbar {
     width: 6px;
 }
 
 .elections::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background-color: rgba(56, 56, 56, 0.363);
-}
+}*/
 
-.election {
-    margin-top: 25px;
+#container {
+    /*margin-top: 25px;*/
     border-radius: 4px;
     border-color: #ffc9b4;
     border-style: solid;
     background-color: #fdcfbd;
 }
 
-
-
-.poste {
-    text-align:center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 20px;
-}
-
-.phase {
-  text-align: center;
-  font-weight: 500;
-  font-size: 20px;
-  width: 60%;
-  display: inline-block;
-}
-
-.dateD {
-  text-align: left;
-  width: 20%;
-  display: inline-block;
-}
-
-.participants {
-  text-align: right;
-  width: 20%;
-  display: inline-block;
+#navBlock {
+    border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
 .separator {
     border-bottom-style: solid;
-    border-bottom-color: #ffc9b4;
+    border-bottom-color: #FFC9B4 !important;
     border-width: 1px;
 }
 
@@ -74,6 +77,6 @@
     border-color: #430640;
 }
 
-.nav-link:hover {
-    border-color: #430640;
+a:hover {
+    border-color: #430640!important;
 }

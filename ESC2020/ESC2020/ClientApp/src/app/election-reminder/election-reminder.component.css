@@ -1,16 +1,34 @@
-.titre {
-    text-align: center;
+.container{
+    font-size: 18px;
+   /* max-width: 900px !important;*/
+}
+
+#titre {
     color: #430640;
+    font-weight: 800;
+    font-size: 38px;
 }
 
 label {
+    color: #430640;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+#valider {
+    /*color: #430640;
+    border: 2px #430640 solid;*/
+    padding: 10px 30px 10px 30px;
+    background-color: #430640;
+    color: white;
+
+}
+
+/*label {
   width: 180px;
   text-align: end;
 }
 
-p{
-    margin-left:25px;
-}
 
 .zone{
     margin-left:20%;
@@ -46,4 +64,4 @@ label {
 }
 #label_code {
     color: #430640;
-}
+}*/

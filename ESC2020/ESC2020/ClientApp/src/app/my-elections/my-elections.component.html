@@ -1,60 +1,81 @@
-<h2 id="titre" class="d-flex justify-content-center">
-    Mes élections
-</h2>
-
-<ul class="nav nav-tabs color-border " style="margin-left:75px; margin-right:75px;">
-
-  <li class="nav-item" id="ongletMesElections">
-    <a class="nav-link" style="cursor: pointer;" (click)="MesElections()">
-      Elections en cours
-    </a>
-  </li>
-
-  <li class="nav-item" id="ongletElectionsCrees">
-    <a class="nav-link" style="cursor: pointer;" (click)="ElectionsCrees()">
-      Elections créées
-    </a>
-  </li>
-
-  <li class="nav-item" id="ongletElectionsTermines">
-    <a class="nav-link" style="cursor: pointer;" (click)="ElectionsTermines()">
-      Elections terminées
-    </a>
-  </li>
-    
-  <li class="nav-item ml-auto align-text-bottom" id="ongletAjouterElection">
-      <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" (click)="ajouterElections()" style="cursor: pointer; background-color: #fee2d7;">Rejoindre une élection</div>
-      <div class="dropdown-menu dropdown-menu-right align-text-bottom color-border ">
-        <form>
-          <div class="form-group mr-3 ml-4">
-            <label for="codeInput">Lien d'invitation ou code</label>
-            <input #codeInput id="codeInput" type="text" class="form-control color-border">
-          </div>
-          <div class="btn-group">
-            <button (click)="rajouterElections(codeInput.value)" type="submit" class="btn color-btn ml-4"> Rejoindre </button>
-          </div>
-        </form>
-      </div>
-  </li>
-</ul>
-
-<div class="elections" style="margin-left:75px; margin-right:75px;" >
-  <div class="election" *ngFor="let election of listeElections">
-      <div >
-          <label>code élection: </label> {{election.codeElection}}
-          <div  class="poste">
-              <label (click)="Navigate((election.electionId))" style="cursor: pointer;">
-                  {{election.job}}
-              </label>
-          </div>
-      </div>
-    <hr class="separator">
-    <div style="margin-left:10px; margin-right:10px;">
-        <div class="dateD">
-            Début du mandat le : {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
+<div class="container">
+    <h2 id="titre" class="text-center my-5">
+        Mes élections
+    </h2>
+   <div class="row" id="navBlock">
+        <div class="col-md-12">
+            <nav class="navbar navbar-expand-md justify-content-center">
+                <ul class="navbar-nav color-border">
+                    <li class="nav-item" id="ongletMesElections">
+                        <a class="nav-link" style="cursor: pointer;" (click)="MesElections()">
+                            Elections en cours
+                        </a>
+                    </li>
+                    <li class="nav-item" id="ongletElectionsCrees">
+                        <a class="nav-link" style="cursor: pointer;" (click)="ElectionsCrees()">
+                            Elections créées
+                        </a>
+                    </li>
+                    <li class="nav-item" id="ongletElectionsTermines">
+                        <a class="nav-link" style="cursor: pointer;" (click)="ElectionsTermines()">
+                            Elections terminées
+                        </a>
+                    </li>
+                </ul>
+                <div class="navbar-collapse justify-content-md-end justify-content-center">
+                    <ul class="navbar-nav justify-content-md-end text-center">
+                        <li class="nav-item align-text-bottom mb-1" id="ongletAjouterElections">
+                            <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" (click)="ajouterElections()" style="cursor: pointer; background-color: #fee2d7;">Rejoindre une élection</div>
+                            <div class="dropdown-menu dropdown-menu-right align-text-bottom color-border " style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink">
+                                <form>
+                                    <div class="form-group mr-3 ml-4">
+                                        <label for="codeInput">Lien d'invitation ou code</label>
+                                        <input #codeInput id="codeInput" type="text" class="form-control color-border">
+                                    </div>
+                                    <div class="btn-group">
+                                        <button (click)="rajouterElections(codeInput.value)" type="submit" class="btn color-btn ml-4"> Rejoindre </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
+   </div>
+    
+   <div class="elections">
+        <div *ngFor="let election of listeElections" (click)="Navigate((election.electionId))" style="cursor: pointer;">
+            <div id="container" class="container my-5">
 
-        <div class="phase" [ngSwitch]="election.electionPhaseId">
+                <div class="row">
+                    <div class="col-md-12 text-md-left text-center">
+                        <label style="cursor: pointer;">Code élection: </label> {{election.codeElection}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <label style="cursor: pointer;" class="poste">
+                            {{election.job}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr class="separator">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-md-left text-center">
+                        <label style="cursor: pointer;">
+                            Début du mandat le : {{election.startDate |  date:'shortDate'}}
+                        </label>
+                    </div>
+
+                    <div class="col-md-4 text-center">
+                        <div class="phase" [ngSwitch]="election.electionPhaseId">
             <div *ngSwitchCase=1>
                 Votes
             </div>
@@ -75,10 +96,15 @@
                 Célébration
             </div>
         </div>
+                    </div>
 
-      <div class="participants">
-        {{election.nbParticipant}} participants
-      </div>
-    </div>
-  </div>
-</div>
+                    <div class="col-md-4 text-md-right text-center">
+                        <label style="cursor: pointer;">
+                            {{election.nbParticipant}} participants
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+ </div>

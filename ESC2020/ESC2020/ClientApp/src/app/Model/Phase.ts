@@ -1,4 +1,4 @@
-export class Phase
+﻿export class Phase
 {
   phaseId: number;
   name: string;

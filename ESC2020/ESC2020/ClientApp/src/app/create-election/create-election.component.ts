@@ -20,6 +20,8 @@ export class CreateElectionComponent implements OnInit {
     private connected: boolean;
     private connectedAccount: Users;
 
+    currentDate: string;
+
     formulaireElection: FormGroup;
     id: number = 5;
     erreur: string;
@@ -30,6 +32,9 @@ export class CreateElectionComponent implements OnInit {
         this.initForm();
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        let date: Date = new Date();
+        let currentDate : Date = new Date(); 
+        this.currentDate= date.toLocaleDateString()
         this.navBarStateService.SetIsInElection(false);
     }
 
