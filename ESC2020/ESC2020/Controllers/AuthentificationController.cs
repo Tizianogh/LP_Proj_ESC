@@ -23,8 +23,7 @@ namespace ESC2020.Controllers
 
         // GET: api/Authentification
         [HttpGet]
-        public async Task<ActionResult<Users>> GetUser(string mail, string password)
-        {
+        public async Task<ActionResult<Users>> GetUser(string mail, string password) {
             List<Users> users = await _context.User.ToListAsync();
             foreach (Users user in users)
             {
@@ -33,7 +32,7 @@ namespace ESC2020.Controllers
                     return user;
                 }
             }
-            return NotFound();
+            return null;
         }
 
         // GET: api/Authentification/5
