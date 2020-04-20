@@ -37,22 +37,34 @@ export class JoinElectionLinkComponent implements OnInit {
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
         this.code = this.router.url.split('/')[2];
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
-            this.election = result as Election;
+            this.setupElection(result as Election);
         }, error => console.error(error));
-          
-        
+
+
         this.hubConnection.start().catch(err => console.log(err));
     }
 
+    setupElection(anElection: Election) {
+        this.election = anElection;
+        this.election.HostId = anElection['hostId'];
+        this.election.dateD = anElection['startDate'];
+        this.election.dateF = anElection['endDate'];
+        this.election.missions = anElection['mission'];
+        this.election.poste = anElection['job'];
+        this.election.responsabilite = anElection['responsability'];
+    }
+
     setupConnectedAccount(anUser: Users) {
-            this.connectedAccount = anUser;
-            this.connectedAccount.BirthDate = anUser['birthDate'];
-            this.connectedAccount.FirstName = anUser['firstName'];
-            this.connectedAccount.LastName = anUser['lastName'];
-            this.connectedAccount.Email = anUser['email'];
-            this.connectedAccount.Description = anUser['description'];
-            this.connectedAccount.Job = anUser['job'];
-        }
+        this.connectedAccount = anUser;
+        this.connectedAccount.UserId = anUser['userId'];
+        this.connectedAccount.BirthDate = anUser['birthDate'];
+        this.connectedAccount.FirstName = anUser['firstName'];
+        this.connectedAccount.LastName = anUser['lastName'];
+        this.connectedAccount.Email = anUser['email'];
+        this.connectedAccount.Description = anUser['description'];
+        this.connectedAccount.Job = anUser['job'];
+        this.connectedAccount.Avatar = anUser['avatar'];
+    }
 
     submit() {
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
