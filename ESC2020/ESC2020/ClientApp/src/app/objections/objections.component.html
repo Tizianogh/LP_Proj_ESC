@@ -1,3 +1,21 @@
+﻿<h2 id="titre" style="text-indent: 5px;">
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        Votes /
+    </label>
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        Report de votes /
+    </label>
+    <label>
+        Objections
+    </label>
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        / Bonification
+    </label>
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        / Célébration
+    </label>
+</h2>
+
 <div class="proposedUser">
     <p class="intro">
         Pour le poste de {{ this.election['job'] }}, candidat actuel :
@@ -49,7 +67,7 @@
                             <td>{{objection['reason']}}</td>
                             <td>
                                 <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
-                                (et puis comme �a on a juste a supprimer l'objection de la bdd)-->
+                                (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
                                 <div *ngIf="host; then thenBlock"></div>
                                 <ng-template #thenBlock>
                                     <button type="submit" class="btn btn-success" (click)="validateObjection()">Valider l'objection</button>
