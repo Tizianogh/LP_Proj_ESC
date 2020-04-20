@@ -95,7 +95,7 @@
                                            <label class="poste" style="cursor: pointer;">
                                                Début du mandat le :
                                            </label>
-                                           {{election.startDate |  date:'shortDate'}}
+                                           {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
                                        </div>
                                    </div>
                                    <div class="row">
@@ -103,7 +103,7 @@
                                            <label class="poste" style="cursor: pointer;">
                                                Fin du mandat le :
                                            </label>
-                                           {{election.endDate |  date:'shortDate'}}
+                                           {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}
                                        </div>
                                    </div>
                                </div>
