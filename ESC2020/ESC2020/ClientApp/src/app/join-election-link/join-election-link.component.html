@@ -7,8 +7,8 @@
 
     <div class="row text-center mt-5">
         <div class="col-md-4 pb-5">
-            <p id="name">{{connectedAccount.lastName | titlecase }} {{connectedAccount.firstName | titlecase}}</p>
-            <img class="img-fluid" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" />
+            <p id="name">{{connectedAccount.LastName | titlecase }} {{connectedAccount.FirstName | titlecase}}</p>
+            <img class="img-fluid" id="{{connectedAccount.UserId}}" src="data:image/png;base64,{{connectedAccount.Avatar}}" />
         </div>
 
         <div class="col-md-8 ">
@@ -44,7 +44,7 @@
                     <label>Date de début de mandat</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
-                    <p> {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}</p>
+                    <p> {{election.startDate |  date:'shortDate'}}</p>
                 </div>
             </div>
 
@@ -53,7 +53,7 @@
                     <label> Date de fin de mandat</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
-                    <p> {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}</p>
+                    <p> {{election.endDate |  date:'shortDate'}}</p>
                 </div>
             </div>
         </div>

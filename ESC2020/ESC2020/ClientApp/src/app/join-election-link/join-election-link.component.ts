@@ -34,7 +34,7 @@ export class JoinElectionLinkComponent implements OnInit {
     ngOnInit() {
 
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
         this.code = this.router.url.split('/')[2];
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
             this.election = result as Election;
@@ -43,6 +43,16 @@ export class JoinElectionLinkComponent implements OnInit {
         
         this.hubConnection.start().catch(err => console.log(err));
     }
+
+    setupConnectedAccount(anUser: Users) {
+            this.connectedAccount = anUser;
+            this.connectedAccount.BirthDate = anUser['birthDate'];
+            this.connectedAccount.FirstName = anUser['firstName'];
+            this.connectedAccount.LastName = anUser['lastName'];
+            this.connectedAccount.Email = anUser['email'];
+            this.connectedAccount.Description = anUser['description'];
+            this.connectedAccount.Job = anUser['job'];
+        }
 
     submit() {
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
