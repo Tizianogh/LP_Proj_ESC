@@ -94,7 +94,6 @@ export class BonificationComponent implements OnInit {
         }
     }
 
-
     refus() {
         // génération d'une opinion Bonification (id du type : 3 = opinion de type bonification)
         this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
@@ -108,7 +107,14 @@ export class BonificationComponent implements OnInit {
                 'ElectionId': this.election['electionId']
             }).subscribe(result => {
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
-                console.log(result);
+
+                this.service.post(window.location.origin + "/api/Notifications", {
+                    "Message": this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a refusé de pourvoir le rôle de " + this.election['job'],
+                    "DateNotification": new Date(),
+                    "ElectionId": this.election['electionId']
+                }).subscribe(result => {
+                }, error => console.log(error));
+
             }, error => console.log(error));
         }, error => console.error(error));
 
@@ -173,6 +179,14 @@ export class BonificationComponent implements OnInit {
                 "ElectedId": this.election['electedId'],
                 "ElectionPhaseId": phase['phaseId']
             }).subscribe(result => {
+
+                this.service.post(window.location.origin + "/api/Notifications", {
+                    "Message": this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
+                    "DateNotification": new Date(),
+                    "ElectionId": this.election['electionId']
+                }).subscribe(result => {
+                }, error => console.log(error));
+
                 this.hubConnection.send("updatePhase", Number(this.election['electionId']));
             }, error => console.log(error));
         });

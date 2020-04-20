@@ -2619,3 +2619,4 @@ C:\Users\Mrazz\Source\Repos\nicolasKACEM\LP_Proj_ESC\CreationCompte\CreationComp
 C:\Users\Mrazz\Source\Repos\nicolasKACEM\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\staticwebassets\CreationCompte.StaticWebAssets.xml
 C:\Users\Mrazz\Source\Repos\nicolasKACEM\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.dll
 C:\Users\Mrazz\Source\Repos\nicolasKACEM\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.pdb
+C:\Users\Rémi\Desktop\LP_Proj_ESC\CreationCompte\CreationCompte\obj\Debug\netstandard2.1\CreationCompte.csprojAssemblyReference.cache

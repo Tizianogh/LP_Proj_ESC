@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mrazz\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
+    "C:\\Users\\Rémi\\Desktop\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mrazz\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
+    "C:\\Users\\Rémi\\Desktop\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mrazz\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "projectUniqueName": "C:\\Users\\Rémi\\Desktop\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
         "projectName": "CreationCompte",
-        "projectPath": "C:\\Users\\Mrazz\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
-        "packagesPath": "C:\\Users\\Mrazz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mrazz\\Source\\Repos\\nicolasKACEM\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
+        "projectPath": "C:\\Users\\Rémi\\Desktop\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\CreationCompte.csproj",
+        "packagesPath": "C:\\Users\\Rémi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Rémi\\Desktop\\LP_Proj_ESC\\CreationCompte\\CreationCompte\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Mrazz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rémi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -84,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
