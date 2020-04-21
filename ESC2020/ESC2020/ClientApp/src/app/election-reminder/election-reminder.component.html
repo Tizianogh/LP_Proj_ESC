@@ -67,92 +67,28 @@
         </div>
     </div>
 
+    <form #mailForm="ngForm">
+        <div class="form-group">
+            <div class="col-md-30 text-md-center">
+                <label id="label_code">Envoyer des invitations</label>
+            </div>
+            <div class="input-group-prepend">
+                <input id="mailInput" type="text" #dest class="form-control" placeholder="Ajouter destinataire" name="dest" ngModel>
+                <button id="ajouter" type="button" class="btn mb-5" (click)="addDest(dest)">Ajouter</button>
+            </div>
+        </div>
+        <div class="data">
+            <ul class="list-unstyled">
+                <li *ngFor="let dest of mailList" id="{{dest.split('@')[0].split('.').join('')}}">{{dest}} <i (click)="deleteItem(dest)" class="material-icons">X</i></li>
+            </ul>
+        </div>
+        <button id="send" type="button" class="btn mb-5" (click)="sendAll()">Envoyer</button>
+    </form>
+
     <div class="row text-center my-5">
         <div class="col-md d-flex justify-content-center">
-            <button id="valider" type="submit" class="btn mb-5">Valider</button>
+            <button id="valider" type="submit" class="btn mb-5" (click)="navigate()">Valider</button>
         </div>
     </div>
+
 </div>
-
-        <!--<div class="row mt-5">
-        <div class="col-md-5 text-center">
-            <label>Date de début de mandat</label>
-        </div>
-        <div class="offset-2 col-md-5 text-center">
-            <label> Date de fin de mandat</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5 text-center">
-            <p> {{dateD |  date:'shortDate' : locale:'fr-FR'}}</p>
-        </div>
-        <div class="offset-2 col-md-5 text-center">
-            <p> {{dateF |  date:'shortDate' : locale:'fr-FR'}}</p>
-        </div>
-    </div>-->
-
-
-
-
-        <!--<div class="form-row">
-            <div class="form-group col-md-6">
-            <label> Date de début de mandat</label>
-            <p> {{dateD |  date:'shortDate' : locale:'fr-FR'}}</p>
-        </div>
-        <div class="form-group col-md-6">
-            <label> Date de fin de mandat</label>
-            <p> {{dateF |  date:'shortDate' : locale:'fr-FR'}}</p>
-        </div>
-            <div class="form-group">
-                <label id="label_code">Code de votre élection</label>
-                <p id="code">{{codeElection}}</p>
-            </div>
-            <div class="form-group">
-
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <button id="valider" type="submit" class="btn mb-5">Valider</button>
-        </div>
-    </div>-->
-
-
-
-
-    <!--<div id="page_rappel">
-      <h2 class="titre"> Rappel de votre élection </h2>
-      <div id="rappel">
-          <div class="zone d-flex ">
-              <label>Poste de l'élu: </label><p> {{poste}}</p><label></label>
-              <br />
-          </div>
-          <div class="zone d-flex ">
-              <label>Missions: </label> <p>{{missions}}</p><label></label>
-              <br />
-          </div>
-          <div class="zone d-flex ">
-              <label>Responsabilité: </label> <p>{{responsabilite}}</p><label></label>
-              <br />
-          </div>
-          <div class="zone d-flex ">
-              <label>Date de début: </label><p> {{dateD |  date:'shortDate' : locale:'fr-FR'}}</p><label></label>
-              <br />
-          </div>
-          <div class="zone d-flex ">
-              <label>Date de fin: </label><p> {{dateF |  date:'shortDate' : locale:'fr-FR'}}</p><label></label>
-              <br />
-          </div>
-          <div class="zone d-flex ">
-              <label id="label_code">Code de votre élection</label> <p id="code">{{codeElection}}</p><label></label>
-              <br />
-          </div>
-          <div class="zone d-flex ">
-              <label id="label_code">Code de votre élection</label> <p id="code"><a href="https://localhost:44329/join-election-link/{{codeElection}}">https://localhost:44329/join-election-link/{{codeElection}}</a></p><label></label>
-              <br />
-          </div>
-
-          <div class=" d-flex justify-content-center">
-              <button id="valider" type="submit">Valider</button>
-          </div>
-      </div>
-    </div>-->
