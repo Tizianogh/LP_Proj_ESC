@@ -11,11 +11,6 @@
                             Elections en cours
                         </a>
                     </li>
-                    <li class="nav-item" id="ongletElectionsCrees">
-                        <a class="nav-link" style="cursor: pointer;" (click)="ElectionsCrees()">
-                            Elections créées
-                        </a>
-                    </li>
                     <li class="nav-item" id="ongletElectionsTermines">
                         <a class="nav-link" style="cursor: pointer;" (click)="ElectionsTermines()">
                             Elections terminées
@@ -25,7 +20,7 @@
                 <div class="navbar-collapse justify-content-md-end justify-content-center">
                     <ul class="navbar-nav justify-content-md-end text-center">
                         <li class="nav-item align-text-bottom mb-1" id="ongletAjouterElections">
-                            <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" (click)="ajouterElections()" style="cursor: pointer; background-color: #fee2d7;">Rejoindre une élection</div>
+                            <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" style="cursor: pointer; background-color: #fee2d7;">Rejoindre une élection</div>
                             <div class="dropdown-menu dropdown-menu-right align-text-bottom color-border " style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink">
                                 <form>
                                     <div class="form-group mr-3 ml-4">
@@ -45,66 +40,185 @@
    </div>
     
    <div class="elections">
-        <div *ngFor="let election of listeElections" (click)="Navigate((election.electionId))" style="cursor: pointer;">
-            <div id="container" class="container my-5">
+       <div class="container">
+           <div class="row">
+               <div class="col-md-6 my-5" *ngFor="let election of listeElections" (click)="Navigate((election.electionId))" style="cursor: pointer;">
+                   <div class="center-block align-self-center" *ngIf="election.electionPhaseId == 5; then ThenBlock else ElseBlock"></div>
+                   <ng-template #ThenBlock>
+                       <div class="card text-center">
+                           <div class="card-header sous-titre">
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       {{election.job}} 
+                                       <div *ngIf="election.hostId == connectedAccount.userId; then ThenBlock"></div>
+                                       <ng-template #ThenBlock>
+                                           <span class="badge badge-pill badge-primary">Hôte</span>
+                                       </ng-template>
+                                   </div>
+                               </div>
 
-                <div class="row">
-                    <div class="col-md-12 text-md-left text-center">
-                        <label style="cursor: pointer;">Code élection: </label> {{election.codeElection}}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <label style="cursor: pointer;" class="poste">
-                            {{election.job}}
-                        </label>
-                    </div>
-                </div>
+                           </div>
+                           <div class="card-body">
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Mission :
+                                       </label>
+                                       {{election.mission}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Responssabilités :
+                                       </label>
+                                       {{election.responsability}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Code élection :
+                                       </label>
+                                       {{election.codeElection}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Lien de votre élection :
+                                       </label>
+                                       <a href="http://51.158.77.237/join-election-link/{{codeElection}}"> http://51.158.77.237/join-election-link/{{codeElection}}</a>
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Début du mandat le :
+                                       </label>
+                                       {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Fin du mandat le :
+                                       </label>
+                                       {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="card-footer text-muted">
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Personne élue : 
+                                       </label>
+                                       <label id="election{{election.electionId}}" class="poste" style="cursor: pointer;"></label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </ng-template>
+                   <ng-template #ElseBlock>
+                      
+                       <div class="card text-center">
+                           <div class="card-header sous-titre">
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       {{election.job}}
+                                       <div *ngIf="election.hostId == connectedAccount.userId; then ThenBlock"></div>
+                                       <ng-template #ThenBlock>
+                                           <span class="badge badge-pill badge-primary">Hôte</span>
+                                       </ng-template>
+                                   </div>
+                               </div>
 
-                <div class="row">
-                    <div class="col">
-                        <hr class="separator">
-                    </div>
-                </div>
+                           </div>
+                           <div class="card-body">
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Mission :
+                                       </label>
+                                       {{election.mission}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Responssabilités :
+                                       </label>
+                                       {{election.responsability}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Code élection :
+                                       </label>
+                                       {{election.codeElection}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Lien de votre élection :
+                                       </label>
+                                       <a href="http://51.158.77.237/join-election-link/{{codeElection}}"> http://51.158.77.237/join-election-link/{{codeElection}}</a>
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Début du mandat le :
+                                       </label>
+                                       {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Fin du mandat le :
+                                       </label>
+                                       {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="card-footer text-muted">
+                               <div class="row">
+                                   <div class="col-md-6 text-md-left poste">
+                                       <div class="phase" [ngSwitch]="election.electionPhaseId">
+                                           <div *ngSwitchCase=1>
+                                               Phase de votes
+                                           </div>
 
-                <div class="row">
-                    <div class="col-md-4 text-md-left text-center">
-                        <label style="cursor: pointer;">
-                            Début du mandat le : {{election.startDate |  date:'shortDate'}}
-                        </label>
-                    </div>
+                                           <div *ngSwitchCase=2>
+                                               Phase de report des votes
+                                           </div>
 
-                    <div class="col-md-4 text-center">
-                        <div class="phase" [ngSwitch]="election.electionPhaseId">
-            <div *ngSwitchCase=1>
-                Votes
-            </div>
+                                           <div *ngSwitchCase=3>
+                                               Phase d'objections
+                                           </div>
 
-            <div *ngSwitchCase=2>
-                Report des votes
-            </div>
+                                           <div *ngSwitchCase=4>
+                                               Phase de bonifications
+                                           </div>
 
-            <div *ngSwitchCase=3>
-                Objections
-            </div>
-
-            <div *ngSwitchCase=4>
-                Bonifications
-            </div>
-
-            <div *ngSwitchCase=5>
-                Célébration
-            </div>
-        </div>
-                    </div>
-
-                    <div class="col-md-4 text-md-right text-center">
-                        <label style="cursor: pointer;">
-                            {{election.nbParticipant}} participants
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                           <div *ngSwitchCase=5>
+                                               Phase de célébration
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="col-md-6 text-md-right poste">
+                                       {{election.nbParticipant}} participants
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </ng-template>
+               </div>
+           </div>
+       </div>
    </div>
  </div>

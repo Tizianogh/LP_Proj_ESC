@@ -28,12 +28,21 @@ nav {
     font-size: 38px;
 }
 
+.badge-primary {
+    color: #430640;
+    background-color: #fee2d7;
+}
+
+.sous-titre {
+    font-weight: 700;
+    font-size: 20px;
+}
+
 /*.elections {
     height: 700px;
     overflow: auto;*/
-    /*margin-top: 10px;*/
+/*margin-top: 10px;*/
 /*}*/
-
 .poste {
     color: #430640;
     font-weight: 500;
@@ -79,4 +88,21 @@ nav {
 
 a:hover {
     border-color: #430640!important;
+}
+
+.card-footer {
+    border-bottom: solid #430640;
+    border-left: solid #430640;
+    border-right: solid #430640;
+    background-color: white;
+}
+
+.card-header {
+    background-color: #430640;
+    color: white;
+}
+
+.card-body {
+    border-left: solid #430640;
+    border-right: solid #430640;
 }
