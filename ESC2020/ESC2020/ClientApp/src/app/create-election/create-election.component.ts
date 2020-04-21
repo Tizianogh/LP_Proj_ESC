@@ -9,6 +9,8 @@ import { AuthentificationService } from '../services/authentification.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Phase } from '../Model/Phase';
 import { NavBarStateService } from '../services/NavBarState.service';
+import { Participant } from '../Model/Participant';
+import { Notification } from '../Model/Notification';
 
 @Component({
     selector: 'app-create-election',
@@ -78,42 +80,38 @@ export class CreateElectionComponent implements OnInit {
                     dateD: form['dateD'],
                     dateF: form['dateF']
                 };
+                 
+                this.httpRequest.createElection(newElection, this.connectedAccount, this.generateCode()).then(
+                    election => { // resolve() 
 
-                let anElection = this.httpRequest.createElection(newElection, this.connectedAccount, this.generateCode()));
-                console.log(anElection);
+                        let newNotification: Notification = {
+                            message: "Début de l'élection pour le poste de " + election['job'] + '.',
+                            date: new Date(),
+                            electionId: election['electionId']
+                        };
 
-                //console.log(election);
-                //LA 
-                //  |
-                //  |
-                //  v
-                //.then(successCallback, failureCallback)  // <-----
-                //  ^
-                //  |
-                //  |
-
-                /*
-                this.id = newElection['electionId'];
-                this.linkUsersElection(this.connectedAccount["userId"], this.id);
-                this.router.navigate(['election-reminder/' + this.id]);
-
-                this.service.post(window.location.origin + "/api/Notifications", {
-                    "Message": "Début de l'élection pour le poste de " + form['poste'] + '.',
-                    "DateNotification": new Date(),
-                    "ElectionId": result['electionId']
-                }).subscribe(result => {
-                }, error => this.submit());*/
+                        this.httpRequest.createNotifications(newNotification).then(
+                            notification => {
+                                this.id = election['electionId'];
+                                this.linkUsersElection(this.connectedAccount["userId"], this.id);
+                                this.router.navigate(['election-reminder/' + this.id]);
+                            }, error => {
+                                alert(error)
+                            }
+                        );
+                    }, error => {//Reject
+                        alert(error)
+                    }
+                ); 
             }
             else
                 this.erreur = "*Les dates sont incorrectes";
         }
-
     }
 
     linkUsersElection(aUserId, aElectionId) {
-        this.service.post(window.location.origin + "/api/Participants", { 'UserId': aUserId, 'ElectionId': aElectionId }).subscribe(result => {
-            console.log(result);
-        }, error => console.log(error));
+        let participant: Participant = { UserId: aUserId, ElectionId: aElectionId, VoteCounter: 0, HasTalked:false}
+        this.httpRequest.createParticipant(participant)
     }
 
     verifDates(date1: string, date2: string) {

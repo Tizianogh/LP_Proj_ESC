@@ -60,6 +60,7 @@
     <None Remove="ClientApp\src\app\fetch-data\fetch-data.component.html" />
     <None Remove="ClientApp\src\app\fetch-data\fetch-data.component.ts" />
     <None Remove="ClientApp\src\app\home\NewFile.txt" />
+    <None Remove="ClientApp\src\app\Model\Notification.ts" />
     <None Remove="ClientApp\src\app\Model\Users.ts" />
     <None Remove="ClientApp\src\app\my-account\my-account.component.css" />
     <None Remove="ClientApp\src\app\my-account\my-account.component.html" />
@@ -72,6 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\Model\Notification.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Model\Users.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.css" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.html" />

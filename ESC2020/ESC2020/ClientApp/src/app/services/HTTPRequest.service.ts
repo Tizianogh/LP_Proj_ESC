@@ -8,11 +8,13 @@ import { Participant } from '../Model/Participant';
 import { Phase } from '../Model/Phase';
 import { isUndefined } from 'util';
 import { TypeOpinion } from '../Model/TypeOpinion';
+import { Notification } from '../Model/Notification';
 
 
 @Injectable({
     providedIn: 'root'
 })
+
 export class HTTPRequestService {
 
     constructor(private service: HttpClient, private router: Router) { }
@@ -38,39 +40,46 @@ export class HTTPRequestService {
         }
     }
 
-    public async createElection(election: Election, hostUser: Users, code: string): Promise<Election>{
-        try {
-            let phaseResult
-            phaseResult = await this.getPhasesById(1)
-
-           await this.service.post(window.location.origin + "/api/Elections", {
-                "Job": election.poste,
-                "Mission": election.missions,
-                "Responsability": election.responsabilite,
-                "StartDate": election.dateD,
-                "EndDate": election.dateF,
-                "CodeElection": code,
-                "HostId": hostUser['userId'],
-                "ElectedId": null,
-                "ElectionPhaseId": phaseResult['phaseId']
-            }).subscribe(result => {
-                console.log(result)
-                return result;
-            }, error => console.log(error));
-        } catch (e) {
-            console.log(e);
-            return null;
-        }
+    public createElection(election: Election, hostUser: Users, code: string): Promise<Election> {
+        return new Promise((resolve, reject): Promise<void> => {
+            try {
+                this.getPhasesByIdBis(1).then(
+                    data => { // resolve() 
+                        this.service.post(window.location.origin + "/api/Elections", {
+                            "Job": election.poste,
+                            "Mission": election.missions,
+                            "Responsability": election.responsabilite,
+                            "StartDate": election.dateD,
+                            "EndDate": election.dateF,
+                            "CodeElection": code,
+                            "HostId": hostUser['userId'],
+                            "ElectedId": null,
+                            "ElectionPhaseId": data['phaseId']
+                        }).subscribe(result => {
+                            console.log(result)
+                            resolve(result as Election)
+                        }, error => console.log(error));
+                    }, error => {//Reject
+                        console.log("Error: ", error);
+                        alert(error)
+                    }
+                ) 
+            } catch (e) {
+                console.log(e);
+                reject("Echec de la création de l'élection")
+            }
+        });
     }
 
     public getElectionByCode(code: string): Election {
-        try {
-            return null;
-
-        } catch (e) {
-            return null;
-
-        }
+        return new Promise((resolve, reject): Promise<void> => {
+            try {
+                
+            } catch (e) {
+                console.log(e);
+                reject("Error")
+            }
+        });
     }
 
 
@@ -134,7 +143,12 @@ export class HTTPRequestService {
 
     public createParticipant(participant: Participant): Participant {
         try {
-            return null;
+            this.service.post(window.location.origin + "/api/Participants", {
+                'UserId': participant.UserId,
+                'ElectionId': participant.ElectionId
+            }).subscribe(result => {
+
+            }, error => console.log(error));
 
         } catch (e) {
             return null;
@@ -154,7 +168,7 @@ export class HTTPRequestService {
 
     public async getParticipantByElection(electionId: number, userId: number): Participant {
         try {
-            const response = await(this.service.get(window.location.origin + "/api/Notifications" + typeOpinionId).toPromise()) as Notification[];
+            const response = await (this.service.get(window.location.origin + "/api/Notifications" + typeOpinionId).toPromise()) as Notification[];
             return response;
         } catch (e) {
             return null;
@@ -164,7 +178,7 @@ export class HTTPRequestService {
 
 
     // api/Phases
-    public async getPhasesById(phaseId: number): Phase  {
+    public async getPhasesById(phaseId: number): Phase {
         try {
             const response = await (this.service.get(window.location.origin + "/api/Phases/" + phaseId).toPromise()) as Phase;
             return response;
@@ -173,6 +187,20 @@ export class HTTPRequestService {
             return null;
         }
     }
+
+    public getPhasesByIdBis(phaseId: number) {
+        return new Promise((resolve, reject) => {
+            try {
+                const response = this.service.get(window.location.origin + "/api/Phases/" + phaseId).subscribe(result => {
+                    resolve(result)
+                });
+            } catch (e) {
+                console.log(e);
+                reject("Error")
+            }
+        });
+    }
+
 
     // api/TypeOpininions
     public async getTypeOpininionsById(typeOpinionId: number): TypeOpinion {
@@ -185,22 +213,31 @@ export class HTTPRequestService {
     }
 
 
-
     // api/Notifications
     public async getNotifications(): Notification {
         try {
-            const response = await(this.service.get(window.location.origin + "/api/Notifications" + typeOpinionId).toPromise()) as Notification[];
+            const response = await (this.service.get(window.location.origin + "/api/Notifications" + typeOpinionId).toPromise()) as Notification[];
             return response;
         } catch (e) {
             return null;
         }
     }
 
-    public createNotifications(notification: Notification): Notification {
-        try {
-            return null;
-        } catch (e) {
-            return null;
-        }
+
+    public createNotifications(notification: Notification) {
+        return new Promise((resolve, reject): Promise<void> => {
+            try {
+                this.service.post(window.location.origin + "/api/Notifications", {
+                    "Message": notification.message,
+                    "DateNotification": new Date(),
+                    "ElectionId": notification.electionId
+                }).subscribe(result => {
+                    resolve(result)
+                }, error => console.log(error));
+            } catch (e) {
+                console.log(e);
+                reject("Echec de la création de l'élection")
+            }
+        });
     }
 }
