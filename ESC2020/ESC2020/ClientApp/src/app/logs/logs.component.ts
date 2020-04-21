@@ -103,7 +103,7 @@ export class LogsComponent implements OnInit {
             for (let i in this.allListNotifs) {
                 let datePubli: string = this.allListNotifs[i]['dateNotification'];
                 this.notificationPush(this.allListNotifs[i]['message'], "",
-                    new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 5));
+                    new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
             }
         }, error => console.error(error));
     }

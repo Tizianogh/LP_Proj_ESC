@@ -170,7 +170,7 @@ export class ElectionVoteComponent implements OnInit {
                     'HasTalked': true,
                     "VoteCounter": voteCounter
                 }).subscribe(result => {
-                    this.hubConnection.send("userHasVoted", Number(this.electionId), Number(this.election['ElectionPhaseId']));
+                    this.hubConnection.send("userHasVoted", Number(this.electionId), Number(this.election['electionPhaseId']));
                 }, error => console.log(error));
             }, error => console.log(error));
             this.navBarStateService.SetLogsVisible(true);

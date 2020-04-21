@@ -9,6 +9,7 @@ import { Opinion } from '../Model/Opinion';
 import * as signalR from "@microsoft/signalr";
 import { Phase } from '../Model/Phase';
 import { ElectionService } from '../services/election.service';
+import { isUndefined } from 'util';
 
 @Component({
     selector: 'app-objections',
@@ -18,6 +19,7 @@ import { ElectionService } from '../services/election.service';
 
 export class ObjectionsComponent implements OnInit {
 
+    test: string = "non"
     connected: boolean;
     connectedAccount: Users = new Users();
 
@@ -48,6 +50,24 @@ export class ObjectionsComponent implements OnInit {
 
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
 
+        this.initParticipant();
+    }
+
+    setOnSignalReceived() {
+
+        this.hubConnection.on("nextParticipant", (electionId: number) => {
+            if (electionId == this.election["electionId"])
+                this.initParticipant();
+        });
+
+        this.hubConnection.on("updateObjections", (electionId: number) => {
+            if (electionId == this.election["electionId"])
+                this.getObjections();
+        });
+    }
+
+    initParticipant() {
+        this.participantsList = [];
         this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantsResult => {
             this.participantsList = participantsResult as Participant[]
             this.service.get(window.location.origin + "/api/Users/election/" + this.election['electionId']).subscribe(usersResult => {
@@ -58,19 +78,6 @@ export class ObjectionsComponent implements OnInit {
                 this.mainRequest();
             }, error => console.error(error));
         }, error => console.error(error));
-    }
-
-    setOnSignalReceived() {
-
-        this.hubConnection.on("nextParticipant", (electionId: number) => {
-            if (electionId == this.election["electionId"])
-                this.mainRequest();
-        });
-
-        this.hubConnection.on("updateObjections", (electionId: number) => {
-            if (electionId == this.election["electionId"])
-                this.getObjections();
-        });
     }
 
     mainRequest() {
@@ -97,9 +104,21 @@ export class ObjectionsComponent implements OnInit {
                 this.propositions.push(new Proposition(user['userId'], this.participantsList[i]['voteCounter']));
             }
         }
-        this.sortPropositions();
-        this.actualProposed = this.usersList.find(user => user['userId'] == this.propositions[0].UserId);
-        this.getObjections();
+
+        if (isUndefined(this.propositions[0])) {
+            if  (this.host)
+                this.noMoreCandidate()
+        }
+        else {
+            this.sortPropositions();
+            console.log(this.participantsList)
+
+            this.actualProposed = this.usersList.find(user => user['userId'] == this.propositions[0].UserId);
+
+            console.log("proposed")
+            console.log(this.actualProposed)
+            this.getObjections();
+        }
     }
 
     sortPropositions() {
@@ -112,8 +131,36 @@ export class ObjectionsComponent implements OnInit {
         });
     }
 
+    noMoreCandidate() {
+
+
+        let phase: Phase = new Phase();
+        this.service.get(window.location.origin + "/api/Phases/5").subscribe(phaseResult => {
+            phase = phaseResult as Phase;
+            this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+                "ElectionId": this.election['electionId'],
+                "Job": this.election['job'],
+                "Mission": this.election['mission'],
+                "Responsability": this.election['responsability'],
+                "StartDate": this.election['starteDate'],
+                "EndDate": this.election['endDate'],
+                "CodeElection": this.election['codeElection'],
+                "HostId": this.election["hostId"],
+                "ElectedId": null,
+                "ElectionPhaseId": phase['phaseId']
+            }).subscribe(result => {
+                this.service.post(window.location.origin + "/api/Notifications", {
+                    "Message": "Aucun participant n'a été retenu pour pourvoir le poste de " + this.election['job'] + ".",
+                    "DateNotification": new Date(),
+                    "ElectionId": this.election['electionId']
+                }).subscribe(result => { }, error => console.log(error));
+                this.hubConnection.send("updatePhase", this.election['electionId']);
+            }, error => console.log(error));
+        }, error => console.log(error));
+    }
+
     objection() {
-        //gÃ©nÃ©ration d'une opinion Vote (id du type : 3 = opinion de type vote)
+        //gÃ©nÃ©ration d'une opinion Vote (id du type : 3 = opinion de type objection)
         this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
             this.type = result as TypeOpinion;
             this.service.post(window.location.origin + "/api/Opinions", {

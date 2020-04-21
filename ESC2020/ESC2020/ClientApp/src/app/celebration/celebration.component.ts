@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
@@ -9,6 +9,7 @@ import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { ElectionService } from '../services/election.service';
+
 
 @Component({
     selector: 'app-celebration',
@@ -33,7 +34,9 @@ export class CelebrationComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
 
-    constructor(private electionService: ElectionService, private service: HttpClient, private authentificationService: AuthentificationService) {}
+    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
+
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -41,12 +44,6 @@ export class CelebrationComponent implements OnInit {
 
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.actualElected = null;
-        this.mainRequest();
-    }
-
-    mainRequest() {
-        this.getConnectedParticipant();
-        this.checkHost();
         this.preStart();
     }
 
@@ -55,21 +52,7 @@ export class CelebrationComponent implements OnInit {
         this.election.poste = anElection['job'];
     }
 
-    getConnectedParticipant() {
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            this.connectedParticipant = result as Participant;
-        }, error => console.log(error));
-    }
-
-    checkHost() {
-        if (this.connectedAccount["userId"] == this.election['hostId'])
-            this.host = true;
-        else
-            this.host = false;
-    }
-
     preStart() {
-
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {

@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Users } from '../Model/Users';
+import { Election } from '../Model/Election';
 import { AuthentificationService } from '../services/authentification.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Phase } from '../Model/Phase';
 import { NavBarStateService } from '../services/NavBarState.service';
 
@@ -26,7 +28,7 @@ export class CreateElectionComponent implements OnInit {
     id: number = 5;
     erreur: string;
 
-    constructor(private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
+    constructor(private httpRequest: HTTPRequestService, private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
     }
 
     ngOnInit() {
@@ -34,8 +36,8 @@ export class CreateElectionComponent implements OnInit {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         let date: Date = new Date();
-        let currentDate : Date = new Date(); 
-        this.currentDate= date.toLocaleDateString()
+        let currentDate: Date = new Date();
+        this.currentDate = date.toLocaleDateString()
         this.navBarStateService.SetIsInElection(false);
     }
 
@@ -68,36 +70,44 @@ export class CreateElectionComponent implements OnInit {
             this.erreur = "*Tous les champs doivent être remplis";
         else {
             if (this.verifDates(form['dateD'], form['dateF'])) {
-                let phase: Phase = new Phase();
-                this.service.get(window.location.origin + "/api/Phases/1").subscribe(phaseResult => {
-                    phase = phaseResult as Phase;
-                    this.service.post(window.location.origin + "/api/Elections", {
-                        "Job": form['poste'],
-                        "Mission": form['missions'],
-                        "Responsability": form['responsabilites'],
-                        "StartDate": form['dateD'],
-                        "EndDate": form['dateF'],
-                        "CodeElection": this.generateCode(),
-                        "HostId": this.connectedAccount["userId"],
-                        "ElectedId": null,
-                        "ElectionPhaseId": phase['phaseId']
-                    }).subscribe(result => {
-                        this.id = result['electionId'];
-                        this.linkUsersElection(this.connectedAccount["userId"], this.id);
-                        this.router.navigate(['election-reminder/' + this.id]);
 
-                        this.service.post(window.location.origin + "/api/Notifications", {
-                            "Message": "Début de l'élection pour le poste de " + form['poste'] + '.',
-                            "DateNotification": new Date(),
-                            "ElectionId": result['electionId']
-                        }).subscribe(result => {
-                        }, error => this.submit());
-                    }, error => this.submit());
-                }, error => console.error(error));
+                let newElection: Election =  {
+                    poste: form['poste'],
+                    missions: form['missions'],
+                    responsabilite: form['responsabilites'],
+                    dateD: form['dateD'],
+                    dateF: form['dateF']
+                };
+
+                let anElection = this.httpRequest.createElection(newElection, this.connectedAccount, this.generateCode()));
+                console.log(anElection);
+
+                //console.log(election);
+                //LA 
+                //  |
+                //  |
+                //  v
+                //.then(successCallback, failureCallback)  // <-----
+                //  ^
+                //  |
+                //  |
+
+                /*
+                this.id = newElection['electionId'];
+                this.linkUsersElection(this.connectedAccount["userId"], this.id);
+                this.router.navigate(['election-reminder/' + this.id]);
+
+                this.service.post(window.location.origin + "/api/Notifications", {
+                    "Message": "Début de l'élection pour le poste de " + form['poste'] + '.',
+                    "DateNotification": new Date(),
+                    "ElectionId": result['electionId']
+                }).subscribe(result => {
+                }, error => this.submit());*/
             }
-            else 
+            else
                 this.erreur = "*Les dates sont incorrectes";
         }
+
     }
 
     linkUsersElection(aUserId, aElectionId) {

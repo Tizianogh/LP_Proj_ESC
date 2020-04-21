@@ -50,6 +50,8 @@ export class BonificationComponent implements OnInit {
         this.hubConnection.start().catch(err => console.log(err));
     }
 
+ 
+
     mainRequest() {
         this.getConnectedParticipant();
         this.checkHost();
@@ -87,6 +89,8 @@ export class BonificationComponent implements OnInit {
     }
 
     refus() {
+
+
         // génération d'une opinion Bonification (id du type : 3 = opinion de type bonification)
         this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
             this.type = result as TypeOpinion;
@@ -97,7 +101,7 @@ export class BonificationComponent implements OnInit {
                 'TypeId': this.type["typeId"],
                 'DateOpinion': new Date(),
                 'ElectionId': this.election['electionId']
-            }).subscribe(result => {
+            }).subscribe(result => { 
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
 
                 this.service.post(window.location.origin + "/api/Notifications", {

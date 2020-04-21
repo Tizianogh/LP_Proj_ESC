@@ -24,7 +24,7 @@ export class ElectionService {
 
 
     constructor(private service: HttpClient, private navBarStateService: NavBarStateService, private router: Router) {
-        this.election = new BehaviorSubject(new Election());
+        this.election = new BehaviorSubject( new Election());
         this.participantList = <BehaviorSubject<Participant[]>>new BehaviorSubject([]);
         this.userList = <BehaviorSubject<Users[]>>new BehaviorSubject([]);
     }

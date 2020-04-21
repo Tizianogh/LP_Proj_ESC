@@ -64,6 +64,7 @@
     <None Remove="ClientApp\src\app\my-account\my-account.component.css" />
     <None Remove="ClientApp\src\app\my-account\my-account.component.html" />
     <None Remove="ClientApp\src\app\my-account\my-account.component.ts" />
+    <None Remove="ClientApp\src\app\services\HTTPRequest.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +76,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.css" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.html" />
     <TypeScriptCompile Include="ClientApp\src\app\my-account\my-account.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\HTTPRequest.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

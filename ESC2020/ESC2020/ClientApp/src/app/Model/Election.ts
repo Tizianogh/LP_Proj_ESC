@@ -1,10 +1,10 @@
 export class Election {
-    Id: number;
+    Id?: number;
     poste: string;
     missions: string;
     responsabilite: string;
     dateD: string;
     dateF: string;
-    HostId: number;
-    nbParticipant: number;
+    HostId?: number;
+    nbParticipant?: number;
 }

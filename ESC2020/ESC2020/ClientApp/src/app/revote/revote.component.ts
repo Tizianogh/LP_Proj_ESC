@@ -189,8 +189,8 @@ export class RevoteComponent implements OnInit {
                         "VoteCounter": voteCounter
                     }).subscribe(result => {
 
-                        //génération d'une opinion revote (id du type : 3 = opinion de type revote)
-                        this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
+                        //génération d'une opinion revote (id du type : 2 = opinion de type revote)
+                        this.service.get(window.location.origin + "/api/TypeOpinions/2").subscribe(result => {
                             this.type = result as TypeOpinion;
                             this.service.post(window.location.origin + "/api/Opinions", {
                                 'AuthorId': this.connectedAccount["userId"],
