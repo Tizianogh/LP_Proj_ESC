@@ -78,8 +78,6 @@ export class ElectionService {
     }
 
     AddParticipant(newEntry: Participant) {
-        console.log("Adding : ")
-        console.log(newEntry)
         this.participants.push(newEntry);
         this.participantList.next(this.participants);
     }
@@ -90,9 +88,7 @@ export class ElectionService {
     }
 
     ClearParticipantList() {
-        console.log("Before clear : " + this.participants)
         this.participants = [];
-        console.log("After clear : " + this.participants)
 
         this.participantList.next(this.participants);
     }

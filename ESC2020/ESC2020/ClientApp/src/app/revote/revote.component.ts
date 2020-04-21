@@ -110,7 +110,9 @@ export class RevoteComponent implements OnInit {
             });
 
             if (isUndefined(opinion[0])) {
-                document.getElementById("sous-titre").innerText += ' aucun candidat';
+                if (!(document.getElementById("sous-titre") == null)) {
+                    document.getElementById("sous-titre").innerText += ' aucun candidat';
+                }
             }
             else {
                 this.service.get(window.location.origin + "/api/Users/" + opinion[0]["concernedId"]).subscribe(result => {

@@ -103,7 +103,7 @@ export class CreateElectionComponent implements OnInit {
 
     linkUsersElection(aUserId, aElectionId) {
         this.service.post(window.location.origin + "/api/Participants", { 'UserId': aUserId, 'ElectionId': aElectionId }).subscribe(result => {
-            console.log(result);
+            
         }, error => console.log(error));
     }
 

@@ -118,14 +118,14 @@ export class ObjectionsComponent implements OnInit {
         //Recupere les "Users" de l'"Election" actuelle
         this.service.get(window.location.origin + "/api/Users/election/" + this.election['electionId']).subscribe(userResult => {
             this.usersList = userResult as Users[];
-            console.log(this.usersList);
+            
             //Recuperer toutes les "Opinions" de cette "Election" et comptabilisation des votes
             this.service.get(window.location.origin + "/api/Opinions/election/" + this.election['electionId']).subscribe(result => {
                 this.opinionsList = result as Opinion[];
 
                 //Pour chaque "Users" qui est "Propasable=true" crÃ©e une "Proposition" dans le tableau "propositions"
                 for (let i in this.usersList) {
-                    console.log(this.getParticipant(this.usersList[i]['userId'])['voteCounter']);
+                    
                     if (this.getParticipant(this.usersList[i]['userId'])['voteCounter'] > 0) {
                         this.propositions.push(new Proposition(this.usersList[i]['userId'], Number(this.getParticipant(this.usersList[i]['userId'])['voteCounter'])));
                         ////Pour chaque "Opinions"
@@ -147,7 +147,7 @@ export class ObjectionsComponent implements OnInit {
 
                 //deroulement
                 this.sortPropositions();
-                console.log(this.propositions);
+                
                 for (let i in this.usersList) {
                     if (this.usersList[i]['userId'] == this.propositions[0].UserId) {
                         this.actualProposed = this.usersList[i];

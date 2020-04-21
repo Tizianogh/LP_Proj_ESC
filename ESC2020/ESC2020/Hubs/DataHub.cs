@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using ESC2020.Model;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,9 +33,12 @@ namespace ESC2020.Hubs {
         public async Task validateCandidature(int electionId) {
             await Clients.All.SendAsync("validateCandidature", electionId);
         }
-        public async Task updatePhase(int electionId)
-        {
+        public async Task updatePhase(int electionId) {
             await Clients.All.SendAsync("updatePhase", electionId);
+        }
+
+        public async Task newMessage(int electionId, Message message) {
+            await Clients.All.SendAsync("newMessage", electionId, message);
         }
     }
 }

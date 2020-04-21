@@ -43,7 +43,7 @@ namespace ESC2020.Controllers
             return await _context.Participants.Where(p => p.UserId == userId && p.ElectionId == electionId).FirstOrDefaultAsync();
         }
 
-        // GET: api/Participants/id
+        // GET: api/Participants/election/id
         [HttpGet]
         [Route("election/{id}")]
         public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByElection(int id)

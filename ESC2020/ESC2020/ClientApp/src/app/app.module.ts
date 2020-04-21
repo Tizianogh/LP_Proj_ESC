@@ -24,7 +24,8 @@ import { ObjectionsComponent } from './objections/objections.component';
 import { BonificationComponent } from './bonification/bonification.component';
 import { JoinElectionLinkComponent } from './join-election-link/join-election-link.component';
 import { ElectionMasterPageComponent } from './election-master-page/election-master-page.component';
-
+import { ChatComponent } from './chat/chat.component';
+import { DatePipe } from '@angular/common';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -47,7 +48,8 @@ registerLocaleData(localeFr, 'fr');
         JoinElectionLinkComponent,
         ElectionMasterPageComponent,
         CelebrationComponent,
-        RevoteComponent
+        RevoteComponent,
+        ChatComponent
     ],
 
     imports: [
@@ -72,11 +74,12 @@ registerLocaleData(localeFr, 'fr');
             { path: 'bonification/:id', component: BonificationComponent },
             { path: 'next-phase', component: NextPhaseComponent },
             { path: 'election/:id', component: ElectionMasterPageComponent },
-            { path: 'revote/:id', component: RevoteComponent }
+            { path: 'revote/:id', component: RevoteComponent },
+            { path: 'chat/:id', component: ChatComponent },
         ])
     ],
 
-    providers: [],
+    providers: [DatePipe],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
