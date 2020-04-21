@@ -47,7 +47,7 @@ export class ElectionMasterPageComponent implements OnInit {
         this.electionService.ClearUserList();
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.authentificationService.verifConnectedUserVerification(this.connectedAccount);
+        this.authentificationService.connectedUserVerification(this.connectedAccount);
         this.navBarStateService.SetIsInElection(true);
 
 
