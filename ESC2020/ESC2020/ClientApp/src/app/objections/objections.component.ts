@@ -239,6 +239,13 @@ export class ObjectionsComponent implements OnInit {
             "HasTalked": false,
             "VoteCounter": 0,
         }).subscribe(result => {
+            this.service.post(window.location.origin + "/api/Notifications", {
+                "Message": "Une objection à l'élection de " + this.actualProposed['firstName'] + ' ' + this.actualProposed['lastName'] + " a été validée par le facilitateur.",
+                "DateNotification": new Date(),
+                "ElectionId": this.election['electionId']
+            }).subscribe(result => {
+            }, error => console.log(error));
+
             let tempObjectionsList: Opinion[] = result as Opinion[];
             for (let i in tempObjectionsList) {
                 if (tempObjectionsList[i]['typeId'] == 2 && tempObjectionsList[i]['concernedId'] == this.actualProposed['userId'] && !this.alreadyInObjections(tempObjectionsList[i])) {
@@ -301,8 +308,15 @@ export class ObjectionsComponent implements OnInit {
                     "HasTalked": false,
                     "VoteCounter": this.getParticipant(this.actualProposed['userId'])['voteCounter']
                 }).subscribe(result => {
-                    this.hubConnection.send("updatePhase", this.election['electionId']);
 
+                    this.service.post(window.location.origin + "/api/Notifications", {
+                        "Message": "La proposition de " + this.actualProposed['firstName'] + ' ' + this.actualProposed['lastName'] + " a été retenue par le facilitateur.",
+                        "DateNotification": new Date(),
+                        "ElectionId": this.election['electionId']
+                    }).subscribe(result => {
+                    }, error => console.log(error));
+
+                    this.hubConnection.send("updatePhase", this.election['electionId']);
                 }, error => console.log(error));
             }, error => console.log(error));
         });

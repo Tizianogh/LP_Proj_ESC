@@ -48,6 +48,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200420102326_esc2020.cs" />
+    <Compile Remove="Migrations\20200420102326_esc2020.Designer.cs" />
     <Compile Remove="WeatherForecast.cs" />
   </ItemGroup>
 

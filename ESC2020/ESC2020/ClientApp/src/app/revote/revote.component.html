@@ -1,4 +1,20 @@
-﻿<h2 id="titre">Phase de report de vote</h2>
+﻿<h2 id="titre" style="text-indent: 5px;">
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        Votes /
+    </label>
+    <label>
+        Report de votes
+    </label>
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        / Objections
+    </label>
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        / Bonification
+    </label>
+    <label style="font-size: 24px; font-weight: 400; color:gray;">
+        / Célébration
+    </label>
+</h2>
 <div id="sous-titre">Vous aviez précédemment voté pour </div>
 
 <div class="row justify-content-center" id="date">
@@ -6,12 +22,6 @@
     <ng-template #ThenBlock1>
         <button class="btn btn-primary" (click)="goToNextPhase()">Terminer la phase</button>
     </ng-template>
-    <div class="progress offset-2 col-4 center-block align-self-center">
-        <div class="progress-bar ml-0" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-    <div class="col-3 center-block align-self-center">
-        Date de fin de scrutin {{election.dateD |  date:'shortDate'}}
-    </div>
 </div>
 
 <br />

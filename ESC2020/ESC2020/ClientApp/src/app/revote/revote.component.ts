@@ -279,6 +279,12 @@ export class RevoteComponent implements OnInit {
                             "ElectedId": null,
                             "ElectionPhaseId": phase['phaseId']
                         }).subscribe(result => {
+                            this.service.post(window.location.origin + "/api/Notifications", {
+                                "Message": "Phase de report de votes terminée.",
+                                "DateNotification": new Date(),
+                                "ElectionId": this.election['electionId']
+                            }).subscribe(result => {
+                            }, error => console.log(error));
                             this.hubConnection.send("updatePhase", Number(this.election['electionId']));
                         }, error => console.log(error));
                     });
