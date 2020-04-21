@@ -72,14 +72,7 @@ export class HTTPRequestService {
     }
 
     public getElectionByCode(code: string): Election {
-        return new Promise((resolve, reject): Promise<void> => {
-            try {
-                
-            } catch (e) {
-                console.log(e);
-                reject("Error")
-            }
-        });
+
     }
 
 
@@ -211,7 +204,7 @@ export class HTTPRequestService {
             return null;
         }
     }
-
+    
 
     // api/Notifications
     public async getNotifications(): Notification {
