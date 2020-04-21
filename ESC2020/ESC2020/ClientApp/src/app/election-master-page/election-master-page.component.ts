@@ -24,7 +24,6 @@ export class ElectionMasterPageComponent implements OnInit {
     private connected: boolean;
     private connectedAccount: Users = new Users();
     private electionId: string;
-    private listeParticipants: Participant[] = [];
     public electionPhase: string = '0';
 
     opinionsList: Opinion[] = [];
@@ -42,31 +41,26 @@ export class ElectionMasterPageComponent implements OnInit {
     constructor(private service: HttpClient, private electionService: ElectionService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
-        this.verifConnectedUserVerification();
+        
 
         this.electionService.ClearParticipantList();
         this.electionService.ClearUserList();
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
+        this.authentificationService.verifConnectedUserVerification(this.connectedAccount);
         this.navBarStateService.SetIsInElection(true);
 
         this.electionService.fetchElection(this.router.url.split('/')[2]);
         this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
+        this.electionService.acceptedParticipantVerification(this.connectedAccount, this.router.url.split('/')[2]);
         this.hubConnection.start().catch(err => console.log(err));
         
         this.onSignalReceived();
     }
 
-    //vérifier que l'utilisateur est bien connecté à un compte, sinon l'envoyer sur la page d'accueil
-    verifConnectedUserVerification() {
-        if (this.connectedAccount == null) {
-            this.router.navigate(['home/']);
-        }
-    }
+    
 
     onSignalReceived() {
-        console.log("Setup hub connection");
         this.hubConnection.on("updatePhase", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
                 this.electionPhase = '';
@@ -81,7 +75,6 @@ export class ElectionMasterPageComponent implements OnInit {
         this.election = anElection;
         this.electionId = this.election['electionId'];
         this.electionPhase = this.election['electionPhaseId'];
-        console.log(this.electionPhase)
         switch (Number(this.electionPhase)) {
             case 1:
                 this.navBarStateService.SetLogsVisible(false);
