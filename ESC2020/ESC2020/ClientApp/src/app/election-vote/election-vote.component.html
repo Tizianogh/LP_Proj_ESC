@@ -1,4 +1,4 @@
-﻿<h2 id="titre" style="text-indent: 5px;">
+﻿<!--<h2 id="titre" style="text-indent: 5px;">
     <label>
         Votes
     </label>
@@ -14,64 +14,130 @@
     <label style="font-size: 24px; font-weight: 400; color:gray;">
         / Célébration
     </label>
-</h2>
+</h2>-->
+<div class="container-fluid">
 
-<div class="row justify-content-center" id="date">
-    <div class="center-block align-self-center" *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock1"></div>
-    <ng-template #ThenBlock1>
-        <button class="btn btn-primary" (click)="goToNextPhase()">Terminer la phase</button>
-    </ng-template>
-</div>
+    <div class="row my-3 justify-content-center">
+        <div class="col-11 px-0 text-center">
+            <div class="card px-0" id="card">
+                <ul id="progressbar">
+                    <li class="active title" id="votes">Votes</li>
+                    <li id="repportVotes">Repport de Votes</li>
+                    <li id="objections">Objections</li>
+                    <li id="bonification">Bonification</li>
+                    <li id="celebration">Célébration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-<br />
+    <div class="row justify-content-center">
+        <div class="center-block align-self-left" *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock1"></div>
+        <ng-template #ThenBlock1>
+            <button class="btn" id="send" (click)="goToNextPhase()">Terminer la phase</button>
+        </ng-template>
+    </div>
 
-<div class="participants">
-    <div class="scroll">
-        <div class="participant" *ngFor="let user of listeUsers">
-            <div (click)="actualParticipant(user, user.birthDate)">
-                <div (click)="changeColor(user.userId)" class="my-2">
-                    <img class="participantIcon" id="userId{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
-                    <div class="participantName" (ngInit)="Init()">
-                        {{user.firstName}} {{user.lastName}}
+    <div class="row my-5 mx-5">
+        <div class="col-md-5 mb-5 mb-md-0">
+            <div id="participants" class="card">
+                <div class="card-header sous-titre">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            Liste des participants                            
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body scroll">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="participants mx-3" *ngFor="let user of listeUsers">
+                                <div (click)="actualParticipant(user, user.birthDate)">
+                                    <div (click)="changeColor(user.userId)" class="my-2">
+                                        <img class="participantIcon" id="userId{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
+                                        <div class="participantName" (ngInit)="Init()">
+                                            {{user.firstName}} {{user.lastName}}
 
-                        <div *ngIf="HasUserTalked(user); then ThenBlock else ElseBlock;"></div>
-                        <ng-template #ElseBlock>
-                            <span class="badge badge-pill badge-danger" style="font-size: 7px;"> &nbsp; </span>
-                        </ng-template>
-                        <ng-template #ThenBlock>
-                            <span class="badge badge-pill badge-success" style="font-size: 7px;"> &nbsp; </span>
-                        </ng-template>
+                                            <div *ngIf="HasUserTalked(user); then ThenBlock else ElseBlock;"></div>
+                                            <ng-template #ElseBlock>
+                                                <span class="badge badge-pill badge-danger" style="font-size: 7px;"> &nbsp; </span>
+                                            </ng-template>
+                                            <ng-template #ThenBlock>
+                                                <span class="badge badge-pill badge-success" style="font-size: 7px;"> &nbsp; </span>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>               
+            </div>            
+        </div>
+        <div class="offset-md-2 col-md-5 description" id="selectParticipant">
+            <div id="participants" class="card">
+                <div class="card-header sous-titre">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            {{currentUser.LastName}} {{currentUser.FirstName}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-2 text-center">
+                            <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser.UserId; then ThenBlock2 else ElseBlock2"></div>
+                            <ng-template #ElseBlock2>
+                                <button id="send" type="submit" class="btn " hidden>Exclure</button>
+                            </ng-template>
+                            <ng-template #ThenBlock2>
+                                <button id="send" class="btn" type="submit" (click)="Exclude(currentUser.userId)">Exclure</button>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <label class="poste" style="cursor: pointer;">
+                                Poste :
+                            </label>
+                            {{currentUser.Job}}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <label class="poste" style="cursor: pointer;">
+                                Age :
+                            </label>
+                            {{age}} ans
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <label class="poste" style="cursor: pointer;">
+                                Mini Biographie :
+                            </label>
+                            {{currentUser.Description}}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">                            
+                            <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
+                            <ng-template #ElseBlock3>
+                                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
+                                <div class="col text-center">
+                                    <button type="submit" id="send" class="btn btn-primary mb-3" (click)="Vote()">Voter pour ce candidat</button>
+                                </div>
+                            </ng-template>
+                            <ng-template #ThenBlock3>
+                            </ng-template>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="description" id="selectParticipant">
-    <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.LastName}} {{currentUser.FirstName}}</b></label>
-
-    <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser.UserId; then ThenBlock2 else ElseBlock2"></div>
-    <ng-template #ElseBlock2>
-        <button id="exclude" type="submit" class="btn btn-primary" hidden>Exclure</button>
-    </ng-template>
-    <ng-template #ThenBlock2>
-        <button id="exclude" class="btn btn-primary" (click)="Exclude(currentUser.userId)">Exclure</button>
-    </ng-template>
-
-    <label id="participantJob" class="d-flex justify-content-start"> Poste : {{currentUser.Job}}</label>
-    <label id="participantAge" class="d-flex justify-content-start">Age : {{age}}</label>
-
-    <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentUser.Description}}</label>
-
-    <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
-    <ng-template #ElseBlock3>
-        <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
-        <div class="col text-center">
-            <button type="submit" id="voteBtn" class="btn btn-primary" (click)="Vote()">Voter pour {{currentUser.FirstName}} {{currentUser.LastName}} ?</button>
-        </div>
-    </ng-template>
-    <ng-template #ThenBlock3>
-
-    </ng-template>
 </div>
