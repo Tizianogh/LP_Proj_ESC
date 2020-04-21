@@ -23,7 +23,7 @@ namespace ESC2020.Controllers
 
         // GET: api/Authentification
         [HttpGet]
-        public async Task<ActionResult<Users>> GetUser(string mail, string password) {
+        public async Task<Users> GetUser(string mail, string password) {
             List<Users> users = await _context.User.ToListAsync();
             foreach (Users user in users)
             {
@@ -37,13 +37,13 @@ namespace ESC2020.Controllers
 
         // GET: api/Authentification/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUsers(int id)
+        public async Task<Users> GetUsers(int id)
         {
             var users = await _context.User.FindAsync(id);
 
             if (users == null)
             {
-                return NotFound();
+                return null;
             }
 
             return users;
@@ -95,11 +95,10 @@ namespace ESC2020.Controllers
 
         // DELETE: api/Authentification/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Users>> DeleteUsers(int id)
-        {
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Users>> DeleteUsers(int id) {
             var users = await _context.User.FindAsync(id);
-            if (users == null)
-            {
+            if (users == null) {
                 return NotFound();
             }
 
@@ -108,6 +107,8 @@ namespace ESC2020.Controllers
 
             return users;
         }
+
+
 
         private bool UsersExists(int id)
         {
