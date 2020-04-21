@@ -42,6 +42,8 @@ export class ElectionMasterPageComponent implements OnInit {
     constructor(private service: HttpClient, private electionService: ElectionService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
+        this.verifConnectedUserVerification();
+
         this.electionService.ClearParticipantList();
         this.electionService.ClearUserList();
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -54,6 +56,13 @@ export class ElectionMasterPageComponent implements OnInit {
         this.hubConnection.start().catch(err => console.log(err));
         
         this.onSignalReceived();
+    }
+
+    //vérifier que l'utilisateur est bien connecté à un compte, sinon l'envoyer sur la page d'accueil
+    verifConnectedUserVerification() {
+        if (this.connectedAccount == null) {
+            this.router.navigate(['home/']);
+        }
     }
 
     onSignalReceived() {
