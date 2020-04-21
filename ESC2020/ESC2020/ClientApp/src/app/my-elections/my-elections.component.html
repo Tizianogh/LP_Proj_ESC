@@ -43,13 +43,17 @@
        <div class="container">
            <div class="row">
                <div class="col-md-6 my-5" *ngFor="let election of listeElections" (click)="Navigate((election.electionId))" style="cursor: pointer;">
-                   <div class="center-block align-self-center" *ngIf="election.ElectionPhaseId <= 4; then ThenBlock else ElseBlock"></div>
+                   <div class="center-block align-self-center" *ngIf="election.electionPhaseId == 5; then ThenBlock else ElseBlock"></div>
                    <ng-template #ThenBlock>
                        <div class="card text-center">
                            <div class="card-header sous-titre">
                                <div class="row">
                                    <div class="col-md-12 text-center">
-                                       {{election.job}} <span class="badge badge-pill badge-primary">Hôte</span>
+                                       {{election.job}} 
+                                       <div *ngIf="election.hostId == connectedAccount.userId; then ThenBlock"></div>
+                                       <ng-template #ThenBlock>
+                                           <span class="badge badge-pill badge-primary">Hôte</span>
+                                       </ng-template>
                                    </div>
                                </div>
 
@@ -106,31 +110,11 @@
                            </div>
                            <div class="card-footer text-muted">
                                <div class="row">
-                                   <div class="col-md-6 text-md-left poste">
-                                       <div class="phase" [ngSwitch]="election.electionPhaseId">
-                                           <div *ngSwitchCase=1>
-                                               Phase de votes
-                                           </div>
-
-                                           <div *ngSwitchCase=2>
-                                               Phase de report des votes
-                                           </div>
-
-                                           <div *ngSwitchCase=3>
-                                               Phase d'objections
-                                           </div>
-
-                                           <div *ngSwitchCase=4>
-                                               Phase de bonifications
-                                           </div>
-
-                                           <div *ngSwitchCase=5>
-                                               Phase de célébration
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <div class="col-md-6 text-md-right poste">
-                                       {{election.nbParticipant}} participants
+                                   <div class="col-md-12 text-center">
+                                       <label class="poste" style="cursor: pointer;">
+                                           Personne élue : 
+                                       </label>
+                                       <label id="election{{election.electionId}}" class="poste" style="cursor: pointer;"></label>
                                    </div>
                                </div>
                            </div>
@@ -142,7 +126,11 @@
                            <div class="card-header sous-titre">
                                <div class="row">
                                    <div class="col-md-12 text-center">
-                                       {{election.job}} <span class="badge badge-pill badge-primary">Hôte</span>
+                                       {{election.job}}
+                                       <div *ngIf="election.hostId == connectedAccount.userId; then ThenBlock"></div>
+                                       <ng-template #ThenBlock>
+                                           <span class="badge badge-pill badge-primary">Hôte</span>
+                                       </ng-template>
                                    </div>
                                </div>
 
@@ -229,8 +217,6 @@
                            </div>
                        </div>
                    </ng-template>
-
-
                </div>
            </div>
        </div>

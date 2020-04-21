@@ -19,7 +19,7 @@ import { NavBarStateService } from '../services/NavBarState.service';
 export class MyElectionsComponent implements OnInit {
 
     private connected: boolean;
-    public buttonClicked: string;
+    userElected: Users = new Users();
     private connectedAccount: Users;
     private electionId: number;
     public FinishedElectionsList: Election[] = [];
@@ -52,32 +52,44 @@ export class MyElectionsComponent implements OnInit {
                         election.nbParticipant = participantResult.length;
                     }, error => console.error(error));
 
-                    this.listeElections.push(election);
-                    console.log(election);
+                    if (election['electionPhaseId'] == 5) {
+                        this.FinishedElectionsList.push(election);
+                    } else {
+                        this.OngoingElectionsList.push(election);
+                    }
                 }, error => console.error(error));
             }
-            this.listeElections.forEach(election => {
-                if (election['ElectionPhaseId'] == 5) {
-                    this.FinishedElectionsList.push(election);
-                } else {
-                    this.OngoingElectionsList.push(election);
-                }
-            });
         }, error => console.error(error));
+    }
+
+    getElectedUser(election: Election) {
+        //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
+        if (election['electedId'] != null) {
+            this.service.get(window.location.origin + "/api/Users/" + election['electedId']).subscribe(userResult => {
+                this.userElected = userResult as Users;
+                this.userElected.FirstName = userResult['firstName'];
+                this.userElected.LastName = userResult['lastName'];
+                document.getElementById("election" + election['electionId']).innerHTML = "&nbsp;" + this.userElected.FirstName + " " + this.userElected.LastName
+            }, error => console.error(error));
+        }
     }
 
     MesElections() {
         document.getElementById("ongletMesElections").style.cssText = "border-bottom: 5px solid #430640;";
         document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 0px solid #430640;";
         document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
-        this.listeElections = this.FinishedElectionsList;
+        this.listeElections = this.OngoingElectionsList;
     }
 
     ElectionsTermines() {
         document.getElementById("ongletMesElections").style.cssText = "border-bottom: 0px solid #430640;";
         document.getElementById("ongletElectionsTermines").style.cssText = "border-bottom: 5px solid #430640;";
         document.getElementById("ongletAjouterElections").style.cssText = "border-bottom: 0px solid #430640;";
-        this.listeElections = this.OngoingElectionsList;
+        this.listeElections = this.FinishedElectionsList;
+        this.listeElections.forEach(election => {
+            this.getElectedUser(election);
+        });
+
     }
 
     rajouterElections(codeInput: string) {
