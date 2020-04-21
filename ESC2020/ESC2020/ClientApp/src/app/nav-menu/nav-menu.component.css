@@ -1,5 +1,6 @@
 nav{
     font-size: 20px;
+    position:relative;
 }
 /*a.navbar-brand {
   white-space: normal;
@@ -31,6 +32,18 @@ html {
     height: 100vh;
 }
 */
+
+#liChat{
+    width:5vw;
+    height:5vh;
+}
+
+#chat{
+    position:absolute;
+    z-index:999;
+
+}
+
 .dropdown-menu {
     border-top: solid;
     border-top-width: 5px;
@@ -44,4 +57,8 @@ html {
     background-color: #f8d9cd;
     border-radius: 3px;
     border-color: #f8d9cd;
+}
+
+.navbar-nav{
+    position:relative;
 }

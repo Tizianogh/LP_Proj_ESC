@@ -15,7 +15,7 @@ export class NextPhaseComponent implements OnInit {
      Seul l'hôte doit pouvoir passer à la phase suivante, je suggère qu'avec un ngIF on affiche ce bouton que si le participant est bien l'hôte
      */
     goToNextPhase() {
-        console.log("Phase suivante");
+        
         //quand on appuie sur le bouton, mettre tous les champs de Participant dans la BDD "hasTalked" à false pour la prochaine phase
         //sauf si la phase actuelle n'est pas Célébration
             //changer l'id de la phase

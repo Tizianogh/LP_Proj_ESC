@@ -108,7 +108,7 @@ export class BonificationComponent implements OnInit {
                 'ElectionId': this.election['electionId']
             }).subscribe(result => {
                 (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
-                console.log(result);
+                
             }, error => console.log(error));
         }, error => console.error(error));
 

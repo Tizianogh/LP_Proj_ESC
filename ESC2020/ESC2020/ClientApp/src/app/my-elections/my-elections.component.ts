@@ -50,7 +50,7 @@ export class MyElectionsComponent implements OnInit {
                     }, error => console.error(error));
 
                     this.listeElections.push(election);
-                    console.log(election);
+                    
                 }, error => console.error(error));
             }
         }, error => console.error(error));

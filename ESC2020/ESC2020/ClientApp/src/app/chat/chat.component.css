@@ -31,7 +31,7 @@
 
 .panel-body {
     overflow-y: scroll;
-    height: 150px;
+    height: 50vh;
     width:40vw;
 }
 
@@ -70,5 +70,9 @@
 #btn-chat {
     background-color: #430640;
     color:white;
+}
+
+#chatList{
+    background-color:white;
 }
 

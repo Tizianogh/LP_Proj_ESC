@@ -5,7 +5,7 @@ import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
 import { Phase } from '../Model/Phase';
-import { Router } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
 import { NavBarStateService } from '../services/NavBarState.service';
@@ -13,6 +13,8 @@ import { DatePipe } from '@angular/common';
 import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 import { Message } from '../Model/Message';
+import { isUndefined } from 'util';
+import { isDefined } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -35,10 +37,12 @@ export class ChatComponent implements OnInit {
         .build();
 
     constructor(private electionService: ElectionService, private service: HttpClient, public datePipe: DatePipe, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-
+        
+            
     }
 
     ngOnInit() {
+
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
@@ -46,6 +50,10 @@ export class ChatComponent implements OnInit {
         this.mainRequest();
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
+    }
+
+    clearChat() {
+        document.getElementById("chatList").childNodes.forEach(c => c.remove());
     }
 
     setOnSignalReceived() {
@@ -65,7 +73,7 @@ export class ChatComponent implements OnInit {
                     dateMessage: message['dateMessage']
                 }
                 let newMessageElement = document.createElement("li");
-                newMessageElement.innerHTML = `<li class="left clearfix">
+                newMessageElement.innerHTML = `<li class="left clearfix added">
                                 <span class="chat-img pull-left">
                                 </span>
                                 <div class="chat-body clearfix">
@@ -86,8 +94,8 @@ export class ChatComponent implements OnInit {
                 (<HTMLInputElement>document.getElementById("btn-input")).value = "";
                 if (!(document.getElementById("collapseOne").classList.contains("show"))) {
                     let notif = document.createElement("span");
-                    notif.innerHTML = `<span id="notifs">Messages en attente</span>`;
-                    notif.setAttribute("style", "font-size:16px");
+                    notif.innerHTML = `<li><span id="notifs">Messages en attente</span></li>`;
+                    notif.setAttribute("style", "font-size:16px;padding-top:1vh;");
                     document.getElementsByClassName("navbar-nav")[0].appendChild(notif);
                 }
             }
@@ -109,7 +117,25 @@ export class ChatComponent implements OnInit {
         document.getElementById("scrollCont").scrollTop = document.getElementById("scrollCont").scrollHeight;
     }
 
+    removeAdded() {
+        console.log(document.getElementsByClassName("added"));
+        for (let i in document.getElementsByClassName("added")) {
+            console.log("removing " + document.getElementsByClassName("added")[i].nodeValue);
+            console.log(document.getElementsByClassName("added")[i]);
+            if ((document.getElementsByClassName("added")[i].nodeValue + "").includes("undefined")) {
+
+            }
+            else {
+                console.log("enter remove");
+                document.getElementsByClassName("added")[i].parentNode.removeChild(document.getElementsByClassName("added")[i]);
+            }
+        }
+    }
+
     getMessages() {
+        while (document.getElementsByClassName("added").length != 0) {
+            this.removeAdded();
+        }
         this.service.get(window.location.origin + "/api/Messages/election/" + this.election.Id).subscribe(result => {
             var tmpMessagesList: Message[] = result as Message[];
             this.messagesList = [];
@@ -127,9 +153,14 @@ export class ChatComponent implements OnInit {
         var firstName: string;
         var lastName: string;
         var userC = this.listeUsers.find(u => u['userId'] == userId);
-        firstName = userC['firstName'];
-        lastName = userC['lastName'];
-        return firstName + " " + lastName;
+        if (isUndefined(userC)) {
+            return " ";
+        }
+        else {
+            firstName = userC['firstName'];
+            lastName = userC['lastName'];
+            return firstName + " " + lastName;
+        }
     }
 
 
@@ -140,7 +171,8 @@ export class ChatComponent implements OnInit {
         this.election.poste = anElection['job'];
         this.election.missions = anElection['mission'];
         this.election.responsabilite = anElection['responsability'];
-        setTimeout(() => this.getMessages(), 2500);
+        
+        setTimeout(() => this.getMessages(), 500);
     }
 
     checkHost() {

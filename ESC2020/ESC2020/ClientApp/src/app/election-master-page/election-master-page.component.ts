@@ -57,7 +57,7 @@ export class ElectionMasterPageComponent implements OnInit {
     }
 
     onSignalReceived() {
-        console.log("Setup hub connection");
+        
         this.hubConnection.on("updatePhase", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
                 this.electionPhase = '';
@@ -72,7 +72,6 @@ export class ElectionMasterPageComponent implements OnInit {
         this.election = anElection;
         this.electionId = this.election['electionId'];
         this.electionPhase = this.election['electionPhaseId'];
-        console.log(this.electionPhase)
         switch (Number(this.electionPhase)) {
             case 1:
                 this.navBarStateService.SetLogsVisible(false);
