@@ -21,7 +21,7 @@
         <div class="col-sm-5 align-self-center">
             <img class="img-fluid" src="assets/img/celebration.gif" width="1000px">
         </div>
-        <div class="col-sm-2 align-self-center">
+        <div id="infos" class="col-sm-2 align-self-center">
 
             <p class="intro">
                 Félicitation à {{actualElected.FirstName}} {{actualElected.LastName}} pour avoir été élu(e) au poste de {{election.poste}} !!!
@@ -34,7 +34,17 @@
                 <div class="profile-usertitle-name">
                     {{actualElected.FirstName}} {{actualElected.LastName}}
                 </div>
-            </div>
+            </div> <br /><br />
+            <div *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock2 else ElseBlock2"></div>
+            <ng-template #ElseBlock2>
+                
+            </ng-template>
+            <ng-template #ThenBlock2>
+                <div class="row text-center mt-5">
+                    <button id="send" type="button" class="btn mb-xl-5" (click)="sendAll()">Envoyer un récapitulatif par mail à tous les participants</button>
+                </div>
+            </ng-template>
+            
         </div>
         <div class="col-sm-5 align-self-center">
             <img class="img-fluid" src="assets/img/celebration.gif" width="1000px">

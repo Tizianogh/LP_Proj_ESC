@@ -109,7 +109,6 @@ export class ElectionService {
 
     ClearParticipantList() {
         this.participants = [];
-
         this.participantList.next(this.participants);
     }
 
