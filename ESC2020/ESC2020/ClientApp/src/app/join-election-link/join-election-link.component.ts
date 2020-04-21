@@ -35,6 +35,7 @@ export class JoinElectionLinkComponent implements OnInit {
 
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
+        this.authentificationService.verifConnectedUserVerification(this.connectedAccount);
         this.code = this.router.url.split('/')[2];
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
             this.setupElection(result as Election);

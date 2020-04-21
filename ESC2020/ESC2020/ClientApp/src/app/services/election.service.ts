@@ -30,6 +30,26 @@ export class ElectionService {
         this.participantList = <BehaviorSubject<Participant[]>>new BehaviorSubject([]);
         this.userList = <BehaviorSubject<Users[]>>new BehaviorSubject([]);
     }
+    //vérifier que l'utilisateur a été invité à rejoindre
+    async acceptedParticipantVerification(user: Users, electionId : string) {
+        await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
+            this.participants = participantResult as Participant[];
+            //ici on devrait avoir récupéré la liste des participants
+            let findedParticipant = false;
+            for (let participant of this.participants) {
+                if (participant['userId'] == user['userId']) {
+                    console.log("cc");
+                    findedParticipant = true;
+                }
+            }
+       
+            if (!findedParticipant) {
+                alert("Vous n'avez pas été invité à rejoindre cette élection depuis ce compte.");
+                this.router.navigate(['home/']);
+            }
+            
+        }, error => console.error(error));
+    }
 
     fetchElection(electionId: string) {
         //Récupérer l'id de l'élection actuelle à partir de l'url
@@ -55,7 +75,7 @@ export class ElectionService {
     }
 
     async fetchUser(participant: Participant) {
-        //Récupérer un utilisateur en fonction d'un participant d'une élection passé en paramètred
+        //Récupérer un utilisateur en fonction d'un participant d'une élection passé en paramètre
         await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
             let user: Users = userResult as Users;
             this.AddUser(user);
