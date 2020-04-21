@@ -85,6 +85,13 @@ export class CreateElectionComponent implements OnInit {
                         this.id = result['electionId'];
                         this.linkUsersElection(this.connectedAccount["userId"], this.id);
                         this.router.navigate(['election-reminder/' + this.id]);
+
+                        this.service.post(window.location.origin + "/api/Notifications", {
+                            "Message": "Début de l'élection pour le poste de " + form['poste'] + '.',
+                            "DateNotification": new Date(),
+                            "ElectionId": result['electionId']
+                        }).subscribe(result => {
+                        }, error => this.submit());
                     }, error => this.submit());
                 }, error => console.error(error));
             }

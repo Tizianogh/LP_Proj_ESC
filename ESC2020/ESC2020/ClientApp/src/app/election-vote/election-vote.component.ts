@@ -247,6 +247,12 @@ export class ElectionVoteComponent implements OnInit {
                     "ElectionPhaseId": phase['phaseId']
                 }).subscribe(result => {
                     //Informe que la phase de l'Election a changÃ©
+                    this.service.post(window.location.origin + "/api/Notifications", {
+                        "Message": "Phase de votes terminée.",
+                        "DateNotification": new Date(),
+                        "ElectionId": this.election['electionId']
+                    }).subscribe(result => {
+                    }, error => console.log(error));
                     this.hubConnection.send("updatePhase", Number(this.electionId));
                 }, error => console.log(error));
             });
