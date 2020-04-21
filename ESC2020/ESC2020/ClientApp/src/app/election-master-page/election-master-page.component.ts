@@ -39,7 +39,7 @@ export class ElectionMasterPageComponent implements OnInit {
         .build();
 
     constructor(private service: HttpClient, private electionService: ElectionService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
-
+    //essayer avec le get
     ngOnInit() {
         
 
@@ -50,12 +50,15 @@ export class ElectionMasterPageComponent implements OnInit {
         this.authentificationService.verifConnectedUserVerification(this.connectedAccount);
         this.navBarStateService.SetIsInElection(true);
 
+
         this.electionService.fetchElection(this.router.url.split('/')[2]);
         this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
-        this.electionService.acceptedParticipantVerification(this.connectedAccount, this.router.url.split('/')[2]);
         this.hubConnection.start().catch(err => console.log(err));
         
         this.onSignalReceived();
+
+        this.electionService.acceptedParticipantVerification(this.connectedAccount, this.router.url.split('/')[2]);
+
     }
 
     

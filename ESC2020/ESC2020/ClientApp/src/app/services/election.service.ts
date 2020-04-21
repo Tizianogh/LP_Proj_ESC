@@ -31,29 +31,24 @@ export class ElectionService {
         this.userList = <BehaviorSubject<Users[]>>new BehaviorSubject([]);
     }
     //vérifier que l'utilisateur a été invité à rejoindre
-    acceptedParticipantVerification(user: Users, electionId : string) {
-        this.ClearParticipantList();
-        this.ClearUserList();
-
-        this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
+    async acceptedParticipantVerification(user: Users, electionId : string) {
+        await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
             this.participants = participantResult as Participant[];
-            this.participants.forEach((participant) => {
-                this.AddParticipant(participant);
-                this.fetchUser(participant);
-            });
-        }, error => console.error(error));
-
-        console.log("appel à la liste des participants");
-        console.log(this.participants.length);
-
-        for (let participant of this.participants) {
-            console.log("participant" + participant);
-            if (participant['userId'] == ['userId']) {
-                return;
+            //ici on devrait avoir récupéré la liste des participants
+            let findedParticipant = false;
+            for (let participant of this.participants) {
+                if (participant['userId'] == user['userId']) {
+                    console.log("cc");
+                    findedParticipant = true;
+                }
             }
-        }
-        alert("Vous n'avez pas été invité à rejoindre cette élection depuis ce compte.");
-        this.router.navigate(['home/']);
+       
+            if (!findedParticipant) {
+                alert("Vous n'avez pas été invité à rejoindre cette élection depuis ce compte.");
+                this.router.navigate(['home/']);
+            }
+            
+        }, error => console.error(error));
     }
 
     fetchElection(electionId: string) {
