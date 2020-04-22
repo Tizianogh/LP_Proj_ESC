@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ESC2020.Model;
 using ESC2020.Utils;
+using System.Security.Cryptography;
 
 namespace ESC2020.Controllers
 {
@@ -48,6 +49,13 @@ namespace ESC2020.Controllers
             }
 
             return users;
+        }
+
+        // GET: api/Authentification/hash/pass/salt
+        [HttpGet]
+        [Route("hash/{pass}/{salt}")]
+        public String GetHash(string pass, string salt) {
+            return HashFunction.sha256Hash(pass, salt);
         }
 
         // PUT: api/Authentification/5

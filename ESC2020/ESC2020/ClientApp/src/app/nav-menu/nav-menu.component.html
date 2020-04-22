@@ -46,7 +46,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Mon Compte
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink" >
+                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink">
                             <form>
                                 <div class="form-group mr-3 ml-4">
                                     <label for="emailInput">Email</label>
@@ -61,10 +61,11 @@
                             </form>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item btn-create" href="https://localhost:44318/">Créer un compte</a>
+                            <a class="dropdown-item btn-create" [routerLink]="['forgotten-password']">Mot de passe oublié ?</a>
                         </div>
                     </li>
                 </ng-template>
-
+                
                 <ng-template #accountThenBlock>
 
                     <li class="nav-item dropdown ">

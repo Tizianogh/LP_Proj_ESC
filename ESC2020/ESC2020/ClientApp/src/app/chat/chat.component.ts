@@ -37,8 +37,8 @@ export class ChatComponent implements OnInit {
         .build();
 
     constructor(private electionService: ElectionService, private service: HttpClient, public datePipe: DatePipe, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-        
-            
+
+
     }
 
     ngOnInit() {
@@ -81,7 +81,7 @@ export class ChatComponent implements OnInit {
                                         <strong class="chatText">${this.getAuthorById((Number)(messageC.authorId))}</strong>
                                         <small class="pull-right text-muted">
                                             <span class="glyphicon glyphicon-time"></span><span class="chatText" style="font-size:15px">${this.datePipe.transform(messageC.dateMessage, 'dd/MM/yyyy hh:mm')
-            } </span>
+                    } </span>
                                         </small>
                                     </div>
                                     <p class="chatText" style="color:#777777">
@@ -133,20 +133,22 @@ export class ChatComponent implements OnInit {
     }
 
     getMessages() {
-        while (document.getElementsByClassName("added").length != 0) {
-            this.removeAdded();
-        }
-        this.service.get(window.location.origin + "/api/Messages/election/" + this.election.Id).subscribe(result => {
-            var tmpMessagesList: Message[] = result as Message[];
-            this.messagesList = [];
-            for (let i = 0; i < tmpMessagesList.length; i++) {
-                this.addMessage({
-                    authorId: tmpMessagesList[i]['userId'],
-                    text: tmpMessagesList[i]['sentence'],
-                    dateMessage: tmpMessagesList[i]['dateMessage']
-                });
+        if (isDefined(this.election.Id)) {
+            while (document.getElementsByClassName("added").length != 0) {
+                this.removeAdded();
             }
-        }, error => console.error(error));
+            this.service.get(window.location.origin + "/api/Messages/election/" + this.election.Id).subscribe(result => {
+                var tmpMessagesList: Message[] = result as Message[];
+                this.messagesList = [];
+                for (let i = 0; i < tmpMessagesList.length; i++) {
+                    this.addMessage({
+                        authorId: tmpMessagesList[i]['userId'],
+                        text: tmpMessagesList[i]['sentence'],
+                        dateMessage: tmpMessagesList[i]['dateMessage']
+                    });
+                }
+            }, error => console.error(error));
+        }
     }
 
     getAuthorById(userId: number) {
@@ -171,7 +173,7 @@ export class ChatComponent implements OnInit {
         this.election.poste = anElection['job'];
         this.election.missions = anElection['mission'];
         this.election.responsabilite = anElection['responsability'];
-        
+
         setTimeout(() => this.getMessages(), 500);
     }
 

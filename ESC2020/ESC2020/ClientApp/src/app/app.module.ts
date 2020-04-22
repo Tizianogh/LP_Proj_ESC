@@ -26,6 +26,7 @@ import { JoinElectionLinkComponent } from './join-election-link/join-election-li
 import { ElectionMasterPageComponent } from './election-master-page/election-master-page.component';
 import { ChatComponent } from './chat/chat.component';
 import { DatePipe } from '@angular/common';
+import { ForgottenPasswordComponent } from './forgotten-password/forgotten-password.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -49,7 +50,8 @@ registerLocaleData(localeFr, 'fr');
         ElectionMasterPageComponent,
         CelebrationComponent,
         RevoteComponent,
-        ChatComponent
+        ChatComponent,
+        ForgottenPasswordComponent
     ],
 
     imports: [
@@ -76,6 +78,7 @@ registerLocaleData(localeFr, 'fr');
             { path: 'election/:id', component: ElectionMasterPageComponent },
             { path: 'revote/:id', component: RevoteComponent },
             { path: 'chat/:id', component: ChatComponent },
+            { path: 'forgotten-password', component: ForgottenPasswordComponent}
         ])
     ],
 
