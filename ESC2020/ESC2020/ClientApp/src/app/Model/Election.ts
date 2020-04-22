@@ -10,7 +10,7 @@ export class Election {
     endDate?: string;
     codeElection?: string;
     hostElection?: Users;
-    electedUser?: Users;
+    electedElection?: Users;
     phase?: Phase;
 
     nbParticipant?: number;

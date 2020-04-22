@@ -9,6 +9,8 @@ import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { ElectionService } from '../services/election.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { Notification } from '../Model/Notification';
 
 
 @Component({
@@ -34,9 +36,7 @@ export class CelebrationComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
 
-    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-
-    }
+    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {}
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -55,12 +55,15 @@ export class CelebrationComponent implements OnInit {
     preStart() {
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
-            this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
-                this.actualElected = userResult as Users;
-                this.actualElected.firstName = userResult['firstName'];
-                this.actualElected.lastName = userResult['lastName'];
-                this.actualElected.avatar = userResult['avatar'];
-            }, error => console.error(error));
+            this.httpRequest.getUserById(this.election['electedId']).then(
+                userData => {
+                    this.actualElected = userData as Users;
+                    this.actualElected.firstName = userData['firstName'];
+                    this.actualElected.lastName = userData['lastName'];
+                    this.actualElected.avatar = userData['avatar'];
+                    console.log(this.actualElected)
+                }
+            )
         }
     }
 }

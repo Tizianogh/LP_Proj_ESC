@@ -33,7 +33,6 @@ export class HTTPRequestService {
     public updateElection(updatedElection: Election) {
         return new Promise((resolve, reject) => {
             try {
-                
                 this.service.put(window.location.origin + "/api/Elections/" + updatedElection['electionId'], {
                     "ElectionId": updatedElection.electionId,
                     "Job": updatedElection.job,
@@ -43,7 +42,7 @@ export class HTTPRequestService {
                     "EndDate": updatedElection.endDate,
                     "CodeElection": updatedElection.codeElection,
                     "HostId": updatedElection['hostId'] ,
-                    "ElectedUser": updatedElection.electedUser == null ? updatedElection['electedId'] : updatedElection.electedUser['userId'],
+                    "ElectedId": updatedElection.electedElection == null ? updatedElection['electedId'] : updatedElection.electedElection['userId'],
                     "ElectionPhaseId": updatedElection.phase == null ? updatedElection['electionPhaseId'] : updatedElection.phase['phaseId']
                 }).subscribe(result => {
                     resolve(result as Election)
@@ -126,6 +125,19 @@ export class HTTPRequestService {
         });
     }
 
+    public getUserByElection(election: Election) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Users/election/" + election.electionId).subscribe(result => {
+                    resolve(result as Users[]);
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération des utilisateurs de l'élection")
+                reject(e)
+            }
+        });
+    }
+
     public updateUser(userId: number, updatedUser: Users) {
         return new Promise((resolve, reject) => {
             try {
@@ -202,12 +214,13 @@ export class HTTPRequestService {
         });
     }
 
-    public updateParticipant( election: Election, updatedParticipant: Participant) {
+    public updateParticipant(updatedParticipant: Participant) {
         return new Promise((resolve, reject) => {
             try {
                 let userId = updatedParticipant.user == null ? updatedParticipant['userId'] : updatedParticipant.user['userId'];
+                let electionId = updatedParticipant.election == null ? updatedParticipant['electionId'] : updatedParticipant.election['electionId'];
 
-                this.service.put<Participant>(window.location.origin + "/api/Participants/" + userId + "/" + election['electionId'], {
+                this.service.put<Participant>(window.location.origin + "/api/Participants/" + userId + "/" + electionId, {
                     'UserId': updatedParticipant.user == null ? updatedParticipant['userId'] : updatedParticipant.user['userId'],
                     'ElectionId': updatedParticipant.election == null ? updatedParticipant['electionId'] : updatedParticipant.election['electionId'],
                     'HasTalked': updatedParticipant.hasTalked,
@@ -292,6 +305,19 @@ export class HTTPRequestService {
                 })
             } catch (e) {
                 alert("Echec lors de la récupération des opinions de l'élection")
+                reject(e)
+            }
+        });
+    }
+
+    public getObjectionsFromElection(election: Election) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Opinions/objection/" + election['electionId']).subscribe(result => {
+                    resolve(result as Opinion[])
+                })
+            } catch (e) {
+                alert("Echec lors de la récupération des objections de l'élection")
                 reject(e)
             }
         });

@@ -198,7 +198,7 @@ export class RevoteComponent implements OnInit {
                                 previousParticipantData => {
                                     let previousParticipant = previousParticipantData as Participant
                                     previousParticipant.voteCounter--;
-                                    this.httpRequest.updateParticipant(this.election, previousParticipant).then(
+                                    this.httpRequest.updateParticipant(previousParticipant).then(
                                         ()=>{
                                             //on génère une opinion de revote
                                             this.httpRequest.getTypeOpininionsById(2).then(
@@ -218,14 +218,14 @@ export class RevoteComponent implements OnInit {
                                                                 participantData => {
                                                                     let connectedParticipant: Participant = participantData as Participant;
                                                                     connectedParticipant.hasTalked = true;
-                                                                    this.httpRequest.updateParticipant(this.election, connectedParticipant).then(
+                                                                    this.httpRequest.updateParticipant(connectedParticipant).then(
                                                                         () => {
                                                                             // On incrémente d'une voie le compteur du participant pour qui on vient de voter
                                                                             this.httpRequest.getParticipant(this.currentUser, this.election).then(
                                                                                 participantData => {
                                                                                     let concernedParticipant: Participant = participantData as Participant;
                                                                                     concernedParticipant.voteCounter++;
-                                                                                    this.httpRequest.updateParticipant(this.election, concernedParticipant).then(
+                                                                                    this.httpRequest.updateParticipant(concernedParticipant).then(
                                                                                         () => {
                                                                                             this.hubConnection.send("userHasVoted", Number(this.election['electionId']), Number(this.election['electionPhaseId']));
                                                                                             this.navBarStateService.SetLogsVisible(true);
@@ -273,7 +273,7 @@ export class RevoteComponent implements OnInit {
             participantData => {
                 let participant = participantData as Participant;
                 let updatedParticipant: Participant = { user: this.connectedAccount, election: this.election, hasTalked: true, voteCounter: participant.voteCounter }
-                this.httpRequest.updateParticipant(this.election, updatedParticipant).then(
+                this.httpRequest.updateParticipant(updatedParticipant).then(
                     () => {
                         this.hubConnection.send("userHasVoted", Number(this.election['electionId']), Number(this.election['electionPhaseId']));
                     }, error => { console.log(error) }
@@ -290,7 +290,7 @@ export class RevoteComponent implements OnInit {
                 this.listeParticipants.forEach(p => {
                     p.hasTalked = false;
                     p.election = this.election;
-                    this.httpRequest.updateParticipant(this.election, p).then(
+                    this.httpRequest.updateParticipant(p).then(
                         updatedParticipantData => { }, error => { console.log(error) }
                     );
                 })
@@ -299,11 +299,8 @@ export class RevoteComponent implements OnInit {
 
         this.httpRequest.getPhasesById(3).then(
             phase3 => {
-                console.log(this.election);
                 let anElection = this.election;
                 anElection.phase = phase3 as Phase;
-                console.log("OUI")
-                console.log(anElection);
                 this.httpRequest.updateElection(anElection).then(
                     () => {
                         let newNotification: Notification = {

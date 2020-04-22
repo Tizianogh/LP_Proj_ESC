@@ -69,6 +69,14 @@ namespace ESC2020.Controllers
             return await _context.Opinions.Where(o => o.AuthorId == userId && o.ElectionId == electionId && o.TypeOpinion.TypeId==1).ToListAsync();
         }
 
+        // GET: api/Opinions/objection/5
+        [HttpGet]
+        [Route("objection/{electionId}")]
+        public async Task<ActionResult<IEnumerable<Opinion>>> GetObjectionsOfElection(int electionId)
+        {
+            return await _context.Opinions.Where(o => o.ElectionId == electionId && o.TypeOpinion.TypeId == 3).ToListAsync();
+        }
+
         // PUT: api/Opinions/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

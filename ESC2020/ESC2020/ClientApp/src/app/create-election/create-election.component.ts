@@ -30,7 +30,7 @@ export class CreateElectionComponent implements OnInit {
     id: number = 5;
     erreur: string;
 
-    constructor(private httpRequest: HTTPRequestService, private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private service: HttpClient, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
+    constructor(private httpRequest: HTTPRequestService, private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
     }
 
     ngOnInit() {
@@ -38,7 +38,6 @@ export class CreateElectionComponent implements OnInit {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         let date: Date = new Date();
-        let currentDate: Date = new Date();
         this.currentDate = date.toLocaleDateString()
         this.navBarStateService.SetIsInElection(false);
     }
@@ -50,7 +49,6 @@ export class CreateElectionComponent implements OnInit {
             responsabilites: '',
             dateD: '',
             dateF: '',
-
         });
     }
 
@@ -83,7 +81,7 @@ export class CreateElectionComponent implements OnInit {
                     endDate: form['dateF'],
                     codeElection: this.generateCode(),
                     hostElection: this.connectedAccount,
-                    electedUser: null,
+                    electedElection: null,
                 };
                  
                 this.httpRequest.createElection(newElection).then(
