@@ -94,7 +94,7 @@ a:hover {
     border-bottom: solid #430640;
     border-left: solid #430640;
     border-right: solid #430640;
-    background-color: white;
+    background-color: #fee2d7;
 }
 
 .card-header {
@@ -105,4 +105,5 @@ a:hover {
 .card-body {
     border-left: solid #430640;
     border-right: solid #430640;
+    background-color: #fee2d7;
 }

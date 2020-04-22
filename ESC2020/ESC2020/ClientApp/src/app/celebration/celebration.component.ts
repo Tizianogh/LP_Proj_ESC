@@ -43,7 +43,7 @@ export class CelebrationComponent implements OnInit {
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
 
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
-        this.actualElected = null;
+        //this.actualElected = null;
         this.mainRequest();
     }
 

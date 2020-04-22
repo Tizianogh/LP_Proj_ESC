@@ -1,90 +1,123 @@
-ï»¿<h2 id="titre" style="text-indent: 5px;">
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        Votes /
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        Report de votes /
-    </label>
-    <label>
-        Objections
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        / Bonification
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        / CÃ©lÃ©bration
-    </label>
-</h2>
+<div class="container-fluid">
 
-<div class="proposedUser">
-    <p class="intro">
-        Pour le poste de {{ this.election['job'] }}, candidat actuel :
-    </p>
-    <div class="profile-userpic">
-        <img class="img-responsive" id="proposedIcon" src="data:image/png;base64,{{actualProposed['avatar']}}" height="120" />
+    <div class="row my-3 justify-content-center">
+        <div class="col-11 px-0 text-center">
+            <div class="card px-0" id="card">
+                <ul id="progressbar">
+                    <li class="active" id="votes">Votes</li>
+                    <li class="active" id="repportVotes">Repport de Votes</li>
+                    <li class="active title" id="objections">Objections</li>
+                    <li id="bonification">Bonification</li>
+                    <li id="celebration">Célébration</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="profile-usertitle">
-        <div class="profile-usertitle-name">
-            {{actualProposed['firstName']}} {{actualProposed['lastName']}}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="intro text-center">
+                    Pour le poste de {{ this.election['job'] }}, candidat actuel :
+                </p>
+            </div>
         </div>
 
-
-        <div>
-            <div *ngIf="connectedParticipant['hasTalked']; then cantVote else canVote"></div>
-            <ng-template #canVote>
-                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre objection..." rows="4"></textarea> <br />
-                <div class="col text-center">
-                    <button type="submit" class="btn btn-primary" (click)="objection()">Objecter contre {{actualProposed['firstName']}} {{actualProposed['lastName']}} ?</button>
-                    <button type="submit" class="btn btn-primary" (click)="endObjection()">Pas/Plus d'objections ?</button>
-                    <br />
-                    <br />
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="profile-userpic text-center">
+                    <img class="img-responsive" id="proposedIcon" src="data:image/png;base64,{{actualProposed['avatar']}}" height="120" />
                 </div>
-            </ng-template>
-            <ng-template #cantVote>
-                <div class="col text-center">
-                    En attente des autres Participants !
-                </div>
-            </ng-template>
+            </div>
         </div>
-        
-            <div class="col text-center">
-                <!--Table-->
-                <table id="objectionTable" class="table table-hover table-sm">
-                    <!--Table head-->
-                    <thead>
-                        <tr>
-                            <th>Objection</th>
-                            <div *ngIf="host; then thenBlockA"></div>
-                            <ng-template #thenBlockA>
-                                <th>Action</th>
-                            </ng-template>
-                        </tr> 
-                    </thead>
-                    <!--Table head-->
-                    <!--Table body-->
-                    <tbody>
-                        <tr *ngFor="let objection of objectionsList" id="objection_{{objection['opinionId']}}">
-                            <td>{{objection['reason']}}</td>
-                            <td>
-                                <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
-                                (et puis comme Ã§a on a juste a supprimer l'objection de la bdd)-->
-                                <div *ngIf="host; then thenBlock"></div>
-                                <ng-template #thenBlock>
-                                    <button type="submit" class="btn btn-success" (click)="validateObjection()">Valider l'objection</button>
-                                </ng-template>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <!--Table body-->
-                </table>
-                <!--Table-->
-                 <div *ngIf="host; then thenBlockV"></div>
-            <ng-template #thenBlockV>
-                <button type="submit" class="btn btn-success" (click)="acceptCandidate()">Accepter la candidature</button>
-            </ng-template> 
-            </div> 
-      
 
-        
-    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-usertitle-name text-center">
+                    {{actualProposed['firstName']}} {{actualProposed['lastName']}}
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="connectedParticipant['hasTalked']; then cantVote else canVote"></div>
+        <ng-template #canVote>
+            <div class="row mt-3 justify-content-center">
+                <div class="col-md-10 text-center">
+                    <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre objection..." rows="4"></textarea>
+                </div>
+            </div>
+            <div class="row my-3 justify-content-center">
+                <div class="col-md-5 mb-3 mb-md-0 text-center text-md-left">
+                    <button type="submit" class="btn send" (click)="objection()">Objecter contre {{actualProposed['firstName']}} {{actualProposed['lastName']}} ?</button>
+                </div>
+                <div class="col-md-5 text-center text-md-right">
+                    <button type="submit" class="btn send" (click)="endObjection()">Pas/Plus d'objections ?</button>
+
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #cantVote>
+            <div class="col text-center attente">
+                En attente des autres Participants !
+            </div>
+        </ng-template>
+
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 text-center">
+                <div *ngIf="host; then thenBlockA else elseBlockA"></div>
+
+                <ng-template #thenBlockA>
+                    <table class="table table-hover table-md">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Auteur</th>
+                                <th scope="col">Opinion</th>
+                                <th scope="col">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let objection of objectionsList" id="objection_{{objection['opinionId']}}">
+                                <td id="opinion{{objection['opinionId']}}"></td>
+                                <td>{{objection['reason']}}</td>
+                                <td>
+                                    <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
+                        (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
+
+                                    <button type="submit" class="btn send" (click)="validateObjection()">Valider l'objection</button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-template>
+
+                <ng-template #elseBlockA>
+                    <table class="table table-hover table-md">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Auteur</th>
+                                <th scope="col">Opinion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let objection of objectionsList" id="objection_{{objection['opinionId']}}">
+                                <td id="opinion{{objection['opinionId']}}"></td>
+                                <td>{{objection['reason']}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-template>
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-md-12 text-center">
+                <div *ngIf="host; then thenBlockV"></div>
+                <ng-template #thenBlockV>
+                    <button type="submit" class="btn accept" (click)="acceptCandidate()">Accepter la candidature</button>
+                </ng-template>
+            </div>
+        </div>
+    </div>    
 </div>

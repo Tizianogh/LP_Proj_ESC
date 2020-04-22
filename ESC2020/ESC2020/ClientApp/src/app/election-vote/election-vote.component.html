@@ -1,21 +1,4 @@
-﻿<!--<h2 id="titre" style="text-indent: 5px;">
-    <label>
-        Votes
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        / Report de votes
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        / Objections
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        / Bonification
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        / Célébration
-    </label>
-</h2>-->
-<div class="container-fluid">
+﻿<div class="container-fluid">
 
     <div class="row my-3 justify-content-center">
         <div class="col-11 px-0 text-center">
@@ -34,7 +17,7 @@
     <div class="row justify-content-center">
         <div class="center-block align-self-left" *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock1"></div>
         <ng-template #ThenBlock1>
-            <button class="btn" id="send" (click)="goToNextPhase()">Terminer la phase</button>
+            <button class="btn send" (click)="goToNextPhase()">Terminer la phase</button>
         </ng-template>
     </div>
 
@@ -95,12 +78,12 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 mb-2 text-center">
-                            <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser.UserId; then ThenBlock2 else ElseBlock2"></div>
+                            <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
                             <ng-template #ElseBlock2>
-                                <button id="send" type="submit" class="btn " hidden>Exclure</button>
+                                <button type="submit" class="btn send" hidden>Exclure</button>
                             </ng-template>
                             <ng-template #ThenBlock2>
-                                <button id="send" class="btn" type="submit" (click)="Exclude(currentUser.userId)">Exclure</button>
+                                <button class="btn send" type="submit" (click)="Exclude(currentUser.userId)">Exclure</button>
                             </ng-template>
                         </div>
                     </div>
@@ -133,12 +116,12 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 text-center">                            
+                        <div class="col-md-12 text-center">
                             <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
                             <ng-template #ElseBlock3>
                                 <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
                                 <div class="col text-center">
-                                    <button type="submit" id="send" class="btn btn-primary mb-3" (click)="Vote()">Voter pour ce candidat</button>
+                                    <button type="submit" id="voteBtn" class="btn mb-3 send" (click)="Vote()">Voter pour ce candidat</button>
                                 </div>
                             </ng-template>
                             <ng-template #ThenBlock3>
