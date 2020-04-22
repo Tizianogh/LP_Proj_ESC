@@ -27,6 +27,7 @@ import { ElectionMasterPageComponent } from './election-master-page/election-mas
 import { ChatComponent } from './chat/chat.component';
 import { DatePipe } from '@angular/common';
 import { ForgottenPasswordComponent } from './forgotten-password/forgotten-password.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -57,6 +58,7 @@ registerLocaleData(localeFr, 'fr');
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
+        QRCodeModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forRoot([

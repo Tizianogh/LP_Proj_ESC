@@ -66,8 +66,16 @@
             </p>
         </div>
     </div>
+    <br/>
+    <div class="form-group">
+        <div class="col-md-30 text-md-center">
+            <label id="label_code">Vos invités peuvent scanner ce qr code :</label>
+            <qrcode id="qrcode" class="col-md-30 text-md-center" id="qrCode" [elementType]="'img'" [qrdata]="qrdata" [colorLight]="'#fee2d7'" [colorDark]="'#430640'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+    </div>
 
-    <form #mailForm="ngForm">
+
+    <form id="mailForm" #mailForm="ngForm">
         <div class="form-group">
             <div class="col-md-30 text-md-center">
                 <label id="label_code">Envoyer des invitations</label>

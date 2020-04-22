@@ -88,7 +88,7 @@
                                        <label class="poste" style="cursor: pointer;">
                                            Lien de votre élection :
                                        </label>
-                                       <a href="http://51.158.77.237/join-election-link/{{codeElection}}"> http://51.158.77.237/join-election-link/{{codeElection}}</a>
+                                       <a href="http://51.158.77.237/join-election-link/{{election.codeElection}}"> http://51.158.77.237/join-election-link/{{election.codeElection}}</a>
                                    </div>
                                </div>
                                <div class="row">
@@ -105,6 +105,11 @@
                                            Fin du mandat le :
                                        </label>
                                        {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       <qrcode class="col-md-30 text-md-center" id="qrCode" [qrdata]="getLink(election)" [colorDark]="'#430640'" [width]="128" [errorCorrectionLevel]="'M'"></qrcode>
                                    </div>
                                </div>
                            </div>
@@ -165,7 +170,7 @@
                                        <label class="poste" style="cursor: pointer;">
                                            Lien de votre élection :
                                        </label>
-                                       <a href="http://51.158.77.237/join-election-link/{{codeElection}}"> http://51.158.77.237/join-election-link/{{codeElection}}</a>
+                                       <a href="http://51.158.77.237/join-election-link/{{election.codeElection}}"> http://51.158.77.237/join-election-link/{{election.codeElection}}</a>
                                    </div>
                                </div>
                                <div class="row">
@@ -182,6 +187,12 @@
                                            Fin du mandat le :
                                        </label>
                                        {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12 text-center">
+                                       
+                                       <qrcode class="col-md-30 text-md-center" id="qrCode" [qrdata]="getLink(election)" [colorDark]="'#430640'" [width]="128" [errorCorrectionLevel]="'M'"></qrcode>
                                    </div>
                                </div>
                            </div>
@@ -210,6 +221,7 @@
                                            </div>
                                        </div>
                                    </div>
+                                 
                                    <div class="col-md-6 text-md-right poste">
                                        {{election.nbParticipant}} participants
                                    </div>

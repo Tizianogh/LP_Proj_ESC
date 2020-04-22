@@ -19,6 +19,8 @@ import { NavBarStateService } from '../services/NavBarState.service';
 export class MyElectionsComponent implements OnInit {
 
     private connected: boolean;
+
+    qrdata: string = null;
     userElected: Users = new Users();
     private connectedAccount: Users;
     private electionId: number;
@@ -60,6 +62,10 @@ export class MyElectionsComponent implements OnInit {
                 }, error => console.error(error));
             }
         }, error => console.error(error));
+    }
+
+    getLink(election: Election) {
+        return "http://51.158.77.237/join-election-link/" + election['codeElection'];
     }
 
     getElectedUser(election: Election) {

@@ -22,6 +22,7 @@ export class ElectionReminderComponent implements OnInit {
     codeElection: string;
     mailList: string[] = [];
     mail: string;
+    qrdata: string = null;
 
     regexMail = RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
 
@@ -36,6 +37,7 @@ export class ElectionReminderComponent implements OnInit {
             this.dateD = result['startDate'];
             this.dateF = result['endDate'];
             this.codeElection = result['codeElection'];
+            this.qrdata = "http://51.158.77.237/join-election-link/" + this.codeElection;
         }, error => console.error(error));
     }
 
@@ -59,6 +61,8 @@ export class ElectionReminderComponent implements OnInit {
     }
 
     sendAll() {
+
+        var qrCode = document.getElementsByClassName("qrcode")[0].innerHTML;
         for (let i in this.mailList) {
             this.service.post(window.location.origin + "/api/sendmail", {
                 "To": this.mailList[i],
@@ -214,7 +218,8 @@ a[x-apple-data-detectors] {
                       <td align="center" class="es-m-txt-l" style="padding:0;Margin:0;padding-bottom:10px;"><h2 style="Margin:0;line-height:29px;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;font-size:24px;font-style:normal;font-weight:bold;color:#040404;">` + this.mailList[i] + `,</h2></td> 
                      </tr> 
                      <tr class="es-visible-simple-html-only" style="border-collapse:collapse;">
-                      <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-bottom:10px;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#040404;">Vous avez ete invite a l'election <strong>` + this.poste + `</strong>. Pour rejoindre cette election, cliquez sur <a href="http://51.158.77.237/join-election-link/` + this.codeElection + `" style="-webkit - text - size - adjust: none;- ms - text - size - adjust: none; mso - line - height - rule: exactly; font - family: helvetica, 'helvetica neue', arial, verdana, sans - serif; font - size: 14px; text - decoration: underline; color: #040404; "><strong>CE LIEN</strong></a>&nbsp;ou rendez-vous sur la page <a href="" style=" - webkit - text - size - adjust: none; -ms - text - size - adjust: none; mso - line - height - rule: exactly; font - family: helvetica, 'helvetica neue', arial, verdana, sans - serif; font - size: 14px; text - decoration: underline; color: #040404; ">http://51.158.77.237/my-elections</a> puis entrez&nbsp;<strong>` + this.codeElection +` </strong>&nbsp;dans "rejoindre une election".</p > </td> 
+                      <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-bottom:10px;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#040404;">Vous avez ete invite a l'election <strong>` + this.poste + `</strong>. Pour rejoindre cette election, cliquez sur <a href="http://51.158.77.237/join-election-link/` + this.codeElection + `" style="-webkit - text - size - adjust: none;- ms - text - size - adjust: none; mso - line - height - rule: exactly; font - family: helvetica, 'helvetica neue', arial, verdana, sans - serif; font - size: 14px; text - decoration: underline; color: #040404; "><strong>CE LIEN</strong></a>&nbsp;ou rendez-vous sur la page <a href="" style=" - webkit - text - size - adjust: none; -ms - text - size - adjust: none; mso - line - height - rule: exactly; font - family: helvetica, 'helvetica neue', arial, verdana, sans - serif; font - size: 14px; text - decoration: underline; color: #040404; ">http://51.158.77.237/my-elections</a> puis entrez&nbsp;<strong>` + this.codeElection + ` </strong>&nbsp;dans "rejoindre une election".</p ><br/>
+                        <p>Sinon, scannez ce QR Code :` + qrCode + `</p> </td> 
                      </tr> 
                    </table></td> 
                  </tr> 
