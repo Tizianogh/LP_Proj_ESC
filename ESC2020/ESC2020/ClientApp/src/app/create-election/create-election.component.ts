@@ -73,35 +73,35 @@ export class CreateElectionComponent implements OnInit {
         else {
             if (this.verifDates(form['dateD'], form['dateF'])) {
 
-                let newElection: Election =  {
-                    poste: form['poste'],
-                    missions: form['missions'],
-                    responsabilite: form['responsabilites'],
-                    dateD: form['dateD'],
-                    dateF: form['dateF']
+
+
+                let newElection: Election = {
+                    job: form['poste'],
+                    mission: form['missions'],
+                    responsability: form['responsabilites'],
+                    startDate: form['dateD'],
+                    endDate: form['dateF'],
+                    codeElection: this.generateCode(),
+                    hostElection: this.connectedAccount,
+                    electedUser: null,
                 };
                  
-                this.httpRequest.createElection(newElection, this.connectedAccount, this.generateCode()).then(
+                this.httpRequest.createElection(newElection).then(
                     election => { // resolve() 
 
                         let newNotification: Notification = {
                             message: "Début de l'élection pour le poste de " + election['job'] + '.',
                             date: new Date(),
-                            electionId: election['electionId']
+                            election: election as Election
                         };
 
-                        this.httpRequest.createNotifications(newNotification).then(
-                            notification => {
-                                this.id = election['electionId'];
-                                this.linkUsersElection(this.connectedAccount["userId"], this.id);
-                                this.router.navigate(['election-reminder/' + this.id]);
-                            }, error => {
-                                alert(error)
-                            }
+                        this.httpRequest.createNotification(newNotification).then(
+                            notification => { //resolve()
+                                this.linkUsersElection(this.connectedAccount, election as Election);
+                                this.router.navigate(['election-reminder/' + election['electionId']]);
+                            }, error => {console.log(error)}
                         );
-                    }, error => {//Reject
-                        alert(error)
-                    }
+                    }, error => {console.log(error)}
                 ); 
             }
             else
@@ -109,8 +109,8 @@ export class CreateElectionComponent implements OnInit {
         }
     }
 
-    linkUsersElection(aUserId, aElectionId) {
-        let participant: Participant = { UserId: aUserId, ElectionId: aElectionId, VoteCounter: 0, HasTalked:false}
+    linkUsersElection(user: Users, election: Election) {
+        let participant: Participant = { user: user, election: election, voteCounter: 0, hasTalked: false }
         this.httpRequest.createParticipant(participant)
     }
 

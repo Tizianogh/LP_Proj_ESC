@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 @Component({
     selector: 'app-rappel',
@@ -11,9 +12,10 @@ import { NavBarStateService } from '../services/NavBarState.service';
 })
 export class ElectionReminderComponent implements OnInit {
 
-    constructor(private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) { }
 
-    electionId: number;
+    constructor(private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router, private httpRequest: HTTPRequestService) { }
+
+    electionId: string;
     poste: string;
     missions: string;
     responsabilite: string;
@@ -23,16 +25,27 @@ export class ElectionReminderComponent implements OnInit {
 
     ngOnInit() {
         this.navBarStateService.SetIsInElection(false);
+        this.electionId = this.router.url.split('/')[2];
+        this.getElection();
+    }
 
-        this.service.get(window.location.origin + "/api/Elections/" + this.router.url.split('/')[2]).subscribe(result => {
-            this.electionId = result['electionId'];
-            this.poste = result['job'];
-            this.missions = result['mission'];
-            this.responsabilite = result['responsability'];
-            this.dateD = result['startDate'];
-            this.dateF = result['endDate'];
-            this.codeElection = result['codeElection'];
-        }, error => console.error(error));
+    getElection() {
+
+        this.httpRequest.getElectionById(Number(this.electionId)).then(
+            election => { // resolve() 
+                console.log("le result");
+                console.log(election)
+                this.electionId = election['electionId'];
+                this.poste = election['job'];
+                this.missions = election['mission'];
+                this.responsabilite = election['responsability'];
+                this.dateD = election['startDate'];
+                this.dateF = election['endDate'];
+                this.codeElection = election['codeElection'];
+            }, error => {//Reject
+                console.log(error)
+            }
+        );
     }
 
     navigate() {

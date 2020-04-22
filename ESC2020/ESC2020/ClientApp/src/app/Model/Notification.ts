@@ -1,5 +1,7 @@
-﻿export class Notification {
+﻿import { Election } from "./Election";
+
+export class Notification {
     message: string;
     date: Date;
-    electionId: number;
+    election: Election;
 }

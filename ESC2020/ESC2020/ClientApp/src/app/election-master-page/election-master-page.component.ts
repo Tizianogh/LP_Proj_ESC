@@ -37,15 +37,24 @@ export class ElectionMasterPageComponent implements OnInit {
 
         this.navBarStateService.SetIsInElection(true);
 
-        this.electionService.fetchElection(this.router.url.split('/')[2]);
-        this.electionService.GetElection().subscribe(anElection => this.setElectionStatus(anElection));
+        this.electionService.fetchElection(this.router.url.split('/')[2]).then(
+            electionData => {
+                this.election = electionData;
+                this.setElectionStatus(this.election)
+            }, error => { console.log(error);}
+        );
     }
 
     onSignalReceived() {
         this.hubConnection.on("updatePhase", (electionId: number) => {
             if (electionId == Number(this.electionId)) {
                 this.electionPhase = '';
-                this.electionService.fetchElection(this.electionId);
+                this.electionService.fetchElection(this.electionId).then(
+                    electionData => {
+                        this.election = electionData;
+                        this.setElectionStatus(this.election)
+                    }, error => { console.log(error); }
+                );
             }
         });
     }
@@ -54,7 +63,7 @@ export class ElectionMasterPageComponent implements OnInit {
         this.election = null;
         this.electionPhase = null;
         this.election = anElection;
-        this.electionId = this.election['electionId'];
+        this.electionId = this.election['electionId'].toString();
         this.electionPhase = this.election['electionPhaseId'];
         switch (Number(this.electionPhase)) {
             case 1:

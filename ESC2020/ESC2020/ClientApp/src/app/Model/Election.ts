@@ -1,10 +1,17 @@
+import { Users } from "./Users";
+import { Phase } from "./Phase";
+
 export class Election {
-    Id?: number;
-    poste: string;
-    missions: string;
-    responsabilite: string;
-    dateD: string;
-    dateF: string;
-    HostId?: number;
+    electionId?: number;
+    job?: string;
+    mission?: string;
+    responsability?: string;
+    startDate?: string;
+    endDate?: string;
+    codeElection?: string;
+    hostElection?: Users;
+    electedUser?: Users;
+    phase?: Phase;
+
     nbParticipant?: number;
 }

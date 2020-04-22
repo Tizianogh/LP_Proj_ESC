@@ -35,12 +35,12 @@ export class MyAccountComponent implements OnInit {
 
     setupConnectedAccount(anUser: Users) {
         this.connectedAccount = anUser;
-        this.connectedAccount.BirthDate = anUser['birthDate'];
-        this.connectedAccount.FirstName = anUser['firstName'];
-        this.connectedAccount.LastName = anUser['lastName'];
-        this.connectedAccount.Email = anUser['email'];
-        this.connectedAccount.Description = anUser['description'];
-        this.connectedAccount.Job = anUser['job'];
+        this.connectedAccount.birthDate = anUser.birthDate;
+        this.connectedAccount.firstName = anUser.firstName;
+        this.connectedAccount.lastName = anUser.lastName;
+        this.connectedAccount.email = anUser.email;
+        this.connectedAccount.description = anUser.description;
+        this.connectedAccount.job = anUser.job;
     }
 
     modifyProfile() {

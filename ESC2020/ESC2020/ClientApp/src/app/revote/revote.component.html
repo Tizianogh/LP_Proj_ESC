@@ -18,7 +18,7 @@
 <div id="sous-titre">Vous aviez précédemment voté pour </div>
 
 <div class="row justify-content-center" id="date">
-    <div class="center-block align-self-center" *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock1"></div>
+    <div class="center-block align-self-center" *ngIf="election['hostId'] == connectedAccount.userId; then ThenBlock1"></div>
     <ng-template #ThenBlock1>
         <button class="btn btn-primary" (click)="goToNextPhase()">Terminer la phase</button>
     </ng-template>
@@ -54,7 +54,7 @@
 <div class="description" id="selectParticipant">
     <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.LastName}} {{currentUser.FirstName}}</b></label>
 
-    <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser.UserId; then ThenBlock2 else ElseBlock2"></div>
+    <div *ngIf="election['hostId'] == connectedAccount.userId && election['hostId'] != currentUser.userId; then ThenBlock2 else ElseBlock2"></div>
     <ng-template #ElseBlock2>
         <button id="exclude" type="submit" class="btn btn-primary" hidden>Exclure</button>
     </ng-template>

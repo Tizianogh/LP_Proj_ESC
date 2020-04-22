@@ -49,7 +49,7 @@ export class CelebrationComponent implements OnInit {
 
     setupElection(anElection: Election) {
         this.election = anElection;
-        this.election.poste = anElection['job'];
+        this.election.job = anElection['job'];
     }
 
     preStart() {
@@ -57,9 +57,9 @@ export class CelebrationComponent implements OnInit {
         if (this.election['electedId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
                 this.actualElected = userResult as Users;
-                this.actualElected.FirstName = userResult['firstName'];
-                this.actualElected.LastName = userResult['lastName'];
-                this.actualElected.Avatar = userResult['avatar'];
+                this.actualElected.firstName = userResult['firstName'];
+                this.actualElected.lastName = userResult['lastName'];
+                this.actualElected.avatar = userResult['avatar'];
             }, error => console.error(error));
         }
     }

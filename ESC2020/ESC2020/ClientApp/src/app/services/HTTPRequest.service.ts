@@ -1,15 +1,12 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Users } from '../Model/Users';
-import { BehaviorSubject } from 'rxjs';
 import { Election } from '../Model/Election';
 import { Participant } from '../Model/Participant';
 import { Phase } from '../Model/Phase';
-import { isUndefined } from 'util';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Notification } from '../Model/Notification';
-
+import { Opinion } from '../Model/Opinion';
 
 @Injectable({
     providedIn: 'root'
@@ -17,219 +14,350 @@ import { Notification } from '../Model/Notification';
 
 export class HTTPRequestService {
 
-    constructor(private service: HttpClient, private router: Router) { }
-
-
+    constructor(private service: HttpClient) { }
 
     // api/Elections
-    public getElectionById(electionId: number): Election {
-        try {
-            this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
-                return result as Election;
-            }, error => console.error(error));
-        } catch (e) {
-            return null;
-        }
-    }
-
-    public updateElection(electionId: number, updatedElection: Election): Election {
-        try {
-            return null;
-        } catch (e) {
-            return null;
-        }
-    }
-
-    public createElection(election: Election, hostUser: Users, code: string): Promise<Election> {
-        return new Promise((resolve, reject): Promise<void> => {
+    public getElectionById(electionId: number) {
+        return new Promise((resolve, reject) => {
             try {
-                this.getPhasesByIdBis(1).then(
-                    data => { // resolve() 
-                        this.service.post(window.location.origin + "/api/Elections", {
-                            "Job": election.poste,
-                            "Mission": election.missions,
-                            "Responsability": election.responsabilite,
-                            "StartDate": election.dateD,
-                            "EndDate": election.dateF,
-                            "CodeElection": code,
-                            "HostId": hostUser['userId'],
-                            "ElectedId": null,
-                            "ElectionPhaseId": data['phaseId']
-                        }).subscribe(result => {
-                            console.log(result)
-                            resolve(result as Election)
-                        }, error => console.log(error));
-                    }, error => {//Reject
-                        console.log("Error: ", error);
-                        alert(error)
-                    }
-                ) 
+                this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
+                    resolve(result as Election)
+                });
             } catch (e) {
-                console.log(e);
-                reject("Echec de la création de l'élection")
+                alert("Echec lors de la récupération de l'élection")
+                reject(e)
             }
         });
     }
 
-    public getElectionByCode(code: string): Election {
+    public updateElection(updatedElection: Election) {
+        return new Promise((resolve, reject) => {
+            try {
+                
+                this.service.put(window.location.origin + "/api/Elections/" + updatedElection['electionId'], {
+                    "ElectionId": updatedElection.electionId,
+                    "Job": updatedElection.job,
+                    "Mission": updatedElection.mission,
+                    "Responsability": updatedElection.responsability,
+                    "StartDate": updatedElection.startDate,
+                    "EndDate": updatedElection.endDate,
+                    "CodeElection": updatedElection.codeElection,
+                    "HostId": updatedElection['hostId'] ,
+                    "ElectedUser": updatedElection.electedUser == null ? updatedElection['electedId'] : updatedElection.electedUser['userId'],
+                    "ElectionPhaseId": updatedElection.phase == null ? updatedElection['electionPhaseId'] : updatedElection.phase['phaseId']
+                }).subscribe(result => {
+                    resolve(result as Election)
+                });
+            } catch (e) { 
+                alert("Echec lors de la mise à jour de l'élection")
+                reject(e)
+            }
+        });
+    }
 
+    public createElection(election: Election) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.getPhasesById(1).then(
+                    data => { // resolve() 
+                        console.log(election);
+                        this.service.post(window.location.origin + "/api/Elections", {
+                            "Job": election.job,
+                            "Mission": election.mission,
+                            "Responsability": election.responsability,
+                            "StartDate": election.startDate,
+                            "EndDate": election.endDate,
+                            "CodeElection": election.codeElection,
+                            "HostId": election.hostElection['userId'],
+                            "ElectedUser": null,
+                            "ElectionPhaseId": data['phaseId']
+                        }).subscribe(result => {
+                            resolve(result as Election)
+                        });
+                    }, error => {//Reject
+                        console.log(error)
+                    }
+                );
+            } catch (e) {
+                alert("Echec de la création de l'élection")
+                reject(e)
+            }
+        });
+    }
+
+    public getElectionByCode(code: string) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Elections/code/" + code).subscribe(result => {
+                    resolve(result as Election)
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération de l'élection")
+                reject(e)
+            }
+        });
+    }
+
+    public getElectionsByUser(userId: number) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/userId/" + userId).subscribe(result => {
+                    resolve(result as Election[])
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération de l'élection")
+                reject(e)
+            }
+        });
     }
 
 
     // api/Users
-    public getUsersById(userId: number): Users {
-        try {
-            this.service.get(window.location.origin + "/api/Users/" + userId).subscribe(result => {
-                return result as Users;
-            }, error => console.error(error));
-        } catch (e) {
-            return null;
-        }
+    public getUserById(userId: number) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Users/" + userId).subscribe(result => {
+                    resolve(result as Users);
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération de l'utilisateur")
+                reject(e)
+            }
+        });
     }
 
-    public updateUsers(userId: number, updatedUsers: Users): Users {
-        try {
-            this.service.put(window.location.origin + "/api/Users/" + userId, {
-
-            }).subscribe(result => {
-                return result as Users;
-            }, error => console.error(error));
-
-        } catch (e) {
-            return null;
-
-        }
+    public updateUser(userId: number, updatedUser: Users) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.put<Users>(window.location.origin + "/api/Users/" + userId, {
+                    'UserId': updatedUser['userId'],
+                    'Email': updatedUser.email,
+                    'Password': updatedUser.password,
+                    'Salt': updatedUser.salt,
+                    'BirthDate': updatedUser.birthDate,
+                    'Description': updatedUser.description,
+                    'Job': updatedUser.job,
+                    'LastName': updatedUser.lastName,
+                    'FirstName': updatedUser.firstName,
+                    'Avatar': updatedUser.avatar
+                }).subscribe(result => {
+                    resolve(result as Users)
+                });
+            } catch (e) {
+                alert("Echec lors de la mise à jour de l'utilisateur")
+                reject(e);
+            }
+        });
     }
 
-    public createUsers(user: Users): Users {
-        try {
-            return null;
-
-        } catch (e) {
-            return null;
-
-        }
+    public createUser(user: Users) {
+        return new Promise((resolve, reject) => {
+            try {
+                resolve(1)
+            } catch (e) {
+                alert("Echec lors de la création de l'utilisateur")
+                reject(e)
+            }
+        });
     }
-
 
 
     // api/Participants
-    public getParticipant(userId: number, electionId: number): Participant {
-        try {
-            this.service.get(window.location.origin + "/api/Participants/" + userId + "/" + electionId).subscribe(result => {
-                return result as Participant;
-            }, error => console.error(error));
-        } catch (e) {
-            return null;
-        }
-    }
-
-    public updateParticipant(electionId: number, userId: number, updatedParticipant: Participant): Participant {
-        try {
-            return null;
-
-        } catch (e) {
-            return null;
-
-        }
-    }
-
-    public createParticipant(participant: Participant): Participant {
-        try {
-            this.service.post(window.location.origin + "/api/Participants", {
-                'UserId': participant.UserId,
-                'ElectionId': participant.ElectionId
-            }).subscribe(result => {
-
-            }, error => console.log(error));
-
-        } catch (e) {
-            return null;
-
-        }
-    }
-
-    public getParticipantsByElection(electionId: number): Participant[] {
-        try {
-            return null;
-
-        } catch (e) {
-            return null;
-
-        }
-    }
-
-    public async getParticipantByElection(electionId: number, userId: number): Participant {
-        try {
-            const response = await (this.service.get(window.location.origin + "/api/Notifications" + typeOpinionId).toPromise()) as Notification[];
-            return response;
-        } catch (e) {
-            return null;
-        }
-    }
-
-
-
-    // api/Phases
-    public async getPhasesById(phaseId: number): Phase {
-        try {
-            const response = await (this.service.get(window.location.origin + "/api/Phases/" + phaseId).toPromise()) as Phase;
-            return response;
-        } catch (e) {
-            console.log(e)
-            return null;
-        }
-    }
-
-    public getPhasesByIdBis(phaseId: number) {
+    public getParticipant(user: Users, election: Election) {
         return new Promise((resolve, reject) => {
             try {
-                const response = this.service.get(window.location.origin + "/api/Phases/" + phaseId).subscribe(result => {
+                this.service.get(window.location.origin + "/api/Participants/" + user['userId'] + "/" + election['electionId']).subscribe(result => {
+                    resolve(result as Participant);
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération du participant")
+                reject(e)
+            }
+        });
+    }
+
+    public getParticipantsByUser(user: Users) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Participants/" + user.userId).subscribe(result => {
+                    resolve(result as Participant[]);
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération des participants de l'élection")
+                reject(e)
+            }
+        });
+    }
+
+    public getParticipantsByElection(election: Election) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Participants/election/" + election.electionId).subscribe(result => {
+                    resolve(result as Participant[]);
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération des participants de l'élection")
+                reject(e)
+            }
+        });
+    }
+
+    public updateParticipant( election: Election, updatedParticipant: Participant) {
+        return new Promise((resolve, reject) => {
+            try {
+                let userId = updatedParticipant.user == null ? updatedParticipant['userId'] : updatedParticipant.user['userId'];
+
+                this.service.put<Participant>(window.location.origin + "/api/Participants/" + userId + "/" + election['electionId'], {
+                    'UserId': updatedParticipant.user == null ? updatedParticipant['userId'] : updatedParticipant.user['userId'],
+                    'ElectionId': updatedParticipant.election == null ? updatedParticipant['electionId'] : updatedParticipant.election['electionId'],
+                    'HasTalked': updatedParticipant.hasTalked,
+                    'VoteCounter': updatedParticipant.voteCounter,
+                }).subscribe(result => {
                     resolve(result)
                 });
             } catch (e) {
-                console.log(e);
-                reject("Error")
+                console.log(e)
+                alert("Echec lors de la mise à jour du participant")
+                reject(e)
+            }
+        });
+    }
+
+    public createParticipant(participant: Participant) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.post(window.location.origin + "/api/Participants", {
+                    'UserId': participant.user['userId'],
+                    'ElectionId': participant.election['electionId']
+                }).subscribe(result => {
+                    resolve(result as Participant)
+                });
+            } catch (e) {
+                alert("Echec lors de la création du participant")
+                reject(e)
+            }
+        });
+    }
+
+    public deleteParticipant(participant: Participant) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.delete(window.location.origin + "/api/Participants/" + participant.user['userId'] + "/" + participant.election['electionId']).subscribe(result => {
+                    resolve(result)
+                });
+            } catch (e) {
+                alert("Echec lors de la suppression du participant")
+                reject(e)
+            }
+        });
+    }
+
+
+    // api/Phases
+    public getPhasesById(phaseId: number) {
+        return new Promise((resolve, reject) => {
+            try {
+                const response = this.service.get(window.location.origin + "/api/Phases/" + phaseId).subscribe(result => {
+                    resolve(result as Phase)
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération de la phase de l'élection")
+                reject(e)
             }
         });
     }
 
 
     // api/TypeOpininions
-    public async getTypeOpininionsById(typeOpinionId: number): TypeOpinion {
-        try {
-            const response = await (this.service.get(window.location.origin + "/api/TypeOpinions/" + typeOpinionId).toPromise()) as TypeOpinion;
-            return response;
-        } catch (e) {
-            return null;
-        }
+    public getTypeOpininionsById(typeOpinionId: number) {
+        return new Promise((resolve, reject) => {
+            try {
+                const response = this.service.get(window.location.origin + "/api/TypeOpinions/" + typeOpinionId).subscribe(result => {
+                    resolve(result as TypeOpinion)
+                });
+            } catch (e) {
+                alert("Echec lors de récupération du type de l'opinion")
+                reject(e)
+            }
+        });
     }
-    
+
+
+    // api/Opinions
+    public async getOpinions(electionId: number) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Opinions/election/" + electionId).subscribe(result => {
+                    resolve(result as Opinion[])
+                })
+            } catch (e) {
+                alert("Echec lors de la récupération des opinions de l'élection")
+                reject(e)
+            }
+        });
+    }
+
+    public createOpinion(opinion: Opinion) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.post(window.location.origin + "/api/Opinions", {
+                    'AuthorId': opinion.authorUser['userId'],
+                    'ConcernedId': opinion.concernedUser['userId'],
+                    'Reason': opinion.reason,
+                    'TypeId': opinion.type['typeId'] ,
+                    'DateOpinion': opinion.dateOpinion,
+                    'ElectionId': opinion.election['electionId']
+                }).subscribe(result => {
+                    resolve(result as Opinion)
+                });
+            } catch (e) {
+                alert("Echec lors de la création de l'opinion")
+                reject(e)
+            }
+        });
+    }
+
+    public getVotesFromUser(electionId: number, user: Users) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Opinions/vote/" + electionId + '/' + user['userId']).subscribe(result => {
+                    resolve(result as Opinion[])
+                })
+            } catch (e) {
+                alert("Echec lors de la récupération des votes du participant")
+                reject(e)
+            }
+        });
+    }
+
 
     // api/Notifications
-    public async getNotifications(): Notification {
-        try {
-            const response = await (this.service.get(window.location.origin + "/api/Notifications" + typeOpinionId).toPromise()) as Notification[];
-            return response;
-        } catch (e) {
-            return null;
-        }
+    public async getNotifications(electionId: number) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Notifications/FromElection/" + electionId).subscribe(result => {
+                    resolve(result as Notification[])
+                })
+            } catch (e) {
+                alert("Echec lors de la récupération des notifications de l'élection")
+                reject(e)
+            }
+        });
     }
 
-
-    public createNotifications(notification: Notification) {
-        return new Promise((resolve, reject): Promise<void> => {
+    public createNotification(notification: Notification) {
+        return new Promise((resolve, reject) => {
             try {
                 this.service.post(window.location.origin + "/api/Notifications", {
                     "Message": notification.message,
                     "DateNotification": new Date(),
-                    "ElectionId": notification.electionId
+                    "ElectionId": notification.election['electionId']
                 }).subscribe(result => {
-                    resolve(result)
-                }, error => console.log(error));
+                    resolve(result as Notification)
+                });
             } catch (e) {
-                console.log(e);
-                reject("Echec de la création de l'élection")
+                alert("Echec lors de la création de la notification")
+                reject(e)
             }
         });
     }

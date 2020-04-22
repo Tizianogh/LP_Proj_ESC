@@ -1,7 +1,10 @@
+import { Users } from "./Users";
+import { Election } from "./Election";
+
 export class Participant
 {
-    UserId: number;
-    ElectionId: number;
-    HasTalked: boolean = true;
-    VoteCounter: number;
+    user: Users;
+    election: Election;
+    hasTalked: boolean = true;
+    voteCounter: number;
 }

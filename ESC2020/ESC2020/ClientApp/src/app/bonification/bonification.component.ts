@@ -66,9 +66,9 @@ export class BonificationComponent implements OnInit {
 
     setupElection(anElection: Election) {
         this.election = anElection;
-        this.election.poste = anElection['job'];
-        this.election.missions = anElection['mission'];
-        this.election.responsabilite = anElection['responsability'];
+        this.election.job = anElection['job'];
+        this.election.mission = anElection['mission'];
+        this.election.responsability = anElection['responsability'];
     }
 
     checkHost() {

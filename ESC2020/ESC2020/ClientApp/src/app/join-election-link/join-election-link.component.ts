@@ -40,30 +40,29 @@ export class JoinElectionLinkComponent implements OnInit {
             this.setupElection(result as Election);
         }, error => console.error(error));
 
-
         this.hubConnection.start().catch(err => console.log(err));
     }
 
     setupElection(anElection: Election) {
         this.election = anElection;
-        this.election.HostId = anElection['hostId'];
-        this.election.dateD = anElection['startDate'];
-        this.election.dateF = anElection['endDate'];
-        this.election.missions = anElection['mission'];
-        this.election.poste = anElection['job'];
-        this.election.responsabilite = anElection['responsability'];
+        this.election.hostElection = anElection.hostElection;
+        this.election.startDate = anElection.startDate;
+        this.election.endDate = anElection.endDate;
+        this.election.mission = anElection.mission;
+        this.election.job = anElection.job;
+        this.election.responsability = anElection.responsability;
     }
 
     setupConnectedAccount(anUser: Users) {
         this.connectedAccount = anUser;
-        this.connectedAccount.UserId = anUser['userId'];
-        this.connectedAccount.BirthDate = anUser['birthDate'];
-        this.connectedAccount.FirstName = anUser['firstName'];
-        this.connectedAccount.LastName = anUser['lastName'];
-        this.connectedAccount.Email = anUser['email'];
-        this.connectedAccount.Description = anUser['description'];
-        this.connectedAccount.Job = anUser['job'];
-        this.connectedAccount.Avatar = anUser['avatar'];
+        this.connectedAccount.userId = anUser.userId;
+        this.connectedAccount.birthDate = anUser.birthDate;
+        this.connectedAccount.firstName = anUser.firstName;
+        this.connectedAccount.lastName = anUser.lastName;
+        this.connectedAccount.email = anUser.email;
+        this.connectedAccount.description = anUser.description;
+        this.connectedAccount.job = anUser.job;
+        this.connectedAccount.avatar = anUser.avatar;
     }
 
     submit() {
@@ -71,7 +70,7 @@ export class JoinElectionLinkComponent implements OnInit {
             this.listeElections.push(result as Election);
             this.electionId = result['electionId'];
             this.service.post(window.location.origin + "/api/Participants", {
-                'UserId': this.connectedAccount['userId'],
+                'UserId': this.connectedAccount.userId,
                 'ElectionId': result['electionId']
             }).subscribe(result => {
                 this.hubConnection.send("changeParticipants", Number(result['electionId']), Number(result['electionPhaseId']));

@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Participant = /** @class */ (function () {
     function Participant() {
-        this.HasTalked = true;
-        this.Proposable = true;
+        this.hasTalked = true;
     }
     return Participant;
 }());

@@ -1,17 +1,12 @@
-﻿export class Opinion {
+﻿import { Users } from "./Users";
+import { Election } from "./Election";
+import { TypeOpinion } from "./TypeOpinion";
 
-    OpinionId: number;
-
-    AuthorId: number;
-
-    ConcernedId: number;
-
-    ElectionId: number;
-
-    Reason: string
-
-    TypeId: number;
-
-    DateOpinion: string;
-
+export class Opinion {
+    authorUser: Users;
+    concernedUser: Users;
+    election: Election;
+    reason: string
+    type: TypeOpinion;
+    dateOpinion: Date;
 }

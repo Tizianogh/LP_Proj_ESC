@@ -10,6 +10,7 @@ import * as signalR from "@microsoft/signalr";
 import { Phase } from '../Model/Phase';
 import { ElectionService } from '../services/election.service';
 import { isUndefined } from 'util';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 @Component({
     selector: 'app-objections',
@@ -39,7 +40,7 @@ export class ObjectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private service: HttpClient, private authentificationService: AuthentificationService, private electionService: ElectionService) { }
+    constructor(private httpRequest: HTTPRequestService, private service: HttpClient, private authentificationService: AuthentificationService, private electionService: ElectionService) { }
 
     ngOnInit() {
         this.setOnSignalReceived();
@@ -73,7 +74,7 @@ export class ObjectionsComponent implements OnInit {
             this.service.get(window.location.origin + "/api/Users/election/" + this.election['electionId']).subscribe(usersResult => {
                 this.usersList = usersResult as Users[]
 
-                this.election.HostId = this.election['hostId'];
+                this.election.hostElection = this.election.hostElection;
                 this.checkHost();
                 this.mainRequest();
             }, error => console.error(error));
@@ -106,7 +107,7 @@ export class ObjectionsComponent implements OnInit {
         }
 
         if (isUndefined(this.propositions[0])) {
-            if  (this.host)
+            if (this.host)
                 this.noMoreCandidate()
         }
         else {
@@ -244,37 +245,88 @@ export class ObjectionsComponent implements OnInit {
     }
 
     acceptCandidate() {
-        let phase: Phase = new Phase();
-        this.service.get(window.location.origin + "/api/Phases/4").subscribe(phaseResult => {
-            phase = phaseResult as Phase;
-            this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
-                "ElectionId": this.election['electionId'],
-                "Job": this.election['job'],
-                "Mission": this.election['mission'],
-                "Responsability": this.election['responsability'],
-                "StartDate": this.election['starteDate'],
-                "EndDate": this.election['endDate'],
-                "CodeElection": this.election['codeElection'],
-                "HostId": this.election["hostId"],
-                "ElectedId": this.actualProposed['userId'],
-                "ElectionPhaseId": phase['phaseId']
-            }).subscribe(result => {
-                this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.election['electionId'], {
-                    "UserId": this.actualProposed['userId'],
-                    "ElectionId": this.election['electionId'],
-                    "HasTalked": false,
-                    "VoteCounter": this.participantsList.find(p => p['userId'] == this.actualProposed['userId'])['voteCounter']
-                }).subscribe(result => {
+        //Remise a hasTalked : false non necessaire 
+        //this.httpRequest.getParticipantsByElection(this.election).then(
+        //    participantsData => {
+        //        this.listeParticipants = participantsData as Participant[];
+        //        this.listeParticipants.forEach(p => {
+        //            p.hasTalked = false;
+        //            p.election = this.election;
+        //            this.httpRequest.updateParticipant(this.election, p).then(
+        //                updatedParticipantData => { }, error => { console.log(error) }
+        //            );
+        //        })
+        //    }
+        //)
+        //this.httpRequest.getPhasesById(4).then(
+        //    phase4 => {
+        //        console.log(this.election)
+        //        let anElection = this.election;
+        //        anElection.phase = phase4 as Phase;
+        //        anElection.electedUser = this.actualProposed;
 
-                    this.service.post(window.location.origin + "/api/Notifications", {
-                        "Message": "La proposition de " + this.actualProposed['firstName'] + ' ' + this.actualProposed['lastName'] + " a été retenue par le facilitateur.",
-                        "DateNotification": new Date(),
-                        "ElectionId": this.election['electionId']
-                    }).subscribe(result => { }, error => console.log(error));
-                    this.hubConnection.send("updatePhase", this.election['electionId']);
-                }, error => console.log(error));
-            }, error => console.log(error));
-        });
+        //        this.httpRequest.updateElection(anElection).then(
+        //            () => {
+
+        //                this.httpRequest.getParticipant(this.actualProposed, this.election).then(
+        //                    participantsData => {
+        //                        this.listeParticipants = participantsData as Participant[];
+        //                        this.listeParticipants.forEach(p => {
+        //                            p.hasTalked = false;
+        //                            p.election = this.election;
+        //                            this.httpRequest.updateParticipant(this.election, p).then(
+        //                                updatedParticipantData => { }, error => { console.log(error) }
+        //                            );
+        //                        })
+        //                    }
+        //                )
+
+        //                let newNotification: Notification = {
+        //                    m"Message": "La proposition de " + this.actualProposed['firstName'] + ' ' + this.actualProposed['lastName'] + " a été retenue par le facilitateur.",
+        //                    date: new Date(),
+        //                    election: this.election as Election
+        //                };
+        //                this.httpRequest.createNotification(newNotification).then(
+        //                    notification => {
+        //                        this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+        //                    }, error => { console.log(error) }
+        //                );
+        //            }, error => { console.log(error) }
+        //        );
+        //    }, error => { console.log(error) }
+        //);
+
+        //let phase: Phase = new Phase();
+        //this.service.get(window.location.origin + "/api/Phases/4").subscribe(phaseResult => {
+        //    phase = phaseResult as Phase;
+        //    this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
+        //        "ElectionId": this.election['electionId'],
+        //        "Job": this.election['job'],
+        //        "Mission": this.election['mission'],
+        //        "Responsability": this.election['responsability'],
+        //        "StartDate": this.election['starteDate'],
+        //        "EndDate": this.election['endDate'],
+        //        "CodeElection": this.election['codeElection'],
+        //        "HostId": this.election["hostId"],
+        //        "ElectedId": this.actualProposed['userId'],
+        //        "ElectionPhaseId": phase['phaseId']
+        //    }).subscribe(result => {
+        //        this.service.put(window.location.origin + "/api/Participants/" + this.actualProposed['userId'] + "/" + this.election['electionId'], {
+        //            "UserId": this.actualProposed['userId'],
+        //            "ElectionId": this.election['electionId'],
+        //            "HasTalked": false,
+        //            "VoteCounter": this.participantsList.find(p => p['userId'] == this.actualProposed['userId'])['voteCounter']
+        //        }).subscribe(result => {
+
+        //            this.service.post(window.location.origin + "/api/Notifications", {
+        //                "Message": "La proposition de " + this.actualProposed['firstName'] + ' ' + this.actualProposed['lastName'] + " a été retenue par le facilitateur.",
+        //                "DateNotification": new Date(),
+        //                "ElectionId": this.election['electionId']
+        //            }).subscribe(result => { }, error => console.log(error));
+        //            this.hubConnection.send("updatePhase", this.election['electionId']);
+        //        }, error => console.log(error));
+        //    }, error => console.log(error));
+        //});
     }
 }
 

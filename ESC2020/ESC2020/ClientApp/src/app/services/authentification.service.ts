@@ -18,7 +18,7 @@ export class AuthentificationService {
         this.connected = new BehaviorSubject(false);
 
     this.emptyUsers = {
-        UserId: null, Email: "", Password: "", Salt: "", BirthDate: "", Description: "", FirstName: "", LastName: "", Job: "", Avatar: null //new Blob()
+        userId: null, email: "", password: "", salt: "", birthDate: "", description: "", firstName: "", lastName: "", job: "", avatar: null //new Blob()
     };
     this.connectedAccount = new BehaviorSubject(this.emptyUsers);
 

@@ -9,6 +9,7 @@ import { partition } from 'rxjs';
 import { async } from '@angular/core/testing';
 import * as signalR from "@microsoft/signalr";
 import { NavBarStateService } from '../services/NavBarState.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 @Component({
     selector: 'app-salons',
@@ -26,7 +27,8 @@ export class MyElectionsComponent implements OnInit {
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
         .build();
-    constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router, private navBarStateService: NavBarStateService) { }
+
+    constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -38,22 +40,25 @@ export class MyElectionsComponent implements OnInit {
     }
 
     getElections() {
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId']).subscribe(result => {
-            this.listeParticipants = result as Participant[];
-            for (let i in this.listeParticipants) {
-                this.service.get(window.location.origin + "/api/Elections/" + this.listeParticipants[i]["electionId"]).subscribe(electionresult => {
-
-                    let election: Election = electionresult as Election;
-                    this.service.get(window.location.origin + "/api/Participants/election/" + election['electionId']).subscribe(result => {
-                        let participantResult = result as Participant[];
-                        election.nbParticipant = participantResult.length;
-                    }, error => console.error(error));
-
-                    this.listeElections.push(election);
-                    console.log(election);
-                }, error => console.error(error));
-            }
-        }, error => console.error(error));
+        this.httpRequest.getParticipantsByUser(this.connectedAccount).then(
+            participantData => {
+                let participants: Participant[] = participantData as Participant[];
+                participants.forEach(p => {
+                    this.httpRequest.getElectionById(p['electionId']).then(
+                        electionData => {
+                            let election: Election = electionData as Election
+                            this.httpRequest.getParticipantsByElection(election).then(
+                                participantsData => {
+                                    let participants: Participant[] = participantsData as Participant[]
+                                    election.nbParticipant = participants.length
+                                    this.listeElections.push(election);
+                                }, error => { console.log(error) }
+                            );
+                        }, error => {console.log(error)}
+                    );
+                });
+            }, error => {console.log(error)}
+        );
     }
 
     MesElections() {
@@ -85,16 +90,17 @@ export class MyElectionsComponent implements OnInit {
     }
 
     rajouterElections(codeInput: string) {
-        this.service.get(window.location.origin + "/api/Elections/code/" + codeInput).subscribe(result => {
-            this.listeElections.push(result as Election);
-            this.service.post(window.location.origin + "/api/Participants", {
-                'UserId': this.connectedAccount['userId'],
-                'ElectionId': result['electionId'],
-                'HasTalked': false
-            }).subscribe(participantResult => {
-                this.hubConnection.send("changeParticipants", Number(result['electionId']), Number(result['electionPhaseId']));
-            }, error => console.log(error));
-        }, error => console.error(error));
+
+        let newElection;
+        this.httpRequest.getElectionByCode(codeInput).then(
+            election => {
+                newElection = election
+                this.listeElections.push(election as Election);
+                let userAsNewParticipant: Participant = { user: this.connectedAccount, election: newElection, voteCounter: 0, hasTalked: false }
+                this.httpRequest.createParticipant(userAsNewParticipant);
+                this.hubConnection.send("changeParticipants", Number(newElection['electionId']), Number(newElection['electionPhaseId']));
+            }, error => {console.log(error)}
+        );
     }
 
     Navigate(id: number) {
