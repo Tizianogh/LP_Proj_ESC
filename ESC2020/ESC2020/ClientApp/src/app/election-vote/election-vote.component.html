@@ -51,20 +51,29 @@
                 <div class="card-body scroll">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <div class="participants mx-3" *ngFor="let user of listeUsers">
+                            <div class="participants mx-1" *ngFor="let user of listeUsers">
                                 <div (click)="actualParticipant(user, user.birthDate)">
                                     <div (click)="changeColor(user.userId)" class="my-2">
-                                        <img class="participantIcon" id="userId{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
-                                        <div class="participantName" (ngInit)="Init()">
-                                            {{user.firstName}} {{user.lastName}}
+                                        <div class="row text-center">
+                                            <div class="col-md-12">
+                                                <img class="participantIcon" id="userId{{user.userId}}" src="data:image/png;base64,{{user.avatar}}" height="80" />
+                                            </div>
+                                        </div>
 
-                                            <div *ngIf="HasUserTalked(user); then ThenBlock else ElseBlock;"></div>
-                                            <ng-template #ElseBlock>
-                                                <span class="badge badge-pill badge-danger" style="font-size: 7px;"> &nbsp; </span>
-                                            </ng-template>
-                                            <ng-template #ThenBlock>
-                                                <span class="badge badge-pill badge-success" style="font-size: 7px;"> &nbsp; </span>
-                                            </ng-template>
+                                        <div class="row text-center">
+                                            <div class="col-md-12">
+                                                <div class="participantName" (ngInit)="Init()">
+                                                    {{user.firstName}} {{user.lastName}}
+
+                                                    <div *ngIf="HasUserTalked(user); then ThenBlock else ElseBlock;"></div>
+                                                    <ng-template #ElseBlock>
+                                                        <span class="badge badge-pill badge-danger" style="font-size: 7px;"> &nbsp; </span>
+                                                    </ng-template>
+                                                    <ng-template #ThenBlock>
+                                                        <span class="badge badge-pill badge-success" style="font-size: 7px;"> &nbsp; </span>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +107,7 @@
 
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <label class="poste" style="cursor: pointer;">
+                            <label class="poste">
                                 Poste :
                             </label>
                             {{currentUser.Job}}
@@ -107,7 +116,7 @@
 
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <label class="poste" style="cursor: pointer;">
+                            <label class="poste">
                                 Age :
                             </label>
                             {{age}} ans
@@ -116,7 +125,7 @@
 
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <label class="poste" style="cursor: pointer;">
+                            <label class="poste">
                                 Mini Biographie :
                             </label>
                             {{currentUser.Description}}
