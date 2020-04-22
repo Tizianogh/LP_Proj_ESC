@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace ESC2020.Tests {
-   [TestClass]
-   public class ElecControllerTest {
+    [TestClass]
+    public class ElecControllerTests {
         [TestMethod]
-        public void GetElection() {
+        public void getElection() {
             #region ARRANGE
             int electionId = 1;
             string job = "test";
@@ -21,19 +21,17 @@ namespace ESC2020.Tests {
             var controller = InMemoryBD.GetAuthDBElec(electionId, job, mission, responsability, startDate, endDate, codeElection);
             #endregion
 
-            #region TODO
+            #region ACT
             var election = controller.Getelec().Result;
             #endregion
 
-            #region ACT
+            #region ASSERT
             Console.WriteLine("election : " + election);
             Console.WriteLine("enumerator : " + election.GetEnumerator());
             election.GetEnumerator().MoveNext();
             Console.WriteLine("current : " + election.GetEnumerator().Current);
-            
-            
-            Assert.IsNotNull(election, "Election vide !"); 
-          
+
+            Assert.IsNotNull(election, "Election vide !");
             #endregion
         }
     }

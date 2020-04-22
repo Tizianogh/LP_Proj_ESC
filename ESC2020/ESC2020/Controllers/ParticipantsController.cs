@@ -8,46 +8,39 @@ using Microsoft.EntityFrameworkCore;
 using ESC2020.Model;
 using System.Diagnostics;
 
-namespace ESC2020.Controllers
-{
+namespace ESC2020.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParticipantsController : ControllerBase
-    {
+    public class ParticipantsController : ControllerBase {
         private readonly ElectionContext _context;
 
-        public ParticipantsController(ElectionContext context)
-        {
+        public ParticipantsController(ElectionContext context) {
             _context = context;
         }
 
         // GET: api/Participants
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipants()
-        {
+        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipants() {
             return await _context.Participants.ToListAsync();
         }
 
         // GET: api/Participants/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByUser(int id)
-        {
+        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByUser(int id) {
             return await _context.Participants.Where(p => p.UserId == id).ToListAsync();
         }
 
         // GET: api/Participants/5/5
         [HttpGet]
         [Route("{userId}/{electionId}")]
-        public async Task<ActionResult<Participant>> GetParticipant(int userId, int electionId)
-        {
+        public async Task<ActionResult<Participant>> GetParticipant(int userId, int electionId) {
             return await _context.Participants.Where(p => p.UserId == userId && p.ElectionId == electionId).FirstOrDefaultAsync();
         }
 
         // GET: api/Participants/id
         [HttpGet]
         [Route("election/{id}")]
-        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByElection(int id)
-        {
+        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantByElection(int id) {
             return await _context.Participants.Where(p => p.ElectionId == id).ToListAsync();
         }
 
@@ -55,28 +48,22 @@ namespace ESC2020.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{userId}/{electionId}")]
-        public async Task<IActionResult> PutParticipant(int userId, int electionId, Participant participant)
-        {
-            if ((userId != participant.UserId) && (electionId != participant.ElectionId))
-            {
+        public async Task<IActionResult> PutParticipant(int userId, int electionId, Participant participant) {
+            if ((userId != participant.UserId) && (electionId != participant.ElectionId)) {
                 return BadRequest();
             }
 
             _context.Entry(participant).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException) 
-            {
+            catch (DbUpdateConcurrencyException) {
                 Debug.WriteLine("");
-                if (!ParticipantExists(userId, electionId))
-                {
+                if (!ParticipantExists(userId, electionId)) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -88,21 +75,16 @@ namespace ESC2020.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Participant>> PostParticipant(Participant participant)
-        {
+        public async Task<ActionResult<Participant>> PostParticipant(Participant participant) {
             _context.Participants.Add(participant);
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
-            {
-                if (ParticipantExists(participant.UserId, participant.ElectionId))
-                {
+            catch (DbUpdateException) {
+                if (ParticipantExists(participant.UserId, participant.ElectionId)) {
                     return Conflict();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -112,11 +94,9 @@ namespace ESC2020.Controllers
 
         // DELETE: api/Participants/5
         [HttpDelete("{userId}/{electionId}")]
-        public async Task<ActionResult<Participant>> DeleteParticipant(int userId, int electionId)
-        {
+        public async Task<ActionResult<Participant>> DeleteParticipant(int userId, int electionId) {
             var participant = await _context.Participants.FindAsync(userId, electionId);
-            if (participant == null)
-            {
+            if (participant == null) {
                 return NotFound();
             }
 
@@ -126,8 +106,7 @@ namespace ESC2020.Controllers
             return participant;
         }
 
-        private bool ParticipantExists(int userId, int electionId) 
-        {
+        private bool ParticipantExists(int userId, int electionId) {
             return _context.Participants.Any(e => e.UserId == userId && e.ElectionId == electionId);
         }
     }

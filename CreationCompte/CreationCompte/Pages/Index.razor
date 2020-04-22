@@ -222,7 +222,7 @@
 
     private async Task createUser(string jsonUser) {
 
-        List<Object> users = await Http.GetJsonAsync<List<Object>>("https://localhost:44329/api/Users");
+        List<Object> users = await Http.GetJsonAsync<List<Object>>("https://localhost:44318/api/Users");
         int countEqual = 0;
         for(int i = 0; i < users.Count; i++) {
             String userLine = users[i].ToString();
@@ -233,7 +233,7 @@
             }
         }
         if(countEqual == 0) {
-            await Http.PostJsonAsync("https://localhost:44329/api/Users", jsonUser);
+            await Http.PostJsonAsync("https://localhost:44318/api/Users", jsonUser);
             await jsRuntime.InvokeAsync<object>("alert", "Le compte a bien été créé !");
             querySend = false;
         }

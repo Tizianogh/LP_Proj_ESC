@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESC2020.Tests {
     [TestClass]
-    public class AuthControllerTest {
+    public class AuthControllerTests {
         [TestMethod]
-        public void VerifyEmailAndPassword() {
+        public void verifyEmailAndPassword() {
             #region ARRANGE
             int id = 1;
             string email = "tiziano@gmail.com";
@@ -27,18 +27,18 @@ namespace ESC2020.Tests {
             var controller = InMemoryBD.GetAuthDBAuth(id, email, password, salt, birthDate, description, firtsName, lastName, job);
             #endregion
 
-            #region TODO
+            #region ACT
             var user = controller.GetUser(email, "azertyuiop").Result;
             #endregion
 
-            #region ACT
+            #region ASSERT
             Assert.IsNotNull(user, "Le user n'existe pas !");
             Assert.AreEqual(email, user.Email, "L'email de l'utilisateur n'existe pas !");
             #endregion
         }
 
         [TestMethod]
-        public void VerifyId() {
+        public void verifyId() {
             #region ARRANGE
             int id = 2;
             string email = "tiziano2@gmail.com";
@@ -53,11 +53,11 @@ namespace ESC2020.Tests {
             var controller = InMemoryBD.GetAuthDBAuth(id, email, password, salt, birthDate, description, firtsName, lastName, job);
             #endregion
 
-            #region TODO
+            #region ACT
             var userById = controller.GetUsers(id).Result;
             #endregion
 
-            #region ACT
+            #region ASSERT
             Assert.AreEqual(id, userById.UserId, "L'id de l'utilisateur n'existe pas !");
             #endregion
         }

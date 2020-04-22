@@ -5,20 +5,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ESC2020Tests {
     [TestClass]
-    public class HashFunctionTests {
+    public class PasswordGeneratorTests {
         [TestMethod]
         public void saltPattern() {
             #region ARRANGE
             string pattern = "^[0-9A-F]{32}$";
             Regex rgx = new Regex(pattern);
-            #endregion
-
-            #region TODO
-            string salt = HashFunction.generateRandomSalt();
-            bool isMatch = rgx.IsMatch(salt);
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
             #region ACT
+            string salt = generator.generateSalt();
+            bool isMatch = rgx.IsMatch(salt);
+            #endregion
+
+            #region ASSERT
             Assert.IsTrue(isMatch);
             #endregion
         }
@@ -30,14 +31,15 @@ namespace ESC2020Tests {
             string salt = "6C3C9D7AE83E66A08DFC1B8EB3078DA4";
             string pattern = "^[0-9A-F]{64}$";
             Regex rgx = new Regex(pattern);
-            #endregion
-
-            #region TODO
-            string hashedPassword = HashFunction.hashPassword(password, salt);
-            bool isMatch = rgx.IsMatch(hashedPassword);
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
             #region ACT
+            string hashedPassword = generator.hash(password, salt);
+            bool isMatch = rgx.IsMatch(hashedPassword);
+            #endregion
+
+            #region ASSERT
             Assert.IsTrue(isMatch);
             #endregion
         }
@@ -48,13 +50,14 @@ namespace ESC2020Tests {
             string password = "azertyuiop";
             string salt = "6C3C9D7AE83E66A08DFC1B8EB3078DA4";
             string expectedHashedPassword = "33DA1B3B89A4603A8C3F0A2F5938A9A44F08E7C32BA8FE57D9F237E48EE7606F";
-            #endregion
-
-            #region TODO
-            string hashedPassword = HashFunction.hashPassword(password, salt);
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
             #region ACT
+            string hashedPassword = generator.hash(password, salt);
+            #endregion
+
+            #region ASSERT
             Assert.AreEqual(expectedHashedPassword, hashedPassword);
             #endregion
         }
@@ -65,13 +68,14 @@ namespace ESC2020Tests {
             string password = "azertyuiop";
             string hashedPassword = "33DA1B3B89A4603A8C3F0A2F5938A9A44F08E7C32BA8FE57D9F237E48EE7606F";
             string salt = "6C3C9D7AE83E66A08DFC1B8EB3078DA4";
-            #endregion
-
-            #region TODO
-            bool isValid = HashFunction.verifyPassword(password, hashedPassword, salt);
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
             #region ACT
+            bool isValid = generator.verify(password, hashedPassword, salt);
+            #endregion
+
+            #region ASSERT
             Assert.IsTrue(isValid);
             #endregion
         }
@@ -82,13 +86,14 @@ namespace ESC2020Tests {
             string password = "12345";
             string hashedPassword = "33DA1B3B89A4603A8C3F0A2F5938A9A44F08E7C32BA8FE57D9F237E48EE7606F";
             string salt = "6C3C9D7AE83E66A08DFC1B8EB3078DA4";
-            #endregion
-
-            #region TODO
-            bool isValid = HashFunction.verifyPassword(password, hashedPassword, salt);
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
             #region ACT
+            bool isValid = generator.verify(password, hashedPassword, salt);
+            #endregion
+
+            #region ASSERT
             Assert.IsFalse(isValid);
             #endregion
         }
@@ -99,13 +104,14 @@ namespace ESC2020Tests {
             string password = "azertyuiop";
             string hashedPassword = "33DA1B3B89A4603A8C3F0A2F5938A9A44F08E7C32BA8FE57D9F237E48EE7606F";
             string salt = "9999B2932C74629E96D7D97045DB60C0";
-            #endregion
-
-            #region TODO
-            bool isValid = HashFunction.verifyPassword(password, hashedPassword, salt);
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
             #region ACT
+            bool isValid = generator.verify(password, hashedPassword, salt);
+            #endregion
+
+            #region ASSERT
             Assert.IsFalse(isValid);
             #endregion
         }
@@ -116,19 +122,20 @@ namespace ESC2020Tests {
             #region ARRANGE
             string password = null;
             string salt = null;
-            NullReferenceException exception = null;
+            ArgumentNullException exception = null;
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
-            #region TODO
+            #region ACT
             try {
-                HashFunction.hashPassword(password, salt);
+                generator.hash(password, salt);
             }
-            catch (NullReferenceException e) {
+            catch (ArgumentNullException e) {
                 exception = e;
             }
             #endregion
 
-            #region ACT
+            #region ASSERT
             Assert.IsNotNull(exception);
             #endregion
         }
@@ -139,19 +146,20 @@ namespace ESC2020Tests {
             string password = null;
             string hashedPassword = null;
             string salt = null;
-            NullReferenceException exception = null;
+            ArgumentNullException exception = null;
+            PasswordGenerator generator = new PasswordGenerator();
             #endregion
 
-            #region TODO
+            #region ACT
             try {
-                HashFunction.verifyPassword(password, hashedPassword, salt);
+                generator.verify(password, hashedPassword, salt);
             }
-            catch (NullReferenceException e) {
+            catch (ArgumentNullException e) {
                 exception = e;
             }
             #endregion
 
-            #region ACT
+            #region ASSERT
             Assert.IsNotNull(exception);
             #endregion
         }
