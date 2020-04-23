@@ -5,6 +5,10 @@
     width: auto;
 }
 
+#divChat{
+    background-color:white;
+}
+
     .chat li {
         margin-bottom: 10px;
         padding-bottom: 5px;
