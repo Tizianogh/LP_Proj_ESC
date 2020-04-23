@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { Users } from '../Model/Users';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
-import { partition } from 'rxjs';
-import { async } from '@angular/core/testing';
 import * as signalR from "@microsoft/signalr";
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
@@ -21,14 +18,13 @@ export class MyElectionsComponent implements OnInit {
 
     private connected: boolean;
     private connectedAccount: Users;
-    private electionId: number;
     public listeElections: Election[] = [];
-    private listeParticipants: Participant[] = [];
+
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
         .build();
 
-    constructor(private authentificationService: AuthentificationService, private service: HttpClient, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService) { }
+    constructor(private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);

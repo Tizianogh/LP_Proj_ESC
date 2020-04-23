@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
@@ -36,11 +35,12 @@ export class ObjectionsComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
     propositions: Proposition[] = [];
+
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private service: HttpClient, private authentificationService: AuthentificationService, private electionService: ElectionService) { }
+    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService) { }
 
     ngOnInit() {
         this.setOnSignalReceived();
@@ -48,8 +48,6 @@ export class ObjectionsComponent implements OnInit {
 
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
-
 
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
 
@@ -203,7 +201,7 @@ export class ObjectionsComponent implements OnInit {
                     if (tempObjectionsList[i]['concernedId'] == this.actualProposed['userId'] && !this.alreadyInObjections(tempObjectionsList[i]))
                         this.objectionsList.push(tempObjectionsList[i])
                 }
-            },error => console.log(error)
+            }, error => console.log(error)
         );
     }
 
@@ -230,31 +228,26 @@ export class ObjectionsComponent implements OnInit {
                         this.httpRequest.createNotification(newNotification);
                         this.objectionsList = []
                         this.updateParticipantForVote();
-                    },error => console.log(error)
+                    }, error => console.log(error)
                 )
             }, error => console.log(error)
         );
     }
 
     updateParticipantForVote() {
-        this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantsResult => {
-            this.participantsList = participantsResult as Participant[]
-            for (let i = 0; i < this.participantsList.length; i++) {
-                this.service.put(window.location.origin + "/api/Participants/" + this.participantsList[i]['userId'] + "/" + this.election['electionId'], {
-                    "UserId": this.participantsList[i]['userId'],
-                    "ElectionId": this.election['electionId'],
-                    "HasTalked": false,
-                    "VoteCounter": this.participantsList[i]["voteCounter"]
-                }).subscribe(result => {
-                    this.hubConnection.send("nextParticipant", this.election["electionId"]);
-                }, error => console.log(error));
-            }
-        }, error => console.log(error));
+        this.httpRequest.getParticipantsByElection(this.election).then(
+            participantData => {
+                let participants = participantData as Participant[];
+                participants.forEach(participant => {
+                    participant.hasTalked = false;
+                    this.httpRequest.updateParticipant(participant);
+                });
+                this.hubConnection.send("nextParticipant", this.election["electionId"]);
+            }, error => { console.log(error) } 
+        );
     }
 
     acceptCandidate() {
-
-        //Remise a hasTalked : false non necessaire 
         this.httpRequest.getParticipantsByElection(this.election).then(
             participantsData => {
                 this.participantsList = participantsData as Participant[];
@@ -268,7 +261,6 @@ export class ObjectionsComponent implements OnInit {
                 })
             }
         )
-
         this.httpRequest.getPhasesById(4).then(
             phase4 => {
                 let anElection = this.election;

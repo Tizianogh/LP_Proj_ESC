@@ -52,7 +52,7 @@
 
 
 <div class="description" id="selectParticipant">
-    <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.LastName}} {{currentUser.FirstName}}</b></label>
+    <label id="participantName" class="d-flex justify-content-center"><b>{{currentUser.lastName}} {{currentUser.firstName}}</b></label>
 
     <div *ngIf="election['hostId'] == connectedAccount.userId && election['hostId'] != currentUser.userId; then ThenBlock2 else ElseBlock2"></div>
     <ng-template #ElseBlock2>
@@ -62,16 +62,16 @@
         <button id="exclude" type="submit" class="btn btn-primary" (click)="Exclude(currentUser.userId)">Exclure</button>
     </ng-template>
 
-    <label id="participantJob" class="d-flex justify-content-start"> Poste : {{currentUser.Job}}</label>
+    <label id="participantJob" class="d-flex justify-content-start"> Poste : {{currentUser.job}}</label>
     <label id="participantAge" class="d-flex justify-content-start">Age : {{age}}</label>
 
-    <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentUser.Description}}</label>
+    <label id="participantDescription" class="d-flex justify-content-start">  Mini Biographie : {{currentUser.description}}</label>
 
     <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
     <ng-template #ElseBlock3>
-        <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
+        <textarea class="form-control d-flex justify-content-center" [(ngModel)]="textEntered" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
         <div class="col text-center">
-            <button id="voteBtn" type="submit" class="btn btn-primary" (click)="Revote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
+            <button id="voteBtn" type="submit" class="btn btn-primary" [disabled]="!textEntered" (click)="Revote()">Voter pour {{currentUser.firstName}} {{currentUser.lastName}} ?</button>
         </div>
     </ng-template>
     <ng-template #ThenBlock3>

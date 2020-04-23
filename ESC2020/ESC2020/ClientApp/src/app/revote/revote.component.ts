@@ -1,11 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
 import { Phase } from '../Model/Phase';
-import { DatePipe } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
@@ -26,7 +26,6 @@ export class RevoteComponent implements OnInit {
 
     private connected: boolean;
     public connectedAccount: Users = new Users();
-    private electionId: string;
     private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = [];
     currentUser: Users = new Users();
@@ -42,7 +41,7 @@ export class RevoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) { }
+    constructor(private httpRequest: HTTPRequestService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -291,31 +290,31 @@ export class RevoteComponent implements OnInit {
                     p.hasTalked = false;
                     p.election = this.election;
                     this.httpRequest.updateParticipant(p).then(
-                        updatedParticipantData => { }, error => { console.log(error) }
+                        () => {
+                            this.httpRequest.getPhasesById(3).then(
+                                phase3 => {
+                                    let anElection = this.election;
+                                    anElection.phase = phase3 as Phase;
+                                    this.httpRequest.updateElection(anElection).then(
+                                        () => {
+                                            let newNotification: Notification = {
+                                                message: "Début de la phase d'objections pour le poste de " + this.election.job + '.',
+                                                date: new Date(),
+                                                election: this.election as Election
+                                            };
+                                            this.httpRequest.createNotification(newNotification).then(
+                                                notification => {
+                                                    this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                                                }, error => { console.log(error) }
+                                            );
+                                        }, error => { console.log(error) }
+                                    );
+                                }, error => { console.log(error) }
+                            );
+                        }, error => { console.log(error) }
                     );
                 })
             }
         )
-
-        this.httpRequest.getPhasesById(3).then(
-            phase3 => {
-                let anElection = this.election;
-                anElection.phase = phase3 as Phase;
-                this.httpRequest.updateElection(anElection).then(
-                    () => {
-                        let newNotification: Notification = {
-                            message: "Début de la phase d'objections pour le poste de " + this.election.job + '.',
-                            date: new Date(),
-                            election: this.election as Election
-                        };
-                        this.httpRequest.createNotification(newNotification).then(
-                            notification => {
-                                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                            }, error => { console.log(error) }
-                        );
-                    }, error => { console.log(error) }
-                );
-            }, error => { console.log(error) }
-        );
     }
 }

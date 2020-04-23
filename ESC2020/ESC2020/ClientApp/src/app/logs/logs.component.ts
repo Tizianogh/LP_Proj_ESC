@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Log } from '../Model/Log';
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Users } from '../Model/Users';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { AuthentificationService } from '../services/authentification.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class LogsComponent implements OnInit {
 
     public logList: Log[] = [];
 
-    constructor(private location: Location, private service: HttpClient, private navBarStateService: NavBarStateService, private router: Router) {}
+    constructor(private httpRequest: HTTPRequestService, private location: Location, private navBarStateService: NavBarStateService, private router: Router) { }
 
     ngOnInit() {
         this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
@@ -98,64 +98,74 @@ export class LogsComponent implements OnInit {
     }
 
     getNotifications() {
-        this.service.get(window.location.origin + "/api/Notifications/FromElection/" + this.router.url.split('/')[2]).subscribe(result => {
-            this.allListNotifs = result as Log[];
-            for (let i in this.allListNotifs) {
-                let datePubli: string = this.allListNotifs[i]['dateNotification'];
-                this.notificationPush(this.allListNotifs[i]['message'], "",
-                    new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
-            }
-        }, error => console.error(error));
+        this.httpRequest.getNotifications(Number(this.router.url.split('/')[2])).then(
+            notificationsData => {
+                this.allListNotifs = notificationsData as Log[];
+                for (let i in this.allListNotifs) {
+                    let datePubli: string = this.allListNotifs[i]['dateNotification'];
+                    this.notificationPush(this.allListNotifs[i]['message'], "",
+                        new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                }
+            }, error => console.error(error)
+        );
     }
 
     getOpinions() {
-        this.service.get(window.location.origin + "/api/Opinions/election/" + this.router.url.split('/')[2]).subscribe(result => {
-            this.allListOpinion = result as Log[];
+        this.httpRequest.getOpinions(Number(this.router.url.split('/')[2])).then(
+            opinionsData => {
+                this.allListOpinion = opinionsData as Log[];
 
-            for (let i in this.allListOpinion) {
-                if (this.allListOpinion[i]['typeId'] == 1) {
-                    //vote
-                    let voting: Users;
-                    let voted: Users;
-                    this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['authorId']).subscribe(result => {
-                        voting = result as Users;
-                        this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['concernedId']).subscribe(result => {
-                            voted = result as Users;
-                            let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                            this.votePush(voting["firstName"] + " " + voting["lastName"] + " a voté pour " + voted["firstName"] + " " + voted["lastName"],
-                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
-                        }, error => console.error(error));
-                    }, error => console.error(error));
+                for (let i in this.allListOpinion) {
+                    if (this.allListOpinion[i]['typeId'] == 1) {
+                        //vote
+                        this.httpRequest.getUserById(this.allListOpinion[i]['authorId']).then(
+                            votingUserData => {
+                                let voting = votingUserData as Users;
+                                this.httpRequest.getUserById(this.allListOpinion[i]['concernedId']).then(
+                                    votedUserData => {
+                                        let voted = votedUserData as Users;
+                                        let datePubli: string = this.allListOpinion[i]['dateOpinion'];
+                                        this.votePush(voting["firstName"] + " " + voting["lastName"] + " a voté pour " + voted["firstName"] + " " + voted["lastName"],
+                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                                    }, error => console.error(error)
+                                );
+                            }, error => console.error(error)
+                        );
+                    }
+                    else if (this.allListOpinion[i]['typeId'] == 2) {
+                        //revote
+                        this.httpRequest.getUserById(this.allListOpinion[i]['authorId']).then(
+                            votingUserData => {
+                                let voting = votingUserData as Users;
+                                this.httpRequest.getUserById(this.allListOpinion[i]['concernedId']).then(
+                                    votedUserData => {
+                                        let voted = votedUserData as Users;
+                                        let datePubli: string = this.allListOpinion[i]['dateOpinion'];
+                                        this.votePush(voting["firstName"] + " " + voting["lastName"] + " a modifié son vote afin de voter pour " + voted["firstName"] + " " + voted["lastName"],
+                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                                    }, error => console.error(error)
+                                );
+                            }, error => console.error(error)
+                        );
+                    }
+                    else if (this.allListOpinion[i]['typeId'] == 3) {
+                        //objection
+                        this.httpRequest.getUserById(this.allListOpinion[i]['authorId']).then(
+                            objectingUserData => {
+                                let objecting = objectingUserData as Users;
+                                this.httpRequest.getUserById(this.allListOpinion[i]['concernedId']).then(
+                                    objectedUserData => {
+                                        let objected = objectedUserData as Users;
+                                        let datePubli: string = this.allListOpinion[i]['dateOpinion'];
+                                        this.objectionPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre l'élection de " + objected["firstName"] + " " + objected["lastName"],
+                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                                    }, error => console.error(error)
+                                );
+                            }, error => console.error(error)
+                        );
+                    }
                 }
-                else if (this.allListOpinion[i]['typeId'] == 2) {
-                    //revote
-                    let objecting: Users;
-                    let objected: Users;
-                    this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['authorId']).subscribe(result => {
-                        objecting = result as Users;
-                        this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['concernedId']).subscribe(result => {
-                            objected = result as Users;
-                            let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                            this.votePush(objecting["firstName"] + " " + objecting["lastName"] + " a modifié son vote afin de voter pour " + objected["firstName"] + " " + objected["lastName"],
-                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
-                        }, error => console.error(error));
-                    }, error => console.error(error));
-                }
-                else if (this.allListOpinion[i]['typeId'] == 3) {
-                    //objection
-                    let objecting: Users;
-                    let objected: Users;
-                    this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['authorId']).subscribe(result => {
-                        objecting = result as Users;
-                        this.service.get(window.location.origin + "/api/Users/" + this.allListOpinion[i]['concernedId']).subscribe(result => {
-                            objected = result as Users;
-                            let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                            this.objectionPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre " + objected["firstName"] + " " + objected["lastName"],
-                                this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
-                        }, error => console.error(error));
-                    }, error => console.error(error));
-                }
-            }
-        }, error => console.error(error));
+            }, error => console.error(error)
+        );
     }
 }

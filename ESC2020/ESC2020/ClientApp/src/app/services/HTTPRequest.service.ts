@@ -9,7 +9,7 @@ import { Notification } from '../Model/Notification';
 import { Opinion } from '../Model/Opinion';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root' 
 })
 
 export class HTTPRequestService {
@@ -30,9 +30,15 @@ export class HTTPRequestService {
         });
     }
 
-    public updateElection(updatedElection: Election) {
+    public updateElection(updatedElection: Election, isElectedNull: boolean = false) {
         return new Promise((resolve, reject) => {
             try {
+                let electedId 
+                if (isElectedNull)
+                    electedId = null
+                else 
+                    updatedElection.electedElection == null ? electedId = updatedElection['electedId'] : electedId = updatedElection.electedElection['userId']
+
                 this.service.put(window.location.origin + "/api/Elections/" + updatedElection['electionId'], {
                     "ElectionId": updatedElection.electionId,
                     "Job": updatedElection.job,
@@ -42,7 +48,7 @@ export class HTTPRequestService {
                     "EndDate": updatedElection.endDate,
                     "CodeElection": updatedElection.codeElection,
                     "HostId": updatedElection['hostId'] ,
-                    "ElectedId": updatedElection.electedElection == null ? updatedElection['electedId'] : updatedElection.electedElection['userId'],
+                    "ElectedId": electedId,
                     "ElectionPhaseId": updatedElection.phase == null ? updatedElection['electionPhaseId'] : updatedElection.phase['phaseId']
                 }).subscribe(result => {
                     resolve(result as Election)
@@ -133,6 +139,23 @@ export class HTTPRequestService {
                 });
             } catch (e) {
                 alert("Echec lors de la récupération des utilisateurs de l'élection")
+                reject(e)
+            }
+        });
+    }
+
+    public getUserByMailPassword(mail: string, password: string) {
+        return new Promise((resolve, reject) => {
+            try {
+                // On ne met pas l'email et le mot de passe dans le lien du navigateur
+                const params = new HttpParams()
+                    .set('mail', mail)
+                    .set('password', password);
+                this.service.get(window.location.origin + "/api/Users/connection", { params }).subscribe(result => {
+                    resolve(result as Users[]);
+                });
+            } catch (e) {
+                alert("L'email ou le mot de passe ne correspond pas")
                 reject(e)
             }
         });
@@ -355,7 +378,6 @@ export class HTTPRequestService {
             }
         });
     }
-
 
     // api/Notifications
     public async getNotifications(electionId: number) {

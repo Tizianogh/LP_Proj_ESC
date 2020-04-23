@@ -4,6 +4,7 @@ import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavBarStateService } from '../services/NavBarState.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 
 @Component({
@@ -13,14 +14,12 @@ import { NavBarStateService } from '../services/NavBarState.service';
 })
 export class MyAccountComponent implements OnInit {
     private erreur = "";
-    private listeUsers: Users[] = [];
     private connected: boolean;
     public connectedAccount: Users;
-    private age: number;
     public isReadOnly: boolean = true;
     public image: any;
 
-    constructor(private authentificationService: AuthentificationService, private service: HttpClient, private sanitizer: DomSanitizer, private navBarStateService: NavBarStateService) { }
+    constructor(private httpRequest: HTTPRequestService,private authentificationService: AuthentificationService, private service: HttpClient, private sanitizer: DomSanitizer, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -57,23 +56,14 @@ export class MyAccountComponent implements OnInit {
             }
             //il faudra éventuellement rajouter des vérifications par exemple : une limite de chaine de caractères, pas de nombre dans le nom...
             //remplacement
-            this.service.get(window.location.origin + "/api/Users/" + this.connectedAccount['userId']).subscribe(result => {
-                let userResult: Users = result as Users;
-                this.service.put<Users>(window.location.origin + "/api/Users/" + this.connectedAccount['userId'], {
-                    'UserId': userResult['userId'],
-                    'Email': userResult['email'],
-                    'Password': userResult['password'],
-                    'Salt': userResult['salt'],
-                    'BirthDate': (<HTMLInputElement>document.getElementById("birthDate")).value,
-                    'Description': (<HTMLInputElement>document.getElementById("description")).value,
-                    'Job': (<HTMLInputElement>document.getElementById("job")).value,
-                    'LastName': (<HTMLInputElement>document.getElementById("lastName")).value,
-                    'FirstName': (<HTMLInputElement>document.getElementById("firstName")).value,
-                    'Avatar': this.image
-                }).subscribe(result => {
+
+            let updateUser: Users = { userId: this.connectedAccount.userId, email: this.connectedAccount.email, password: this.connectedAccount.password, salt: this.connectedAccount.salt, birthDate: (<HTMLInputElement>document.getElementById("birthDate")).value, description: (<HTMLInputElement>document.getElementById("description")).value, job: (<HTMLInputElement>document.getElementById("job")).value, lastName: (<HTMLInputElement>document.getElementById("lastName")).value, firstName: (<HTMLInputElement>document.getElementById("firstName")).value, avatar:this.image }
+            this.httpRequest.updateUser(this.connectedAccount.userId, updateUser).then(
+                () => {
                     this.actualize();
-                }, error => console.log(error));
-            }, error => console.log(error));
+                });
+
+
         }
         this.isReadOnly = !this.isReadOnly;
     }
@@ -119,10 +109,12 @@ export class MyAccountComponent implements OnInit {
 
     //Actualise l'affichage après la modification du profil
     actualize() {
-        this.service.get(window.location.origin + "/api/Authentification/" + this.connectedAccount['userId']).subscribe(update => {
-            localStorage.clear();
-            localStorage.setItem('connectedUser', JSON.stringify(update));
-            this.authentificationService.setConnectedAccount(JSON.parse(localStorage.getItem('connectedUser')));
-        }, error => console.log(error));
+        this.httpRequest.getUserById(this.connectedAccount['userId']).then(
+            userData => {
+                localStorage.clear();
+                localStorage.setItem('connectedUser', JSON.stringify(userData));
+                this.authentificationService.setConnectedAccount(JSON.parse(localStorage.getItem('connectedUser')));
+            }, error => console.log(error)
+        );
     }
 }

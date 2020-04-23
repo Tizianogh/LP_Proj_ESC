@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
-import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 import * as signalR from "@microsoft/signalr";
@@ -40,7 +38,7 @@ export class ElectionVoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private service: HttpClient, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
+    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -170,7 +168,7 @@ export class ElectionVoteComponent implements OnInit {
                 participantData => {
                     let participant = participantData as Participant;
                     let updatedParticipant: Participant = { user: this.connectedAccount, election: this.election, hasTalked: true, voteCounter: participant.voteCounter + 1 }
-                    this.httpRequest.updateParticipant(this.election, updatedParticipant).then(
+                    this.httpRequest.updateParticipant( updatedParticipant).then(
                         () => {
                             this.navBarStateService.SetLogsVisible(true);
                             this.hubConnection.send("userHasVoted", this.election.electionId, Number(this.election['electionPhaseId']));
@@ -191,7 +189,7 @@ export class ElectionVoteComponent implements OnInit {
                         hasTalked: true,
                         voteCounter: participant.voteCounter
                     }
-                    this.httpRequest.updateParticipant(this.election, updatedParticipant)
+                    this.httpRequest.updateParticipant(updatedParticipant)
                 }, error => { console.log(error) }
             );
 
@@ -207,7 +205,7 @@ export class ElectionVoteComponent implements OnInit {
                         hasTalked: participant.hasTalked,
                         voteCounter: participant.voteCounter + 1
                     }
-                    this.httpRequest.updateParticipant(this.election, updatedParticipant).then(
+                    this.httpRequest.updateParticipant(updatedParticipant).then(
                         participant => {
                             this.hubConnection.send("userHasVoted", this.election.electionId, Number(this.election['electionPhaseId']))
                         });
@@ -239,7 +237,7 @@ export class ElectionVoteComponent implements OnInit {
                 this.listeParticipants.forEach(p => {
                     p.hasTalked = false;
                     p.election = this.election;
-                    this.httpRequest.updateParticipant(this.election, p).then(
+                    this.httpRequest.updateParticipant(p).then(
                         updatedParticipantData => {}, error => { console.log(error) }
                     );
                 })

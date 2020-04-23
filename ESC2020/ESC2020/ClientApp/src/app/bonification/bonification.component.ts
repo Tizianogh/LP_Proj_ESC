@@ -46,8 +46,6 @@ export class BonificationComponent implements OnInit {
         this.hubConnection.start().catch(err => console.log(err));
     }
 
- 
-
     mainRequest() {
         this.getConnectedParticipant();
         this.checkHost();
@@ -83,13 +81,12 @@ export class BonificationComponent implements OnInit {
             this.httpRequest.getUserById(this.election['electedId']).then(
                 userData => {
                     this.actualElected = userData as Users;
-                },error => console.log(error)
+                }, error => console.log(error)
             );
         }
     }
 
     refus() {
-
         this.httpRequest.getTypeOpininionsById(2).then(
             typeOpinion => {
                 let revote: Opinion = {
@@ -107,11 +104,7 @@ export class BonificationComponent implements OnInit {
                     date: new Date(),
                     election: this.election as Election
                 };
-                this.httpRequest.createNotification(newNotification).then(
-                    () => {
-                        this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                    }, error => { console.log(error) }
-                );
+                this.httpRequest.createNotification(newNotification)
             }, error => console.log(error)
         );
 
@@ -124,32 +117,30 @@ export class BonificationComponent implements OnInit {
                         this.httpRequest.getParticipantsByElection(this.election).then(
                             participantsData => {
                                 let participantsList: Participant[] = participantsData as Participant[];
-
                                 participantsList.forEach(participant => {
                                     participant.hasTalked = false;
                                     this.httpRequest.updateParticipant(participant).then(
                                         () => {
                                             this.httpRequest.getPhasesById(3).then(
-                                                phase5 => {
+                                                phase3 => {
                                                     let anElection = this.election;
-                                                    anElection.phase = phase5 as Phase;
-                                                    anElection.electedElection = this.actualElected,
-
-                                                    this.httpRequest.updateElection(anElection).then(
+                                                    anElection.phase = phase3 as Phase;
+                                                    anElection.electedElection = this.actualElected;
+                                                    this.httpRequest.updateElection(anElection, true).then(
                                                         () => {
                                                             this.hubConnection.send("updatePhase", Number(this.election['electionId']));
                                                         }, error => console.log(error)
-                                                    ); 
-                                                }, error => { console.log(error) }
+                                                    );
+                                                }, error => console.log(error)
                                             );
                                         }
                                     );
                                 });
                             }, error => console.log(error)
                         );
-                    },error=>console.log(error)
+                    }, error => console.log(error)
                 )
-            },error =>console.log(error)
+            }, error => console.log(error)
         );
     }
 
@@ -161,20 +152,20 @@ export class BonificationComponent implements OnInit {
                 anElection.phase = phase5 as Phase;
                 anElection.electedElection = this.actualElected,
 
-                this.httpRequest.updateElection(anElection).then(
-                    () => {
-                        let newNotification: Notification = {
-                            message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
-                            date: new Date(),
-                            election: this.election as Election
-                        };
-                        this.httpRequest.createNotification(newNotification).then(
-                            () => {
-                                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                            }, error => { console.log(error) }
-                        );
-                    }, error => { console.log(error) }
-                );
+                    this.httpRequest.updateElection(anElection).then(
+                        () => {
+                            let newNotification: Notification = {
+                                message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
+                                date: new Date(),
+                                election: this.election as Election
+                            };
+                            this.httpRequest.createNotification(newNotification).then(
+                                () => {
+                                    this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                                }, error => { console.log(error) }
+                            );
+                        }, error => { console.log(error) }
+                    );
             }, error => { console.log(error) }
         );
     }

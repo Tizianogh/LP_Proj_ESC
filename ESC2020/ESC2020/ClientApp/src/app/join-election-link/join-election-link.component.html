@@ -1,14 +1,29 @@
+
 <div class="container-fluid">
-    <div class="row text-center">
-        <div class="col">
-            <h2 id="titre" class="d-flex justify-content-center">Voulez-vous joindre l'élection suivante ?</h2>
+
+    <div *ngIf="alreadyJoined; then thenBlock else elseBlock"></div>
+
+    <ng-template #thenBlock>
+        <div class="row text-center">
+            <div class="col">
+                <h2 id="titre" class="d-flex justify-content-center">Vous participez déjà à l'élection suivante.</h2>
+            </div>
         </div>
-    </div>
+    </ng-template>
+
+    <ng-template #elseBlock>
+        <div class="row text-center">
+            <div class="col">
+                <h2 id="titre" class="d-flex justify-content-center">Voulez-vous joindre l'élection suivante ?</h2>
+            </div>
+        </div>
+    </ng-template>
+
 
     <div class="row text-center mt-5">
         <div class="col-md-4 pb-5">
-            <p id="name">{{connectedAccount.LastName | titlecase }} {{connectedAccount.FirstName | titlecase}}</p>
-            <img class="img-fluid" id="{{connectedAccount.UserId}}" src="data:image/png;base64,{{connectedAccount.Avatar}}" />
+            <p id="name">{{connectedAccount.lastName | titlecase }} {{connectedAccount.firstName | titlecase}}</p>
+            <img class="img-fluid" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" />
         </div>
 
         <div class="col-md-8 ">
@@ -17,7 +32,7 @@
                     <label>Poste de l'élu</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
-                    <p> {{election.poste}}</p>
+                    <p> {{election.job}}</p>
                 </div>
             </div>
 
@@ -26,7 +41,7 @@
                     <label>Ses missions</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
-                    <p>{{election.missions}}</p>
+                    <p>{{election.mission}}</p>
                 </div>
             </div>
 
@@ -35,7 +50,7 @@
                     <label>Ses responsabilités</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
-                    <p>{{election.responsabilite}}</p>
+                    <p>{{election.responsability}}</p>
                 </div>
             </div>
 
@@ -44,7 +59,7 @@
                     <label>Date de début de mandat</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
-                    <p> {{election.dateD |  date:'shortDate'}}</p>
+                    <p> {{election.startDate |  date:'shortDate'}}</p>
                 </div>
             </div>
 
@@ -53,15 +68,25 @@
                     <label> Date de fin de mandat</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
-                    <p> {{election.dateF |  date:'shortDate'}}</p>
+                    <p> {{election.endDate |  date:'shortDate'}}</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row text-center my-5">
-        <div class="col">
-            <button id="send" (click)="submit()">Rejoindre</button>
+    <div *ngIf="alreadyJoined; then cantJoin else canJoin"></div>
+    <ng-template #canJoin>
+        <div class="row text-center my-5">
+            <div class="col">
+                <button id="send" (click)="submit()">Rejoindre</button>
+            </div>
         </div>
-    </div>
-</div>
+    </ng-template>
+    <ng-template #cantJoin>
+        <div class="row text-center my-5">
+            <div class="col">
+                Vous avez déjà rejoint l'élection
+            </div>
+        </div>
+    </ng-template>
+</div> 

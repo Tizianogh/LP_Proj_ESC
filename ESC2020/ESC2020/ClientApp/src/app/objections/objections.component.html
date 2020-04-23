@@ -32,9 +32,9 @@
         <div>
             <div *ngIf="connectedParticipant['hasTalked']; then cantVote else canVote"></div>
             <ng-template #canVote>
-                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre objection..." rows="4"></textarea> <br />
+                <textarea class="form-control d-flex justify-content-center" id="argumentaires" [(ngModel)]="textEntered" placeholder="Argumentez votre objection..." rows="4"></textarea> <br />
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-primary" (click)="objection()">Objecter contre {{actualProposed['firstName']}} {{actualProposed['lastName']}} ?</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!textEntered" (click)="objection()">Objecter contre {{actualProposed['firstName']}} {{actualProposed['lastName']}} ?</button>
                     <button type="submit" class="btn btn-primary" (click)="endObjection()">Pas/Plus d'objections ?</button>
                     <br />
                     <br />

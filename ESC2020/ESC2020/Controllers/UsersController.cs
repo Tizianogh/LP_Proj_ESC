@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using ESC2020.Utils;
 
 namespace ESC2020.Model
 {
@@ -65,6 +66,26 @@ namespace ESC2020.Model
                 }
             }
             return users;
+        }
+
+        // GET: api/Users/connection/5
+        [HttpGet]
+        [Route("connection")]
+        public async Task<ActionResult<Users>> GetUserMailPassword(string mail, string password)
+        {
+            List<Users> users = await _context.User.ToListAsync();
+            foreach (Users user in users)
+            {   //Si il trouve un user avec l'email envoyé
+                if (user.Email.Equals(mail))
+                {
+                    //Si le mot de passe correspond au mot de passe envoyé
+                    if(HashFunction.verifyPassword(password, user.Password, user.Salt))
+                    {
+                        return user;
+                    }
+                }
+            }
+            return NotFound();
         }
 
 
