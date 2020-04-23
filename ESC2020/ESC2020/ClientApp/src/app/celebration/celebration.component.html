@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-     <div class="row mt-5 justify-content-center">
+    <div class="row mt-5 justify-content-center">
         <div class="col-md-4 mb-5 mb-md-0 text-center">
             <img class="img-fluid" src="assets/img/celebration2.gif" width="400px">
         </div>
@@ -30,7 +30,18 @@
         <div class="col-md-4 mt-5 mt-md-0 text-center">
             <img class="img-fluid" src="assets/img/celebration2.gif" width="400px">
         </div>
-     </div>
+        <div *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock2 else ElseBlock2"></div>
+        <ng-template #ElseBlock2>
+
+        </ng-template>
+        <ng-template #ThenBlock2>
+            <div class="row text-center mt-5">
+                <button id="send" type="button" class="btn mb-xl-5" (click)="sendAll()">Envoyer un récapitulatif par mail à tous les participants</button>
+            </div>
+        </ng-template>
+
+
+    </div>
 
 </div>
 
@@ -55,14 +66,14 @@
             </div> <br /><br />
             <div *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock2 else ElseBlock2"></div>
             <ng-template #ElseBlock2>
-                
+
             </ng-template>
             <ng-template #ThenBlock2>
                 <div class="row text-center mt-5">
                     <button id="send" type="button" class="btn mb-xl-5" (click)="sendAll()">Envoyer un récapitulatif par mail à tous les participants</button>
                 </div>
             </ng-template>
-            
+
         </div>
         <div class="col-sm-5 align-self-center">
             <img class="img-fluid" src="assets/img/celebration.gif" width="1000px">
