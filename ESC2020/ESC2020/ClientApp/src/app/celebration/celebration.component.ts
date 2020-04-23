@@ -1,14 +1,9 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Participant } from '../Model/Participant';
+﻿import { Component, OnInit } from '@angular/core';
 import { Election } from '../Model/Election';
-import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
-import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
-import { Opinion } from '../Model/Opinion';
-import { NavBarStateService } from '../services/NavBarState.service';
 import { ElectionService } from '../services/election.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 
 @Component({
@@ -26,19 +21,10 @@ export class CelebrationComponent implements OnInit {
     mailList: string[] = [];
     election: Election = new Election();
     actualElected: Users = new Users();
-    connectedParticipant: Participant = new Participant();
-    type: TypeOpinion = new TypeOpinion();
 
     host: boolean = false;
 
-    participantsList: Participant[] = [];
-    opinionsList: Opinion[] = [];
-    usersList: Users[] = [];
-    objectionsList: Opinion[] = [];
-
-    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-
-    }
+    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {}
 
     ngOnInit() {
         this.actualElected = new Users();
@@ -54,50 +40,34 @@ export class CelebrationComponent implements OnInit {
 
 
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
-        //this.actualElected = null;
-        this.mainRequest();
-    }
-
-    mainRequest() {
-        this.getConnectedParticipant();
-        this.checkHost();
+        this.actualElected = null;
         this.preStart();
     }
 
     setupConnectedAccount(anUser: Users) {
         this.connectedAccount = anUser;
         this.connectedAccount.UserId = anUser['userId'];
+        
     }
 
     setupElection(anElection: Election) {
         this.election = anElection;
-        this.election.poste = anElection['job'];
-        this.election.HostId = anElection['hostId'];
-    }
-
-    getConnectedParticipant() {
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            this.connectedParticipant = result as Participant;
-        }, error => console.log(error));
-    }
-
-    checkHost() {
-        if (this.connectedAccount["userId"] == this.election['hostId'])
-            this.host = true;
-        else
-            this.host = false;
+        this.election.job = anElection['job'];
+      //  this.election.hostElection = anElection['hostId'];
     }
 
     preStart() {
-
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
-            this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
-                this.actualElected = userResult as Users;
-                this.actualElected.FirstName = userResult['firstName'];
-                this.actualElected.LastName = userResult['lastName'];
-                this.actualElected.Avatar = userResult['avatar'];
-            }, error => console.error(error));
+            this.httpRequest.getUserById(this.election['electedId']).then(
+                userData => {
+                    this.actualElected = userData as Users;
+                    this.actualElected.firstName = userData['firstName'];
+                    this.actualElected.lastName = userData['lastName'];
+                    this.actualElected.avatar = userData['avatar'];
+                    console.log(this.actualElected)
+                }
+            )
         }
     }
 

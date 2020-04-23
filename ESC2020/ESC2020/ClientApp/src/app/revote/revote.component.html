@@ -16,7 +16,7 @@
     <div class="text-center" id="sous-titre">Vous aviez précédemment voté pour </div>
 
     <div class="row justify-content-center my-3" id="date">
-        <div class="center-block align-self-center" *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock1"></div>
+        <div class="center-block align-self-center" *ngIf="election.hostId == connectedAccount.userId; then ThenBlock1"></div>
         <ng-template #ThenBlock1>
             <button class="btn send" (click)="goToNextPhase()">Terminer la phase</button>
         </ng-template>
@@ -75,14 +75,14 @@
                 <div class="card-header sous-titre">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            {{currentUser.LastName}} {{currentUser.FirstName}}
+                            {{currentUser.lastName}} {{currentUser.firstName}}
                         </div>
                     </div>
                 </div>
                 <div class="card-body cardb">
                     <div class="row">
                         <div class="col-md-12 mb-2 text-center">
-                            <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
+                            <div *ngIf="election.hostId == connectedAccount.userId && election.hostId != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
                             <ng-template #ElseBlock2>
                                 <button type="submit" class="btn send" hidden>Exclure</button>
                             </ng-template>
@@ -97,7 +97,7 @@
                             <label class="poste">
                                 Poste :
                             </label>
-                            {{currentUser.Job}}
+                            {{currentUser.job}}
                         </div>
                     </div>
 
@@ -115,7 +115,7 @@
                             <label class="poste">
                                 Mini Biographie :
                             </label>
-                            {{currentUser.Description}}
+                            {{currentUser.description}}
                         </div>
                     </div>
 
@@ -123,9 +123,9 @@
                         <div class="col-md-12 text-center">
                             <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
                             <ng-template #ElseBlock3>
-                                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
+                                <textarea class="form-control d-flex justify-content-center" id="argumentaires" [(ngModel)]="textEntered" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
                                 <div class="col text-center">
-                                    <button type="submit" id="voteBtn" class="btn mb-3 send" (click)="Revote()">Voter pour ce candidat</button>
+                                    <button type="submit" id="voteBtn" class="btn mb-3 send" [disabled]="!textEntered" (click)="Revote()">Voter pour ce candidat</button>
                                 </div>
                             </ng-template>
                             <ng-template #ThenBlock3>

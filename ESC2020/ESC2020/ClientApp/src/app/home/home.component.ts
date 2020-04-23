@@ -13,16 +13,6 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.navBarStateService.SetIsInElection(false);
     }
-
-    //showFooter() {
-    //  document.getElementById("apparait").style.cssText = "display : block;";
-    //  document.getElementById("btnAnimation").style.cssText = "display : none;";
-    //}
-
-    //hideFooter() {
-    //  document.getElementById("apparait").style.cssText = "display : none;";
-    //  document.getElementById("btnAnimation").style.cssText = "display : block;";
-    //}
 }
 
 

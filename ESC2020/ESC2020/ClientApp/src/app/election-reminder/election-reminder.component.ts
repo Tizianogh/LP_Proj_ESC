@@ -1,19 +1,19 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 @Component({
     selector: 'app-rappel',
     templateUrl: './election-reminder.component.html',
     styleUrls: ['./election-reminder.component.css']
 })
+
 export class ElectionReminderComponent implements OnInit {
 
-    constructor(private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) { }
+    constructor(private navBarStateService: NavBarStateService, private router: Router, private httpRequest: HTTPRequestService) { }
 
-    electionId: number;
+    electionId: string;
     poste: string;
     missions: string;
     responsabilite: string;
@@ -28,17 +28,23 @@ export class ElectionReminderComponent implements OnInit {
 
     ngOnInit() {
         this.navBarStateService.SetIsInElection(false);
+        this.electionId = this.router.url.split('/')[2];
+        this.getElection();
+    }
 
-        this.service.get(window.location.origin + "/api/Elections/" + this.router.url.split('/')[2]).subscribe(result => {
-            this.electionId = result['electionId'];
-            this.poste = result['job'];
-            this.missions = result['mission'];
-            this.responsabilite = result['responsability'];
-            this.dateD = result['startDate'];
-            this.dateF = result['endDate'];
-            this.codeElection = result['codeElection'];
-            this.qrdata = "http://51.158.77.237/join-election-link/" + this.codeElection;
-        }, error => console.error(error));
+    getElection() {
+
+        this.httpRequest.getElectionById(Number(this.electionId)).then(
+            election => { // resolve() 
+                this.electionId = election['electionId'];
+                this.poste = election['job'];
+                this.missions = election['mission'];
+                this.responsabilite = election['responsability'];
+                this.dateD = election['startDate'];
+                this.dateF = election['endDate'];
+                this.codeElection = election['codeElection'];
+            }, error => console.log(error)
+        );
     }
 
     addDest(mail: HTMLInputElement) {

@@ -50,12 +50,35 @@ namespace ESC2020.Controllers
             return election;
         }
 
-        //// GET: api/Elections/5/5
+
+        ////GET: api/Elections/userId/1
         //[HttpGet]
-        //[Route("{electionId}/{userId}")]
-        //public async Task<ActionResult<Election>> GetElectedUser(int electionId, int userId)
+        //[Route("userId/{userId}")]
+        //public async Task<ActionResult<IEnumerable<Election>>> GetElectionByUserId(int userId)
         //{
-        //    return await _context.elec.Where(p => p.ElectionId == electionId && p.UserId == userId).FirstOrDefaultAsync();
+        //    /*//Select *
+        //    //From public."Election" as e
+        //    //Inner join(Select p."ElectionId"
+        //    //From public."Participant" as p
+        //    //Where p."UserId"=1) r1
+        //    //On(r1."ElectionId"=e."ElectionId");
+
+        //    List<Participant> participant = await _context.Participants.Where(pa => pa.UserId == userId).ToListAsync();
+        //    List<Election> election = await _context.elec.ToListAsync();
+
+        //    List<Election> result = from el in Election
+        //             join pa in participant
+        //             on el["electionId"] equals pa["electionId"]
+        //             select el;
+
+        //    return result;
+
+        //    //result = lista.Where(a => listb.Any(b => a.ToLower() == b.ToLower()));
+
+        //    //return await _context.elec.Where(el => el['electionId'] == (await _context.Participants.Where(pa => pa.UserId == userId).ToListAsync()['electionId'])).ToListAsync();
+
+        //    //foreach(Election p : list){
+        //    //    p.Find(x => x.ElectionId.Contains("seat")));*/
         //}
 
         // PUT: api/Elections/5

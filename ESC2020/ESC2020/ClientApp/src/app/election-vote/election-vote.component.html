@@ -15,7 +15,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="center-block align-self-left" *ngIf="election.HostId == connectedAccount.UserId; then ThenBlock1"></div>
+        <div class="center-block align-self-left" *ngIf="election.hostId == connectedAccount.userId; then ThenBlock1"></div>
         <ng-template #ThenBlock1>
             <button class="btn send" (click)="goToNextPhase()">Terminer la phase</button>
         </ng-template>
@@ -71,14 +71,14 @@
                 <div class="card-header sous-titre">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            {{currentUser.LastName}} {{currentUser.FirstName}}
+                            {{currentUser.lastName}} {{currentUser.firstName}}
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 mb-2 text-center">
-                            <div *ngIf="election.HostId == connectedAccount.UserId && election.HostId != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
+                            <div *ngIf="election.hostId == connectedAccount.userId && election.hostId != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
                             <ng-template #ElseBlock2>
                                 <button type="submit" class="btn send" hidden>Exclure</button>
                             </ng-template>
@@ -93,7 +93,7 @@
                             <label class="poste">
                                 Poste :
                             </label>
-                            {{currentUser.Job}}
+                            {{currentUser.job}}
                         </div>
                     </div>
 
@@ -111,7 +111,7 @@
                             <label class="poste">
                                 Mini Biographie :
                             </label>
-                            {{currentUser.Description}}
+                            {{currentUser.description}}
                         </div>
                     </div>
 

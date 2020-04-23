@@ -139,9 +139,9 @@
         <div class="col-sm-5">
             <p class="intro">
                 Détails de l'élection : <br /><br />
-                poste : {{election.poste}} <br />
-                mission : {{election.missions}} <br />
-                responsabilité : {{election.responsabilite}}
+                poste : {{election.job}} <br />
+                mission : {{election.mission}} <br />
+                responsabilité : {{election.responsability}}
             </p>
         </div>
 
@@ -165,10 +165,10 @@
                         <p class="intro mt-5">
                             Acceptez vous votre nouveau rôle ?
                         </p>
-                        <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Si vous refusez, merci de nous expliquer pourquoi..." rows="4"></textarea> <br />
+                        <textarea class="form-control d-flex justify-content-center" [(ngModel)]="textEntered" id="argumentaires" placeholder="Si vous refusez le poste, merci de nous expliquer pourquoi..." rows="4" ></textarea> <br />
                         <div class="col text-center">
                             <button type="submit" class="btn btn-success mr-5" (click)="goToNextPhase()">Accepter</button>
-                            <button type="submit" class="btn btn-danger ml-5" (click)="refus()">Refuser</button>
+                            <button type="submit" class="btn btn-danger ml-5" [disabled]="!textEntered" (click)="refus()">Refuser</button>
                             <br />
                             <br />
                         </div>
@@ -180,7 +180,6 @@
                             </p>
                         </div>
                     </ng-template>
-
                 </div>
             </ng-template>
             <ng-template #cantChoose>

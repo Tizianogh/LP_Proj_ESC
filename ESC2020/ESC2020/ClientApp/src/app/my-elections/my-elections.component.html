@@ -43,7 +43,7 @@
        <div class="container">
            <div class="row">
                <div class="col-md-6 my-5" *ngFor="let election of listeElections" (click)="Navigate((election.electionId))" style="cursor: pointer;">
-                   <div class="center-block align-self-center" *ngIf="election.electionPhaseId == 5; then ThenBlock else ElseBlock"></div>
+                   <div class="center-block align-self-center" *ngIf="election['electionPhaseId'] == 5; then ThenBlock else ElseBlock"></div>
                    <ng-template #ThenBlock>
                        <div class="card text-center">
                            <div class="card-header sous-titre">
@@ -199,7 +199,7 @@
                            <div class="card-footer text-muted">
                                <div class="row">
                                    <div class="col-md-6 text-md-left poste">
-                                       <div class="phase" [ngSwitch]="election.electionPhaseId">
+                                       <div class="phase" [ngSwitch]="election['electionPhaseId']">
                                            <div *ngSwitchCase=1>
                                                Phase de votes
                                            </div>

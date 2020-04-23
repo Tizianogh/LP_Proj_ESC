@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
@@ -20,7 +19,7 @@ export class NavMenuComponent {
     private logsVisible: boolean;
     public inElection: boolean;
 
-    constructor(private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router, private service: HttpClient) { }
+    constructor(private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);

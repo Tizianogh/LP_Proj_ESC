@@ -8,6 +8,7 @@ import { Participant } from '../Model/Participant';
 import { Phase } from '../Model/Phase';
 import { NavBarStateService } from './NavBarState.service';
 import { isUndefined } from 'util';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 
 @Injectable({
@@ -16,17 +17,15 @@ import { isUndefined } from 'util';
 
 export class ElectionService {
 
-    private electionValue: Election;
     private election: BehaviorSubject<Election>;
-    private electionO: Election;
     private participants: Participant[];
     private participantList: BehaviorSubject<Participant[]>;
     private users: Users[];
     private userList: BehaviorSubject<Users[]>;
 
 
-    constructor(private service: HttpClient, private navBarStateService: NavBarStateService, private router: Router) {
-        this.election = new BehaviorSubject(new Election());
+    constructor(private httpRequest: HTTPRequestService, private service: HttpClient, private navBarStateService: NavBarStateService, private router: Router) {
+        this.election = new BehaviorSubject( new Election());
         this.participantList = <BehaviorSubject<Participant[]>>new BehaviorSubject([]);
         this.userList = <BehaviorSubject<Users[]>>new BehaviorSubject([]);
     }
@@ -52,41 +51,52 @@ export class ElectionService {
     }
 
     fetchElection(electionId: string) {
-        //Récupérer l'id de l'élection actuelle à partir de l'url
-        this.service.get(window.location.origin + "/api/Elections/" + electionId).subscribe(result => {
-            this.electionValue = result as Election;
-            this.SetElection(this.electionValue);
-            this.fetchParticipants(electionId);
-        }, error => console.error(error));
+        return new Promise((resolve, reject) => {
+            this.ClearParticipantList();
+            this.ClearUserList();
+
+            //Récupérer l'id de l'élection actuelle à partir de l'url
+            this.httpRequest.getElectionById(Number(electionId)).then(
+                electionData => {
+                    this.SetElection(electionData as Election);
+                    this.fetchParticipants(electionData as Election);
+                    resolve(electionData as Election);
+                }, error => { console.log(error); }
+            );
+        });
     }
 
-    async fetchParticipants(electionId: string) {
+    async fetchParticipants(election: Election) {
         this.ClearParticipantList();
         this.ClearUserList();
+
         //récupérer la liste des participants en fonction de l'id d'une élection
-        await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
-            this.participants = participantResult as Participant[];
-            this.participants.forEach((participant) => {
-                //this.navBarStateService.SetLogsVisible(this.participants.find(p => p['userId'] == this.connectedAccount['userId'])['hasTalked']);
-                this.AddParticipant(participant);
-                this.fetchUser(participant);
-            });
-        }, error => console.error(error));
+        this.httpRequest.getParticipantsByElection(election).then(
+            participantsResult => {
+                this.participants = participantsResult as Participant[]
+                this.participants.forEach((participant) => {
+                    this.AddParticipant(participant);
+                    this.fetchUser(participant);
+                });
+            },error => { console.log(error); }
+        );
     }
 
     async fetchUser(participant: Participant) {
         //Récupérer un utilisateur en fonction d'un participant d'une élection passé en paramètre
-        await this.service.get(window.location.origin + "/api/Users/" + participant['userId']).subscribe(userResult => {
-            let user: Users = userResult as Users;
-            this.AddUser(user);
-        }, error => console.error(error));
-        this.participants.sort((u1, u2) => {
-            if (u1['userId'] > u2['userId'])
-                return -1;
-            if (u1['userId'] < u2['userId'])
-                return 1;
-            return 0;
-        });
+        this.httpRequest.getUserById(participant['userId']).then(
+            userData => {
+                let user: Users = userData as Users;
+                this.AddUser(user);
+                this.participants.sort((u1, u2) => {
+                    if (u1['userId'] > u2['userId'])
+                        return -1;
+                    if (u1['userId'] < u2['userId'])
+                        return 1;
+                    return 0;
+                });
+            }, error => {  console.log(error);}
+        );
     }
 
     SetElection(newState: Election) {

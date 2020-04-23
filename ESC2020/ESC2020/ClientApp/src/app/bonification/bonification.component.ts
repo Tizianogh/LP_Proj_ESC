@@ -1,18 +1,15 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+﻿import { Component, OnInit } from '@angular/core';
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
 import { Phase } from '../Model/Phase';
-import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { Opinion } from '../Model/Opinion';
-import { NavBarStateService } from '../services/NavBarState.service';
-
 import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
-
+import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { Notification } from '../Model/Notification';
 
 @Component({
     selector: 'app-bonification',
@@ -28,21 +25,15 @@ export class BonificationComponent implements OnInit {
     isElectedNotNull: boolean = false;
     actualElected: Users = new Users();
     connectedParticipant: Participant = new Participant();
-    type: TypeOpinion = new TypeOpinion();
-    electionId: string;
     host: boolean = false;
 
-    participantsList: Participant[] = [];
     opinionsList: Opinion[] = [];
-    usersList: Users[] = [];
-    objectionsList: Opinion[] = [];
 
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
         .build();
 
-    constructor(private electionService: ElectionService, private service: HttpClient, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-
+    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
     }
 
     ngOnInit() {
@@ -55,7 +46,6 @@ export class BonificationComponent implements OnInit {
         this.hubConnection.start().catch(err => console.log(err));
     }
 
-
     mainRequest() {
         this.getConnectedParticipant();
         this.checkHost();
@@ -63,132 +53,120 @@ export class BonificationComponent implements OnInit {
     }
 
     getConnectedParticipant() {
-        this.service.get(window.location.origin + "/api/Participants/" + this.connectedAccount['userId'] + "/" + this.election['electionId']).subscribe(result => {
-            this.connectedParticipant = result as Participant;
-        }, error => console.log(error));
+        this.httpRequest.getParticipant(this.connectedAccount, this.election).then(
+            participantData => {
+                this.connectedParticipant = participantData as Participant;
+            }, error => console.log(error)
+        );
     }
 
     setupElection(anElection: Election) {
         this.election = anElection;
-        this.election.poste = anElection['job'];
-        this.election.missions = anElection['mission'];
-        this.election.responsabilite = anElection['responsability'];
+        this.election.job = anElection['job'];
+        this.election.mission = anElection['mission'];
+        this.election.responsability = anElection['responsability'];
     }
 
     checkHost() {
-        if (this.connectedAccount["userId"] == this.election['hostId']) {
+        if (this.connectedAccount["userId"] == this.election['hostId'])
             this.host = true;
-        }
-        else {
+        else
             this.host = false;
-        }
     }
 
     preStart() {
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
         if (this.election['electedId'] != null) {
             this.isElectedNotNull = true;
-            this.service.get(window.location.origin + "/api/Users/" + this.election['electedId']).subscribe(userResult => {
-                this.actualElected = userResult as Users;
-            }, error => console.error(error));
+            this.httpRequest.getUserById(this.election['electedId']).then(
+                userData => {
+                    this.actualElected = userData as Users;
+                }, error => console.log(error)
+            );
         }
     }
 
     refus() {
-        // génération d'une opinion Bonification (id du type : 3 = opinion de type bonification)
-        this.service.get(window.location.origin + "/api/TypeOpinions/3").subscribe(result => {
-            this.type = result as TypeOpinion;
-            this.service.post(window.location.origin + "/api/Opinions", {
-                'AuthorId': this.connectedAccount["userId"],
-                'ConcernedId': this.actualElected["userId"],
-                'Reason': (<HTMLInputElement>document.getElementById("argumentaires")).value,
-                'TypeId': this.type["typeId"],
-                'DateOpinion': new Date(),
-                'ElectionId': this.election['electionId']
-            }).subscribe(result => {
-                (<HTMLInputElement>document.getElementById("argumentaires")).value = "";
+        this.httpRequest.getTypeOpininionsById(2).then(
+            typeOpinion => {
+                let revote: Opinion = {
+                    authorUser: this.connectedAccount,
+                    concernedUser: this.actualElected,
+                    reason: (<HTMLInputElement>document.getElementById("argumentaires")).value,
+                    type: typeOpinion as TypeOpinion,
+                    dateOpinion: new Date(),
+                    election: this.election
+                }
+                this.httpRequest.createOpinion(revote)
 
-                this.service.post(window.location.origin + "/api/Notifications", {
-                    "Message": this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a refusé de pourvoir le rôle de " + this.election['job'],
-                    "DateNotification": new Date(),
-                    "ElectionId": this.election['electionId']
-                }).subscribe(result => {
-                }, error => console.log(error));
+                let newNotification: Notification = {
+                    message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a refusé de pourvoir le rôle de " + this.election['job'],
+                    date: new Date(),
+                    election: this.election as Election
+                };
+                this.httpRequest.createNotification(newNotification)
+            }, error => console.log(error)
+        );
 
-            }, error => console.log(error));
-        }, error => console.error(error));
-
-
-        this.service.get(window.location.origin + "/api/Participants/election/" + this.election['electionId']).subscribe(participantResult => {
-            let participantsList: Participant[] = participantResult as Participant[];
-            for (let i = 0; i < participantsList.length; i++) {
-                this.service.put(window.location.origin + "/api/Participants/" + participantsList[i]['userId'] + "/" + this.election['electionId'], {
-                    "UserId": participantsList[i]['userId'],
-                    "ElectionId": this.election['electionId'],
-                    "HasTalked": false,
-                    "VoteCounter": participantsList[i]["voteCounter"]
-                }).subscribe(result => {
-                    this.service.put(window.location.origin + "/api/Participants/" + this.actualElected['userId'] + "/" + this.election['electionId'], {
-                        "UserId": this.actualElected['userId'],
-                        "ElectionId": this.election['electionId'],
-                        "HasTalked": false,
-                        "VoteCounter": 0
-                    }).subscribe(result => {
-                    }, error => console.log(error));
-                }, error => console.log(error));
-            }
-
-        }, error => console.error(error));
-
-
-
-        let phase: Phase = new Phase();
-        this.service.get(window.location.origin + "/api/Phases/3").subscribe(phaseResult => {
-            phase = phaseResult as Phase;
-
-            this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
-                "ElectionId": this.election['electionId'],
-                "Job": this.election['job'],
-                "Mission": this.election['mission'],
-                "Responsability": this.election['responsability'],
-                "StartDate": this.election['startDate'],
-                "EndDate": this.election['endDate'],
-                "CodeElection": this.election['codeElection'],
-                "HostId": this.election["hostId"],
-                "ElectedId": null,
-                "ElectionPhaseId": phase['phaseId']
-            }).subscribe(result => {
-                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-            }, error => console.log(error));
-        });
+        this.httpRequest.getParticipant(this.actualElected, this.election).then(
+            participantData => {
+                let proposedParticipant = participantData as Participant;
+                proposedParticipant.voteCounter = 0;
+                this.httpRequest.updateParticipant(proposedParticipant).then(
+                    () => {
+                        this.httpRequest.getParticipantsByElection(this.election).then(
+                            participantsData => {
+                                let participantsList: Participant[] = participantsData as Participant[];
+                                participantsList.forEach(participant => {
+                                    participant.hasTalked = false;
+                                    this.httpRequest.updateParticipant(participant).then(
+                                        () => {
+                                            this.httpRequest.getPhasesById(3).then(
+                                                phase3 => {
+                                                    let anElection = this.election;
+                                                    anElection.phase = phase3 as Phase;
+                                                    anElection.electedElection = this.actualElected;
+                                                    this.httpRequest.updateElection(anElection, true).then(
+                                                        () => {
+                                                            this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                                                        }, error => console.log(error)
+                                                    );
+                                                }, error => console.log(error)
+                                            );
+                                        }
+                                    );
+                                });
+                            }, error => console.log(error)
+                        );
+                    }, error => console.log(error)
+                )
+            }, error => console.log(error)
+        );
     }
 
     goToNextPhase() {
-        let phase: Phase = new Phase();
-        this.service.get(window.location.origin + "/api/Phases/5").subscribe(phaseResult => {
-            phase = phaseResult as Phase;
-            this.service.put(window.location.origin + "/api/Elections/" + this.election['electionId'], {
-                "ElectionId": this.election['electionId'],
-                "Job": this.election['job'],
-                "Mission": this.election['mission'],
-                "Responsability": this.election['responsability'],
-                "StartDate": this.election['startDate'],
-                "EndDate": this.election['endDate'],
-                "CodeElection": this.election['codeElection'],
-                "HostId": this.election["hostId"],
-                "ElectedId": this.election['electedId'],
-                "ElectionPhaseId": phase['phaseId']
-            }).subscribe(result => {
 
-                this.service.post(window.location.origin + "/api/Notifications", {
-                    "Message": this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
-                    "DateNotification": new Date(),
-                    "ElectionId": this.election['electionId']
-                }).subscribe(result => {
-                }, error => console.log(error));
+        this.httpRequest.getPhasesById(5).then(
+            phase5 => {
+                let anElection = this.election;
+                anElection.phase = phase5 as Phase;
+                anElection.electedElection = this.actualElected,
 
-                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-            }, error => console.log(error));
-        });
+                    this.httpRequest.updateElection(anElection).then(
+                        () => {
+                            let newNotification: Notification = {
+                                message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
+                                date: new Date(),
+                                election: this.election as Election
+                            };
+                            this.httpRequest.createNotification(newNotification).then(
+                                () => {
+                                    this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                                }, error => { console.log(error) }
+                            );
+                        }, error => { console.log(error) }
+                    );
+            }, error => { console.log(error) }
+        );
     }
 }

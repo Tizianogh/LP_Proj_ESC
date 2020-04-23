@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Session = /** @class */ (function () {
-    function Session() {
+var Election = /** @class */ (function () {
+    function Election() {
     }
-    return Session;
+    return Election;
 }());
-exports.Session = Session;
-//# sourceMappingURL=Session.js.map
+exports.Election = Election;
+//# sourceMappingURL=Election.js.map
