@@ -1,0 +1,155 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <h1 id="titre" style="text-align:center; margin-bottom:50px;">
+            Création du compte
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <p style="text-align:center; margin-bottom:50px;">
+            (*) champs obligatoire
+        </p>
+    </div>
+</div>
+
+<div class="row" style="text-align:center;">
+    <div class="offset-sm-3 col-sm-6 offset-lg-4 col-lg-4">
+        <hr />
+        <form [formGroup]="profil">
+            <div class="form-group">
+                <div>
+                    <label class="section">Adresse mail*</label>
+                    <input id="mail" [class.is-invalid]="profil.get('email').invalid && profil.get('email').touched" class="form-control" type="email" formControlName="email" placeholder="Entrer votre email" required>
+
+                    <div *ngIf="(verifEmail.invalid && verifEmail.touched) || verifEmail.dirty">
+                        <small *ngIf="verifEmail.errors?.required" class="text-danger">Le mail est obligatoire.</small>
+                        <small *ngIf="verifEmail.errors?.pattern" class="text-danger">Entrer une adresse mail valide.</small>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label class="section">Mot de passe*</label>
+                <input id="password" minlength="6" [class.is-invalid]="profil.get('pass').invalid && profil.get('pass').touched" class="form-control" type="password" formControlName="pass" placeholder="Mot de passe" required>
+
+                <div *ngIf="(verifPassword.invalid && verifPassword.touched) || verifPassword.dirty">
+                    <small *ngIf="verifPassword.errors?.required" class="text-danger">Le mot de passe est obligatoire.</small>
+                    <small *ngIf="verifPassword.errors?.minlength" class="text-danger">Le mot de passe doit faire 6 caractères minimum.</small>
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label class="section">Confirmer votre mot de passe*</label>
+                <input id="confirmPassword" [class.is-invalid]="profil.get('confirmPass').invalid && profil.get('confirmPass').touched" formControlName="confirmPass" class="form-control" type="password" placeholder="Entrer de nouveau votre mot de passe" required>
+
+                <div *ngIf="(verifConfirmPassword.invalid && verifConfirmPassword.touched) || verifConfirmPassword.dirty">
+                    <small *ngIf="verifConfirmPassword.errors?.required" class="text-danger">Veuillez confirmer votre mot de passe.</small>
+                    <small *ngIf="verifPasswordMatch() == false" class="text-danger">Les mots de passes ne correspondent pas.</small>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <label class="section">Nom*</label>
+                <input id="lastName" [class.is-invalid]="profil.get('lastName').invalid && profil.get('lastName').touched" class="form-control" type="text" placeholder="Entrer votre nom" formControlName="lastName" required>
+
+                <div *ngIf="(verifLastName.invalid && verifLastName.touched) || verifLastName.dirty">
+                    <small *ngIf="verifLastName.errors?.required" class="text-danger">Le nom de famille est obligatoire.</small>
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label class="section">Prénom*</label>
+                <input id="firstName" [class.is-invalid]="profil.get('firstName').invalid && profil.get('firstName').touched" class="form-control" type="text" placeholder="Entrer votre prénom" formControlName="firstName" required>
+
+                <div *ngIf="(verifFirstName.invalid && verifFirstName.touched) || verifFirstName.dirty">
+                    <small *ngIf="verifFirstName.errors?.required" class="text-danger">Le prénom est obligatoire.</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="section">Date de naissance*</label>
+                <input id="birthDate" [class.is-invalid]="profil.get('birthDate').invalid && profil.get('birthDate').touched" class="form-control" type="date" formControlName="birthDate" required>
+
+                <div *ngIf="(verifBirthDate.invalid && verifBirthDate.touched) || verifBirthDate.dirty">
+                    <small *ngIf="verifBirthDate.errors?.required" class="text-danger">La date de naissance est obligatoire.</small>
+                    <small *ngIf="verifValidBirthDate() == false" class="text-danger">Entrer une date de naissance valide.</small>
+
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+
+                <label class="section">Quel poste occupez-vous ?</label>
+                <input id="job" class="form-control" type="text" placeholder="Entrer votre poste" formControlName="job" required>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <label class="section">Décrivez-vous en quelques mots*</label>
+                <textarea [class.is-invalid]="profil.get('description').invalid && profil.get('description').touched" rows="3" class="input form-control" placeholder="Quel type de personne êtes-vous ?" formControlName="description" required></textarea>
+
+                <div *ngIf="(verifDescription.invalid && verifDescription.touched) || verifDescription.dirty">
+                    <small *ngIf="verifDescription.errors?.required" class="text-danger">Une description est obligatoire.</small>
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label class="section" #avatar>Choisissez votre avatar*</label>
+
+                <br />
+                <span *ngIf="!submitted; else elseBlock">
+                </span>
+                <ng-template #elseBlock>
+                    <img class="participantIcon" src="data:image/png;base64,{{image}}" height="120" />
+                </ng-template>
+                <input [class.is-invalid]="profil.get('avatar').invalid && profil.get('avatar').touched" type="file" class="form-control-file" id="avatar" accept="image/png, image/jpeg" formControlName="avatar" (change)="displayImage($event)" />
+                <small class="form-text text-muted">
+                    format .jpg .jpeg .png seulement.
+                </small>
+
+                <div *ngIf="(verifAvatar.invalid && verifAvatar.touched) || verifAvatar.dirty">
+                    <small *ngIf="verifAvatar.errors?.required" class="text-danger">Un avatar est obligatoire.</small>
+                </div>
+            </div>
+        </form>
+
+
+        <br />
+        <br />
+
+
+        <br />
+
+        <div>
+            <button class="btn btn-outline-success" style="margin-left:10px;" (click)="checkMail()">
+                Créer votre compte
+            </button>
+            <span [hidden]="!errorCreate">
+                <p class="alert alert-danger" role="alert">
+                    Veuillez remplir tous les champs correctement.
+                </p>
+            </span>
+            <span [hidden]="!error">
+                <p class="alert alert-danger" role="alert">
+                    Le mail entré a déjà été utilisé.
+                </p>
+            </span>
+
+        </div>
+
+
+        <br />
+        <br />
+        <br />
+        <br />
+    </div>
+</div>

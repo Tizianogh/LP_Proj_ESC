@@ -28,6 +28,7 @@ import { ChatComponent } from './chat/chat.component';
 import { DatePipe } from '@angular/common';
 import { ForgottenPasswordComponent } from './forgotten-password/forgotten-password.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { CreateAccountComponent } from './create-account/create-account.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -52,7 +53,8 @@ registerLocaleData(localeFr, 'fr');
         CelebrationComponent,
         RevoteComponent,
         ChatComponent,
-        ForgottenPasswordComponent
+        ForgottenPasswordComponent,
+        CreateAccountComponent
     ],
 
     imports: [
@@ -78,6 +80,7 @@ registerLocaleData(localeFr, 'fr');
             { path: 'bonification/:id', component: BonificationComponent },
           
             { path: 'election/:id', component: ElectionMasterPageComponent },
+            { path: 'create-account', component: CreateAccountComponent},
             { path: 'revote/:id', component: RevoteComponent },
             { path: 'chat/:id', component: ChatComponent },
             { path: 'forgotten-password', component: ForgottenPasswordComponent}
