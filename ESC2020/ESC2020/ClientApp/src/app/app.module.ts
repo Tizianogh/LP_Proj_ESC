@@ -24,7 +24,7 @@ import { ObjectionsComponent } from './objections/objections.component';
 import { BonificationComponent } from './bonification/bonification.component';
 import { JoinElectionLinkComponent } from './join-election-link/join-election-link.component';
 import { ElectionMasterPageComponent } from './election-master-page/election-master-page.component';
-
+import { CreateAccountComponent } from './create-account/create-account.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -47,7 +47,8 @@ registerLocaleData(localeFr, 'fr');
         JoinElectionLinkComponent,
         ElectionMasterPageComponent,
         CelebrationComponent,
-        RevoteComponent
+        RevoteComponent,
+        CreateAccountComponent
     ],
 
     imports: [
@@ -72,7 +73,8 @@ registerLocaleData(localeFr, 'fr');
             { path: 'bonification/:id', component: BonificationComponent },
             { path: 'next-phase', component: NextPhaseComponent },
             { path: 'election/:id', component: ElectionMasterPageComponent },
-            { path: 'revote/:id', component: RevoteComponent }
+            { path: 'revote/:id', component: RevoteComponent },
+            { path: 'create-account', component: CreateAccountComponent}
         ])
     ],
 

@@ -1,0 +1,29 @@
+
+.participantIcon {
+    text-align: center;
+}
+
+#titre {
+    color: #430640;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-weight: 800;
+    font-size: 38px;
+    margin-top: 30px;
+}
+
+.section {
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.form-control {
+    background-color: #ffffff;
+    border-style: none;
+}
+
+.text-muted {
+    width: 60%;
+    margin-left: 10px;
+}
