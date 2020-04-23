@@ -96,8 +96,6 @@ namespace ESC2020.Controllers {
             return users;
         }
 
-
-
         private bool UsersExists(int id) {
             return _context.User.Any(e => e.UserId == id);
         }

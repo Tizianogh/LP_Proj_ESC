@@ -8,7 +8,6 @@ namespace ESC2020.Model {
         {
         }
 
-        
         public DbSet<Users> User { get; set; }
 
         public DbSet<Election> elec { get; set; }
