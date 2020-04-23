@@ -114,9 +114,10 @@
 }
 
 .accept {
-    color: black;
-    border: 2px #ebbdab solid;
-    background-color: #fdc9b4;
+    color: white;
+    border: 2px #70346b solid;
+    background-color: #70346b;
+    font-weight: bold;
 }
 
 .attente {
