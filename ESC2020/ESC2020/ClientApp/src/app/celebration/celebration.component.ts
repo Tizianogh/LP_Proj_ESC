@@ -1,16 +1,9 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Participant } from '../Model/Participant';
+﻿import { Component, OnInit } from '@angular/core';
 import { Election } from '../Model/Election';
-import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
-import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
-import { Opinion } from '../Model/Opinion';
-import { NavBarStateService } from '../services/NavBarState.service';
 import { ElectionService } from '../services/election.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
-import { Notification } from '../Model/Notification';
 
 
 @Component({
@@ -26,15 +19,8 @@ export class CelebrationComponent implements OnInit {
 
     election: Election = new Election();
     actualElected: Users = new Users();
-    connectedParticipant: Participant = new Participant();
-    type: TypeOpinion = new TypeOpinion();
 
     host: boolean = false;
-
-    participantsList: Participant[] = [];
-    opinionsList: Opinion[] = [];
-    usersList: Users[] = [];
-    objectionsList: Opinion[] = [];
 
     constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {}
 

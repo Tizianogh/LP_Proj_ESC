@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Users } from '../Model/Users';
 import { Election } from '../Model/Election';
 import { AuthentificationService } from '../services/authentification.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
-import { Phase } from '../Model/Phase';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Participant } from '../Model/Participant';
 import { Notification } from '../Model/Notification';
@@ -27,7 +25,6 @@ export class CreateElectionComponent implements OnInit {
     currentDate: string;
 
     formulaireElection: FormGroup;
-    id: number = 5;
     erreur: string;
 
     constructor(private httpRequest: HTTPRequestService, private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
@@ -94,7 +91,7 @@ export class CreateElectionComponent implements OnInit {
                         };
 
                         this.httpRequest.createNotification(newNotification).then(
-                            notification => { //resolve()
+                            () => { //resolve()
                                 this.linkUsersElection(this.connectedAccount, election as Election);
                                 this.router.navigate(['election-reminder/' + election['electionId']]);
                             }, error => {console.log(error)}

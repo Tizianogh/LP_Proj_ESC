@@ -25,14 +25,9 @@ export class BonificationComponent implements OnInit {
     isElectedNotNull: boolean = false;
     actualElected: Users = new Users();
     connectedParticipant: Participant = new Participant();
-    type: TypeOpinion = new TypeOpinion();
-    electionId: string;
     host: boolean = false;
 
-    participantsList: Participant[] = [];
     opinionsList: Opinion[] = [];
-    usersList: Users[] = [];
-    objectionsList: Opinion[] = [];
 
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
@@ -113,7 +108,7 @@ export class BonificationComponent implements OnInit {
                     election: this.election as Election
                 };
                 this.httpRequest.createNotification(newNotification).then(
-                    notification => {
+                    () => {
                         this.hubConnection.send("updatePhase", Number(this.election['electionId']));
                     }, error => { console.log(error) }
                 );
@@ -174,7 +169,7 @@ export class BonificationComponent implements OnInit {
                             election: this.election as Election
                         };
                         this.httpRequest.createNotification(newNotification).then(
-                            notification => {
+                            () => {
                                 this.hubConnection.send("updatePhase", Number(this.election['electionId']));
                             }, error => { console.log(error) }
                         );

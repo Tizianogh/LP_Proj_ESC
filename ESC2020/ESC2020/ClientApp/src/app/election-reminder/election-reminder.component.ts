@@ -1,6 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
@@ -10,10 +8,10 @@ import { HTTPRequestService } from '../services/HTTPRequest.service';
     templateUrl: './election-reminder.component.html',
     styleUrls: ['./election-reminder.component.css']
 })
+
 export class ElectionReminderComponent implements OnInit {
 
-
-    constructor(private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router, private httpRequest: HTTPRequestService) { }
+    constructor(private navBarStateService: NavBarStateService, private router: Router, private httpRequest: HTTPRequestService) { }
 
     electionId: string;
     poste: string;
@@ -33,8 +31,6 @@ export class ElectionReminderComponent implements OnInit {
 
         this.httpRequest.getElectionById(Number(this.electionId)).then(
             election => { // resolve() 
-                console.log("le result");
-                console.log(election)
                 this.electionId = election['electionId'];
                 this.poste = election['job'];
                 this.missions = election['mission'];
@@ -42,9 +38,7 @@ export class ElectionReminderComponent implements OnInit {
                 this.dateD = election['startDate'];
                 this.dateF = election['endDate'];
                 this.codeElection = election['codeElection'];
-            }, error => {//Reject
-                console.log(error)
-            }
+            }, error => console.log(error)
         );
     }
 

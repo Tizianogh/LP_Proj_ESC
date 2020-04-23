@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
-import { Users } from '../Model/Users';
 import { Router } from '@angular/router';
-import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
-import { Opinion } from '../Model/Opinion';
 import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
-        
 
 @Component({
     selector: 'app-election-master-page',
