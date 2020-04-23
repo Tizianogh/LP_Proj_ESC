@@ -1,4 +1,4 @@
-<div class="container-fluid">
+ï»¿<div class="container-fluid">
 
     <div class="row my-3 justify-content-center">
         <div class="col-11 px-0 text-center">
@@ -8,7 +8,7 @@
                     <li class="active" id="repportVotes">Repport de Votes</li>
                     <li class="active title" id="objections">Objections</li>
                     <li id="bonification">Bonification</li>
-                    <li id="celebration">Célébration</li>
+                    <li id="celebration">CÃ©lÃ©bration</li>
                 </ul>
             </div>
         </div>
@@ -48,7 +48,7 @@
             </div>
             <div class="row my-3 justify-content-center">
                 <div class="col-md-5 mb-3 mb-md-0 text-center text-md-left">
-                    <button type="submit" class="btn send" (click)="objection()">Objecter contre {{actualProposed['firstName']}} {{actualProposed['lastName']}} ?</button>
+                    <button type="submit" class="btn send" (click)="objection()">Objecter contre cette proposition ?</button>
                 </div>
                 <div class="col-md-5 text-center text-md-right">
                     <button type="submit" class="btn send" (click)="endObjection()">Pas/Plus d'objections ?</button>
@@ -82,7 +82,7 @@
                                 <td>{{objection['reason']}}</td>
                                 <td>
                                     <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
-                        (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
+                        (et puis comme Ã§a on a juste a supprimer l'objection de la bdd)-->
 
                                     <button type="submit" class="btn send" (click)="validateObjection()">Valider l'objection</button>
 

@@ -1,4 +1,4 @@
-.card-header {
+﻿.card-header {
     background-color: #430640;
     color: white;
 }
@@ -110,7 +110,7 @@
 
     #progressbar #votes:before {
         font-family: FontAwesome;
-        content: "?";
+        content: "✔";
     }
 
     #progressbar #repportVotes:before {
