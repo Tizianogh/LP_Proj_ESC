@@ -7,6 +7,7 @@ import { AuthentificationService } from '../services/authentification.service';
 import * as signalR from "@microsoft/signalr";
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-salons',
@@ -30,7 +31,7 @@ export class MyElectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService) { }
+    constructor(private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService, private service: HttpClient) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -38,6 +39,7 @@ export class MyElectionsComponent implements OnInit {
         this.navBarStateService.SetIsInElection(false);
         this.hubConnection.start().catch(err => console.log(err));
         this.getElections();
+        
         this.MesElections();
     }
 
@@ -53,7 +55,13 @@ export class MyElectionsComponent implements OnInit {
                                 participantsData => {
                                     let participants: Participant[] = participantsData as Participant[]
                                     election.nbParticipant = participants.length
-                                    this.listeElections.push(election);
+                                    if(election['electionPhaseId']==5){
+                                        this.FinishedElectionsList.push(election);
+                                    }
+                                    else{
+                                        this.OngoingElectionsList.push(election);
+                                     }
+                                    console.log(election)
                                 }, error => { console.log(error) }
                             );
                         }, error => { console.log(error) }
@@ -72,9 +80,9 @@ export class MyElectionsComponent implements OnInit {
         if (election['electedId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + election['electedId']).subscribe(userResult => {
                 this.userElected = userResult as Users;
-                this.userElected.FirstName = userResult['firstName'];
-                this.userElected.LastName = userResult['lastName'];
-                document.getElementById("election" + election['electionId']).innerHTML = "&nbsp;" + this.userElected.FirstName + " " + this.userElected.LastName
+                this.userElected.firstName = userResult['firstName'];
+                this.userElected.lastName = userResult['lastName'];
+                document.getElementById("election" + election['electionId']).innerHTML = "&nbsp;" + this.userElected.firstName + " " + this.userElected.lastName
             }, error => console.error(error));
         }
     }

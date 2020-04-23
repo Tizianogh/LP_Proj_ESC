@@ -7,6 +7,7 @@ import { Election } from '../Model/Election';
 import { Users } from '../Model/Users'
 import * as signalR from "@microsoft/signalr";
 import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class JoinElectionLinkComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService,  private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) { }
+    constructor(private httpRequest: HTTPRequestService, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService, private service: HttpClient) { }
 
     ngOnInit() {
         this.hubConnection.start().catch(err => console.log(err));
@@ -39,7 +40,7 @@ export class JoinElectionLinkComponent implements OnInit {
         this.authentificationService.connectedUserVerification(this.connectedAccount);
         this.code = this.router.url.split('/')[2];
         this.service.get(window.location.origin + "/api/Elections/code/" + this.code).subscribe(result => {
-            this.setupElection(result as Election);
+            this.election =result as Election;
         }, error => console.error(error));
 
         this.code = this.router.url.split('/')[2];

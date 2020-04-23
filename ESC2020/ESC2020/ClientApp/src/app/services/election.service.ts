@@ -40,6 +40,7 @@ export class ElectionService {
                     console.log("cc");
                     findedParticipant = true;
                 }
+                
             }
        
             if (!findedParticipant) {

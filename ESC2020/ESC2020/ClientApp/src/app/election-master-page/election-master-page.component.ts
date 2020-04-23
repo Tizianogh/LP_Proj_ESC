@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
+import { Users } from '../Model/Users';
+import { AuthentificationService } from '../services/authentification.service';
 
 @Component({
     selector: 'app-election-master-page',
@@ -12,7 +14,7 @@ import * as signalR from "@microsoft/signalr";
 
 export class ElectionMasterPageComponent implements OnInit {
 
-    electionPhase: string = '0';
+
     electionId: string;
     election = new Election()
     private connected: boolean;
@@ -24,7 +26,7 @@ export class ElectionMasterPageComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private electionService: ElectionService, private router: Router, private navBarStateService: NavBarStateService) { }
+    constructor(private electionService: ElectionService, private router: Router, private navBarStateService: NavBarStateService, private authentificationService : AuthentificationService) { }
 
     async ngOnInit() {
         this.hubConnection.start().catch(err => console.log(err));
@@ -36,7 +38,7 @@ export class ElectionMasterPageComponent implements OnInit {
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.authentificationService.connectedUserVerification(this.connectedAccount);
         this.navBarStateService.SetIsInElection(true);
-
+        this.electionService.acceptedParticipantVerification(this.connectedAccount, this.router.url.split('/')[2])
 
         this.electionService.fetchElection(this.router.url.split('/')[2]).then(
             electionData => {

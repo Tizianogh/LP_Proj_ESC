@@ -4,6 +4,7 @@ import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
 import { ElectionService } from '../services/election.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -21,21 +22,21 @@ export class CelebrationComponent implements OnInit {
     mailList: string[] = [];
     election: Election = new Election();
     actualElected: Users = new Users();
-
+    usersList : Users[]
     host: boolean = false;
 
-    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {}
+    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService,private service:HttpClient) {}
 
     ngOnInit() {
         this.actualElected = new Users();
-        this.actualElected.FirstName = "";
-        this.actualElected.LastName = "";
-        this.actualElected.Avatar = new Blob();
+        this.actualElected.firstName = "";
+        this.actualElected.lastName = "";
+        this.actualElected.avatar = new Blob();
         this.usersList = [];
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
-        this.electionService.fetchParticipants(this.router.url.split('/')[2]);
-        this.electionService.GetParticipantList().subscribe(participants => this.participantsList = participants);
+   
+        
         this.electionService.GetUserList().subscribe(users => this.usersList = users);
 
 
@@ -46,7 +47,7 @@ export class CelebrationComponent implements OnInit {
 
     setupConnectedAccount(anUser: Users) {
         this.connectedAccount = anUser;
-        this.connectedAccount.UserId = anUser['userId'];
+        this.connectedAccount.userId = anUser['userId'];
         
     }
 

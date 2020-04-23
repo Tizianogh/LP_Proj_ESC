@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-rappel',
@@ -11,7 +12,7 @@ import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 export class ElectionReminderComponent implements OnInit {
 
-    constructor(private navBarStateService: NavBarStateService, private router: Router, private httpRequest: HTTPRequestService) { }
+    constructor(private navBarStateService: NavBarStateService, private router: Router, private httpRequest: HTTPRequestService,private service:HttpClient) { }
 
     electionId: string;
     poste: string;
@@ -43,6 +44,7 @@ export class ElectionReminderComponent implements OnInit {
                 this.dateD = election['startDate'];
                 this.dateF = election['endDate'];
                 this.codeElection = election['codeElection'];
+                this.qrdata = "http://51.158.77.237/join-election-link/" + this.codeElection;
             }, error => console.log(error)
         );
     }

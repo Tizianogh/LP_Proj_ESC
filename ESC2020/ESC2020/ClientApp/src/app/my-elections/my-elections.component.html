@@ -43,13 +43,14 @@
        <div class="container">
            <div class="row">
                <div class="col-md-6 my-5" *ngFor="let election of listeElections" (click)="Navigate((election.electionId))" style="cursor: pointer;">
-                   <div class="center-block align-self-center" *ngIf="election['electionPhaseId'] == 5; then ThenBlock else ElseBlock"></div>
+                   <div class="center-block align-self-center" *ngIf="election['electionPhaseId'] == '5'; then ThenBlock else ElseBlock"></div>
                    <ng-template #ThenBlock>
                        <div class="card text-center">
                            <div class="card-header sous-titre">
                                <div class="row">
                                    <div class="col-md-12 text-center">
-                                       {{election.job}} 
+                                       
+                                       {{election.job}}
                                        <div *ngIf="election.hostId == connectedAccount.userId; then ThenBlock"></div>
                                        <ng-template #ThenBlock>
                                            <span class="badge badge-pill badge-primary">Hôte</span>

@@ -11,6 +11,7 @@ import { ElectionService } from '../services/election.service';
 import { isUndefined } from 'util';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Notification } from '../Model/Notification';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-objections',
@@ -42,7 +43,7 @@ export class ObjectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService) { }
+    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService, private service: HttpClient) { }
 
     ngOnInit() {
         this.setOnSignalReceived();
@@ -218,9 +219,9 @@ export class ObjectionsComponent implements OnInit {
         if (opinion['authorId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + opinion['authorId']).subscribe(userResult => {
                 this.objectionAuthor = userResult as Users;
-                this.objectionAuthor.FirstName = userResult['firstName'];
-                this.objectionAuthor.LastName = userResult['lastName'];
-                document.getElementById("opinion" + opinion['opinionId']).innerHTML = "&nbsp;" + this.objectionAuthor.FirstName + " " + this.objectionAuthor.LastName
+                this.objectionAuthor.firstName = userResult['firstName'];
+                this.objectionAuthor.lastName = userResult['lastName'];
+                document.getElementById("opinion" + opinion['opinionId']).innerHTML = "&nbsp;" + this.objectionAuthor.firstName + " " + this.objectionAuthor.lastName
             }, error => console.error(error));
         }
     }

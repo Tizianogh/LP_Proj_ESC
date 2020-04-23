@@ -32,6 +32,7 @@ export class AuthentificationService {
     //vérifier que l'utilisateur est bien connecté à un compte, sinon l'envoyer sur la page d'accueil
     connectedUserVerification(user: Users) {
         if (user['userId'] == null) {
+          
             this.router.navigate(['home/']);
             alert("Vous devez être connecté pour rejoindre l'élection.");
         }

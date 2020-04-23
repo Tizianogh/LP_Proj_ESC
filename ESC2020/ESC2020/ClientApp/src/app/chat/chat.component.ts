@@ -58,7 +58,7 @@ export class ChatComponent implements OnInit {
 
     setOnSignalReceived() {
         this.hubConnection.on("changeParticipants", (electionId: number, phaseId: number) => {
-            if (electionId == Number(this.election.Id)) {
+            if (electionId == Number(this.election.electionId)) {
                 this.listeUsers = [];
                 this.electionService.fetchElection(this.electionId);
                 this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
@@ -66,7 +66,7 @@ export class ChatComponent implements OnInit {
         });
 
         this.hubConnection.on("newMessage", (electionId: number, message: any) => {
-            if (electionId == Number(this.election.Id)) {
+            if (electionId == Number(this.election.electionId)) {
                 var messageC: Message = {
                     authorId: message['userId'],
                     text: message['sentence'],
@@ -133,11 +133,11 @@ export class ChatComponent implements OnInit {
     }
 
     getMessages() {
-        if (isDefined(this.election.Id)) {
+        if (isDefined(this.election.electionId)) {
             while (document.getElementsByClassName("added").length != 0) {
                 this.removeAdded();
             }
-            this.service.get(window.location.origin + "/api/Messages/election/" + this.election.Id).subscribe(result => {
+            this.service.get(window.location.origin + "/api/Messages/election/" + this.election.electionId).subscribe(result => {
                 var tmpMessagesList: Message[] = result as Message[];
                 this.messagesList = [];
                 for (let i = 0; i < tmpMessagesList.length; i++) {
@@ -167,14 +167,18 @@ export class ChatComponent implements OnInit {
 
 
     setupElection(anElection: Election) {
-        this.election = anElection;
-        this.election.Id = anElection['electionId'];
-        this.electionId = anElection['electionId'];
-        this.election.poste = anElection['job'];
-        this.election.missions = anElection['mission'];
-        this.election.responsabilite = anElection['responsability'];
+        if(anElection.electionId!=null){
+            console.log("ICI")
+            console.log(anElection)
+            this.election = anElection;
+            this.election.electionId = anElection['electionId'];
+            this.electionId = anElection['electionId'].toString();
+            this.election.job = anElection['job'];
+            this.election.mission = anElection['mission'];
+            this.election.responsability = anElection['responsability'];
 
-        setTimeout(() => this.getMessages(), 500);
+            setTimeout(() => this.getMessages(), 500);
+        }
     }
 
     checkHost() {
@@ -196,7 +200,7 @@ export class ChatComponent implements OnInit {
             'ElectionId': this.election['electionId']
         }
         this.service.post(window.location.origin + "/api/Messages", message).subscribe(result => {
-            this.hubConnection.send("newMessage", (Number)(this.election.Id), message);
+            this.hubConnection.send("newMessage", (Number)(this.election.electionId), message);
         }, error => console.log(error));
     }
 
