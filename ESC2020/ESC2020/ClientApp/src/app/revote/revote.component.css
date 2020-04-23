@@ -110,7 +110,7 @@
 
     #progressbar #votes:before {
         font-family: FontAwesome;
-        content: "1";
+        content: "?";
     }
 
     #progressbar #repportVotes:before {

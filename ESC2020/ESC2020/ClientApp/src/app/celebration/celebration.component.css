@@ -33,22 +33,22 @@
 
     #progressbar #votes:before {
         font-family: FontAwesome;
-        content: "1";
+        content: "✔";
     }
 
     #progressbar #repportVotes:before {
         font-family: FontAwesome;
-        content: "2";
+        content: "✔";
     }
 
     #progressbar #objections:before {
         font-family: FontAwesome;
-        content: "3";
+        content: "✔";
     }
 
     #progressbar #bonification:before {
         font-family: FontAwesome;
-        content: "4";
+        content: "✔";
     }
 
     #progressbar #celebration:before {
