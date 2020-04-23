@@ -1,22 +1,40 @@
-﻿<h2 id="titre" style="text-indent: 5px;">
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        Votes /
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        Report de votes /
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        Objections
-    </label>
-    <label style="font-size: 24px; font-weight: 400; color:gray;">
-        / Bonification /
-    </label>
-    <label>
-        Célébration
-    </label>
-</h2>
+﻿<div class="container-fluid">
+    <div class="row my-3 justify-content-center">
+        <div class="col-11 px-0 text-center">
+            <div class="card px-0" id="card">
+                <ul id="progressbar">
+                    <li class="active" id="votes">Votes</li>
+                    <li class="active" id="repportVotes">Repport de Votes</li>
+                    <li class="active" id="objections">Objections</li>
+                    <li class="active" id="bonification">Bonification</li>
+                    <li class="active title" id="celebration">Célébration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+     <div class="row mt-5 justify-content-center">
+        <div class="col-md-4 mb-5 mb-md-0 text-center">
+            <img class="img-fluid" src="assets/img/celebration2.gif" width="400px">
+        </div>
+        <div class="col-md-4 text-center">
+            <label class="intro">
+                Félicitation à {{actualElected.FirstName}} {{actualElected.LastName}} pour avoir été élu(e) au poste de {{election.poste}} !!!
+            </label>
+            <div class="profile-userpic">
+                <img class="img-fluid" src="data:image/png;base64,{{actualElected.Avatar}}" width="200px" />
+            </div>
+            <div class="profile-usertitle-name">
+                {{actualElected.FirstName}} {{actualElected.LastName}}
+            </div>
+        </div>
+        <div class="col-md-4 mt-5 mt-md-0 text-center">
+            <img class="img-fluid" src="assets/img/celebration2.gif" width="400px">
+        </div>
+     </div>
 
-<div class="container-fluid align-middle text-center">
+</div>
+
+<!--<div class="container-fluid align-middle text-center">
     <div class="row mt-5">
         <div class="col-sm-5 align-self-center">
             <img class="img-fluid" src="assets/img/celebration.gif" width="1000px">
@@ -50,4 +68,4 @@
             <img class="img-fluid" src="assets/img/celebration.gif" width="1000px">
         </div>
     </div>
-</div>
+</div>-->

@@ -62,3 +62,100 @@
   font-size: 16px;
   vertical-align: top;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/*#titre {
+    color: #430640;
+    font-weight: 800;
+    font-size: 38px;
+}
+
+.container {
+    font-size: 18px;
+}
+
+#navBlock {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+nav {
+    border-bottom: solid #430640;
+    width: 100% !important;
+    white-space: nowrap;
+}
+
+.color-border {
+    border-color: #430640;
+}
+
+
+.logs::-webkit-scrollbar {
+    width: 6px;
+}
+
+.logs::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(56, 56, 56, 0.363);
+}
+
+.log {
+    height: auto;
+    margin-left: 15px;
+  padding-top: 20px;
+}
+
+
+
+
+.logs {
+    height: 700px;
+    overflow: auto;
+    margin-top: 10px;
+}
+
+
+.nav-link:hover {
+    border-color: #430640;
+}
+
+
+
+
+
+
+.title {
+    color: #430640;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.rows {
+    margin: 0;
+    padding: 0;
+}
+
+.hour {
+    color: gray;
+    font-weight: 200;
+    font-size: 11px;
+    padding-top: 5px;
+    padding-right: 20px;
+    vertical-align: top;
+}
+
+.opinion {
+    font-weight: 400;
+    font-size: 16px;
+    vertical-align: top;
+}
+*/
