@@ -2,6 +2,19 @@
     font-size: 18px;
 }
 
+.bouton {
+    transition: all 0.3s ease 0s;
+}
+
+    .bouton:hover {
+        color: rgba(129, 11, 123, 0.77);
+        /*border: 1px solid #430640;
+        border-bottom: 5px solid rgb(67, 6, 64) !important;*/
+        /*border-right: 1px solid #430640;
+        border-top: 1px solid #430640;*/
+        /*background-color: #430640 !important;*/
+        /*border-top-left-radius: 10px;*/
+    }
 
 nav {
     /* border-bottom: solid #430640;*/
@@ -105,4 +118,5 @@ a:hover {
 .card-body {
     border-left: solid #430640;
     border-right: solid #430640;
+    background-color: white;
 }

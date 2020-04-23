@@ -26,6 +26,8 @@ export class ObjectionsComponent implements OnInit {
     connected: boolean;
     connectedAccount: Users = new Users();
 
+    objectionAuthor: Users = new Users();
+
     election: Election = new Election();
     actualProposed: Users = new Users();
     connectedParticipant: Participant = new Participant();
@@ -216,11 +218,29 @@ export class ObjectionsComponent implements OnInit {
             let tempObjectionsList: Opinion[] = result as Opinion[];
             for (let i in tempObjectionsList) {
                 if (tempObjectionsList[i]['typeId'] == 2 && tempObjectionsList[i]['concernedId'] == this.actualProposed['userId'] && !this.alreadyInObjections(tempObjectionsList[i])) {
-                    this.objectionsList.push(tempObjectionsList[i])
+                    this.objectionsList.push(tempObjectionsList[i]);
+                   
                 }
             }
-
+            this.objectionsList.forEach(opinion => {
+                console.log(opinion);
+                this.getObjectionsAuthor(opinion);
+            });
+           
         }, error => console.log(error));
+    }
+
+    getObjectionsAuthor(opinion: Opinion) {
+        //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
+        console.log(opinion);
+        if (opinion['authorId'] != null) {
+            this.service.get(window.location.origin + "/api/Users/" + opinion['authorId']).subscribe(userResult => {
+                this.objectionAuthor = userResult as Users;
+                this.objectionAuthor.FirstName = userResult['firstName'];
+                this.objectionAuthor.LastName = userResult['lastName'];
+                document.getElementById("opinion" + opinion['opinionId']).innerHTML = "&nbsp;" + this.objectionAuthor.FirstName + " " + this.objectionAuthor.LastName
+            }, error => console.error(error));
+        }
     }
 
     alreadyInObjections(objection: Opinion) {

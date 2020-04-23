@@ -54,7 +54,7 @@ export class CelebrationComponent implements OnInit {
 
 
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
-        this.actualElected = null;
+        //this.actualElected = null;
         this.mainRequest();
     }
 
