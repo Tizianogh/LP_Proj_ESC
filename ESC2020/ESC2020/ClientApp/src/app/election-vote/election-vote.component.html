@@ -78,7 +78,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 mb-2 text-center">
-                            <div *ngIf="election.hostId == connectedAccount.userId && election.hostId != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
+                            <div *ngIf="election['hostId'] == connectedAccount.userId && election.hostId != currentUser['userId']; then ThenBlock2 else ElseBlock2"></div>
                             <ng-template #ElseBlock2>
                                 <button type="submit" class="btn send" hidden>Exclure</button>
                             </ng-template>
