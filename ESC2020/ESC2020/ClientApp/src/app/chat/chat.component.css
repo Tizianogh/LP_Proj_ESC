@@ -33,14 +33,9 @@
         margin-right: 5px;
     }
 
-.panel-body {
+.modal-body {
     overflow-y: scroll;
     height: 50vh;
-    width:40vw;
-}
-
-.sendPart {
-    width:40vw;
 }
 
 .chatText {
@@ -80,3 +75,12 @@
     background-color:white;
 }
 
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none !important;
+}
+
+.modal-dialog {
+    margin: 2px auto;
+    z-index: 1100 !important;
+}

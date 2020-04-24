@@ -93,10 +93,13 @@ export class ChatComponent implements OnInit {
                 document.getElementById("chatList").appendChild(newMessageElement);
                 (<HTMLInputElement>document.getElementById("btn-input")).value = "";
                 if (!(document.getElementById("collapseOne").classList.contains("show"))) {
-                    let notif = document.createElement("span");
-                    notif.innerHTML = `<li><span id="notifs">Messages en attente</span></li>`;
-                    notif.setAttribute("style", "font-size:16px;padding-top:1vh;");
-                    document.getElementsByClassName("navbar-nav")[0].appendChild(notif);
+                    if (document.getElementById("notifs") == null) {
+                        let notif = document.createElement("span");
+                        notif.innerHTML = `<li><span id="notifs">Messages en attente</span></li>`;
+                        notif.setAttribute("style", "font-size:16px;padding-top:1vh;");
+                        document.getElementsByClassName("navbar-nav")[0].appendChild(notif);
+                    }
+
                 }
             }
         });

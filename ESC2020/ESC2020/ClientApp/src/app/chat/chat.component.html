@@ -5,37 +5,51 @@
                 <div class="panel-heading" id="accordion">
                     <span class="glyphicon glyphicon-comment"></span>
                     <div class="btn-group pull-right">
-                        <button id="chatBtn" data-toggle="collapse" data-parent="#accordion" (click)="resetNotifs()" href="#collapseOne"><img src="https://images.emojiterra.com/mozilla/512px/2709.png" height="30px" /></button>
+                        <!-- <button id="chatBtn" data-toggle="collapse" data-parent="#accordion" (click)="resetNotifs()" href="#collapseOne"><img src="https://images.emojiterra.com/mozilla/512px/2709.png" height="30px" /></button>-->
+                        <!-- Button trigger modal -->
+                        <button type="button"  id="chatBtn" class="btn btn-primary"  (click)="resetNotifs()" data-toggle="modal" data-target="#collapseOne"> <img src="https://images.emojiterra.com/mozilla/512px/2709.png" height="30px" /></button>
                     </div>
                 </div>
-                <div class="panel-collapse collapse" id="collapseOne">
-                    <div class="panel-body" id="scrollCont" id="divChat">
-                        <ul class="chat" id="chatList">
-                            <li class="left clearfix" *ngFor="let message of messagesList">
-                                <span class="chat-img pull-left">
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header">
-                                        <strong class="chatText">{{getAuthorById(message.authorId)}}</strong>
-                                         <small class="pull-right text-muted">
-                                            <span class="glyphicon glyphicon-time"></span><span class="chatText">{{message.dateMessage | date:'short':'+0200':'fr'}}</span>
-                                        </small>
-                                    </div>
-                                    <p class="chatText">
-                                        {{message.text}}
-                                    </p>
+                <div class="modal fade" id="collapseOne" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" id="scrollCont">
+                        <div id="divChat">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Chat</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="input-group sendPart">
-                            <input id="btn-input" type="text" class="form-control input-sm" placeholder="Message..." />
-                            <span class="input-group-btn">
-                                <button class="btn btn-sm" id="btn-chat" (click)="sendMessage()">
-                                    Envoyer
-                                </button>
-                            </span>
+                                <div class="modal-body">
+                                    <ul class="chat" id="chatList">
+                                        <li class="left clearfix" *ngFor="let message of messagesList">
+                                            <span class="chat-img pull-left">
+                                            </span>
+                                            <div class="chat-body clearfix">
+                                                <div class="header">
+                                                    <strong class="chatText">{{getAuthorById(message.authorId)}}</strong>
+                                                    <small class="pull-right text-muted">
+                                                        <span class="glyphicon glyphicon-time"></span><span class="chatText">{{message.dateMessage | date:'short':'+0200':'fr'}}</span>
+                                                    </small>
+                                                </div>
+                                                <p class="chatText">
+                                                    {{message.text}}
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="input-group sendPart">
+                                        <input id="btn-input" type="text" class="form-control" placeholder="Message..." (keyup.enter)="sendMessage()"/>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm" id="btn-chat" (click)="sendMessage()">
+                                                Envoyer
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

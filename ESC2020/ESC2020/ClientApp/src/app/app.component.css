@@ -1,0 +1,15 @@
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none !important;
+}
+
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: rgba(128, 128, 128, 0.55);
+}
+
+.modal-open {
+    padding: 0 !important;
+    overflow-y: auto;
+}
