@@ -50,7 +50,7 @@ export class RevoteComponent implements OnInit {
         this.navBarStateService.SetLogsVisible(true);
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+        this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
 
         this.getCurrentParticipant();
         this.setOnSignalReceived();
@@ -97,7 +97,7 @@ export class RevoteComponent implements OnInit {
                 this.listeUsers = [];
                 this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+                this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
             }
         });
     }

@@ -46,7 +46,7 @@ export class ElectionVoteComponent implements OnInit {
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+        this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
 
         this.navBarStateService.SetIsInElection(true);
         this.navBarStateService.SetLogsVisible(true);
@@ -90,7 +90,7 @@ export class ElectionVoteComponent implements OnInit {
 
                 this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+                this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
             }
         });
     }
