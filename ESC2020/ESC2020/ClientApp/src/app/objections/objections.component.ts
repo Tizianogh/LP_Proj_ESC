@@ -12,6 +12,7 @@ import { isUndefined } from 'util';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Notification } from '../Model/Notification';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-objections',
@@ -43,7 +44,9 @@ export class ObjectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService, private service: HttpClient) { }
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService, private service: HttpClient) {
+        translate.setDefaultLang('fr');
+    }
 
     ngOnInit() {
         this.setOnSignalReceived();
