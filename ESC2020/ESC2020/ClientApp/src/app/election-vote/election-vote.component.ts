@@ -11,6 +11,7 @@ import { Phase } from '../Model/Phase';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Opinion } from '../Model/Opinion';
 import { Notification } from '../Model/Notification';
+import { isUndefined } from 'util';
 
 @Component({
     selector: 'app-election-vote',
@@ -72,9 +73,12 @@ export class ElectionVoteComponent implements OnInit {
                 this.listeParticipants = [];
                 this.listeUsers = [];
 
-                this.electionService.fetchElection(this.election.electionId.toString());
-                this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+                this.electionService.fetchElection(this.election.electionId.toString()).then(
+                    () => {
+                        this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
+                        this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
+                    }
+                )
             }
         });
 
@@ -91,14 +95,23 @@ export class ElectionVoteComponent implements OnInit {
         });
     }
 
+    setupUsers(users: Users[]) {
+        this.listeUsers = [];
+        var tmpListe: Users[] = users;
+
+        //fonction anti doublon
+        tmpListe.forEach(u => {
+            if (isUndefined(this.listeUsers.find(u2 => u2['userId'] == u['userId'])))
+                this.listeUsers.push(u);
+        });
+    }
+
     getCurrentParticipant() {
         this.currentParticipant = new Participant();
         this.httpRequest.getParticipant(this.connectedAccount, this.election).then(
             participant => {
                 this.currentParticipant = participant as Participant;
-            }, error => {
-                console.log(error)
-            }
+            }, error => {console.log(error)}
         );
     }
 
@@ -168,7 +181,7 @@ export class ElectionVoteComponent implements OnInit {
                 participantData => {
                     let participant = participantData as Participant;
                     let updatedParticipant: Participant = { user: this.connectedAccount, election: this.election, hasTalked: true, voteCounter: participant.voteCounter + 1 }
-                    this.httpRequest.updateParticipant( updatedParticipant).then(
+                    this.httpRequest.updateParticipant(updatedParticipant).then(
                         () => {
                             this.navBarStateService.SetLogsVisible(true);
                             this.hubConnection.send("userHasVoted", this.election.electionId, Number(this.election['electionPhaseId']));
@@ -238,7 +251,7 @@ export class ElectionVoteComponent implements OnInit {
                     p.hasTalked = false;
                     p.election = this.election;
                     this.httpRequest.updateParticipant(p).then(
-                        updatedParticipantData => {}, error => { console.log(error) }
+                        updatedParticipantData => { }, error => { console.log(error) }
                     );
                 })
             }
@@ -258,7 +271,7 @@ export class ElectionVoteComponent implements OnInit {
                             election: this.election as Election
                         };
                         this.httpRequest.createNotification(newNotification).then(
-                            notification => { 
+                            notification => {
                                 this.hubConnection.send("updatePhase", Number(this.election['electionId']));
                             }, error => { console.log(error) }
                         );
