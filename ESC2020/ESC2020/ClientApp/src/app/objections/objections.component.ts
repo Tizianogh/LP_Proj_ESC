@@ -45,7 +45,8 @@ export class ObjectionsComponent implements OnInit {
         .build();
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService, private service: HttpClient) {
-        translate.setDefaultLang('fr');
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
     }
 
     ngOnInit() {

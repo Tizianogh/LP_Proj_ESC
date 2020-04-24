@@ -20,7 +20,10 @@ export class NavMenuComponent {
     private logsVisible: boolean;
     public inElection: boolean;
 
-    constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) { translate.setDefaultLang('fr'); }
+    constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
