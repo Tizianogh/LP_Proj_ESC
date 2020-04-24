@@ -15,7 +15,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="center-block align-self-left" *ngIf="election.hostId == connectedAccount.userId; then ThenBlock1"></div>
+        <div class="center-block align-self-left" *ngIf="election['hostId'] == connectedAccount.userId; then ThenBlock1"></div>
         <ng-template #ThenBlock1>
             <button class="btn send" (click)="goToNextPhase()">Terminer la phase</button>
         </ng-template>
