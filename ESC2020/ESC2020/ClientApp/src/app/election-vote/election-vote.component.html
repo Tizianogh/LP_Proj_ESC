@@ -119,9 +119,9 @@
                         <div class="col-md-12 text-center">
                             <div *ngIf="currentParticipant['hasTalked']; then ThenBlock3 else ElseBlock3"></div>
                             <ng-template #ElseBlock3>
-                                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
+                                <textarea class="form-control d-flex justify-content-center" id="argumentaires" [(ngModel)]="textEntered" placeholder="Argumentez votre vote..." rows="3"></textarea> <br />
                                 <div class="col text-center">
-                                    <button type="submit" id="voteBtn" class="btn mb-3 send" (click)="Vote()">Voter pour ce candidat</button>
+                                    <button type="submit" id="voteBtn" class="btn mb-3 send" [disabled]="!textEntered" (click)="Vote()">Voter pour ce candidat</button>
                                 </div>
                             </ng-template>
                             <ng-template #ThenBlock3>

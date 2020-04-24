@@ -91,7 +91,9 @@ export class ChatComponent implements OnInit {
                             </li>`;
                 newMessageElement.setAttribute("style", "font-size:15px;margin-left: 60px;");
                 document.getElementById("chatList").appendChild(newMessageElement);
-                (<HTMLInputElement>document.getElementById("btn-input")).value = "";
+                if (this.getAuthorById((Number)(messageC.authorId)) == this.getAuthorById((Number)(this.connectedAccount['userId']))) {
+                    (<HTMLInputElement>document.getElementById("btn-input")).value = "";
+                }
                 if (!(document.getElementById("collapseOne").classList.contains("show"))) {
                     let notif = document.createElement("span");
                     notif.innerHTML = `<li><span id="notifs">Messages en attente</span></li>`;
