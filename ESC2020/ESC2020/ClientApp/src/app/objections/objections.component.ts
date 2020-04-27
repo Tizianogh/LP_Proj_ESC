@@ -58,6 +58,11 @@ export class ObjectionsComponent implements OnInit {
     }
 
     setOnSignalReceived() {
+        this.hubConnection.on("changeParticipants", (electionId: number, phaseId: number) => {
+            if (electionId == Number(this.election['electionId']) && phaseId == 3) {
+                this.electionService.fetchElection(this.election['electionId'].toString());
+            }
+        });
 
         this.hubConnection.on("nextParticipant", (electionId: number) => {
             if (electionId == this.election["electionId"])
@@ -67,6 +72,16 @@ export class ObjectionsComponent implements OnInit {
         this.hubConnection.on("updateObjections", (electionId: number) => {
             if (electionId == this.election["electionId"])
                 this.getObjections();
+        });
+    }
+
+    setupUsers(users: Users[]) {
+        this.usersList = [];
+        var tmpListe: Users[] = users;
+
+        tmpListe.forEach(u => {
+            if (isUndefined(this.usersList.find(u2 => u2['userId'] == u['userId'])))
+                this.usersList.push(u);
         });
     }
 
@@ -80,7 +95,6 @@ export class ObjectionsComponent implements OnInit {
                     usersData => {
                         this.usersList = usersData as Users[]
                         this.election.hostElection = this.election.hostElection;
-                        this.checkHost();
                         this.mainRequest();
                     }, error => console.error(error)
                 );
@@ -96,11 +110,15 @@ export class ObjectionsComponent implements OnInit {
         this.startCounting();
     }
 
-    checkHost() {
-        if (this.connectedAccount["userId"] == this.election['hostId'])
-            this.host = true;
-        else
-            this.host = false;
+    becomeHost() {
+        if (this.connectedAccount.userId != this.election['hostId']) {
+            this.election.hostElection = this.connectedAccount;
+            this.httpRequest.updateElection(this.election).then(
+                () => {
+                    this.hubConnection.send("changeParticipants", this.election.electionId, Number(this.election['electionPhaseId']));
+                }
+            )
+        }
     }
 
     startCounting() {

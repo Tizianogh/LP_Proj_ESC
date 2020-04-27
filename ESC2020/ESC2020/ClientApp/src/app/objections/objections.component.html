@@ -64,7 +64,7 @@
 
         <div class="row mt-5 justify-content-center">
             <div class="col-md-10 text-center">
-                <div *ngIf="host; then thenBlockA else elseBlockA"></div>
+                <div *ngIf="election['hostId'] == connectedAccount.userId; then thenBlockA else elseBlockA"></div>
 
                 <ng-template #thenBlockA>
                     <table class="table table-hover table-md">
@@ -82,7 +82,7 @@
                                 <td>{{objection['reason']}}</td>
                                 <td>
                                     <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
-                        (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
+                                (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
 
                                     <button type="submit" class="btn send" (click)="validateObjection()">Valider l'objection</button>
 
@@ -113,9 +113,12 @@
 
         <div class="row my-5">
             <div class="col-md-12 text-center">
-                <div *ngIf="host; then thenBlockV"></div>
+                <div *ngIf="election['hostId'] == connectedAccount.userId; then thenBlockV else ElseBlockV"></div>
                 <ng-template #thenBlockV>
                     <button type="submit" class="btn accept" (click)="acceptCandidate()">Accepter la candidature</button>
+                </ng-template>
+                <ng-template #ElseBlockV>
+                    <button class="btn send" (click)="becomeHost()">Récupérer les droits de facilitateur</button>
                 </ng-template>
             </div>
         </div>
