@@ -1,91 +1,3 @@
-<!--<div class="container">
-    <div class="row justify-content-center my-5">
-        <h2 id="titre" class="text-center">
-            Historique de l'élection
-        </h2>
-    </div>
-    <div class="row justify-content-center">
-        <label class="text-center">
-            Vous pouvez ici consulter les avis des autres participants et les étapes clés du processus de l'élection en cours.
-        </label>
-    </div>
-
-
-
-
-    <div class="row" id="navBlock">
-        <div class="col-md-12">
-            <nav class="navbar navbar-expand-md justify-content-center">
-                <ul class="navbar-nav color-border">
-                    <div *ngIf="logsVisible == true; then ThenBlock else ElseBlock"></div>
-                    <ng-template #ElseBlock>
-                        <li class="nav-item" id="VotesTab">
-                            <a class="nav-link disabled" style="cursor: pointer;">
-                                Votes
-                            </a>
-                        </li>
-                    </ng-template>
-                    <ng-template #ThenBlock>
-                        <li class="nav-item" id="VotesTab">
-                            <a class="nav-link" style="cursor: pointer;" (click)="ShowVotes()">
-                                Votes
-                            </a>
-                        </li>
-                    </ng-template>
-                    <div *ngIf="objectionsVisible == true; then ThenBlock1 else ElseBlock1"></div>
-                    <ng-template #ElseBlock1>
-                        <li class="nav-item" id="ObjectionsTab">
-                            <a class="nav-link disabled" style="cursor: pointer;">
-                                Objections
-                            </a>
-                        </li>
-                    </ng-template>
-                    <ng-template #ThenBlock1>
-                        <li class="nav-item" id="ObjectionsTab">
-                            <a class="nav-link" style="cursor: pointer;" (click)="ShowObjections()">
-                                Objections
-                            </a>
-                        </li>
-                    </ng-template>
-                    <li class="nav-item" id="NotificationsTab">
-                        <a class="nav-link" style="cursor: pointer;" (click)="ShowNotifications()">
-                            Notifications
-                        </a>
-                    </li>
-                </ul>
-                <div class="navbar-collapse justify-content-md-end">
-                    <ul class="navbar-nav justify-content-md-end ">
-                        <li class="nav-item align-text-bottom mb-1" id="ongletAjouterElections">
-                            <img src="assets/img/close.png" height="20" style="cursor: pointer;" (click)="browserReturn()" />
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="logs">
-            <div class="log" *ngFor="let log of logList">
-                <div class="title">
-                    {{log.title}}
-                </div>
-                <table>
-                    <tr>
-                        <th class="hour">
-                            {{log.hour}}
-                        </th>
-                        <th class="opinion">
-                            {{log.opinion}}
-                        </th>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>-->
-
-
 <h1 id="titre">
     Historique de l'élection
 </h1>
@@ -94,52 +6,30 @@
     Vous pouvez ici consulter les avis des autres participants <br /> et les étapes clés du processus de l'élection en cours.
 </p>
 
-<img src="assets/img/close.png" height="20" align="right" style="margin-right:75px; cursor: pointer;" (click)="browserReturn()" />
+<div>
+    <img src="assets/img/close.png" height="20" align="right" style="margin-right:75px; cursor: pointer;" (click)="browserReturn()" />
+</div>
 
 <ul class="nav nav-tabs color-border" style=" margin-left: 75px; margin-right: 75px;">
-
-    <div *ngIf="logsVisible == true; then ThenBlock else ElseBlock"></div>
-    <ng-template #ElseBlock>
-        <li class="nav-item" id="VotesTab">
-            <a class="nav-link disabled" style="cursor: pointer;">
-                Votes
-            </a>
-        </li>
-    </ng-template>
-    <ng-template #ThenBlock>
-        <li class="nav-item" id="VotesTab">
-            <a class="nav-link" style="cursor: pointer;" (click)="ShowVotes()">
-                Votes
-            </a>
-        </li>
-    </ng-template>
-
-    <div *ngIf="objectionsVisible == true; then ThenBlock1 else ElseBlock1"></div>
-    <ng-template #ElseBlock1>
-        <li class="nav-item" id="ObjectionsTab">
-            <a class="nav-link disabled" style="cursor: pointer;">
-                Objections
-            </a>
-        </li>
-    </ng-template>
-    <ng-template #ThenBlock1>
-        <li class="nav-item" id="ObjectionsTab">
-            <a class="nav-link" style="cursor: pointer;" (click)="ShowObjections()">
-                Objections
-            </a>
-        </li>
-    </ng-template>
-
-    <li class="nav-item" id="NotificationsTab">
-        <a class="nav-link" style="cursor: pointer;" (click)="ShowNotifications()">
-            Notifications
-        </a>
-    </li>
 </ul>
 
 <div class="logs" style="margin-left: 75px; margin-right: 75px;">
     <div class="log" *ngFor="let log of logList">
         <div class="title">
+            <span [ngSwitch]="log.type" style="font-size:16px;">
+                <span *ngSwitchCase="1" id="VoteBadge">
+                    <span class="badge badge-pill badge-primary">Vote</span>
+                </span>
+                <span *ngSwitchCase="2" id="ReportBadge">
+                    <span class="badge badge-pill badge-secondary">Report</span>
+                </span>
+                <span *ngSwitchCase="3" id="ObjectionBadge">
+                    <span class="badge badge-pill badge-danger">Objection</span>
+                </span>
+                <span *ngSwitchCase="4" id="NotificationBadge">
+                    <span class="badge badge-pill badge-success">Notification</span>
+                </span>
+            </span>
             {{log.title}}
         </div>
         <table>

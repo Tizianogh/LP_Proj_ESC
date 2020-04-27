@@ -14,14 +14,10 @@ import { HTTPRequestService } from '../services/HTTPRequest.service';
     styleUrls: ['./logs.component.css']
 })
 export class LogsComponent implements OnInit {
-    private voteList: Log[] = [];
-    private objectionList: Log[] = [];
-    private notificationList: Log[] = [];
     private allListOpinion: Log[] = [];
     private allListNotifs: Log[] = [];
 
     public logsVisible: boolean;
-    public objectionsVisible: boolean;
 
     public logList: Log[] = [];
 
@@ -29,60 +25,22 @@ export class LogsComponent implements OnInit {
 
     ngOnInit() {
         this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
-        this.navBarStateService.GetObjectionsVisible().subscribe(isVisible => this.objectionsVisible = isVisible);
 
         this.getNotifications();
-        this.getOpinions();
+        this.getLogs();
     }
 
-    ShowVotes() {
-        this.logList = this.voteList;
-        document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid transparent;";
-        document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid transparent;";
-    }
-    ShowObjections() {
-        this.logList = this.objectionList;
-        document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid transparent;";
-        document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid transparent;";
-    }
-    ShowNotifications() {
-        this.logList = this.notificationList;
-        document.getElementById("NotificationsTab").style.cssText = "border-bottom: 5px solid #430640;";
-        document.getElementById("ObjectionsTab").style.cssText = "border-bottom: 5px solid transparent;";
-        document.getElementById("VotesTab").style.cssText = "border-bottom: 5px solid transparent;";
-    }
-
-    votePush(title: string, opinion: string, hour: string) {
+    logPush(title: string, opinion: string, hour: string, type: number) {
         let customLog = new Log();
         customLog.title = title;
         customLog.opinion = opinion;
         customLog.hour = hour;
-        this.voteList.push(customLog);
-        this.sort(this.voteList);
+        customLog.type = type;
 
+        this.logList.push(customLog);
+        this.sort(this.logList);
     }
-
-    objectionPush(title: string, opinion: string, hour: string) {
-        let customLog = new Log();
-        customLog.title = title;
-        customLog.opinion = opinion;
-        customLog.hour = hour;
-        this.objectionList.push(customLog);
-        this.sort(this.objectionList);
-
-    }
-
-    notificationPush(title: string, opinion: string, hour: string) {
-        let customLog = new Log();
-        customLog.title = title;
-        customLog.opinion = opinion;
-        customLog.hour = hour;
-        this.notificationList.push(customLog);
-        this.sort(this.notificationList);
-    }
-
+   
     sort(array: Log[]) {
         array.sort((l1, l2) => {
             if (l1.hour > l2.hour)
@@ -103,14 +61,14 @@ export class LogsComponent implements OnInit {
                 this.allListNotifs = notificationsData as Log[];
                 for (let i in this.allListNotifs) {
                     let datePubli: string = this.allListNotifs[i]['dateNotification'];
-                    this.notificationPush(this.allListNotifs[i]['message'], "",
-                        new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                    this.logPush(this.allListNotifs[i]['message'], "",
+                        new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 4);
                 }
             }, error => console.error(error)
         );
     }
 
-    getOpinions() {
+    getLogs() {
         this.httpRequest.getOpinions(Number(this.router.url.split('/')[2])).then(
             opinionsData => {
                 this.allListOpinion = opinionsData as Log[];
@@ -125,8 +83,8 @@ export class LogsComponent implements OnInit {
                                     votedUserData => {
                                         let voted = votedUserData as Users;
                                         let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                                        this.votePush(voting["firstName"] + " " + voting["lastName"] + " a voté pour " + voted["firstName"] + " " + voted["lastName"],
-                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                                        this.logPush(voting["firstName"] + " " + voting["lastName"] + " a voté pour " + voted["firstName"] + " " + voted["lastName"],
+                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 1);
                                     }, error => console.error(error)
                                 );
                             }, error => console.error(error)
@@ -141,8 +99,8 @@ export class LogsComponent implements OnInit {
                                     votedUserData => {
                                         let voted = votedUserData as Users;
                                         let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                                        this.votePush(voting["firstName"] + " " + voting["lastName"] + " a modifié son vote afin de voter pour " + voted["firstName"] + " " + voted["lastName"],
-                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                                        this.logPush(voting["firstName"] + " " + voting["lastName"] + " a modifié son vote afin de voter pour " + voted["firstName"] + " " + voted["lastName"],
+                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 2);
                                     }, error => console.error(error)
                                 );
                             }, error => console.error(error)
@@ -157,8 +115,8 @@ export class LogsComponent implements OnInit {
                                     objectedUserData => {
                                         let objected = objectedUserData as Users;
                                         let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                                        this.objectionPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre l'élection de " + objected["firstName"] + " " + objected["lastName"],
-                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8));
+                                        this.logPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre l'élection de " + objected["firstName"] + " " + objected["lastName"],
+                                            this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 3);
                                     }, error => console.error(error)
                                 );
                             }, error => console.error(error)
