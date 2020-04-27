@@ -23,23 +23,13 @@ export class MyAccountComponent implements OnInit {
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount=anUser);
         
         this.navBarStateService.SetIsInElection(false);
     }
 
     scroll(el: HTMLElement) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    setupConnectedAccount(anUser: Users) {
-        this.connectedAccount = anUser;
-        this.connectedAccount.birthDate = anUser.birthDate;
-        this.connectedAccount.firstName = anUser.firstName;
-        this.connectedAccount.lastName = anUser.lastName;
-        this.connectedAccount.email = anUser.email;
-        this.connectedAccount.description = anUser.description;
-        this.connectedAccount.job = anUser.job;
     }
 
     modifyProfile() {
@@ -111,9 +101,7 @@ export class MyAccountComponent implements OnInit {
     actualize() {
         this.httpRequest.getUserById(this.connectedAccount['userId']).then(
             userData => {
-                localStorage.clear();
-                localStorage.setItem('connectedUser', JSON.stringify(userData));
-                this.authentificationService.setConnectedAccount(JSON.parse(localStorage.getItem('connectedUser')));
+                this.authentificationService.setConnectedAccount(userData as Users);
             }, error => console.log(error)
         );
     }

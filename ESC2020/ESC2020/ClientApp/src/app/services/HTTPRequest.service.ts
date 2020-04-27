@@ -176,7 +176,8 @@ export class HTTPRequestService {
                     'Job': updatedUser.job,
                     'LastName': updatedUser.lastName,
                     'FirstName': updatedUser.firstName,
-                    'Avatar': updatedUser.avatar
+                    'Avatar': updatedUser.avatar,
+                    'AuthUser': updatedUser.authUser
                 }).subscribe(result => {
                     resolve(result as Users)
                 });

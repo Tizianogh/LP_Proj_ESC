@@ -106,7 +106,7 @@ export class ElectionService {
             console.log(user)
             for (let participant of this.participants) {
                 if (participant['userId'] == user['userId']) {
-                    findedParticipant = true;
+                    foundParticipant = true;
                 }
             }
             if (!foundParticipant) {
