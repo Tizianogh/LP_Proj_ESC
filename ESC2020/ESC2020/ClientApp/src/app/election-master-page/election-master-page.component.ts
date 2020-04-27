@@ -73,17 +73,14 @@ export class ElectionMasterPageComponent implements OnInit {
         switch (Number(this.electionPhase)) {
             case 1:
                 this.navBarStateService.SetLogsVisible(false);
-                this.navBarStateService.SetObjectionsVisible(false);
                 this.navBarStateService.SetNavState(this.election['job']);
                 break;
             case 2:
                 this.navBarStateService.SetLogsVisible(true);
-                this.navBarStateService.SetObjectionsVisible(false);
                 this.navBarStateService.SetNavState(this.election['job']);
                 break;
             default:
                 this.navBarStateService.SetLogsVisible(true);
-                this.navBarStateService.SetObjectionsVisible(true);
                 this.navBarStateService.SetNavState(this.election['job']);
                 break;
         }

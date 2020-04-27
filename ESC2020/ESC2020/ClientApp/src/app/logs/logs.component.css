@@ -1,5 +1,5 @@
 .logs {
-  height: 700px;
+  height: 650px;
   overflow: auto;
   margin-top: 10px;
 }
@@ -10,6 +10,22 @@
 
 .nav-link:hover {
     border-color: #430640;
+}
+
+.badge-primary {
+    background-color: #942c8f !important
+}
+
+.badge-secondary {
+    background-color: #40073d !important
+}
+
+.badge-success {
+    background-color: #2427b9 !important
+}
+
+.badge-danger {
+    background-color: #ff0000 !important
 }
 
 #titre {
