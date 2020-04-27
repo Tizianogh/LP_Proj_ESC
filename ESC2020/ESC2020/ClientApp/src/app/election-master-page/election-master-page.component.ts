@@ -6,6 +6,7 @@ import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
+import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 @Component({
     selector: 'app-election-master-page',
@@ -26,19 +27,28 @@ export class ElectionMasterPageComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private electionService: ElectionService, private router: Router, private navBarStateService: NavBarStateService, private authentificationService : AuthentificationService) { }
+    constructor(private httpRequest : HTTPRequestService, private electionService: ElectionService, private router: Router, private navBarStateService: NavBarStateService, private authentificationService : AuthentificationService) { }
 
-    async ngOnInit() {
+    ngOnInit() {
         this.hubConnection.start().catch(err => console.log(err));
         this.onSignalReceived();
 
         this.electionService.ClearParticipantList();
         this.electionService.ClearUserList();
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-        this.authentificationService.connectedUserVerification(this.connectedAccount);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => {
+            this.connectedAccount = anUser;
+            this.authentificationService.connectedUserVerification()
+
+            if (this.connectedAccount.userId != undefined) {
+                this.electionService.acceptedParticipantVerification(this.connectedAccount, this.router.url.split('/')[2])
+            }
+            
+        });
+
+        
         this.navBarStateService.SetIsInElection(true);
-        this.electionService.acceptedParticipantVerification(this.connectedAccount, this.router.url.split('/')[2])
+       
 
         this.electionService.fetchElection(this.router.url.split('/')[2]).then(
             electionData => {

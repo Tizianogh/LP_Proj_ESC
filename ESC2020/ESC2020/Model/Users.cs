@@ -39,6 +39,10 @@ namespace ESC2020.Model
 		[Required]
 		public byte[]? Avatar { get; set; }
 
+		
+		[Required]
+		public Guid AuthUser { get; set; } = Guid.NewGuid();
+
 		[InverseProperty("AuthorOpinion")]
 		public List<Opinion> AuthorOpinion { get; set; } = new List<Opinion>();
 

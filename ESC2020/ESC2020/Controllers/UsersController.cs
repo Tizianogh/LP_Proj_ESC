@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ESC2020.Utils;
+using System.Diagnostics;
 
 namespace ESC2020.Model
 {
@@ -34,6 +35,21 @@ namespace ESC2020.Model
         public async Task<ActionResult<Users>> GetUsers(int id)
         {
             var users = await _context.User.FindAsync(id);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users;
+        }
+
+        [HttpGet]
+        [Route("guid/{guid}")]
+        public async Task<ActionResult<Users>> GetUserByGuid(Guid guid)
+        {
+            var users = await _context.User.Where(p => p.AuthUser == guid).FirstOrDefaultAsync();
+            Debug.Write(users);
 
             if (users == null)
             {

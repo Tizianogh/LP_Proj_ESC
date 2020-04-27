@@ -9,4 +9,5 @@ export class Users {
   lastName: string;
   job: string;
   avatar: Blob;
+  authUser: string;
 }
