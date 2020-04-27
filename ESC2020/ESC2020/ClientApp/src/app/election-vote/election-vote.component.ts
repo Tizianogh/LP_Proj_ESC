@@ -64,7 +64,7 @@ export class ElectionVoteComponent implements OnInit {
 
     setupElection(anElection: Election) {
         this.election = anElection;
-        this.election.hostElection = anElection['hostId'];
+        //this.election.hostElection = anElection['hostId'];
     }
 
     setOnSignalReceived() {
@@ -242,6 +242,17 @@ export class ElectionVoteComponent implements OnInit {
         );
     }
 
+    becomeHost() {
+        if (this.connectedAccount.userId != this.election['hostId']) {
+            this.election.hostElection = this.connectedAccount;
+            this.httpRequest.updateElection(this.election).then(
+                () => {
+                    this.hubConnection.send("changeParticipants", this.election.electionId, Number(this.election['electionPhaseId']));
+                }
+            )
+        }
+    }
+
     goToNextPhase() {
 
         this.httpRequest.getParticipantsByElection(this.election).then(
@@ -259,7 +270,6 @@ export class ElectionVoteComponent implements OnInit {
 
         this.httpRequest.getPhasesById(2).then(
             phase2 => {
-                console.log(this.election)
                 let anElection = this.election;
                 anElection.phase = phase2 as Phase;
 

@@ -105,10 +105,8 @@ export class ElectionService {
             let findedParticipant = false;
             for (let participant of this.participants) {
                 if (participant['userId'] == user['userId']) {
-                    console.log("cc");
                     findedParticipant = true;
                 }
-
             }
 
             if (!findedParticipant) {

@@ -41,7 +41,7 @@ export class RevoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) { }
+    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) { }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -275,6 +275,17 @@ export class RevoteComponent implements OnInit {
                 );
             }, error => { console.log(error) }
         );
+    }
+
+    becomeHost() {
+        if (this.connectedAccount.userId != this.election['hostId']) {
+            this.election.hostElection = this.connectedAccount;
+            this.httpRequest.updateElection(this.election).then(
+                () => {
+                    this.hubConnection.send("changeParticipants", this.election.electionId, Number(this.election['electionPhaseId']));
+                }
+            )
+        }
     }
 
     noChange() {

@@ -39,6 +39,8 @@ export class HTTPRequestService {
                 else 
                     updatedElection.electedElection == null ? electedId = updatedElection['electedId'] : electedId = updatedElection.electedElection['userId']
 
+                let hostId = updatedElection.hostElection == null ? updatedElection['hostId'] : updatedElection.hostElection['userId'];
+
                 this.service.put(window.location.origin + "/api/Elections/" + updatedElection['electionId'], {
                     "ElectionId": updatedElection.electionId,
                     "Job": updatedElection.job,
@@ -47,7 +49,7 @@ export class HTTPRequestService {
                     "StartDate": updatedElection.startDate,
                     "EndDate": updatedElection.endDate,
                     "CodeElection": updatedElection.codeElection,
-                    "HostId": updatedElection['hostId'] ,
+                    "HostId": hostId,
                     "ElectedId": electedId,
                     "ElectionPhaseId": updatedElection.phase == null ? updatedElection['electionPhaseId'] : updatedElection.phase['phaseId']
                 }).subscribe(result => {
