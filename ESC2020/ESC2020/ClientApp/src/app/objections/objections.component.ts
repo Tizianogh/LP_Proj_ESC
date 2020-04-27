@@ -36,7 +36,7 @@ export class ObjectionsComponent implements OnInit {
     usersList: Users[] = [];
     objectionsList: Opinion[] = [];
     propositions: Proposition[] = [];
-
+    participantsTalk: number = 0;
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/data")
         .build();
@@ -114,6 +114,7 @@ export class ObjectionsComponent implements OnInit {
             this.httpRequest.updateElection(this.election).then(
                 () => {
                     this.hubConnection.send("changeParticipants", this.election.electionId, Number(this.election['electionPhaseId']));
+                    this.hubConnection.send("nextParticipant", this.election.electionId);
                 }
             )
         }
@@ -121,13 +122,19 @@ export class ObjectionsComponent implements OnInit {
 
     startCounting() {
 
+        this.participantsTalk = 0
+        this.participantsList.forEach(p => {
+            if (p.hasTalked)
+                this.participantsTalk++
+        })
+
         for (let i = 0; i < this.participantsList.length; i++) {
             if (this.participantsList[i]['voteCounter'] > 0) {
                 let user = this.usersList.find(element => element['userId'] == this.participantsList[i]['userId']);
                 this.propositions.push(new Proposition(user['userId'], this.participantsList[i]['voteCounter']));
             }
         }
-        if (this.propositions.length == 1 && this.connectedAccount.userId == this.election['hostId']) 
+        if (this.propositions.length == 1 && this.connectedAccount.userId == this.election['hostId'])
             alert("Il ne reste plus qu'un seul candidat ! Si une objection est validée, l'élection échouera.");
 
         if (isUndefined(this.propositions[0])) {
@@ -213,7 +220,11 @@ export class ObjectionsComponent implements OnInit {
 
     endObjection() {
         this.connectedParticipant['hasTalked'] = true;
-        this.httpRequest.updateParticipant(this.connectedParticipant);
+        this.httpRequest.updateParticipant(this.connectedParticipant).then(
+            () => {
+                this.hubConnection.send("nextParticipant", Number(this.election['electionId']));
+            }
+        );
     }
 
     getObjections() {
@@ -225,8 +236,8 @@ export class ObjectionsComponent implements OnInit {
                         this.objectionsList.push(tempObjectionsList[i])
                 }
                 this.objectionsList.forEach(opinion => {
-                this.getObjectionsAuthor(opinion);
-           });
+                    this.getObjectionsAuthor(opinion);
+                });
             }, error => console.log(error)
         );
     }
@@ -281,7 +292,7 @@ export class ObjectionsComponent implements OnInit {
                     this.httpRequest.updateParticipant(participant);
                 });
                 this.hubConnection.send("nextParticipant", this.election["electionId"]);
-            }, error => { console.log(error) } 
+            }, error => { console.log(error) }
         );
     }
 
