@@ -218,6 +218,10 @@ namespace ESC2020.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<Guid>("AuthUser")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
                     b.Property<byte[]>("Avatar")
                         .IsRequired()
                         .HasColumnType("bytea");

@@ -35,12 +35,10 @@ export class MyElectionsComponent implements OnInit {
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
-        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
+        this.authentificationService.getConnectedAccountFeed().subscribe(anUser => { this.connectedAccount = anUser; this.getElections(); this.MesElections();});
         this.navBarStateService.SetIsInElection(false);
         this.hubConnection.start().catch(err => console.log(err));
-        this.getElections();
-        
-        this.MesElections();
+       
     }
 
     getElections() {

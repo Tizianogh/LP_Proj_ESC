@@ -98,22 +98,21 @@ export class ElectionService {
     }
 
     //vérifier que l'utilisateur a été invité à rejoindre
-    async acceptedParticipantVerification(user: Users, electionId: string) {
-        await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
+    acceptedParticipantVerification(user: Users, electionId : string) {
+         this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
             this.participants = participantResult as Participant[];
             //ici on devrait avoir récupéré la liste des participants
-            let findedParticipant = false;
+            let foundParticipant = false;
+            console.log(user)
             for (let participant of this.participants) {
                 if (participant['userId'] == user['userId']) {
                     findedParticipant = true;
                 }
             }
-
-            if (!findedParticipant) {
+            if (!foundParticipant) {
                 alert("Vous n'avez pas été invité à rejoindre cette élection depuis ce compte.");
                 this.router.navigate(['home/']);
             }
-
         }, error => console.error(error));
     }
 

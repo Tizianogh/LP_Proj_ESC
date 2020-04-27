@@ -198,6 +198,19 @@ export class HTTPRequestService {
         });
     }
 
+    public getUserByGUID(aGUID: string) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.service.get(window.location.origin + "/api/Users/guid/" + aGUID).subscribe(result => {
+                    resolve(result as Users);
+                });
+            } catch (e) {
+                alert("Echec lors de la récupération de utilisateur par GUID")
+                reject(e)
+            }
+        });
+    }
+
 
     // api/Participants
     public getParticipant(user: Users, election: Election) {

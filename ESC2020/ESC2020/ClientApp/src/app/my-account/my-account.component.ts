@@ -57,7 +57,7 @@ export class MyAccountComponent implements OnInit {
             //il faudra éventuellement rajouter des vérifications par exemple : une limite de chaine de caractères, pas de nombre dans le nom...
             //remplacement
 
-            let updateUser: Users = { userId: this.connectedAccount.userId, email: this.connectedAccount.email, password: this.connectedAccount.password, salt: this.connectedAccount.salt, birthDate: (<HTMLInputElement>document.getElementById("birthDate")).value, description: (<HTMLInputElement>document.getElementById("description")).value, job: (<HTMLInputElement>document.getElementById("job")).value, lastName: (<HTMLInputElement>document.getElementById("lastName")).value, firstName: (<HTMLInputElement>document.getElementById("firstName")).value, avatar:this.image }
+            let updateUser: Users = { userId: this.connectedAccount.userId, email: this.connectedAccount.email, password: this.connectedAccount.password, salt: this.connectedAccount.salt, birthDate: (<HTMLInputElement>document.getElementById("birthDate")).value, description: (<HTMLInputElement>document.getElementById("description")).value, job: (<HTMLInputElement>document.getElementById("job")).value, lastName: (<HTMLInputElement>document.getElementById("lastName")).value, firstName: (<HTMLInputElement>document.getElementById("firstName")).value, avatar: this.image, authUser: this.connectedAccount.authUser }
             this.httpRequest.updateUser(this.connectedAccount.userId, updateUser).then(
                 () => {
                     this.actualize();
