@@ -1,4 +1,8 @@
 {
+	"bonification": {
+		"details": "Détails de l'élection :",
+		"test": ""
+	},
 	"home": {
 		"bienvenue": "Bienvenue sur votre site d'élection",
 		"carouBonn": "Un candidat n'a pas eu d'objections, il est élu. Va-t-il accepter son poste ?",

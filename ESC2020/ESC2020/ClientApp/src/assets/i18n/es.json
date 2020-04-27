@@ -1,4 +1,8 @@
 {
+	"bonification": {
+		"details": "Historial electoral:",
+		"test": ""
+	},
 	"home": {
 		"bienvenue": "Bienvenido a tu sitio electoral",
 		"carouBonn": "Un candidato no tenía objeciones, fue elegido. ¿Aceptará su posición?",
