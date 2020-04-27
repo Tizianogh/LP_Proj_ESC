@@ -9,6 +9,8 @@ import { Phase } from '../Model/Phase';
 import { NavBarStateService } from './NavBarState.service';
 import { isUndefined } from 'util';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { Notification } from '../Model/Notification';
+import * as signalR from '@microsoft/signalr';
 
 
 @Injectable({
@@ -22,15 +24,81 @@ export class ElectionService {
     private participantList: BehaviorSubject<Participant[]>;
     private users: Users[];
     private userList: BehaviorSubject<Users[]>;
-
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/data")
+        .build();
 
     constructor(private httpRequest: HTTPRequestService, private service: HttpClient, private navBarStateService: NavBarStateService, private router: Router) {
-        this.election = new BehaviorSubject( new Election());
+        this.election = new BehaviorSubject(new Election());
         this.participantList = <BehaviorSubject<Participant[]>>new BehaviorSubject([]);
         this.userList = <BehaviorSubject<Users[]>>new BehaviorSubject([]);
+        this.setOnSignalReceived();
+        this.hubConnection.start().catch(err => console.log(err));
     }
+
+    setOnSignalReceived() {
+
+        this.hubConnection.on("userHasVoted", (electionId: number, phaseId: number) => {
+            let election: Election;
+            this.httpRequest.getElectionById(Number(electionId)).then(
+                electionData => {
+                    election = electionData as Election;
+                    this.httpRequest.getParticipantsByElection(election).then(
+                        participantsData => {
+                            let participantsTmp: Participant[] = participantsData as Participant[];
+                            let count: number = 0;
+                            for (let i = 0; i < participantsTmp.length; i++) {
+                                if (participantsTmp[i]['hasTalked']) {
+                                    count++;
+                                }
+                            }
+                            if (count == participantsTmp.length) {
+                                this.service.get
+                                this.goToNextPhase(election['electionPhaseId'], election, participantsTmp);
+                                this.hubConnection.send("updatePhase", Number(election['electionId']));
+                            }
+                        }, error => { console.log(error); }
+                    );
+                }, error => { console.log(error); }
+            );
+        });
+
+    }
+
+    goToNextPhase(phaseId: number, election: Election, listeParticipants: Participant[]) {
+
+        listeParticipants.forEach(p => {
+            p.hasTalked = false;
+            this.httpRequest.updateParticipant(p).then(
+                updatedParticipantData => { }, error => { console.log(error) }
+            );
+        })
+
+        this.httpRequest.getPhasesById(phaseId+1).then(
+            phase2 => {
+                let anElection = election;
+                anElection.phase = phase2 as Phase;
+
+                this.httpRequest.updateElection(anElection).then(
+                    () => {
+                        let newNotification: Notification = {
+                            message: "Début de la phase de report de votes pour le poste de " + election.job + '.',
+                            date: new Date(),
+                            election: election
+                        };
+                        this.httpRequest.createNotification(newNotification).then(
+                            notification => {
+                                this.hubConnection.send("updatePhase", Number(election['electionId']));
+                            }, error => { console.log(error) }
+                        );
+                    }, error => { console.log(error) }
+                );
+            }, error => { console.log(error) }
+        );
+    }
+
     //vérifier que l'utilisateur a été invité à rejoindre
-    async acceptedParticipantVerification(user: Users, electionId : string) {
+    async acceptedParticipantVerification(user: Users, electionId: string) {
         await this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
             this.participants = participantResult as Participant[];
             //ici on devrait avoir récupéré la liste des participants
@@ -40,14 +108,14 @@ export class ElectionService {
                     console.log("cc");
                     findedParticipant = true;
                 }
-                
+
             }
-       
+
             if (!findedParticipant) {
                 alert("Vous n'avez pas été invité à rejoindre cette élection depuis ce compte.");
                 this.router.navigate(['home/']);
             }
-            
+
         }, error => console.error(error));
     }
 
@@ -79,7 +147,7 @@ export class ElectionService {
                     this.AddParticipant(participant);
                     this.fetchUser(participant);
                 });
-            },error => { console.log(error); }
+            }, error => { console.log(error); }
         );
     }
 
@@ -96,7 +164,7 @@ export class ElectionService {
                         return 1;
                     return 0;
                 });
-            }, error => {  console.log(error);}
+            }, error => { console.log(error); }
         );
     }
 
