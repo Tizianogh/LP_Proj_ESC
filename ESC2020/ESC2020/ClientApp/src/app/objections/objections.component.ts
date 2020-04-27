@@ -111,6 +111,8 @@ export class ObjectionsComponent implements OnInit {
                 this.propositions.push(new Proposition(user['userId'], this.participantsList[i]['voteCounter']));
             }
         }
+        if (this.propositions.length == 1 && this.host) 
+            alert("Il ne reste plus qu'un seul candidat ! Si une objection est validée, l'élection échouera.");
 
         if (isUndefined(this.propositions[0])) {
             if (this.host)
@@ -203,10 +205,8 @@ export class ObjectionsComponent implements OnInit {
                 for (let i in tempObjectionsList) {
                     if (tempObjectionsList[i]['concernedId'] == this.actualProposed['userId'] && !this.alreadyInObjections(tempObjectionsList[i]))
                         this.objectionsList.push(tempObjectionsList[i])
-                   
                 }
                 this.objectionsList.forEach(opinion => {
-                console.log(opinion);
                 this.getObjectionsAuthor(opinion);
            });
             }, error => console.log(error)
@@ -215,7 +215,6 @@ export class ObjectionsComponent implements OnInit {
 
     getObjectionsAuthor(opinion: Opinion) {
         //récupérer l'utilisateur actuellement élu en fonction du champ electedId d'une élection
-        console.log(opinion);
         if (opinion['authorId'] != null) {
             this.service.get(window.location.origin + "/api/Users/" + opinion['authorId']).subscribe(userResult => {
                 this.objectionAuthor = userResult as Users;
@@ -275,10 +274,7 @@ export class ObjectionsComponent implements OnInit {
                 this.participantsList.forEach(p => {
                     p.hasTalked = false;
                     p.election = this.election;
-                    console.log(p)
-                    this.httpRequest.updateParticipant(p).then(
-                        updatedParticipantData => { }, error => { console.log(error) }
-                    );
+                    this.httpRequest.updateParticipant(p)
                 })
             }
         )
@@ -287,8 +283,6 @@ export class ObjectionsComponent implements OnInit {
                 let anElection = this.election;
                 anElection.phase = phase4 as Phase;
                 anElection.electedElection = this.actualProposed;
-                console.log(anElection)
-
                 this.httpRequest.updateElection(anElection).then(
                     () => {
                         let newNotification: Notification = {

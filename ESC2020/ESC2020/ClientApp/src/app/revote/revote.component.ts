@@ -50,7 +50,7 @@ export class RevoteComponent implements OnInit {
         this.navBarStateService.SetLogsVisible(true);
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-        this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+        this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
 
         this.getCurrentParticipant();
         this.setOnSignalReceived();
@@ -69,6 +69,17 @@ export class RevoteComponent implements OnInit {
         this.election.startDate = anElection.startDate;
     }
 
+    setupUsers(users: Users[]) {
+        this.listeUsers = [];
+        var tmpListe: Users[] = users;
+
+        //fonction anti doublon
+        tmpListe.forEach(u => {
+            if (isUndefined(this.listeUsers.find(u2 => u2['userId'] == u['userId'])))
+                this.listeUsers.push(u);
+        });
+    }
+
     setOnSignalReceived() {
 
         this.hubConnection.on("changeParticipants", (electionId: number, phaseId: number) => {
@@ -77,7 +88,7 @@ export class RevoteComponent implements OnInit {
                 this.listeUsers = [];
                 this.electionService.fetchElection(this.election['electionId'].toString());
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+                this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
             }
         });
         this.hubConnection.on("userHasVoted", (electionId: number, phaseId: number) => {
@@ -86,7 +97,7 @@ export class RevoteComponent implements OnInit {
                 this.listeUsers = [];
                 this.electionService.fetchElection(String(electionId));
                 this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
-                this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
+                this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
             }
         });
     }

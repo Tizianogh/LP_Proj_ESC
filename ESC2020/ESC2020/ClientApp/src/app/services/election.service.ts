@@ -74,8 +74,8 @@ export class ElectionService {
         //récupérer la liste des participants en fonction de l'id d'une élection
         this.httpRequest.getParticipantsByElection(election).then(
             participantsResult => {
-                this.participants = participantsResult as Participant[]
-                this.participants.forEach((participant) => {
+                let participantsList = participantsResult as Participant[]
+                participantsList.forEach((participant) => {
                     this.AddParticipant(participant);
                     this.fetchUser(participant);
                 });

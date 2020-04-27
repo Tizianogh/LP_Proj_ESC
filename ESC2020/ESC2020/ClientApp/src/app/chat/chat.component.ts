@@ -91,7 +91,9 @@ export class ChatComponent implements OnInit {
                             </li>`;
                 newMessageElement.setAttribute("style", "font-size:15px;margin-left: 60px;");
                 document.getElementById("chatList").appendChild(newMessageElement);
-                (<HTMLInputElement>document.getElementById("btn-input")).value = "";
+                if (this.getAuthorById((Number)(messageC.authorId)) == this.getAuthorById((Number)(this.connectedAccount['userId']))) {
+                    (<HTMLInputElement>document.getElementById("btn-input")).value = "";
+                }
                 if (!(document.getElementById("collapseOne").classList.contains("show"))) {
                     if (document.getElementById("notifs") == null) {
                         let notif = document.createElement("span");
@@ -121,7 +123,6 @@ export class ChatComponent implements OnInit {
     }
 
     removeAdded() {
-        console.log(document.getElementsByClassName("added"));
         for (let i in document.getElementsByClassName("added")) {
             console.log("removing " + document.getElementsByClassName("added")[i].nodeValue);
             console.log(document.getElementsByClassName("added")[i]);
@@ -171,8 +172,6 @@ export class ChatComponent implements OnInit {
 
     setupElection(anElection: Election) {
         if(anElection.electionId!=null){
-            console.log("ICI")
-            console.log(anElection)
             this.election = anElection;
             this.election.electionId = anElection['electionId'];
             this.electionId = anElection['electionId'].toString();
