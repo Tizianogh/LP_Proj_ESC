@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ESC2020.Model;
@@ -20,13 +18,13 @@ namespace ESC2020.Controllers {
         // GET: api/Elections
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<Election>> Getelec() {
+        public async Task<IEnumerable<Election>> /*Task<ActionResult<IEnumerable<Election>>>*/ Getelec() {
             return await _context.elec.ToListAsync();
         }
 
         [HttpGet]
         [Route("code/{code}")]
-        public async Task<Election> Getelec(string code) {
+        public async Task<ActionResult<Election>> Getelec(string code) {
             return await _context.elec.FirstOrDefaultAsync(x => x.CodeElection == code);
         }
 

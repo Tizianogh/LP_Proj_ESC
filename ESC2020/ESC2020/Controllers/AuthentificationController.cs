@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ESC2020.Model;
@@ -22,7 +20,7 @@ namespace ESC2020.Controllers {
 
         // GET: api/Authentification
         [HttpGet]
-        public async Task<Users> GetUser(string mail, string password) {
+        public async Task<Users> /*Task<ActionResult<Users>>*/ GetUser(string mail, string password) {
             List<Users> users = await _context.User.ToListAsync();
             foreach (Users user in users) {
                 if (user.Email.Equals(mail) && _password.verify(password, user.Password, user.Salt)) {
@@ -30,15 +28,17 @@ namespace ESC2020.Controllers {
                 }
             }
             return null;
+            //return NotFound();
         }
 
         // GET: api/Authentification/5
         [HttpGet("{id}")]
-        public async Task<Users> GetUsers(int id) {
+        public async Task<Users> /*Task<ActionResult<Users>>*/ GetUsers(int id) {
             var users = await _context.User.FindAsync(id);
 
             if (users == null) {
                 return null;
+                //return NotFound();
             }
 
             return users;
@@ -84,10 +84,11 @@ namespace ESC2020.Controllers {
         // DELETE: api/Authentification/5
         [HttpDelete("{id}")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Users>> DeleteUsers(int id) {
+        public async Task<Users> /*Task<ActionResult<Users>>*/ DeleteUsers(int id) {
             var users = await _context.User.FindAsync(id);
             if (users == null) {
-                return NotFound();
+                return null;
+                //return NotFound();
             }
 
             _context.User.Remove(users);
