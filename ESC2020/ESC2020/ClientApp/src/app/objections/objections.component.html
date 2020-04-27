@@ -43,16 +43,15 @@
         <ng-template #canVote>
             <div class="row mt-3 justify-content-center">
                 <div class="col-md-10 text-center">
-                    <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Argumentez votre objection..." rows="4"></textarea>
+                    <textarea class="form-control d-flex justify-content-center" id="argumentaires" [(ngModel)]="textEntered" placeholder="Argumentez votre objection..." rows="4"></textarea>
                 </div>
             </div>
             <div class="row my-3 justify-content-center">
                 <div class="col-md-5 mb-3 mb-md-0 text-center text-md-left">
-                    <button type="submit" class="btn send" (click)="objection()">Objecter contre cette proposition</button>
+                    <button type="submit" class="btn send" [disabled]="!textEntered" (click)="objection()">Objecter contre cette proposition</button>
                 </div>
                 <div class="col-md-5 text-center text-md-right">
                     <button type="submit" class="btn send" (click)="endObjection()">Pas/Plus d'objections</button>
-
                 </div>
             </div>
         </ng-template>
@@ -64,6 +63,11 @@
 
         <div class="row mt-5 justify-content-center">
             <div class="col-md-10 text-center">
+
+                <div class="col-md-10 text-md-left">
+                    <label id="participantsTalk" style="text-align:left;"> {{participantsTalk}} participants sur {{participantsList.length}} ont indiqué avoir fini d'objecter.</label>
+                </div>
+
                 <div *ngIf="election['hostId'] == connectedAccount.userId; then thenBlockA else elseBlockA"></div>
 
                 <ng-template #thenBlockA>
@@ -82,7 +86,7 @@
                                 <td>{{objection['reason']}}</td>
                                 <td>
                                     <!--On a seulement besoin du buton refuser car si il ne la refuse pas, c'est qu'il l'accepte
-                                (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
+                        (et puis comme ça on a juste a supprimer l'objection de la bdd)-->
 
                                     <button type="submit" class="btn send" (click)="validateObjection()">Valider l'objection</button>
 
@@ -122,5 +126,5 @@
                 </ng-template>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
