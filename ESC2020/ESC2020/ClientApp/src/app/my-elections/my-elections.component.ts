@@ -122,4 +122,8 @@ export class MyElectionsComponent implements OnInit {
     Navigate(id: number) {
         this.router.navigate(['election/' + id]);
     }
+
+    CreateElection() {
+        this.router.navigate(["create-election/"]);
+    }
 }
