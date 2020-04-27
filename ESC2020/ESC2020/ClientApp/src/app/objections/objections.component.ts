@@ -31,8 +31,6 @@ export class ObjectionsComponent implements OnInit {
     connectedParticipant: Participant = new Participant();
     type: TypeOpinion = new TypeOpinion();
 
-    host: boolean = false;
-
     participantsList: Participant[] = [];
     opinionsList: Opinion[] = [];
     usersList: Users[] = [];
@@ -129,11 +127,11 @@ export class ObjectionsComponent implements OnInit {
                 this.propositions.push(new Proposition(user['userId'], this.participantsList[i]['voteCounter']));
             }
         }
-        if (this.propositions.length == 1 && this.host) 
+        if (this.propositions.length == 1 && this.connectedAccount.userId == this.election['hostId']) 
             alert("Il ne reste plus qu'un seul candidat ! Si une objection est validée, l'élection échouera.");
 
         if (isUndefined(this.propositions[0])) {
-            if (this.host)
+            if (this.connectedAccount.userId == this.election['hostId'])
                 this.noMoreCandidate()
         }
         else {
@@ -171,18 +169,20 @@ export class ObjectionsComponent implements OnInit {
                 let anElection = this.election;
                 anElection.phase = phase5 as Phase;
 
-                this.httpRequest.updateElection(anElection).then(
+                this.httpRequest.updateElection(anElection, true).then(
                     () => {
-                        let newNotification: Notification = {
-                            message: "Aucun participant n'a été retenu pour pourvoir le poste de " + this.election['job'] + ".",
-                            date: new Date(),
-                            election: this.election as Election
-                        };
-                        this.httpRequest.createNotification(newNotification).then(
-                            () => {
-                                this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                            }, error => console.log(error)
-                        );
+                        if (this.connectedAccount.userId == this.election['hostId']) {
+                            let newNotification: Notification = {
+                                message: "Aucun participant n'a été retenu pour pourvoir le poste de " + this.election['job'] + ".",
+                                date: new Date(),
+                                election: this.election as Election
+                            };
+                            this.httpRequest.createNotification(newNotification).then(
+                                () => {
+                                    this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                                }, error => console.log(error)
+                            );
+                        }
                     }, error => console.log(error)
                 )
             }, error => console.log(error)

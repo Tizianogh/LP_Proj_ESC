@@ -50,6 +50,11 @@
                                         <div class="row text-center">
                                             <div class="col-md-12">
                                                 <div class="participantName" (ngInit)="Init()">
+                                                    <div *ngIf="election['hostId'] == user.userId; then ThenBlockH;"></div>
+                                                    <ng-template #ThenBlockH>
+                                                        <img src="assets/img/crown.png" height="12" style="vertical-align:initial" />
+                                                    </ng-template>
+
                                                     {{user.firstName}} {{user.lastName}}
 
                                                     <div *ngIf="HasUserTalked(user); then ThenBlock else ElseBlock;"></div>

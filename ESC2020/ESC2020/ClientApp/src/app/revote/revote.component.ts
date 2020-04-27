@@ -319,16 +319,19 @@ export class RevoteComponent implements OnInit {
                                     anElection.phase = phase3 as Phase;
                                     this.httpRequest.updateElection(anElection).then(
                                         () => {
-                                            let newNotification: Notification = {
-                                                message: "Début de la phase d'objections pour le poste de " + this.election.job + '.',
-                                                date: new Date(),
-                                                election: this.election as Election
-                                            };
-                                            this.httpRequest.createNotification(newNotification).then(
-                                                notification => {
-                                                    this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                                                }, error => { console.log(error) }
-                                            );
+                                            if (this.connectedAccount.userId == this.election['hostId']) {
+
+                                                let newNotification: Notification = {
+                                                    message: "Début de la phase d'objections pour le poste de " + this.election.job + '.',
+                                                    date: new Date(),
+                                                    election: this.election as Election
+                                                };
+                                                this.httpRequest.createNotification(newNotification).then(
+                                                    () => {
+                                                        this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                                                    }, error => { console.log(error) }
+                                                );
+                                            }
                                         }, error => { console.log(error) }
                                     );
                                 }, error => { console.log(error) }
