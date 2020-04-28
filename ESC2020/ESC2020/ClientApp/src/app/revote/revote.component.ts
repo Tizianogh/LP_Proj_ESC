@@ -43,8 +43,7 @@ export class RevoteComponent implements OnInit {
         .build();
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+
     }
 
     ngOnInit() {

@@ -33,8 +33,7 @@ export class MyElectionsComponent implements OnInit {
         .build();
 
     constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService, private service: HttpClient) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+
     }
 
     ngOnInit() {

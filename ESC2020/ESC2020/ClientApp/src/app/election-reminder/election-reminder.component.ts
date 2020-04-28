@@ -14,8 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ElectionReminderComponent implements OnInit {
 
     constructor(private translate: TranslateService, private navBarStateService: NavBarStateService, private router: Router, private httpRequest: HTTPRequestService, private service: HttpClient) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+    
     }
 
     electionId: string;

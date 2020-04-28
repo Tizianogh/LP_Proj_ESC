@@ -35,8 +35,7 @@ export class BonificationComponent implements OnInit {
         .build();
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+        
     }
 
     ngOnInit() {

@@ -35,6 +35,18 @@ export class NavMenuComponent {
 
     }
 
+    setFr() {
+        this.translate.use("fr");
+    }
+
+    setEn() {
+        this.translate.use("en");
+    }
+
+    setEs() {
+        this.translate.use("es");
+    }
+
     connect(email: string, password: string) {
         this.authentificationService.connect(email, password);
     }

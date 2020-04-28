@@ -11,8 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HomeComponent implements OnInit {
 
     constructor(private translate: TranslateService, private navBarStateService: NavBarStateService) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+
     }
 
     ngOnInit() {

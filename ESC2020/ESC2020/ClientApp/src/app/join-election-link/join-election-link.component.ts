@@ -32,8 +32,7 @@ export class JoinElectionLinkComponent implements OnInit {
         .build();
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService, private service: HttpClient) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+
     }
 
     ngOnInit() {

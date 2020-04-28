@@ -29,8 +29,7 @@ export class CreateElectionComponent implements OnInit {
     erreur: string;
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+   
     }
 
     ngOnInit() {

@@ -37,8 +37,7 @@ export class ChatComponent implements OnInit {
         .build();
 
     constructor(private translate: TranslateService, private electionService: ElectionService, private service: HttpClient, public datePipe: DatePipe, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+       
     }
 
     ngOnInit() {

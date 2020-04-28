@@ -26,8 +26,7 @@ export class LogsComponent implements OnInit {
     public logList: Log[] = [];
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private location: Location, private navBarStateService: NavBarStateService, private router: Router) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+
     }
 
     ngOnInit() {

@@ -15,8 +15,7 @@ export class ForgottenPasswordComponent implements OnInit {
     codeOk: boolean = false;;
 
     constructor(private translate: TranslateService, private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+    
     }
 
     mail: string;

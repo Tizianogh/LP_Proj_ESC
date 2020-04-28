@@ -20,8 +20,7 @@ export class MyAccountComponent implements OnInit {
     public image: any;
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private service: HttpClient, private sanitizer: DomSanitizer, private navBarStateService: NavBarStateService) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+
     }
 
     ngOnInit() {

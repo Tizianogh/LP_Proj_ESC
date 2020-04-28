@@ -27,8 +27,7 @@ export class CelebrationComponent implements OnInit {
     host: boolean = false;
 
     constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService, private service: HttpClient) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+       
     }
 
     ngOnInit() {

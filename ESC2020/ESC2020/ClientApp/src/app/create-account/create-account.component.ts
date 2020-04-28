@@ -24,8 +24,7 @@ export class CreateAccountComponent implements OnInit {
     profil: FormGroup;
 
     constructor(private translate: TranslateService, private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) {
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang);
+        
     }
 
     ngOnInit() {
@@ -157,31 +156,37 @@ export class CreateAccountComponent implements OnInit {
             //récupèrer la liste des utilisateurs existants
             this.service.get(window.location.origin + "/api/Users/").subscribe(usersResult => {
                 let usersList: Users[] = usersResult as Users[];
-                //boucle for qui fait reject si l'email est déjà utilisé
-                for (let i = 0; i < usersList.length; i++) {
-                    if (this.profil.get('email').value == usersList[i]['email']) {
-                        dejaPris = true;
-                        this.error = true;
-                        reject(new Error('fail'));
-                    }
-                    if (i == usersList.length - 1 && !dejaPris) {
-                        this.error = false;
-                        resolve(dejaPris);
+                if (usersList.length == 0) {
+                    this.error = false;
+                    resolve(dejaPris);
+                }
+                else {
+                    //boucle for qui fait reject si l'email est déjà utilisé
+                    for (let i = 0; i < usersList.length; i++) {
+                        if (this.profil.get('email').value == usersList[i]['email']) {
+                            dejaPris = true;
+                            this.error = true;
+                            reject(new Error('fail'));
+                        }
+                        if (i == usersList.length - 1 && !dejaPris) {
+                            this.error = false;
+                            resolve(dejaPris);
+                        }
                     }
                 }
+                
             }, error => console.error(error));
         });
     }
 
     checkMail() {
         this.emailAlreadyTakenVerification();
-        
         this.emailTaken.then((dejaPris) => {
             if (!dejaPris) {
                 this.createAccount();
             }
         }, (fail) => {
-                console.log(fail);
+            console.log(fail);
         })
     }
 
