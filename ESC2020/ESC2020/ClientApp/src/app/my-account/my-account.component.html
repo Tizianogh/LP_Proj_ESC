@@ -2,14 +2,14 @@
 <div class="row">
     <div class="col-sm-12">
         <h1 id="titre">
-            Détails de mon compte
+            {{'myAccount.title' | translate}}
         </h1>
     </div>
 </div>
 <div class="row">
     <div class="col-sm-12">
         <p style="text-align:center; margin-bottom:50px;">
-            Vous pouvez ici consulter les détails concernant votre compte.
+            {{'myAccount.explanation' | translate}}
         </p>
     </div>
 </div>
@@ -18,93 +18,93 @@
         <ul id="sideBar" class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" (click)="scroll(profil)" style="cursor:pointer;">
-                    Mon profil
+                    {{'myAccount.myProfile' | translate}}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="scroll(biographie)" style="cursor:pointer;">
-                    Ma biographie
+                    {{'myAccount.myBiography' | translate}}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="scroll(informations)" style="cursor:pointer;">
-                    Mes informations
+                    {{'myAccount.myInformations' | translate}}
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="scroll(avatar)" style="cursor:pointer;">
-                    Ma photo de profil
+                    {{'myAccount.myProfilePhoto' | translate}}
                 </a>
             </li>
         </ul>
     </div>
 
     <div class="col-sm-4">
-        <p class="sticky-top" style="font-weight:600; font-size:35px; color:#430640;">Mon profil public</p>
+        <p class="sticky-top" style="font-weight:600; font-size:35px; color:#430640;">{{'myAccount.myPublicProfile' | translate}}</p>
         <hr />
         <div id="profilInformations" align="left" style="margin-left:15px;">
 
-            <label class="section" #profil>Nom</label>
+            <label class="section" #profil>{{'createAccount.lastName' | translate}}</label>
             <input class="form-control" type="text" value={{connectedAccount.lastName}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="lastName">
 
-            <label class="section">Prénom</label>
+            <label class="section">{{'createAccount.firstName' | translate}}</label>
             <input class="form-control" type="text" value={{connectedAccount.firstName}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="firstName">
 
-            <label class="section">Date de naissance</label>
+            <label class="section">{{'createAccount.birthDate' | translate}}</label>
             <!--<input class="form-control" type="text" value="{{connectedAccount.BirthDate |  date:'shortDate'}}" [readonly]="isReadOnly"
     [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">-->
             <input id="birthDate" class="form-control" type="date" value="{{connectedAccount.birthDate |  date:'yyyy-MM-dd'}}" [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">
 
-            <label class="section">Poste</label>
+            <label class="section">{{'myAccount.post' | translate}}</label>
             <input class="form-control" type="text" value={{connectedAccount.job}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="job">
 
             <small id="profileHelpBlock" class="form-text text-muted">
-                Ces informations sont publiques et aideront les autres utilisateurs à vous identifier.
+                {{'myAccount.publicInformations' | translate}}
             </small>
 
             <br />
             <br />
             <br />
 
-            <label class="section" #biographie>Ma biographie</label>
+            <label class="section" #biographie>{{'myAccount.myBiography' | translate}}</label>
             <input class="form-control" type="text" value={{connectedAccount.description}} [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="description">
 
             <small id="biographieHelpBlock" class="form-text text-muted">
-                Décrivez-vous et précisez vos compétences pour permettre aux autres utilisateurs à vous connaitre davantage.
+                {{'myAccount.describeYourself' | translate}}
             </small>
 
             <br />
             <br />
             <br />
 
-            <label class="section" #informations>Mon adresse e-mail</label>
+            <label class="section" #informations>{{'myAccount.myEmailAddress' | translate}}</label>
             <input class="form-control" type="text" placeholder={{connectedAccount.email}} readonly>
             <small id="emailHelpBlock" class="form-text text-muted">
-                Cette adresse e-mail constitue votre identifiant de connexion.
+                {{'myAccount.emailInformation' | translate}}
             </small>
 
             <br />
             <br />
             <br />
 
-            <label class="section" #avatar>Ma photo de profil</label>
+            <label class="section" #avatar>{{'myAccount.myProfilePhoto' | translate}}</label>
             <br />
             <img class="participantIcon" id="{{connectedAccount['userId']}}" src="data:image/png;base64,{{connectedAccount['avatar']}}" height="60"/>
 
 
             <br /><br />
-            <span [hidden]="isReadOnly">
-                <input type="file" class="form-control-file" id="avatar" accept="image/png, image/jpeg" (change)="changeListener($event)"/>
+                  <span [hidden]="isReadOnly">
+                      <input type="file" class="form-control-file" id="avatar" accept="image/png, image/jpeg" (change)="changeListener($event)" />
 
-                <small id="avatarHelpBlock" class="form-text text-muted">
-                    Indiquez un fichier pour modifier votre photo de profil.
-                </small>
-            </span>
+                      <small id="avatarHelpBlock" class="form-text text-muted">
+                          {{'myAccount.indicateFile' | translate}}
+                      </small>
+                  </span>
             <br />
             <!--
             <div>
@@ -113,10 +113,10 @@
 
             <div>
                 <button type="button" class="btn btn-outline-success" style="margin-left:10px;" (click)="modifyProfile()">
-                    <span *ngIf="isReadOnly; else elseBlock">Modifier le profil</span>
+                    <span *ngIf="isReadOnly; else elseBlock">{{'myAccount.modifyProfile' | translate}}</span>
                 </button>
-                <ng-template #elseBlock >
-                    Valider les changements
+                <ng-template #elseBlock>
+                    {{'myAccount.indicateFile' | translate}}
                 </ng-template>
             </div>
 

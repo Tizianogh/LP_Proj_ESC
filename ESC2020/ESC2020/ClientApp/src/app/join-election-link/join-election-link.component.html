@@ -6,7 +6,7 @@
     <ng-template #thenBlock>
         <div class="row text-center">
             <div class="col">
-                <h2 id="titre" class="d-flex justify-content-center">Vous participez déjà à l'élection suivante.</h2>
+                <h2 id="titre" class="d-flex justify-content-center">{{'joinElectionLink.alreadyParticipating' | translate}}</h2>
             </div>
         </div>
     </ng-template>
@@ -14,7 +14,7 @@
     <ng-template #elseBlock>
         <div class="row text-center">
             <div class="col">
-                <h2 id="titre" class="d-flex justify-content-center">Voulez-vous joindre l'élection suivante ?</h2>
+                <h2 id="titre" class="d-flex justify-content-center">{{'joinElectionLink.wantJoin' | translate}}</h2>
             </div>
         </div>
     </ng-template>
@@ -29,7 +29,7 @@
         <div class="col-md-8 ">
             <div class="row text-center  mb-md-1  mb-5">
                 <div class="col-md-4 text-md-right">
-                    <label>Poste de l'élu</label>
+                    <label>{{'createElection.post' | translate}}</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
                     <p> {{election.job}}</p>
@@ -38,7 +38,7 @@
 
             <div class="row text-center  mb-md-1  mb-5">
                 <div class="col-md-4 text-md-right">
-                    <label>Ses missions</label>
+                    <label>{{'createElection.mission' | translate}}</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
                     <p>{{election.mission}}</p>
@@ -47,7 +47,7 @@
 
             <div class="row text-center  mb-md-1  mb-5">
                 <div class="col-md-4 text-md-right">
-                    <label>Ses responsabilités</label>
+                    <label>{{'createElection.responsibilities' | translate}}</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
                     <p>{{election.responsability}}</p>
@@ -56,7 +56,7 @@
 
             <div class="row text-center  mb-md-1  mb-5">
                 <div class="col-md-4 text-md-right">
-                    <label>Date de début de mandat</label>
+                    <label>{{'createElection.startDate' | translate}}</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
                     <p> {{election.startDate |  date:'shortDate'}}</p>
@@ -65,7 +65,7 @@
 
             <div class="row text-center  mb-md-1  mb-5">
                 <div class="col-md-4 text-md-right">
-                    <label> Date de fin de mandat</label>
+                    <label>{{'createElection.endDate' | translate}}</label>
                 </div>
                 <div class="offset-md-1 col-md-7 text-md-left">
                     <p> {{election.endDate |  date:'shortDate'}}</p>
@@ -78,14 +78,14 @@
     <ng-template #canJoin>
         <div class="row text-center my-5">
             <div class="col">
-                <button id="send" (click)="submit()">Rejoindre</button>
+                <button id="send" (click)="submit()">{{'joinElectionLink.rejoin' | translate}}</button>
             </div>
         </div>
     </ng-template>
     <ng-template #cantJoin>
         <div class="row text-center my-5">
             <div class="col">
-                Vous avez déjà rejoint l'élection
+                {{'joinElectionLink.alreadyJoined' | translate}}
             </div>
         </div>
     </ng-template>

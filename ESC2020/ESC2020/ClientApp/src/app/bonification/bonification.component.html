@@ -4,10 +4,10 @@
             <div class="card px-0" id="card">
                 <ul id="progressbar">
                     <li class="active" id="votes">{{'objection.Votes' | translate}}</li>
-                    <li class="active" id="repportVotes">Repport de Votes</li>
-                    <li class="active" id="objections">Objections</li>
-                    <li class="active title" id="bonification">Bonification</li>
-                    <li id="celebration">Célébration</li>
+                    <li class="active" id="repportVotes">{{'objection.ReportDeVotes' | translate}}</li>
+                    <li class="active" id="objections">{{'objection.Objections' | translate}}</li>
+                    <li class="active title" id="bonification">{{'objection.Bonificaition' | translate}}</li>
+                    <li id="celebration">{{'objection.Celebration' | translate}}</li>
                 </ul>
             </div>
         </div>
@@ -27,7 +27,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <label class="poste">
-                                    poste :
+                                    {{'bonification.post' | translate}}
                                 </label>
                                 {{election.job}}
                             </div>
@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <label class="poste">
-                                    mission :
+                                    {{'bonification.mission' | translate}}
                                 </label>
                                 {{election.mission}}
                             </div>
@@ -43,7 +43,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <label class="poste">
-                                    responsabilité :
+                                    {{'bonification.responsibility' | translate}}
                                 </label>
                                 {{election.responsability}}
                             </div>
@@ -57,7 +57,7 @@
                     <div class="row mt-5 mt-md-0 justify-content-center">
                         <div class="col-md-12 text-center">
                             <label class="intro">
-                                La personne élue est :
+                                {{'bonification.electedPerson' | translate}}
                             </label>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center">
                             <p class="intro">
-                                Aucun participant n'a été élu !
+                                {{'bonification.noElectedPerson' | translate}}
                             </p>
                         </div>
                     </div>
@@ -96,21 +96,21 @@
                         <div class="row justify-content-center">
                             <div class="col-md-12 text-center">
                                 <label class="intro">
-                                    Acceptez-vous votre nouveau rôle ?
+                                    {{'bonification.acceptanceRole' | translate}}
                                 </label>
                             </div>
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-12 text-center">
-                                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="Si vous refusez, merci de nous expliquer pourquoi..." rows="4"></textarea>
+                                <textarea class="form-control d-flex justify-content-center" id="argumentaires" placeholder="{{'bonification.refusalExplanation' | translate}}" rows="4"></textarea>
                             </div>
                         </div>
                         <div class="row my-3 justify-content-center">
                             <div class="col-md-6 col-6 text-left">
-                                <button type="submit" class="btn btn-success mr-5" (click)="goToNextPhase()">Accepter</button>
+                                <button type="submit" class="btn btn-success mr-5" (click)="goToNextPhase()">{{'bonification.accept' | translate}}</button>
                             </div>
                             <div class="col-md-6 col-6 text-right">
-                                <button type="submit" class="btn btn-danger ml-5" (click)="refus()">Refuser</button>
+                                <button type="submit" class="btn btn-danger ml-5" (click)="refus()">{{'bonification.refuse' | translate}}</button>
                             </div>
                         </div>
                     </ng-template>
@@ -118,7 +118,7 @@
                         <div class="row justify-content-center">
                             <div class="col-md-12 text-center">
                                 <p class="intro">
-                                    Nous attendons la réponse finale de {{actualElected['firstName']}}, pour le poste de {{election.job}}
+                                    {{'bonification.waitingResponse1' | translate}} {{actualElected['firstName']}}{{'bonification.waitingResponse2' | translate}} {{election.job}}
                                 </p>
                             </div>
                         </div>

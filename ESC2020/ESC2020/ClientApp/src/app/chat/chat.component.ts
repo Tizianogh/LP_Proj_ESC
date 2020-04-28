@@ -15,7 +15,7 @@ import * as signalR from "@microsoft/signalr";
 import { Message } from '../Model/Message';
 import { isUndefined } from 'util';
 import { isDefined } from '@angular/compiler/src/util';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-chat',
@@ -36,9 +36,9 @@ export class ChatComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private electionService: ElectionService, private service: HttpClient, public datePipe: DatePipe, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-
-
+    constructor(private translate: TranslateService, private electionService: ElectionService, private service: HttpClient, public datePipe: DatePipe, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
     }
 
     ngOnInit() {

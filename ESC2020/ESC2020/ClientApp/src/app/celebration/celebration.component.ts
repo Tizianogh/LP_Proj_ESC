@@ -5,6 +5,7 @@ import { AuthentificationService } from '../services/authentification.service';
 import { ElectionService } from '../services/election.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -25,7 +26,10 @@ export class CelebrationComponent implements OnInit {
     usersList : Users[]
     host: boolean = false;
 
-    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService,private service:HttpClient) {}
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService, private service: HttpClient) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     ngOnInit() {
         this.actualElected = new Users();

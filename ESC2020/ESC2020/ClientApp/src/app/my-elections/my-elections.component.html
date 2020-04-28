@@ -1,6 +1,6 @@
 <div class="container">
     <h2 id="titre" class="text-center my-5">
-        Mes élections
+        {{'myElections.title' | translate}}
     </h2>
    <div class="row" id="navBlock">
         <div class="col-md-12">
@@ -8,27 +8,27 @@
                 <ul class="navbar-nav color-border">
                     <li class="nav-item bouton" id="ongletMesElections">
                         <a id="btn" class="nav-link" style="cursor: pointer;" (click)="MesElections()">
-                            Elections en cours
+                            {{'myElections.electionsInProgress' | translate}}
                         </a>
                     </li>
                     <li class="nav-item bouton" id="ongletElectionsTermines">
                         <a id="btn" class="nav-link" style="cursor: pointer;" (click)="ElectionsTermines()">
-                            Elections terminées
+                            {{'myElections.electionsCompleted' | translate}}
                         </a>
                     </li>
                 </ul>
                 <div class="navbar-collapse justify-content-md-end justify-content-center">
                     <ul class="navbar-nav justify-content-md-end text-center">
                         <li class="nav-item align-text-bottom mb-1 bouton" id="ongletAjouterElections">
-                            <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" style="cursor: pointer; background-color: #fee2d7;">Rejoindre une élection</div>
+                            <div class="nav-link dropdown-toggle align-text-bottom" data-toggle="dropdown" style="cursor: pointer; background-color: #fee2d7;">{{'myElections.joinElection' | translate}}</div>
                             <div class="dropdown-menu dropdown-menu-right align-text-bottom color-border " style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink">
                                 <form>
                                     <div class="form-group mr-3 ml-4">
-                                        <label for="codeInput">Lien d'invitation ou code</label>
+                                        <label for="codeInput">{{'myElections.invitationLinkOrCode' | translate}}</label>
                                         <input #codeInput id="codeInput" type="text" class="form-control color-border">
                                     </div>
                                     <div class="btn-group">
-                                        <button (click)="rajouterElections(codeInput.value)" type="submit" class="btn color-btn ml-4"> Rejoindre </button>
+                                        <button (click)="rajouterElections(codeInput.value)" type="submit" class="btn color-btn ml-4">{{'joinElectionLink.rejoin' | translate}}</button>
                                     </div>
                                 </form>
                             </div>
@@ -53,7 +53,7 @@
                                        {{election.job}}
                                        <div *ngIf="election.hostId == connectedAccount.userId; then ThenBlock"></div>
                                        <ng-template #ThenBlock>
-                                           <span class="badge badge-pill badge-primary">Hôte</span>
+                                           <span class="badge badge-pill badge-primary">{{'myElections.host' | translate}}</span>
                                        </ng-template>
                                    </div>
                                </div>
@@ -63,7 +63,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Mission :
+                                           {{'myElections.mission' | translate}}
                                        </label>
                                        {{election.mission}}
                                    </div>
@@ -71,7 +71,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Responssabilités :
+                                           {{'myElections.responsibilities' | translate}}
                                        </label>
                                        {{election.responsability}}
                                    </div>
@@ -79,7 +79,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Code élection :
+                                           {{'myElections.electionCode' | translate}}
                                        </label>
                                        {{election.codeElection}}
                                    </div>
@@ -87,7 +87,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Lien de votre élection :
+                                           {{'myElections.invitationLink' | translate}}
                                        </label>
                                        <a href="http://51.158.77.237/join-election-link/{{election.codeElection}}"> http://51.158.77.237/join-election-link/{{election.codeElection}}</a>
                                    </div>
@@ -95,7 +95,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Début du mandat le :
+                                           {{'myElections.startDate' | translate}}
                                        </label>
                                        {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
                                    </div>
@@ -103,7 +103,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Fin du mandat le :
+                                           {{'myElections.endDate' | translate}}
                                        </label>
                                        {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}
                                    </div>
@@ -118,7 +118,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Personne élue : 
+                                           {{'myElections.electedPerson' | translate}}
                                        </label>
                                        <label id="election{{election.electionId}}" class="poste" style="cursor: pointer;"></label>
                                    </div>
@@ -135,7 +135,7 @@
                                        {{election.job}}
                                        <div *ngIf="election.hostId == connectedAccount.userId; then ThenBlock"></div>
                                        <ng-template #ThenBlock>
-                                           <span class="badge badge-pill badge-primary">Hôte</span>
+                                           <span class="badge badge-pill badge-primary">{{'myElections.host' | translate}}</span>
                                        </ng-template>
                                    </div>
                                </div>
@@ -145,7 +145,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Mission :
+                                           {{'myElections.mission' | translate}}
                                        </label>
                                        {{election.mission}}
                                    </div>
@@ -153,7 +153,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Responssabilités :
+                                           {{'myElections.responsibilities' | translate}}
                                        </label>
                                        {{election.responsability}}
                                    </div>
@@ -161,7 +161,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Code élection :
+                                           {{'myElections.electionCode' | translate}}
                                        </label>
                                        {{election.codeElection}}
                                    </div>
@@ -169,7 +169,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Lien de votre élection :
+                                           {{'myElections.invitationLink' | translate}}
                                        </label>
                                        <a href="http://51.158.77.237/join-election-link/{{election.codeElection}}"> http://51.158.77.237/join-election-link/{{election.codeElection}}</a>
                                    </div>
@@ -177,7 +177,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Début du mandat le :
+                                           {{'myElections.startDate' | translate}}
                                        </label>
                                        {{election.startDate |  date:'shortDate' : locale:'fr-FR'}}
                                    </div>
@@ -185,7 +185,7 @@
                                <div class="row">
                                    <div class="col-md-12 text-center">
                                        <label class="poste" style="cursor: pointer;">
-                                           Fin du mandat le :
+                                           {{'myElections.endDate' | translate}}
                                        </label>
                                        {{election.endDate |  date:'shortDate' : locale:'fr-FR'}}
                                    </div>
@@ -202,29 +202,29 @@
                                    <div class="col-md-6 text-md-left poste">
                                        <div class="phase" [ngSwitch]="election['electionPhaseId']">
                                            <div *ngSwitchCase=1>
-                                               Phase de votes
+                                               {{'myElections.votingPhase' | translate}}
                                            </div>
 
                                            <div *ngSwitchCase=2>
-                                               Phase de report des votes
+                                               {{'myElections.votingDeferralPhase' | translate}}
                                            </div>
 
                                            <div *ngSwitchCase=3>
-                                               Phase d'objections
+                                               {{'myElections.objectionsPhase' | translate}}
                                            </div>
 
                                            <div *ngSwitchCase=4>
-                                               Phase de bonifications
+                                               {{'myElections.improvementPhase' | translate}}
                                            </div>
 
                                            <div *ngSwitchCase=5>
-                                               Phase de célébration
+                                               {{'myElections.celebrationPhase' | translate}}
                                            </div>
                                        </div>
                                    </div>
                                  
                                    <div class="col-md-6 text-md-right poste">
-                                       {{election.nbParticipant}} participants
+                                       {{election.nbParticipant}} {{'myElections.participants' | translate}}
                                    </div>
                                </div>
                            </div>

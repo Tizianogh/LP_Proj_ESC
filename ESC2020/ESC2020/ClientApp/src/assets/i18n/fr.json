@@ -1,7 +1,106 @@
 {
 	"bonification": {
+		"accept": "Accepter",
+		"acceptanceRole": "Acceptez-vous votre nouveau rôle ?",
 		"details": "Détails de l'élection :",
-		"test": ""
+		"electedPerson": "La personne élue est :",
+		"mission": "mission :",
+		"noElectedPerson": "Aucun participant n'a été élu !",
+		"post": "poste :",
+		"refusalExplanation": "Si vous refusez, merci de nous expliquer pourquoi...",
+		"refuse": "Refuser",
+		"responsibility": "responsabilité :",
+		"waitingResponse1": "Nous attendons la réponse finale de",
+		"waitingResponse2": ", pour le poste de"
+	},
+	"celebration": {
+		"congratulation1": "Félicitation à",
+		"congratulation2": "pour avoir été élu(e) au poste de",
+		"congratulation3": " !!!",
+		"noElectedPerson1": "Malheureusement, l'élection pour le poste de",
+		"noElectedPerson2": "s'est terminée sans candidat élu...",
+		"sendMail": "Envoyer un récapitulatif par mail à tous les participants"
+	},
+	"chat": {
+		"message": "Message...",
+		"send": "Envoyer"
+	},
+	"createAccount": {
+		"birthDate": "Date de naissance",
+		"chooseAvatar": "Choisissez votre avatar",
+		"createYourAccount": "Créer votre compte",
+		"describeYourself": "Décrivez-vous en quelques mots",
+		"describeYourselfPlaceholder": "Quel type de personne êtes-vous ?",
+		"email": "Adresse mail",
+		"emailAlreadyUsed": "Le mail entré a déjà été utilisé.",
+		"emailPlaceholder": "Entrer votre mail",
+		"fillAllFields": "Veuillez remplir tous les champs correctement.",
+		"firstName": "Prénom",
+		"firstNamePlaceholder": "Entrer votre prénom",
+		"lastName": "Nom",
+		"lastNamePlaceholder": "Entrer votre nom",
+		"password": "Mot de passe",
+		"passwordConfirmation": "Confirmer votre mot de passe",
+		"passwordConfirmationPlaceholder": "Entrer de nouveau votre mot de passe",
+		"passwordPlaceholder": "Mot de passe",
+		"passwordsNotMatch": "Les mots de passes ne correspondent pas.",
+		"pleaseConfirmPassword": "Veuillez confirmer votre mot de passe.",
+		"post": "Quel poste occupez-vous ?",
+		"postPlaceholder": "Entrer votre poste",
+		"requiredAvatar": "Un avatar est obligatoire.",
+		"requiredBirthDate": "La date de naissance est obligatoire.",
+		"requiredDescription": "Une description est obligatoire.",
+		"requiredEmail": "Le mail est obligatoire.",
+		"requiredFields": "champs obligatoire",
+		"requiredFirstName": "Le prénom est obligatoire.",
+		"requiredFormat": "format .jpg .jpeg .png seulement.",
+		"requiredLastName": "Le nom de famille est obligatoire.",
+		"requiredPassword": "Le mot de passe est obligatoire.",
+		"title": "Création du compte",
+		"validBirthDate": "Entrer une date de naissance valide.",
+		"validEmail": "Entrer une adresse mail valide.",
+		"validPassword": "Le mot de passe doit faire 6 caractères minimum."
+	},
+	"createElection": {
+		"createYourElection": "Créer votre élection",
+		"endDate": "Date de fin de mandat",
+		"mission": "Ses missions",
+		"missionPlaceholder": "Superviser une équipe, ...",
+		"post": "Poste de l'élu",
+		"postPlaceholder": "Chef d'équipe, ...",
+		"responsabilitiesPlaceholder": "Donner des instructions, guider une équipe, ...",
+		"responsibilities": "Ses responsabilités",
+		"startDate": "Date de début de mandat",
+		"title": "Création de votre élection"
+	},
+	"electionReminder": {
+		"add": "Ajouter",
+		"addRecipientPlaceholder": "Ajouter destinataire",
+		"electionCode": "Code de votre élection",
+		"electionLink": "Lien de votre élection",
+		"qrCode": "Vos invités peuvent scanner ce qr code :",
+		"sendInvitations": "Envoyer des invitations",
+		"title": "Rappel de votre élection",
+		"validate": "Valider"
+	},
+	"electionVote": {
+		"age": "Âge :",
+		"completePhase": "Terminer la phase",
+		"exclude": "Exclure",
+		"listParticipants": "Liste des participants",
+		"miniBiography": "Mini Biographie :",
+		"post": "Poste :",
+		"vote": "Voter pour ce candidat",
+		"votePlaceholder": "Argumentez votre vote...",
+		"years": "ans"
+	},
+	"forgottenPassword": {
+		"codePlaceholder": "Code",
+		"codeReceived": "Code reçu",
+		"explanation": "Saisissez l'adresse mail que vous avez utilisée pour créer votre compte. Si l'adresse mail correspond à un compte, un mail vous sera transmis avec un lien de réinitialisation de votre mot de passe.",
+		"newPassword": "Nouveau mot de passe",
+		"reset": "Réinitialiser",
+		"title": "Réinitialisation du mot de passe"
 	},
 	"home": {
 		"bienvenue": "Bienvenue sur votre site d'élection",
@@ -24,6 +123,57 @@
 		"reportExp2": "et vous disposerez d'une fenêtre de temps pour modifier votre vote si vous le souhaitez.",
 		"subtitle": "Une élection sans candidat se décompose en plusieurs phases : ",
 		"voteExp": "Une phase de vote. Chacun vote pour le participant qu'il souhaite, et argumente son vote."
+	},
+	"joinElectionLink": {
+		"alreadyJoined": "Vous avez déjà rejoint l'élection",
+		"alreadyParticipating": "Vous participez déjà à l'élection suivante.",
+		"rejoin": "Rejoindre",
+		"wantJoin": "Voulez-vous joindre l'élection suivante ?"
+	},
+	"log": {
+		"explanation1": "Vous pouvez ici consulter les avis des autres participants",
+		"explanation2": "et les étapes clés du processus de l'élection en cours.",
+		"notifications": "Notifications",
+		"title": "Historique de l'élection"
+	},
+	"myAccount": {
+		"describeYourself": "Décrivez-vous et précisez vos compétences pour permettre aux autres utilisateurs à vous connaître davantage.",
+		"emailInformation": "Cette adresse e-mail constitue votre identifiant de connexion.",
+		"explanation": "Vous pouvez ici consulter les détails concernant votre compte.",
+		"indicateFile": "Indiquez un fichier pour modifier votre photo de profil.",
+		"modifyProfile": "Modifier le profil",
+		"myBiography": "Ma biographie",
+		"myEmailAddress": "Mon adresse e-mail",
+		"myInformations": "Mes informations",
+		"myProfile": "Mon profil",
+		"myProfilePhoto": "Ma photo de profil",
+		"myPublicProfile": "Mon profil public",
+		"post": "Poste",
+		"publicInformations": "Ces informations sont publiques et aideront les autres utilisateurs à vous identifier.",
+		"title": "Détails de mon compte",
+		"validateChanges": "Valider les changements"
+	},
+	"myElections": {
+		"celebrationPhase": "Phase de célébration",
+		"electedPerson": "Personne élue :",
+		"electionCode": "Code élection :",
+		"electionLink": "Lien de votre élection :",
+		"electionsCompleted": "Élections terminées",
+		"electionsInProgress": "Élections en cours",
+		"endDate": "Fin du mandat le :",
+		"host": "Hôte",
+		"improvementPhase": "Phase de bonifications",
+		"invitationLink": "Lien de votre élection :",
+		"invitationLinkOrCode": "Lien d'invitation ou code",
+		"joinElection": "Rejoindre une élection",
+		"mission": "Mission :",
+		"objectionsPhase": "Phase d'objections",
+		"participants": "participants",
+		"responsibilities": "Responsabilités :",
+		"startDate": "Début du mandat le :",
+		"title": "Mes élections",
+		"votingDeferralPhase": "Phase de report des votes",
+		"votingPhase": "Phase de votes"
 	},
 	"navbar": {
 		"accedElec": "Accéder à mes élections",
@@ -56,5 +206,9 @@
 		"opinion": "Opinion",
 		"pasDObjections": "Pas/Plus d'objection",
 		"validObjection": "Valider l'objection"
+	},
+	"revote": {
+		"dontChangeVote": "Je ne change pas mon vote",
+		"previouslyVoted": "Vous aviez précédemment voté pour"
 	}
 }

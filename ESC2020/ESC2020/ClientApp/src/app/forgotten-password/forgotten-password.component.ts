@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Users } from '../Model/Users';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'forgotten-password',
@@ -13,7 +14,10 @@ import { Users } from '../Model/Users';
 export class ForgottenPasswordComponent implements OnInit {
     codeOk: boolean = false;;
 
-    constructor(private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) { }
+    constructor(private translate: TranslateService, private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     mail: string;
     codeSent: boolean = false;

@@ -15,6 +15,7 @@ import { isUndefined } from 'util';
 import * as signalR from "@microsoft/signalr";
 import { ElectionService } from '../services/election.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-revote',
@@ -41,7 +42,10 @@ export class RevoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) { }
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);

@@ -86,13 +86,13 @@
 </div>-->
 
 
-<h1 id="titre">
-    Historique de l'élection
-</h1>
+    <h1 id="titre">
+        {{'log.title' | translate}}
+    </h1>
 
-<p style="text-align:center">
-    Vous pouvez ici consulter les avis des autres participants <br /> et les étapes clés du processus de l'élection en cours.
-</p>
+    <p style="text-align:center">
+        {{'log.explanation1' | translate}} <br /> {{'log.notifications' | translate}}
+    </p>
 
 <img src="assets/img/close.png" height="20" align="right" style="margin-right:75px; cursor: pointer;" (click)="browserReturn()" />
 
@@ -102,14 +102,14 @@
     <ng-template #ElseBlock>
         <li class="nav-item" id="VotesTab">
             <a class="nav-link disabled" style="cursor: pointer;">
-                Votes
+                {{'objection.Votes' | translate}}
             </a>
         </li>
     </ng-template>
     <ng-template #ThenBlock>
         <li class="nav-item" id="VotesTab">
             <a class="nav-link" style="cursor: pointer;" (click)="ShowVotes()">
-                Votes
+                {{'objection.Votes' | translate}}
             </a>
         </li>
     </ng-template>
@@ -118,21 +118,21 @@
     <ng-template #ElseBlock1>
         <li class="nav-item" id="ObjectionsTab">
             <a class="nav-link disabled" style="cursor: pointer;">
-                Objections
+                {{'objection.Objections' | translate}}
             </a>
         </li>
     </ng-template>
     <ng-template #ThenBlock1>
         <li class="nav-item" id="ObjectionsTab">
             <a class="nav-link" style="cursor: pointer;" (click)="ShowObjections()">
-                Objections
+                {{'objection.Objections' | translate}}
             </a>
         </li>
     </ng-template>
 
     <li class="nav-item" id="NotificationsTab">
         <a class="nav-link" style="cursor: pointer;" (click)="ShowNotifications()">
-            Notifications
+            {{'log.notifications' | translate}}
         </a>
     </li>
 </ul>
