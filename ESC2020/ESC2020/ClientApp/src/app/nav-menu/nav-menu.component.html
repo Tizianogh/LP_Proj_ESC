@@ -13,12 +13,12 @@
             <ng-template #navThenBlock>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Navigation
+                        {{'navbar.navigation' | translate}}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" [routerLink]="['home']">Accueil</a>
-                        <a class="dropdown-item" [routerLink]="['my-elections']">Accéder à mes élections</a>
-                        <a class="dropdown-item" [routerLink]="['create-election']">Créer une nouvelle élection</a>
+                        <a class="dropdown-item" [routerLink]="['home']">{{'navbar.accueil' | translate}}</a>
+                        <a class="dropdown-item" [routerLink]="['my-elections']">{{'navbar.accedElec' | translate}}</a>
+                        <a class="dropdown-item" [routerLink]="['create-election']">{{'navbar.creerElec' | translate}}</a>
                     </div>
                 </li>
             </ng-template>
@@ -28,7 +28,7 @@
                     {{navBarState}}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" (click)="goToLogs()">Historique de l'élection</a>
+                    <a class="dropdown-item" (click)="goToLogs()">{{'navbar.histo' | translate}}</a>
                 </div>
 
                 
@@ -40,41 +40,46 @@
         <div class="navbar-collapse justify-content-end">            
             <ul class="navbar-nav d-flex justify-content-end">
                 <div *ngIf="connected; then accountThenBlock else accountElseBlock"></div>
+                <button class="hoverable langsBtn" (click)="setFr()" id="langBtnFr"></button>
+                <button class="hoverable langsBtn" (click)="setEn()" id="langBtnEn"></button>
+                <button class="hoverable langsBtn" (click)="setEs()" id="langBtnEs"></button>
+
+
                 <ng-template #accountElseBlock>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Mon Compte
+                            {{'navbar.monCompte' | translate}}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" style="min-width: 250px;" aria-labelledby="navbarDropdownMenuLink">
                             <form>
                                 <div class="form-group mr-3 ml-4">
-                                    <label for="emailInput">Email</label>
+                                    <label for="emailInput">{{'navbar.mail' | translate}}</label>
                                     <input #emailInput type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" width="250">
                                 </div>
                                 <div class="form-group mr-3 ml-4">
-                                    <label for="passwordInput">Mot de passe</label>
+                                    <label for="passwordInput">{{'navbar.mdp' | translate}}</label>
                                     <input #passwordInput type="password" class="form-control" id="exampleInputPassword1">
                                 </div>
-                                <button type="submit" class="btn color-btn ml-4" (click)="connect(emailInput.value, passwordInput.value)">Se connecter</button>
+                                <button type="submit" class="btn color-btn ml-4" (click)="connect(emailInput.value, passwordInput.value)">{{'navbar.seConnecter' | translate}}</button>
                                 <div class="form-group mr-3 ml-4">{{erreur}}</div>
                             </form>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item btn-create" [routerLink]="['create-account']">Créer un compte</a>
-                            <a class="dropdown-item btn-create" [routerLink]="['forgotten-password']">Mot de passe oublié ?</a>
+                            <a class="dropdown-item btn-create" [routerLink]="['create-account']">{{'navbar.creerCompte' | translate}}</a>
+                            <a class="dropdown-item btn-create" [routerLink]="['forgotten-password']">{{'navbar.mdpOubli' | translate}}</a>
                         </div>
                     </li>
                 </ng-template>
-                
+
                 <ng-template #accountThenBlock>
 
                     <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{connectedAccount.firstName}}
-                            <img class="img-responsive" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" height="30"/>
+                            <img class="img-responsive" id="{{connectedAccount.userId}}" src="data:image/png;base64,{{connectedAccount.avatar}}" height="30" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" [routerLink]="['my-account']">Mon Compte</a>
-                            <a class="dropdown-item" [routerLink]="['']" (click)="disconnect()">Se déconnecter</a>
+                            <a class="dropdown-item" [routerLink]="['my-account']">{{'navbar.monCompte' | translate}}</a>
+                            <a class="dropdown-item" [routerLink]="['']" (click)="disconnect()">{{'navbar.deconnecter' | translate}}</a>
                         </div>
                     </li>
 

@@ -10,6 +10,7 @@ import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Notification } from '../Model/Notification';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-bonification',
@@ -33,7 +34,8 @@ export class BonificationComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
+        
     }
 
     ngOnInit() {

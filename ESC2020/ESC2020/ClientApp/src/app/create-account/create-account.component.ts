@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthentificationService } from '../services/authentification.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-create-account',
@@ -23,7 +23,9 @@ export class CreateAccountComponent implements OnInit {
 
     profil: FormGroup;
 
-    constructor(private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) { }
+    constructor(private translate: TranslateService, private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) {
+        
+    }
 
     ngOnInit() {
         this.profil = this.formBuilder.group({
@@ -179,13 +181,12 @@ export class CreateAccountComponent implements OnInit {
 
     checkMail() {
         this.emailAlreadyTakenVerification();
-        
         this.emailTaken.then((dejaPris) => {
             if (!dejaPris) {
                 this.createAccount();
             }
         }, (fail) => {
-                console.log(fail);
+            console.log(fail);
         })
     }
 

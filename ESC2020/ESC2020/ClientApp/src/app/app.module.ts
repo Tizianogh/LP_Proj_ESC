@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -30,6 +30,9 @@ import { ForgottenPasswordComponent } from './forgotten-password/forgotten-passw
 import { QRCodeModule } from 'angularx-qrcode';
 import { CreateAccountComponent } from './create-account/create-account.component';
 
+// import ngx-translate and the http loader
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
@@ -62,6 +65,13 @@ registerLocaleData(localeFr, 'fr');
         HttpClientModule,
         QRCodeModule,
         FormsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
         ReactiveFormsModule,
         RouterModule.forRoot([
             { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -91,3 +101,7 @@ registerLocaleData(localeFr, 'fr');
     bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http,'assets/i18n/','.json');
+}
