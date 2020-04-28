@@ -115,7 +115,7 @@ export class LogsComponent implements OnInit {
                                     objectedUserData => {
                                         let objected = objectedUserData as Users;
                                         let datePubli: string = this.allListOpinion[i]['dateOpinion'];
-                                        this.logPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection contre l'élection de " + objected["firstName"] + " " + objected["lastName"],
+                                        this.logPush(objecting["firstName"] + " " + objecting["lastName"] + " a émis une objection sur l'élection de " + objected["firstName"] + " " + objected["lastName"],
                                             this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 3);
                                     }, error => console.error(error)
                                 );
