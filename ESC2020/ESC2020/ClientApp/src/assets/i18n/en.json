@@ -163,10 +163,11 @@
 		"endDate": "End of mandate on:",
 		"host": "Host",
 		"improvementPhase": "Improvement phase",
-		"invitationLink": "Link of your election:",
+		"invitationLink": "Invitation link:",
 		"invitationLinkOrCode": "Invitation link or code",
 		"joinElection": "Join an election",
 		"mission": "Mission:",
+		"noElectedPerson": "No elected person",
 		"objectionsPhase": "Objections phase",
 		"participants": "participants",
 		"responsibilities": "Responsibilities:",
@@ -205,6 +206,7 @@
 		"objecter": "Object to this proposal",
 		"opinion": "Opinion",
 		"pasDObjections": "No / No more objection",
+		"recupDroits": "Recover facilitator rights",
 		"validObjection": "Validate the objection"
 	},
 	"revote": {

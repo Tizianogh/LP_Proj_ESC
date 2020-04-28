@@ -163,10 +163,11 @@
 		"endDate": "Fin du mandat le :",
 		"host": "Hôte",
 		"improvementPhase": "Phase de bonifications",
-		"invitationLink": "Lien de votre élection :",
+		"invitationLink": "Lien d'invitation :",
 		"invitationLinkOrCode": "Lien d'invitation ou code",
 		"joinElection": "Rejoindre une élection",
 		"mission": "Mission :",
+		"noElectedPerson": "Aucune personne élue",
 		"objectionsPhase": "Phase d'objections",
 		"participants": "participants",
 		"responsibilities": "Responsabilités :",
@@ -205,6 +206,7 @@
 		"objecter": "Objecter sur cette proposition",
 		"opinion": "Opinion",
 		"pasDObjections": "Pas/Plus d'objection",
+		"recupDroits": "Récupérer les droits de facilitateur",
 		"validObjection": "Valider l'objection"
 	},
 	"revote": {
