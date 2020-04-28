@@ -8,6 +8,7 @@ import * as signalR from "@microsoft/signalr";
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-salons',
@@ -31,7 +32,10 @@ export class MyElectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService, private service: HttpClient) { }
+    constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService, private service: HttpClient) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);

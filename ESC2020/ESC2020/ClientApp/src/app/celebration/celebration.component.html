@@ -3,11 +3,11 @@
         <div class="col-11 px-0 text-center">
             <div class="card px-0" id="card">
                 <ul id="progressbar">
-                    <li class="active" id="votes">Votes</li>
-                    <li class="active" id="repportVotes">Repport de Votes</li>
-                    <li class="active" id="objections">Objections</li>
-                    <li class="active" id="bonification">Bonification</li>
-                    <li class="active title" id="celebration">Célébration</li>
+                    <li class="active" id="votes">{{'objection.Votes' | translate}}</li>
+                    <li class="active" id="repportVotes">{{'objection.ReportDeVotes' | translate}}</li>
+                    <li class="active" id="objections">{{'objection.Objections' | translate}}</li>
+                    <li class="active" id="bonification">{{'objection.Bonificaition' | translate}}</li>
+                    <li class="active title" id="celebration">{{'objection.Celebration' | translate}}</li>
                 </ul>
             </div>
         </div>
@@ -18,7 +18,7 @@
         <div class="row mt-5 justify-content-center">
             <div class="col-md-4 mb-5 mb-md-0 text-center">
                 <p class="intro">
-                    Malheureusement, l'élection pour le poste de {{election.job}} s'est terminée sans candidat élu...
+                    {{'celebration.noElectedPerson1' | translate}} {{election.job}} {{'celebration.noElectedPerson2' | translate}}
                 </p>
             </div>
         </div>
@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <label class="intro">
-                    Félicitation à {{actualElected.firstName}} {{actualElected.lastName}} pour avoir été élu(e) au poste de {{election.job}} !!!
+                    {{'celebration.congratulation1' | translate}} {{actualElected.firstName}} {{actualElected.lastName}} {{'celebration.congratulation2' | translate}} {{election.job}}{{'celebration.congratulation3' | translate}}
                 </label>
                 <div class="profile-userpic">
                     <img class="img-fluid" src="data:image/png;base64,{{actualElected.avatar}}" width="200px" />
@@ -48,7 +48,7 @@
             </ng-template>
             <ng-template #ThenBlock2>
                 <div class="row text-center mt-5">
-                    <button id="send" type="button" class="btn mb-xl-5" (click)="sendAll()">Envoyer un récapitulatif par mail à tous les participants</button>
+                    <button id="send" type="button" class="btn mb-xl-5" (click)="sendAll()">{{'celebration.sendMail' | translate}}</button>
                 </div>
             </ng-template>
 

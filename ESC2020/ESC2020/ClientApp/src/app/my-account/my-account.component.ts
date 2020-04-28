@@ -5,7 +5,7 @@ import { AuthentificationService } from '../services/authentification.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-accountPage',
@@ -19,7 +19,10 @@ export class MyAccountComponent implements OnInit {
     public isReadOnly: boolean = true;
     public image: any;
 
-    constructor(private httpRequest: HTTPRequestService,private authentificationService: AuthentificationService, private service: HttpClient, private sanitizer: DomSanitizer, private navBarStateService: NavBarStateService) { }
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private service: HttpClient, private sanitizer: DomSanitizer, private navBarStateService: NavBarStateService) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);

@@ -30,10 +30,10 @@
                     </div>
                     <div class="panel-footer">
                         <div class="input-group sendPart">
-                            <input id="btn-input" type="text" class="form-control input-sm" placeholder="Message..." />
+                            <input id="btn-input" type="text" class="form-control input-sm" placeholder="{{'chat.message' | translate}}" />
                             <span class="input-group-btn">
                                 <button class="btn btn-sm" id="btn-chat" (click)="sendMessage()">
-                                    Envoyer
+                                    {{'chat.send' | translate}}
                                 </button>
                             </span>
                         </div>

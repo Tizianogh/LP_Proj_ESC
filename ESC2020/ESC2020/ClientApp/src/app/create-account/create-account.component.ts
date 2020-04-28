@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthentificationService } from '../services/authentification.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-create-account',
@@ -23,7 +23,10 @@ export class CreateAccountComponent implements OnInit {
 
     profil: FormGroup;
 
-    constructor(private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) { }
+    constructor(private translate: TranslateService, private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     ngOnInit() {
         this.profil = this.formBuilder.group({

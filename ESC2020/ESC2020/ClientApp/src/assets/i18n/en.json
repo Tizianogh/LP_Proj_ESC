@@ -1,7 +1,106 @@
 {
 	"bonification": {
-		"details": "Election history:",
-		"test": ""
+		"accept": "Accept",
+		"acceptanceRole": "Do you accept your new role?",
+		"details": "Election details:",
+		"electedPerson": "The person elected is:",
+		"mission": "mission:",
+		"noElectedPerson": "No participant was elected!",
+		"post": "post:",
+		"refusalExplanation": "If you refuse, please explain why ...",
+		"refuse": "Refuse",
+		"responsibility": "responsibility:",
+		"waitingResponse1": "We are awaiting the final response from",
+		"waitingResponse2": ", for the post of"
+	},
+	"celebration": {
+		"congratulation1": "Congratulations to",
+		"congratulation2": "for being elected to the post of",
+		"congratulation3": "!!!",
+		"noElectedPerson1": "Unfortunately, the election for the post of",
+		"noElectedPerson2": "ended without an elected candidate ...",
+		"sendMail": "Send a summary by email to all participants"
+	},
+	"chat": {
+		"message": "Message ...",
+		"send": "Send"
+	},
+	"createAccount": {
+		"birthDate": "Date of Birth",
+		"chooseAvatar": "Choose your avatar",
+		"createYourAccount": "Create your account",
+		"describeYourself": "Describe yourself in a few words",
+		"describeYourselfPlaceholder": "What type of person are you?",
+		"email": "Email",
+		"emailAlreadyUsed": "The email entered has already been used.",
+		"emailPlaceholder": "Enter your email",
+		"fillAllFields": "Please complete all fields correctly.",
+		"firstName": "First name",
+		"firstNamePlaceholder": "Enter your first name",
+		"lastName": "Last name",
+		"lastNamePlaceholder": "Enter your last name",
+		"password": "Password",
+		"passwordConfirmation": "Confirm your password",
+		"passwordConfirmationPlaceholder": "Re-enter your password",
+		"passwordPlaceholder": "Password",
+		"passwordsNotMatch": "Passwords do not match.",
+		"pleaseConfirmPassword": "Please confirm your password.",
+		"post": "What position do you hold?",
+		"postPlaceholder": "Enter your post",
+		"requiredAvatar": "An avatar is required.",
+		"requiredBirthDate": "The date of birth is required.",
+		"requiredDescription": "A description is required.",
+		"requiredEmail": "Email is required.",
+		"requiredFields": "required fields",
+		"requiredFirstName": "The first name is required.",
+		"requiredFormat": "format .jpg .jpeg .png only.",
+		"requiredLastName": "The last name is required.",
+		"requiredPassword": "The password is required.",
+		"title": "Account creation",
+		"validBirthDate": "Enter a valid date of birth.",
+		"validEmail": "Enter a valid email address.",
+		"validPassword": "The password must be at least 6 characters long."
+	},
+	"createElection": {
+		"createYourElection": "Create your election",
+		"endDate": "End of mandate date",
+		"mission": "His missions",
+		"missionPlaceholder": "Supervise a team, ...",
+		"post": "Chosen post",
+		"postPlaceholder": "Leader, ...",
+		"responsabilitiesPlaceholder": "Give instructions, guide a team, ...",
+		"responsibilities": "His responsibilities",
+		"startDate": "Mandate start date",
+		"title": "Creation of your election"
+	},
+	"electionReminder": {
+		"add": "Add",
+		"addRecipientPlaceholder": "Add Recipient",
+		"electionCode": "Code of your election",
+		"electionLink": "Link of your election",
+		"qrCode": "Your guests can scan this qr code:",
+		"sendInvitations": "Send invitations",
+		"title": "Reminder of your election",
+		"validate": "Validate"
+	},
+	"electionVote": {
+		"age": "Age :",
+		"completePhase": "Complete the phase",
+		"exclude": "Exclude",
+		"listParticipants": "List of participants",
+		"miniBiography": "Mini Biography:",
+		"post": "Post :",
+		"vote": "Vote for this candidate",
+		"votePlaceholder": "Argue your vote ...",
+		"years": "years"
+	},
+	"forgottenPassword": {
+		"codePlaceholder": "Code",
+		"codeReceived": "Code received",
+		"explanation": "Enter the email address you used to create your account. If the email address corresponds to an account, an email will be sent to you with a link to reset your password.",
+		"newPassword": "New password",
+		"reset": "Reset",
+		"title": "Reset Password"
 	},
 	"home": {
 		"bienvenue": "Welcome to your election site",
@@ -24,6 +123,57 @@
 		"reportExp2": "and you will have a time window to modify your vote if you wish.",
 		"subtitle": "An election without a candidate breaks down into several phases :",
 		"voteExp": "A voting phase. Everyone votes for the participant they want, and argues their vote."
+	},
+	"joinElectionLink": {
+		"alreadyJoined": "You have already joined the election",
+		"alreadyParticipating": "You are already participating in the next election.",
+		"rejoin": "Rejoin",
+		"wantJoin": "Do you want to join the next election?"
+	},
+	"log": {
+		"explanation1": "Here you can consult the opinions of other participants",
+		"explanation2": "and key steps in the current election process.",
+		"notifications": "Notifications",
+		"title": "Election history"
+	},
+	"myAccount": {
+		"describeYourself": "Describe yourself and specify your skills to allow other users to know you better.",
+		"emailInformation": "This email address is your login ID.",
+		"explanation": "Here you can view details about your account.",
+		"indicateFile": "Specify a file to modify your profile photo.",
+		"modifyProfile": "Modify the profile",
+		"myBiography": "My biography",
+		"myEmailAddress": "My email address",
+		"myInformations": "My information",
+		"myProfile": "My Profile",
+		"myProfilePhoto": "My profile photo",
+		"myPublicProfile": "My public profile",
+		"post": "Post",
+		"publicInformations": "This information is public and will help other users to identify you.",
+		"title": "My account details",
+		"validateChanges": "Validate the changes"
+	},
+	"myElections": {
+		"celebrationPhase": "Celebration phase",
+		"electedPerson": "Elected person:",
+		"electionCode": "Election code:",
+		"electionLink": "Link of your election:",
+		"electionsCompleted": "Elections completed",
+		"electionsInProgress": "Elections in progress",
+		"endDate": "End of mandate on:",
+		"host": "Host",
+		"improvementPhase": "Improvement phase",
+		"invitationLink": "Link of your election:",
+		"invitationLinkOrCode": "Invitation link or code",
+		"joinElection": "Join an election",
+		"mission": "Mission:",
+		"objectionsPhase": "Objections phase",
+		"participants": "participants",
+		"responsibilities": "Responsibilities:",
+		"startDate": "Beginning of mandate on:",
+		"title": "My elections",
+		"votingDeferralPhase": "Voting deferral phase",
+		"votingPhase": "Voting phase"
 	},
 	"navbar": {
 		"accedElec": "Access my elections",
@@ -56,5 +206,9 @@
 		"opinion": "Opinion",
 		"pasDObjections": "No / No more objection",
 		"validObjection": "Validate the objection"
+	},
+	"revote": {
+		"dontChangeVote": "I don't change my vote",
+		"previouslyVoted": "You previously voted for"
 	}
 }
