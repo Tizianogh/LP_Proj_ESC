@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavBarStateService } from '../services/NavBarState.service';
 
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -8,7 +10,9 @@ import { NavBarStateService } from '../services/NavBarState.service';
 })
 export class HomeComponent implements OnInit {
 
-    constructor(private navBarStateService: NavBarStateService) {}
+    constructor(private translate: TranslateService, private navBarStateService: NavBarStateService) {
+
+    }
 
     ngOnInit() {
         this.navBarStateService.SetIsInElection(false);

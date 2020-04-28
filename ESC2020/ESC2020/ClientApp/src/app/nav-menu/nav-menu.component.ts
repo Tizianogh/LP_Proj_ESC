@@ -4,6 +4,7 @@ import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -19,7 +20,10 @@ export class NavMenuComponent {
     private logsVisible: boolean;
     public inElection: boolean;
 
-    constructor(private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) { }
+    constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) {
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang);
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -29,6 +33,18 @@ export class NavMenuComponent {
         this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
         this.navBarStateService.GetIsInElection().subscribe(inElection => this.inElection = inElection);
 
+    }
+
+    setFr() {
+        this.translate.use("fr");
+    }
+
+    setEn() {
+        this.translate.use("en");
+    }
+
+    setEs() {
+        this.translate.use("es");
     }
 
     connect(email: string, password: string) {

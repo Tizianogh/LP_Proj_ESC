@@ -1,7 +1,44 @@
-nav{
+nav {
     font-size: 20px;
-    position:relative;
+    position: relative;
 }
+
+
+#langBtnFr {
+    background-image: url("../../assets/img/fr_flag.png");
+}
+
+#langBtnEn {
+    background-image: url("../../assets/img/en_flag.png");
+}
+
+#langBtnEs {
+    background-image: url("../../assets/img/es_flag.png");
+}
+
+
+
+.centerNav {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.langsBtn {
+    height: 1em;
+    width: 1.5em;
+    margin-left: 5px;
+    margin-bottom: auto;
+    margin-top: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+}
+
+.langsBtn:hover {
+    -webkit-transform: scale(1.1);
+}
+
 /*a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -33,15 +70,14 @@ html {
 }
 */
 
-#liChat{
-    width:5vw;
-    height:5vh;
+#liChat {
+    width: 5vw;
+    height: 5vh;
 }
 
-#chat{
-    position:absolute;
-    z-index:999;
-
+#chat {
+    position: absolute;
+    z-index: 999;
 }
 
 .dropdown-menu {
@@ -59,6 +95,6 @@ html {
     border-color: #f8d9cd;
 }
 
-.navbar-nav{
-    position:relative;
+.navbar-nav {
+    position: relative;
 }

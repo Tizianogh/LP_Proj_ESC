@@ -1,10 +1,10 @@
 <h1 id="titre">
-    Historique de l'élection
-</h1>
+        {{'log.title' | translate}}
+    </h1>
 
-<p style="text-align:center">
-    Vous pouvez ici consulter les avis des autres participants <br /> et les étapes clés du processus de l'élection en cours.
-</p>
+    <p style="text-align:center">
+        {{'log.explanation1' | translate}} <br /> {{'log.notifications' | translate}}
+    </p>
 
 <div>
     <img src="assets/img/close.png" height="20" align="right" style="margin-right:75px; cursor: pointer;" (click)="browserReturn()" />
@@ -18,19 +18,19 @@
         <div class="title">
             <span [ngSwitch]="log.type" style="font-size:16px;">
                 <span *ngSwitchCase="1" id="VoteBadge">
-                    <span class="badge badge-pill badge-primary">Vote</span>
+                    <span class="badge badge-pill badge-primary">{{'objection.Votes' | translate}}</span>
                 </span>
                 <span *ngSwitchCase="2" id="ReportBadge">
-                    <span class="badge badge-pill badge-secondary">Report</span>
+                    <span class="badge badge-pill badge-secondary">{{'objection.ReportDeVotes' | translate}}</span>
                 </span>
                 <span *ngSwitchCase="3" id="ObjectionBadge">
-                    <span class="badge badge-pill badge-danger">Objection</span>
+                    <span class="badge badge-pill badge-danger">{{'objection.Objections' | translate}}</span>
                 </span>
                 <span *ngSwitchCase="4" id="BonificationBadge">
-                    <span class="badge badge-pill badge-warning">Bonification</span>
+                    <span class="badge badge-pill badge-warning">{{'objection.Bonifications' | translate}}</span>
                 </span>
                 <span *ngSwitchCase="5" id="NotificationBadge">
-                    <span class="badge badge-pill badge-success">Notification</span>
+                    <span class="badge badge-pill badge-success">{{'log.notifications' | translate}}</span>
                 </span>
 
             </span>
