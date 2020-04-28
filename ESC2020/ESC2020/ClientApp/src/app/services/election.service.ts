@@ -53,7 +53,6 @@ export class ElectionService {
                                 }
                             }
                             if (count == participantsTmp.length) {
-                                this.service.get
                                 this.goToNextPhase(election['electionPhaseId'], election, participantsTmp);
                                 this.hubConnection.send("updatePhase", Number(election['electionId']));
                             }
@@ -66,12 +65,9 @@ export class ElectionService {
     }
 
     goToNextPhase(phaseId: number, election: Election, listeParticipants: Participant[]) {
-
         listeParticipants.forEach(p => {
             p.hasTalked = false;
-            this.httpRequest.updateParticipant(p).then(
-                updatedParticipantData => { }, error => { console.log(error) }
-            );
+            this.httpRequest.updateParticipant(p)
         })
 
         this.httpRequest.getPhasesById(phaseId+1).then(
@@ -81,16 +77,32 @@ export class ElectionService {
 
                 this.httpRequest.updateElection(anElection).then(
                     () => {
-                        let newNotification: Notification = {
-                            message: "Début de la phase de report de votes pour le poste de " + election.job + '.',
-                            date: new Date(),
-                            election: election
-                        };
-                        this.httpRequest.createNotification(newNotification).then(
-                            notification => {
-                                this.hubConnection.send("updatePhase", Number(election['electionId']));
+                        this.httpRequest.getNotifications(Number(election['electionId'])).then(
+                            notificationsData => {
+                                let notifications = notificationsData as Notification[];
+                                let notificationMessage: string
+                                switch (phaseId) {
+                                    case 1:
+                                        notificationMessage = "Début de la phase de report de votes pour le poste de " + election.job + '.';
+                                        break;
+                                    case 2:
+                                        notificationMessage = "Début de la phase d'objections pour le poste de " + election.job + '.';
+                                        break;
+                                }
+                                if (notifications.find(n => n.message == notificationMessage) == undefined) {
+                                    let newNotification: Notification = {
+                                        message: notificationMessage,
+                                        date: new Date(),
+                                        election: election
+                                    };
+                                    this.httpRequest.createNotification(newNotification).then(
+                                        () => {
+                                            this.hubConnection.send("updatePhase", Number(election['electionId']));
+                                        }, error => { console.log(error) }
+                                    );
+                                }
                             }, error => { console.log(error) }
-                        );
+                        )
                     }, error => { console.log(error) }
                 );
             }, error => { console.log(error) }
