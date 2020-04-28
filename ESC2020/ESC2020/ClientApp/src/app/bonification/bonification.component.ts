@@ -87,7 +87,7 @@ export class BonificationComponent implements OnInit {
     }
 
     refus() {
-        this.httpRequest.getTypeOpininionsById(3).then(
+        this.httpRequest.getTypeOpininionsById(4).then(
             typeOpinion => {
                 let revote: Opinion = {
                     authorUser: this.connectedAccount,
@@ -155,7 +155,6 @@ export class BonificationComponent implements OnInit {
                     this.httpRequest.updateElection(anElection).then(
                         () => {
                             if (this.connectedAccount.userId == this.election['hostId']) {
-
                                 let newNotification: Notification = {
                                     message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
                                     date: new Date(),

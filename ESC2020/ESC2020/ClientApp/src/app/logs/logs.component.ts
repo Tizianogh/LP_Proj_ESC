@@ -40,7 +40,7 @@ export class LogsComponent implements OnInit {
         this.logList.push(customLog);
         this.sort(this.logList);
     }
-   
+
     sort(array: Log[]) {
         array.sort((l1, l2) => {
             if (l1.hour > l2.hour)
@@ -62,7 +62,7 @@ export class LogsComponent implements OnInit {
                 for (let i in this.allListNotifs) {
                     let datePubli: string = this.allListNotifs[i]['dateNotification'];
                     this.logPush(this.allListNotifs[i]['message'], "",
-                        new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 4);
+                        new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 5);
                 }
             }, error => console.error(error)
         );
@@ -119,6 +119,17 @@ export class LogsComponent implements OnInit {
                                             this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 3);
                                     }, error => console.error(error)
                                 );
+                            }, error => console.error(error)
+                        );
+                    }
+                    else if (this.allListOpinion[i]['typeId'] == 4) {
+                        //Bonification
+                        this.httpRequest.getUserById(this.allListOpinion[i]['authorId']).then(
+                            objectingUserData => {
+                                let objecting = objectingUserData as Users;
+                                let datePubli: string = this.allListOpinion[i]['dateOpinion'];
+                                this.logPush(objecting['firstName'] + ' ' + objecting['lastName'] + " a refusé de pourvoir le poste proposé.",
+                                    this.allListOpinion[i]['reason'], new Date(datePubli).toLocaleDateString() + " " + new Date(datePubli).toLocaleTimeString().substring(0, 8), 4);
                             }, error => console.error(error)
                         );
                     }
