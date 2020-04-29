@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Users } from '../Model/Users';
@@ -14,9 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ForgottenPasswordComponent implements OnInit {
     codeOk: boolean = false;;
 
-    constructor(private translate: TranslateService, private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) {
-    
-    }
+    constructor(private navBarStateService: NavBarStateService, private service: HttpClient, private router: Router) { }
 
     mail: string;
     codeSent: boolean = false;
@@ -25,8 +22,6 @@ export class ForgottenPasswordComponent implements OnInit {
 
     ngOnInit() {
         this.navBarStateService.SetIsInElection(false);
-
-
     }
 
     checkAndSend(mail: HTMLInputElement) {
@@ -37,16 +32,15 @@ export class ForgottenPasswordComponent implements OnInit {
             this.mail = mailText;
             this.sendAll();
         }
-        else {
+        else
             (document.querySelector("#mailInput") as HTMLInputElement).style.borderColor = "#FF0000";
-        }
     }
 
     checkCode(code: HTMLInputElement) {
         let tmpCode: string = code.value;
-        if (tmpCode == this.code) {
+        if (tmpCode == this.code)
             this.codeOk = true;
-        } else {
+        else {
             let newM = document.createElement("div");
             newM.innerHTML = `
                         <div class="input-group-prepend">
@@ -102,12 +96,7 @@ export class ForgottenPasswordComponent implements OnInit {
                 });
             }, error => console.log(error));
         }
-
     }
-
-
-
-
 
     sendAll() {
         this.code = this.makeid(10);
@@ -345,16 +334,11 @@ a[x-apple-data-detectors] {
   </div>  
  </body>
 </html>`
-        }).subscribe(result => {
+        }).subscribe(() => {
             (document.querySelector("#ajouter") as HTMLButtonElement).style.backgroundColor = "#33691e";
             (document.querySelector("#ajouter") as HTMLButtonElement).disabled = true;
             this.codeSent = true;
-
-        }, error => {
-            console.log(error);
-
-        });
-
+        }, error => console.log(error));
     }
 
     makeid(length) {

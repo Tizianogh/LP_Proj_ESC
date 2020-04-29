@@ -6,7 +6,6 @@ import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
-import { HTTPRequestService } from '../services/HTTPRequest.service';
 
 @Component({
     selector: 'app-election-master-page',
@@ -18,7 +17,6 @@ export class ElectionMasterPageComponent implements OnInit {
 
     electionId: string;
     election = new Election()
-    private connected: boolean;
     private connectedAccount: Users = new Users();
 
     public electionPhase: string = '0';
@@ -27,7 +25,7 @@ export class ElectionMasterPageComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest : HTTPRequestService, private electionService: ElectionService, private router: Router, private navBarStateService: NavBarStateService, private authentificationService : AuthentificationService) { }
+    constructor(private electionService: ElectionService, private router: Router, private navBarStateService: NavBarStateService, private authentificationService : AuthentificationService) { }
 
     ngOnInit() {
         this.hubConnection.start().catch(err => console.log(err));
@@ -35,26 +33,21 @@ export class ElectionMasterPageComponent implements OnInit {
 
         this.electionService.ClearParticipantList();
         this.electionService.ClearUserList();
-        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
+
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => {
             this.connectedAccount = anUser;
             this.authentificationService.connectedUserVerification()
-
-            if (this.connectedAccount.userId != undefined) {
+            if (this.connectedAccount.userId != undefined)
                 this.electionService.acceptedParticipantVerification(this.connectedAccount, this.router.url.split('/')[2])
-            }
-            
         });
-
         
         this.navBarStateService.SetIsInElection(true);
-       
 
         this.electionService.fetchElection(this.router.url.split('/')[2]).then(
             electionData => {
                 this.election = electionData;
                 this.setElectionStatus(this.election)
-            }, error => { console.log(error);}
+            }, error => console.log(error)
         );
     }
 
@@ -68,7 +61,7 @@ export class ElectionMasterPageComponent implements OnInit {
                     electionData => {
                         this.election = electionData;
                         this.setElectionStatus(this.election)
-                    }, error => { console.log(error); }
+                    }, error => console.log(error)
                 );
             }
         });

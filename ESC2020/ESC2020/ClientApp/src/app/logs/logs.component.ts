@@ -4,9 +4,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Users } from '../Model/Users';
 import { NavBarStateService } from '../services/NavBarState.service';
-import { AuthentificationService } from '../services/authentification.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-logs',
@@ -21,13 +19,12 @@ export class LogsComponent implements OnInit {
 
     public logList: Log[] = [];
 
-    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private location: Location, private navBarStateService: NavBarStateService, private router: Router) {
+    constructor(private httpRequest: HTTPRequestService, private location: Location, private navBarStateService: NavBarStateService, private router: Router) {
 
     }
 
     ngOnInit() {
         this.navBarStateService.GetLogsVisible().subscribe(isVisible => this.logsVisible = isVisible);
-
         this.getNotifications();
         this.getLogs();
     }
