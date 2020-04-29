@@ -87,38 +87,34 @@
             <div class="form-group">
 
                 <label class="section">Quel poste occupez-vous ?</label>
-                <input id="job" class="form-control" type="text" placeholder="Entrer votre poste" formControlName="job" required>
+                <input id="job" class="form-control" type="text" placeholder="Entrer votre poste" formControlName="job">
             </div>
 
             <br />
 
             <div class="form-group">
-                <label class="section">Décrivez-vous en quelques mots*</label>
-                <textarea [class.is-invalid]="profil.get('description').invalid && profil.get('description').touched" rows="3" class="input form-control" placeholder="Quel type de personne êtes-vous ?" formControlName="description" required></textarea>
+                <label class="section">Décrivez-vous en quelques mots</label>
+                <textarea rows="3" class="input form-control" placeholder="Quel type de personne êtes-vous ?" formControlName="description"></textarea>
 
-                <div *ngIf="(verifDescription.invalid && verifDescription.touched) || verifDescription.dirty">
-                    <small *ngIf="verifDescription.errors?.required" class="text-danger">Une description est obligatoire.</small>
-                </div>
             </div>
 
             <br />
             <div class="form-group">
-                <label class="section" #avatar>Choisissez votre avatar*</label>
+                <label class="section">Choisissez votre avatar</label>
 
                 <br />
                 <span *ngIf="!submitted; else elseBlock">
+                    <label for="defaultImg">
+                        <img class="participantIcon" src="{{defaultImagePath}}" height="120" alt="" (load)="getDefaultImage()"/>
+                    </label>
                 </span>
                 <ng-template #elseBlock>
                     <img class="participantIcon" src="data:image/png;base64,{{image}}" height="120" />
                 </ng-template>
-                <input [class.is-invalid]="profil.get('avatar').invalid && profil.get('avatar').touched" type="file" class="form-control-file" id="avatar" accept="image/png, image/jpeg" formControlName="avatar" (change)="displayImage($event)" />
+                <input type="file" class="form-control-file" id="avatar" accept="image/png, image/jpeg" formControlName="avatar" (change)="displayImage($event)" />
                 <small class="form-text text-muted">
                     format .jpg .jpeg .png seulement.
                 </small>
-
-                <div *ngIf="(verifAvatar.invalid && verifAvatar.touched) || verifAvatar.dirty">
-                    <small *ngIf="verifAvatar.errors?.required" class="text-danger">Un avatar est obligatoire.</small>
-                </div>
             </div>
         </form>
 

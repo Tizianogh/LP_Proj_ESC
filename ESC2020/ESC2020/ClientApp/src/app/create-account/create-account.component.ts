@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthentificationService } from '../services/authentification.service';
-
+import { map } from "rxjs/operators";
 
 @Component({
     selector: 'app-create-account',
@@ -22,6 +22,9 @@ export class CreateAccountComponent implements OnInit {
     public emailTaken: any;
 
     profil: FormGroup;
+    defaultImagePath: any = "assets/img/accountIcon.png";
+    defaultImage: any;
+
 
     constructor(private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) { }
 
@@ -35,11 +38,11 @@ export class CreateAccountComponent implements OnInit {
             confirmPass: new FormControl('', [Validators.required]),
             email: new FormControl('', [
                 Validators.required,
-                Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]),
-            description: new FormControl('', [Validators.required]),
+                Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")]),
+            description: new FormControl(''),
             birthDate: new FormControl('', [Validators.required]),
             job: new FormControl(''),
-            avatar: new FormControl('', [Validators.required]),
+            avatar: new FormControl('')
         });
     }
 
@@ -192,8 +195,12 @@ export class CreateAccountComponent implements OnInit {
     createAccount() {
         //Vérifier que les entrées soient bonnes, s'il n'y a pas d'erreur, alors vérif du mail puis POST
         const form = this.profil.value;
+
         if (this.getFormValidationErrors()) {
             this.errorCreate = false;
+            if (!this.submitted) {
+                this.image = this.defaultImage;
+            }
             if (!this.error) {
                 this.service.post(window.location.origin + "/api/Users", {
                     "Email": form["email"],
@@ -218,6 +225,19 @@ export class CreateAccountComponent implements OnInit {
 
     connect(email: string, password: string) {
         this.authentificationService.connect(email, password);
+    }
+
+    getDefaultImage() {
+        this.service.get(this.defaultImagePath, { responseType: 'blob' })
+            .subscribe(res => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    var base64data = reader.result;
+                    this.defaultImage = this.decodeBase64(base64data);
+                }
+
+                reader.readAsDataURL(res);
+            });
     }
 }
 

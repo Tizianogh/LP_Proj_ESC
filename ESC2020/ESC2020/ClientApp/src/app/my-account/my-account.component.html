@@ -53,8 +53,7 @@
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'" id="firstName">
 
             <label class="section">Date de naissance</label>
-            <!--<input class="form-control" type="text" value="{{connectedAccount.BirthDate |  date:'shortDate'}}" [readonly]="isReadOnly"
-    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">-->
+
             <input id="birthDate" class="form-control" type="date" value="{{connectedAccount.birthDate |  date:'yyyy-MM-dd'}}" [readonly]="isReadOnly"
                    [ngClass]="isReadOnly ? 'form-control' : 'form-control-white'">
 
@@ -67,8 +66,6 @@
             </small>
 
             <br />
-            <br />
-            <br />
 
             <label class="section" #biographie>Ma biographie</label>
             <input class="form-control" type="text" value={{connectedAccount.description}} [readonly]="isReadOnly"
@@ -79,8 +76,6 @@
             </small>
 
             <br />
-            <br />
-            <br />
 
             <label class="section" #informations>Mon adresse e-mail</label>
             <input class="form-control" type="text" placeholder={{connectedAccount.email}} readonly>
@@ -88,8 +83,6 @@
                 Cette adresse e-mail constitue votre identifiant de connexion.
             </small>
 
-            <br />
-            <br />
             <br />
 
             <label class="section" #avatar>Ma photo de profil</label>
@@ -106,10 +99,6 @@
                 </small>
             </span>
             <br />
-            <!--
-            <div>
-                <button type="button" class="btn btn-outline-success" style="margin-left:10px;">Importer</button>
-            </div>-->
 
             <div>
                 <button type="button" class="btn btn-outline-success" style="margin-left:10px;" (click)="modifyProfile()">
