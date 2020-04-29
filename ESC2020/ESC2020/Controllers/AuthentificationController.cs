@@ -1,50 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ESC2020.Model;
 using ESC2020.Utils;
 using System.Security.Cryptography;
 
-namespace ESC2020.Controllers
-{
+namespace ESC2020.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthentificationController : ControllerBase
-    {
+    public class AuthentificationController : ControllerBase {
         private readonly ElectionContext _context;
+        private PasswordGenerator _password;
 
-        public AuthentificationController(ElectionContext context)
-        {
+        public AuthentificationController(ElectionContext context, PasswordGenerator password) {
             _context = context;
+            _password = password;
         }
 
         // GET: api/Authentification
         [HttpGet]
-        public async Task<ActionResult<Users>> GetUser(string mail, string password)
-        {
+        public async Task<ActionResult<Users>> GetUser(string mail, string password) {
             List<Users> users = await _context.User.ToListAsync();
-            foreach (Users user in users)
-            {
-                if (user.Email.Equals(mail) && HashFunction.verifyPassword(password, user.Password, user.Salt))
-                {
+            foreach (Users user in users) {
+                if (user.Email.Equals(mail) && _password.verify(password, user.Password, user.Salt)) {
                     return user;
                 }
             }
+            
             return NotFound();
         }
 
         // GET: api/Authentification/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUsers(int id)
-        {
+        public async Task<ActionResult<Users>> GetUsers(int id) {
             var users = await _context.User.FindAsync(id);
 
-            if (users == null)
-            {
+            if (users == null) {
                 return NotFound();
             }
 
@@ -62,27 +55,22 @@ namespace ESC2020.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(int id, Users users)
-        {
-            if (id != users.UserId)
-            {
+        public async Task<IActionResult> PutUsers(int id, Users users) {
+            if (id != users.UserId) {
                 return BadRequest();
             }
 
             _context.Entry(users).State = EntityState.Modified;
 
-            try
-            {
+
+            try {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UsersExists(id))
-                {
+            catch (DbUpdateConcurrencyException) {
+                if (!UsersExists(id)) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -94,8 +82,7 @@ namespace ESC2020.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(Users users)
-        {
+        public async Task<ActionResult<Users>> PostUsers(Users users) {
             _context.User.Add(users);
             await _context.SaveChangesAsync();
 
@@ -104,11 +91,10 @@ namespace ESC2020.Controllers
 
         // DELETE: api/Authentification/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Users>> DeleteUsers(int id)
-        {
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Users>> DeleteUsers(int id) {
             var users = await _context.User.FindAsync(id);
-            if (users == null)
-            {
+            if (users == null) {
                 return NotFound();
             }
 
@@ -118,8 +104,7 @@ namespace ESC2020.Controllers
             return users;
         }
 
-        private bool UsersExists(int id)
-        {
+        private bool UsersExists(int id) {
             return _context.User.Any(e => e.UserId == id);
         }
     }
