@@ -1,21 +1,14 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
-import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
-import { Phase } from '../Model/Phase';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
-import { Opinion } from '../Model/Opinion';
-import { NavBarStateService } from '../services/NavBarState.service';
 import { DatePipe } from '@angular/common';
 import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 import { Message } from '../Model/Message';
 import { isUndefined } from 'util';
 import { isDefined } from '@angular/compiler/src/util';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-chat',
@@ -36,12 +29,9 @@ export class ChatComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private translate: TranslateService, private electionService: ElectionService, private service: HttpClient, public datePipe: DatePipe, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
-       
-    }
+    constructor(private electionService: ElectionService, private service: HttpClient, public datePipe: DatePipe, private authentificationService: AuthentificationService) {}
 
     ngOnInit() {
-
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
         this.electionService.GetUserList().subscribe(users => this.listeUsers = users);
@@ -90,9 +80,8 @@ export class ChatComponent implements OnInit {
                             </li>`;
                 newMessageElement.setAttribute("style", "font-size:15px;margin-left: 60px;");
                 document.getElementById("chatList").appendChild(newMessageElement);
-                if (this.getAuthorById((Number)(messageC.authorId)) == this.getAuthorById((Number)(this.connectedAccount['userId']))) {
+                if (this.getAuthorById((Number)(messageC.authorId)) == this.getAuthorById((Number)(this.connectedAccount['userId'])))
                     (<HTMLInputElement>document.getElementById("btn-input")).value = "";
-                }
                 if (!(document.getElementById("collapseOne").classList.contains("show"))) {
                     if (document.getElementById("notifs") == null) {
                         let notif = document.createElement("span");
@@ -115,23 +104,16 @@ export class ChatComponent implements OnInit {
     }
 
     resetNotifs() {
-        if (document.getElementById("notifs") != null) {
+        if (document.getElementById("notifs") != null)
             document.getElementById("notifs").remove();
-        }
         document.getElementById("scrollCont").scrollTop = document.getElementById("scrollCont").scrollHeight;
     }
 
     removeAdded() {
         for (let i in document.getElementsByClassName("added")) {
-            console.log("removing " + document.getElementsByClassName("added")[i].nodeValue);
-            console.log(document.getElementsByClassName("added")[i]);
-            if ((document.getElementsByClassName("added")[i].nodeValue + "").includes("undefined")) {
-
-            }
-            else {
-                console.log("enter remove");
+            if ((document.getElementsByClassName("added")[i].nodeValue + "").includes("undefined")) { }
+            else
                 document.getElementsByClassName("added")[i].parentNode.removeChild(document.getElementsByClassName("added")[i]);
-            }
         }
     }
 
@@ -158,9 +140,8 @@ export class ChatComponent implements OnInit {
         var firstName: string;
         var lastName: string;
         var userC = this.listeUsers.find(u => u['userId'] == userId);
-        if (isUndefined(userC)) {
+        if (isUndefined(userC))
             return " ";
-        }
         else {
             firstName = userC['firstName'];
             lastName = userC['lastName'];
@@ -170,25 +151,22 @@ export class ChatComponent implements OnInit {
 
 
     setupElection(anElection: Election) {
-        if(anElection.electionId!=null){
+        if (anElection.electionId != null) {
             this.election = anElection;
             this.election.electionId = anElection['electionId'];
             this.electionId = anElection['electionId'].toString();
             this.election.job = anElection['job'];
             this.election.mission = anElection['mission'];
             this.election.responsability = anElection['responsability'];
-
             setTimeout(() => this.getMessages(), 500);
         }
     }
 
     checkHost() {
-        if (this.connectedAccount["userId"] == this.election['hostId']) {
+        if (this.connectedAccount["userId"] == this.election['hostId'])
             this.host = true;
-        }
-        else {
+        else
             this.host = false;
-        }
     }
 
     sendMessage() {
@@ -204,6 +182,4 @@ export class ChatComponent implements OnInit {
             this.hubConnection.send("newMessage", (Number)(this.election.electionId), message);
         }, error => console.log(error));
     }
-
-
 }

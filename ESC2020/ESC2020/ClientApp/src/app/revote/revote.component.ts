@@ -1,12 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Participant } from '../Model/Participant';
 import { Election } from '../Model/Election';
 import { TypeOpinion } from '../Model/TypeOpinion';
 import { Users } from '../Model/Users';
 import { Phase } from '../Model/Phase';
-
-import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Opinion } from '../Model/Opinion';
@@ -15,7 +13,6 @@ import { isUndefined } from 'util';
 import * as signalR from "@microsoft/signalr";
 import { ElectionService } from '../services/election.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-revote',
@@ -25,9 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class RevoteComponent implements OnInit {
 
-    private connected: boolean;
     public connectedAccount: Users = new Users();
-    private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = [];
     currentUser: Users = new Users();
     election: Election = new Election();
@@ -42,19 +37,15 @@ export class RevoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) {
-
-    }
+    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) {}
 
     ngOnInit() {
-        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
         this.navBarStateService.SetIsInElection(true);
         this.navBarStateService.SetLogsVisible(true);
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
         this.electionService.GetUserList().subscribe(users => this.setupUsers(users));
-
         this.getCurrentParticipant();
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
@@ -110,9 +101,7 @@ export class RevoteComponent implements OnInit {
         this.httpRequest.getParticipant(this.connectedAccount, this.election).then(
             participant => {
                 this.currentParticipant = participant as Participant;
-            }, error => {
-                console.log(error)
-            }
+            }, error => console.log(error)
         );
     }
 
@@ -134,10 +123,10 @@ export class RevoteComponent implements OnInit {
                     this.httpRequest.getUserById(opinion[0]["concernedId"]).then(
                         userData => {
                             document.getElementById("sous-titre").innerText += ' ' + userData['firstName'] + ' ' + userData['lastName'];
-                        }, error => { console.log(error) }
+                        }, error => console.log(error)
                     );
                 }
-            }, error => { console.log(error) }
+            }, error => console.log(error)
         );
     }
 
@@ -212,7 +201,7 @@ export class RevoteComponent implements OnInit {
                                     let previousParticipant = previousParticipantData as Participant
                                     previousParticipant.voteCounter--;
                                     this.httpRequest.updateParticipant(previousParticipant).then(
-                                        ()=>{
+                                        () => {
                                             //on génère une opinion de revote
                                             this.httpRequest.getTypeOpininionsById(2).then(
                                                 typeOpinion => {
@@ -242,26 +231,26 @@ export class RevoteComponent implements OnInit {
                                                                                         () => {
                                                                                             this.hubConnection.send("userHasVoted", Number(this.election['electionId']), Number(this.election['electionPhaseId']));
                                                                                             this.navBarStateService.SetLogsVisible(true);
-                                                                                        }, error => {console.log(error)}
+                                                                                        }, error => console.log(error)
                                                                                     );
-                                                                                }, error => { console.log(error) }
+                                                                                }, error => console.log(error)
                                                                             );
-                                                                        }, error => {  console.log(error)  }
+                                                                        }, error => console.log(error)
                                                                     );
-                                                                }, error => { console.log(error) }
+                                                                }, error => console.log(error)
                                                             );
-                                                        }, error => {console.log(error)}
+                                                        }, error => console.log(error)
                                                     );
-                                                }, error => { console.log(error); }
+                                                }, error => console.log(error)
                                             );
-                                        }, error => {console.log(error)} 
+                                        }, error => console.log(error)
                                     );
-                                }, error => { console.log(error) }
+                                }, error => console.log(error)
                             );
-                        }, error => { console.log(error) }
+                        }, error => console.log(error)
                     );
                 }
-            }, error => { console.log(error) }
+            }, error => console.log(error)
         );
     }
 
@@ -276,7 +265,7 @@ export class RevoteComponent implements OnInit {
                         this.hubConnection.send("changeParticipants", this.election.electionId, Number(this.election['electionPhaseId']));
                     }
                 );
-            }, error => { console.log(error) }
+            }, error => console.log(error)
         );
     }
 
@@ -300,7 +289,7 @@ export class RevoteComponent implements OnInit {
                 this.httpRequest.updateParticipant(updatedParticipant).then(
                     () => {
                         this.hubConnection.send("userHasVoted", Number(this.election['electionId']), Number(this.election['electionPhaseId']));
-                    }, error => { console.log(error) }
+                    }, error => console.log(error)
                 );
             }
         );
@@ -332,14 +321,14 @@ export class RevoteComponent implements OnInit {
                                                 this.httpRequest.createNotification(newNotification2).then(
                                                     () => {
                                                         this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                                                    }, error => { console.log(error) }
+                                                    }, error => console.log(error)
                                                 );
                                             }
-                                        }, error => { console.log(error) }
+                                        }, error => console.log(error)
                                     );
-                                }, error => { console.log(error) }
+                                }, error => console.log(error)
                             );
-                        }, error => { console.log(error) }
+                        }, error => console.log(error)
                     );
                 })
             }

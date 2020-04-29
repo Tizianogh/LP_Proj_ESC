@@ -67,7 +67,6 @@ export class HTTPRequestService {
             try {
                 this.getPhasesById(1).then(
                     data => { // resolve() 
-                        console.log(election);
                         this.service.post(window.location.origin + "/api/Elections", {
                             "Job": election.job,
                             "Mission": election.mission,
@@ -81,9 +80,7 @@ export class HTTPRequestService {
                         }).subscribe(result => {
                             resolve(result as Election)
                         });
-                    }, error => {//Reject
-                        console.log(error)
-                    }
+                    }, error => console.log(error)
                 );
             } catch (e) {
                 alert("Echec de la création de l'élection")
@@ -268,7 +265,6 @@ export class HTTPRequestService {
                     resolve(result)
                 });
             } catch (e) {
-                console.log(e)
                 alert("Echec lors de la mise à jour du participant")
                 reject(e)
             }

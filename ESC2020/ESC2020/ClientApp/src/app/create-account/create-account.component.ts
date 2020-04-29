@@ -1,12 +1,10 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Users } from '../Model/Users';
-import { FormControl, FormGroup, Validators, ValidationErrors, FormBuilder, NgForm } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormControl, FormGroup, Validators, ValidationErrors, FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthentificationService } from '../services/authentification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { map } from "rxjs/operators";
 
 @Component({
     selector: 'app-create-account',
@@ -26,8 +24,8 @@ export class CreateAccountComponent implements OnInit {
     defaultImagePath: any = "assets/img/accountIcon.png";
     defaultImage: any;
 
-    constructor(private translate: TranslateService, private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) {
-        
+    constructor(private service: HttpClient, private router: Router, private formBuilder: FormBuilder, private authentificationService: AuthentificationService) {
+
     }
 
     ngOnInit() {
@@ -61,11 +59,11 @@ export class CreateAccountComponent implements OnInit {
     }
 
     verifPasswordMatch() {
-        if (this.profil.get('pass').value != this.profil.get('confirmPass').value && this.profil.get('confirmPass').value != "") {
+        if (this.profil.get('pass').value != this.profil.get('confirmPass').value && this.profil.get('confirmPass').value != "")
             return false;
-        } else {
+        else
             return true;
-        }
+
     }
     get verifLastName() {
         return this.profil.get('lastName');
@@ -90,9 +88,8 @@ export class CreateAccountComponent implements OnInit {
     verifValidBirthDate() {
         var currentDate = new Date().getTime();
         var dateToCheck = new Date(this.profil.get('birthDate').value);
-        if (dateToCheck.getTime() > currentDate) {
+        if (dateToCheck.getTime() > currentDate)
             return false;
-        }
         return true;
     }
 
@@ -109,22 +106,17 @@ export class CreateAccountComponent implements OnInit {
             this.image = this.decodeBase64(this.image);
             this.submitted = true;
         }
-
-        if (file != null) {
+        if (file != null)
             myReader.readAsDataURL(file);
-
-        }
-
     }
 
     decodeBase64(image: any) {
-        if (image.includes("data:image/png;base64,")) {
+        if (image.includes("data:image/png;base64,"))
             image = image.replace("data:image/png;base64,", "");
-        } else if (image.includes("data:image/jpg;base64,")) {
+        else if (image.includes("data:image/jpg;base64,"))
             image = image.replace("data:image/jpg;base64,", "");
-        } else if (image.includes("data:image/jpeg;base64,")) {
+        else if (image.includes("data:image/jpeg;base64,"))
             image = image.replace("data:image/jpeg;base64,", "");
-        }
 
         return image;
     }
@@ -136,17 +128,15 @@ export class CreateAccountComponent implements OnInit {
             const controlErrors: ValidationErrors = this.profil.get(key).errors;
             if (controlErrors != null) {
                 Object.keys(controlErrors).forEach(keyError => {
-                    if (controlErrors[keyError]) {
+                    if (controlErrors[keyError])
                         error = true;
-                    }
                 });
             }
         });
-        if (error) {
+        if (error)
             return false;
-        } else {
+        else
             return true;
-        }
     }
 
     /*
@@ -185,12 +175,9 @@ export class CreateAccountComponent implements OnInit {
     checkMail() {
         this.emailAlreadyTakenVerification();
         this.emailTaken.then((dejaPris) => {
-            if (!dejaPris) {
+            if (!dejaPris)
                 this.createAccount();
-            }
-        }, (fail) => {
-            console.log(fail);
-        })
+        }, (fail) => console.log(fail))
     }
 
     createAccount() {
@@ -199,9 +186,8 @@ export class CreateAccountComponent implements OnInit {
 
         if (this.getFormValidationErrors()) {
             this.errorCreate = false;
-            if (!this.submitted) {
+            if (!this.submitted)
                 this.image = this.defaultImage;
-            }
             if (!this.error) {
                 this.service.post(window.location.origin + "/api/Users", {
                     "Email": form["email"],
@@ -219,9 +205,8 @@ export class CreateAccountComponent implements OnInit {
                     this.router.navigate(['home/']);
                 }, error => console.log(error));
             }
-        } else {
+        } else
             this.errorCreate = true;
-        }
     }
 
     connect(email: string, password: string) {
@@ -229,16 +214,14 @@ export class CreateAccountComponent implements OnInit {
     }
 
     getDefaultImage() {
-        this.service.get(this.defaultImagePath, { responseType: 'blob' })
-            .subscribe(res => {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    var base64data = reader.result;
-                    this.defaultImage = this.decodeBase64(base64data);
-                }
-
-                reader.readAsDataURL(res);
-            });
+        this.service.get(this.defaultImagePath, { responseType: 'blob' }).subscribe(res => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                var base64data = reader.result;
+                this.defaultImage = this.decodeBase64(base64data);
+            }
+            reader.readAsDataURL(res);
+        });
     }
 }
 

@@ -12,7 +12,6 @@ import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Opinion } from '../Model/Opinion';
 import { Notification } from '../Model/Notification';
 import { isUndefined } from 'util';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-election-vote',
@@ -22,9 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class ElectionVoteComponent implements OnInit {
 
-    private connected: boolean;
     public connectedAccount: Users = new Users();
-    private type: TypeOpinion = new TypeOpinion();
     private listeParticipants: Participant[] = []
 
     currentUser: Users = new Users();
@@ -40,12 +37,11 @@ export class ElectionVoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
+    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
 
     }
 
     ngOnInit() {
-        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.setupConnectedAccount(anUser));
         this.electionService.GetElection().subscribe(anElection => this.setupElection(anElection));
         this.electionService.GetParticipantList().subscribe(participants => this.listeParticipants = participants);
@@ -67,7 +63,6 @@ export class ElectionVoteComponent implements OnInit {
 
     setupElection(anElection: Election) {
         this.election = anElection;
-        //this.election.hostElection = anElection['hostId'];
     }
 
     setOnSignalReceived() {
@@ -188,9 +183,9 @@ export class ElectionVoteComponent implements OnInit {
                         () => {
                             this.navBarStateService.SetLogsVisible(true);
                             this.hubConnection.send("userHasVoted", this.election.electionId, Number(this.election['electionPhaseId']));
-                        }, error => { console.log(error) }
+                        }, error => console.log(error)
                     );
-                }, error => { console.log(error); }
+                }, error => console.log(error)
             );
         }
         //Sinon il vote pour quelqu'un d'autre que lui même
@@ -206,7 +201,7 @@ export class ElectionVoteComponent implements OnInit {
                         voteCounter: participant.voteCounter
                     }
                     this.httpRequest.updateParticipant(updatedParticipant)
-                }, error => { console.log(error) }
+                }, error => console.log(error)
             );
 
             this.navBarStateService.SetLogsVisible(true);
@@ -225,7 +220,7 @@ export class ElectionVoteComponent implements OnInit {
                         participant => {
                             this.hubConnection.send("userHasVoted", this.election.electionId, Number(this.election['electionPhaseId']))
                         });
-                }, error => { console.log(error) }
+                }, error => console.log(error)
             );
         }
     }
@@ -241,7 +236,7 @@ export class ElectionVoteComponent implements OnInit {
                     () => {
                         this.hubConnection.send("changeParticipants", this.election.electionId, Number(this.election['electionPhaseId']));
                     });
-            }, error => { console.log(error) }
+            }, error => console.log(error)
         );
     }
 
@@ -264,9 +259,7 @@ export class ElectionVoteComponent implements OnInit {
                 this.listeParticipants.forEach(p => {
                     p.hasTalked = false;
                     p.election = this.election;
-                    this.httpRequest.updateParticipant(p).then(
-                        updatedParticipantData => { }, error => { console.log(error) }
-                    );
+                    this.httpRequest.updateParticipant(p)
                 })
             }
         )
@@ -287,12 +280,12 @@ export class ElectionVoteComponent implements OnInit {
                             this.httpRequest.createNotification(newNotification).then(
                                 () => {
                                     this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                                }, error => { console.log(error) }
+                                }, error => console.log(error)
                             );
                         }
-                    }, error => { console.log(error) }
+                    }, error => console.log(error)
                 );
-            }, error => { console.log(error) }
+            }, error => console.log(error)
         );
     }
 }
