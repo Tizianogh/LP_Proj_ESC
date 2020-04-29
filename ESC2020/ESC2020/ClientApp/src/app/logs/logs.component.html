@@ -15,8 +15,7 @@
     </div>
     <div class="row justify-content-center mb-2 mx-sm-1">
         <p class="text-center">
-                {{'log.explanation1' | translate}} <br /> {{'log.explanation2' | translate}}
-
+            {{'log.explanation1' | translate}} <br /> {{'log.explanation2' | translate}}
         </p>
     </div>
 
@@ -37,9 +36,9 @@
                     <span *ngSwitchCase="3" id="ObjectionBadge">
                         <span class="badge badge-pill badge-danger">{{'objection.Objections' | translate}}</span>
                     </span>
-                                    <span *ngSwitchCase="4" id="BonificationBadge">
-                    <span class="badge badge-pill badge-warning">{{'objection.Bonifications' | translate}}</span>
-                </span>
+                    <span *ngSwitchCase="4" id="BonificationBadge">
+                        <span class="badge badge-pill badge-warning">{{'objection.Bonifications' | translate}}</span>
+                    </span>
                     <span *ngSwitchCase="5" id="NotificationBadge">
                         <span class="badge badge-pill badge-success">{{'log.notifications' | translate}}</span>
                     </span>
@@ -48,7 +47,7 @@
             <div class="col-md-9 title text-md-left text-center">
                 {{log.title}}
             </div>
-        </div>            
+        </div>
         <div class="row mr-md-1 mx-1 ml-md-0  mb-md-0 mb-5 justify-content-center">
             <div class="col-md-2 hour mt-2 text-center order-md-first order-12">
                 {{log.hour}}
