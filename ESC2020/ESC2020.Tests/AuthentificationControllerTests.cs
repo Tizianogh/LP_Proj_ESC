@@ -4,6 +4,7 @@ using ESC2020.Tests.Utils;
 using ESC2020.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace ESC2020.Tests {
     [TestClass]
@@ -182,11 +183,12 @@ namespace ESC2020.Tests {
             #endregion
 
             #region ACT
-            var actionResult = controller.PostUsers(user).Result;
+            var actionResult = controller.PostUsers(user).Result.Result;
             #endregion
 
             #region ASSERT
-            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult is CreatedAtActionResult);
+            Assert.IsNotNull(context.User.Find(id));
             #endregion
         }
 
