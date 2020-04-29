@@ -213,7 +213,7 @@ export class CreateAccountComponent implements OnInit {
                     "LastName": form["lastName"],
                     "Job": form["job"],
                     "Avatar": this.image
-                }).subscribe(result => {
+                }).subscribe(() => {
                     alert("Le compte a bien été crée.");
                     this.connect(form["email"], form["pass"]);
                     this.router.navigate(['home/']);
