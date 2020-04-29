@@ -18,7 +18,7 @@ namespace ESC2020.Controllers {
         // GET: api/Elections
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<Election>> /*Task<ActionResult<IEnumerable<Election>>>*/ Getelec() {
+        public async Task<ActionResult<IEnumerable<Election>>> Getelec() {
             return await _context.elec.ToListAsync();
         }
 

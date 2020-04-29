@@ -20,25 +20,24 @@ namespace ESC2020.Controllers {
 
         // GET: api/Authentification
         [HttpGet]
-        public async Task<Users> /*Task<ActionResult<Users>>*/ GetUser(string mail, string password) {
+        public async Task<ActionResult<Users>> GetUser(string mail, string password) {
             List<Users> users = await _context.User.ToListAsync();
             foreach (Users user in users) {
                 if (user.Email.Equals(mail) && _password.verify(password, user.Password, user.Salt)) {
                     return user;
                 }
             }
-            return null;
-            //return NotFound();
+            
+            return NotFound();
         }
 
         // GET: api/Authentification/5
         [HttpGet("{id}")]
-        public async Task<Users> /*Task<ActionResult<Users>>*/ GetUsers(int id) {
+        public async Task<ActionResult<Users>> GetUsers(int id) {
             var users = await _context.User.FindAsync(id);
 
             if (users == null) {
-                return null;
-                //return NotFound();
+                return NotFound();
             }
 
             return users;
@@ -54,6 +53,7 @@ namespace ESC2020.Controllers {
             }
 
             _context.Entry(users).State = EntityState.Modified;
+
 
             try {
                 await _context.SaveChangesAsync();
@@ -84,11 +84,10 @@ namespace ESC2020.Controllers {
         // DELETE: api/Authentification/5
         [HttpDelete("{id}")]
         [HttpDelete("{id}")]
-        public async Task<Users> /*Task<ActionResult<Users>>*/ DeleteUsers(int id) {
+        public async Task<ActionResult<Users>> DeleteUsers(int id) {
             var users = await _context.User.FindAsync(id);
             if (users == null) {
-                return null;
-                //return NotFound();
+                return NotFound();
             }
 
             _context.User.Remove(users);

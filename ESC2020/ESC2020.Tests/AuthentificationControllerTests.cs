@@ -19,17 +19,18 @@ namespace ESC2020.Tests {
             var context = new ContextFactory().createContex();
 
             context.Add(new Users() { Email = email, Password = hashedPassword, Salt = salt });
+            context.SaveChanges();
 
             var controller = new AuthentificationController(context, new PasswordGenerator());
             #endregion
 
             #region ACT
-            var user = controller.GetUser(email, password).Result;
+            var user = controller.GetUser(email, password).Result.Value;
             #endregion
 
             #region ASSERT
-            //Assert.IsNotNull(user);
-            //Assert.AreEqual(email, user.Email);
+            Assert.IsNotNull(user);
+            Assert.AreEqual(email, user.Email);
             #endregion
         }
 
@@ -44,16 +45,17 @@ namespace ESC2020.Tests {
             var context = new ContextFactory().createContex();
 
             context.Add(new Users() { Email = email, Password = hashedPassword, Salt = salt });
+            context.SaveChanges();
 
             var controller = new AuthentificationController(context, new PasswordGenerator());
             #endregion
 
             #region ACT
-            var user = controller.GetUser(email, password).Result;
+            var actionResult = controller.GetUser(email, password).Result.Result;
             #endregion
 
             #region ASSERT
-            Assert.IsNull(user);
+            Assert.IsTrue(actionResult is NotFoundResult);
             #endregion
         }
 
@@ -65,12 +67,13 @@ namespace ESC2020.Tests {
             var context = new ContextFactory().createContex();
 
             context.Add(new Users() { UserId = id });
+            context.SaveChanges();
 
             var controller = new AuthentificationController(context, new PasswordGenerator());
             #endregion
 
             #region ACT
-            var user = controller.GetUsers(id).Result;
+            var user = controller.GetUsers(id).Result.Value;
             #endregion
 
             #region ASSERT
@@ -90,11 +93,11 @@ namespace ESC2020.Tests {
             #endregion
 
             #region ACT
-            var user = controller.GetUsers(id).Result;
+            var actionResult = controller.GetUsers(id).Result.Result;
             #endregion
 
             #region ASSERT
-            Assert.IsNull(user);
+            Assert.IsTrue(actionResult is NotFoundResult);
             #endregion
         }
 
@@ -109,6 +112,7 @@ namespace ESC2020.Tests {
             var context = new ContextFactory().createContex();
 
             context.Add(user);
+            context.SaveChanges();
 
             var controller = new AuthentificationController(context, new PasswordGenerator());
 
@@ -121,7 +125,7 @@ namespace ESC2020.Tests {
 
             #region ASSERT
             Assert.IsTrue(actionResult is NoContentResult);
-            //Assert.AreEqual(newEmail, context.User.Find(id).Email);
+            Assert.AreEqual(newEmail, context.User.Find(id).Email);
             #endregion
         }
         
@@ -194,12 +198,13 @@ namespace ESC2020.Tests {
             var context = new ContextFactory().createContex();
 
             context.Add(new Users() { UserId = id });
+            context.SaveChanges();
 
             var controller = new AuthentificationController(context, new PasswordGenerator());
             #endregion
 
             #region ACT
-            var user = controller.DeleteUsers(id).Result;
+            var user = controller.DeleteUsers(id).Result.Value;
             #endregion
 
             #region ASSERT
@@ -219,11 +224,11 @@ namespace ESC2020.Tests {
             #endregion
 
             #region ACT
-            var user = controller.DeleteUsers(id).Result;
+            var actionResult = controller.DeleteUsers(id).Result.Result;
             #endregion
 
             #region ASSERT
-            Assert.IsNull(user);
+            Assert.IsTrue(actionResult is NotFoundResult);
             #endregion
         }
     }
