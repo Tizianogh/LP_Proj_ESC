@@ -41,10 +41,10 @@
                                 </div>
                                 <div class="modal-footer">
                                     <div class="input-group sendPart">
-                                        <input id="btn-input" type="text" class="form-control" placeholder="Message..." (keyup.enter)="sendMessage()"/>
+                                        <input id="btn-input" type="text" class="form-control" placeholder="{{'chat.message' | translate}}" (keyup.enter)="sendMessage()"/>
                                         <span class="input-group-btn">
                                             <button class="btn btn-sm" id="btn-chat" (click)="sendMessage()">
-                                                Envoyer
+                                                {{'chat.send' | translate}}
                                             </button>
                                         </span>
                                     </div>

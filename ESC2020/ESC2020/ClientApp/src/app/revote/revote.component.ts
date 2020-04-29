@@ -15,6 +15,7 @@ import { isUndefined } from 'util';
 import * as signalR from "@microsoft/signalr";
 import { ElectionService } from '../services/election.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-revote',
@@ -41,7 +42,9 @@ export class RevoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) { }
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private router: Router, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private electionService: ElectionService) {
+
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
@@ -321,12 +324,12 @@ export class RevoteComponent implements OnInit {
                                         () => {
                                             if (this.connectedAccount.userId == this.election['hostId']) {
 
-                                                let newNotification: Notification = {
+                                                let newNotification2: Notification = {
                                                     message: "Début de la phase d'objections pour le poste de " + this.election.job + '.',
                                                     date: new Date(),
                                                     election: this.election as Election
                                                 };
-                                                this.httpRequest.createNotification(newNotification).then(
+                                                this.httpRequest.createNotification(newNotification2).then(
                                                     () => {
                                                         this.hubConnection.send("updatePhase", Number(this.election['electionId']));
                                                     }, error => { console.log(error) }

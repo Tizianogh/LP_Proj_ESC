@@ -8,6 +8,7 @@ import { Users } from '../Model/Users'
 import * as signalR from "@microsoft/signalr";
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -30,7 +31,9 @@ export class JoinElectionLinkComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService, private service: HttpClient) { }
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService, private service: HttpClient) {
+
+    }
 
     ngOnInit() {
         this.hubConnection.start().catch(err => console.log(err));

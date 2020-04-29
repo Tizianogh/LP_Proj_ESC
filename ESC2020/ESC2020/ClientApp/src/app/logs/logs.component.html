@@ -5,17 +5,18 @@
                 <path fill-rule="evenodd" d="M7.854 4.646a.5.5 0 010 .708L5.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z" clip-rule="evenodd" />
                 <path fill-rule="evenodd" d="M4.5 8a.5.5 0 01.5-.5h6.5a.5.5 0 010 1H5a.5.5 0 01-.5-.5z" clip-rule="evenodd" />
             </svg>
-            <label class="retour" (click)="browserReturn()">Retour à l'élection</label>
+            <label class="retour" (click)="browserReturn()">Retour � l'�lection</label>
         </div>
     </div>
     <div class="row">
         <h1 id="titre">
-            Historique de l'élection
+            {{'log.title' | translate}}
         </h1>
     </div>
     <div class="row justify-content-center mb-2 mx-sm-1">
         <p class="text-center">
-            Vous pouvez ici consulter les avis des autres participants et les étapes clés du processus de l'élection en cours.
+                {{'log.explanation1' | translate}} <br /> {{'log.explanation2' | translate}}
+
         </p>
     </div>
 
@@ -28,16 +29,19 @@
             <div class="col-md-2 text-center">
                 <span [ngSwitch]="log.type" style="font-size:16px;">
                     <span *ngSwitchCase="1" id="VoteBadge">
-                        <span class="badge badge-pill badge-primary">Vote</span>
+                        <span class="badge badge-pill badge-primary">{{'objection.Votes' | translate}}</span>
                     </span>
                     <span *ngSwitchCase="2" id="ReportBadge">
-                        <span class="badge badge-pill badge-secondary">Report</span>
+                        <span class="badge badge-pill badge-secondary">{{'objection.ReportDeVotes' | translate}}</span>
                     </span>
                     <span *ngSwitchCase="3" id="ObjectionBadge">
-                        <span class="badge badge-pill badge-danger">Objection</span>
+                        <span class="badge badge-pill badge-danger">{{'objection.Objections' | translate}}</span>
                     </span>
-                    <span *ngSwitchCase="4" id="NotificationBadge">
-                        <span class="badge badge-pill badge-success">Notification</span>
+                                    <span *ngSwitchCase="4" id="BonificationBadge">
+                    <span class="badge badge-pill badge-warning">{{'objection.Bonifications' | translate}}</span>
+                </span>
+                    <span *ngSwitchCase="5" id="NotificationBadge">
+                        <span class="badge badge-pill badge-success">{{'log.notifications' | translate}}</span>
                     </span>
                 </span>
             </div>
@@ -68,15 +72,19 @@
                     &nbsp;
                 </span>
                 <span *ngSwitchCase="2" id="ReportBadge">
-                    <span class="badge badge-pill badge-secondary">Report</span>
+                    <span class="badge badge-pill badge-secondary">{{'objection.ReportDeVotes' | translate}}</span>
                 </span>
                 <span *ngSwitchCase="3" id="ObjectionBadge">
-                    <span class="badge badge-pill badge-danger">Objection</span>
+                    <span class="badge badge-pill badge-danger">{{'objection.Objections' | translate}}</span>
+                </span>
+                <span *ngSwitchCase="4" id="BonificationBadge">
+                    <span class="badge badge-pill badge-warning">{{'objection.Bonifications' | translate}}</span>
                 </span>
                 <span *ngSwitchCase="4" id="NotificationBadge">
                     <span class="badge badge-pill badge-success">Notification</span>
                     &nbsp;
                 </span>
+
             </span>
         </div>
         <div class="row mr-1 hour mt-2 justify-content-center">

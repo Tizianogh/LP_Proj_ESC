@@ -12,6 +12,7 @@ import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Opinion } from '../Model/Opinion';
 import { Notification } from '../Model/Notification';
 import { isUndefined } from 'util';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-election-vote',
@@ -39,7 +40,9 @@ export class ElectionVoteComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) { }
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService) {
+
+    }
 
     ngOnInit() {
         this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);

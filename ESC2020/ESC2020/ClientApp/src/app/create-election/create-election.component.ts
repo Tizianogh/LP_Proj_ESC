@@ -9,6 +9,7 @@ import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { Participant } from '../Model/Participant';
 import { Notification } from '../Model/Notification';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-create-election',
@@ -27,7 +28,8 @@ export class CreateElectionComponent implements OnInit {
     formulaireElection: FormGroup;
     erreur: string;
 
-    constructor(private httpRequest: HTTPRequestService, private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private navBarStateService: NavBarStateService, private formbuilder: FormBuilder, private router: Router, private datePipe: DatePipe, private authentificationService: AuthentificationService) {
+   
     }
 
     ngOnInit() {

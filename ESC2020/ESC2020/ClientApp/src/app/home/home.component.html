@@ -3,37 +3,34 @@
   <div class="container-fluid">
     <div class="row pt-5 pb-5">
       <div class="col-md-7 px-5">
-        <h2 id="titre">Bienvenue sur votre site d'élection</h2>
-        <p id="text">
-            Le principe d'élections sans candidats, issue de la sociocratie, permet de décider en consentement qui prendra
-            la responsabilité d’un rôle, d’un poste ou d’une fonction. <br />
-            Cette méthode permet également de faire des choix entre plusieurs options possibles concernant une proposition.
-            Elle fait l’objet, comme la prise de décision, d’un processus rigoureux en plusieurs étapes.<br />
-            L’élection sans candidat est aussi une façon de créer du lien, de mettre à jour certains conflits larvés,
-            de soutenir et d’encourager un participant pour prendre sa place au sein
-            du cercle et de nourrir notre besoin de reconnaissance.<br />
-            Dans une élection sans candidat nous votons « Avec » et jamais « Pour ou Contre ».
-        </p>
+          <h2 id="titre">{{'home.bienvenue' | translate}}</h2>
+          <p id="text">
+              {{'home.introText1' | translate}}<br />{{'home.introText2' | translate}}
+              {{'home.introText3' | translate}}
+              <br />
+              {{'home.introText4' | translate}}{{'home.introText5' | translate}}
+              {{'home.introText6' | translate}}
+              <br />
+              {{'home.introText7' | translate}}
+          </p>
         <br /><br />
 
-        <h4 id="subTitle">Une élection sans candidat se décompose en plusieurs phases : </h4>
+              <h4 id="subTitle">{{'home.subtitle' | translate}}</h4>
 
         <ul id="text">
-          <li>
-            Une phase de vote. Chacun vote pour le participant qu'il souhaite, et argumente son vote.
-          </li>
-          <li>
-            Une phase de report de vote. Après avoir voté, vous pourrez consulter les votes
-            des autres participants, et vous disposerez d'une fenêtre de temps pour modifier votre vote si vous le souhaitez.
-          </li>
-          <li>
-            Une phase d'objections. Après les votes conclus, un participant sera proposé parmi tous les participants ayant reçu au moins une voie.
-            Vous pourrez ainsi émmettre certaines objections, si vous en avez, à ce que ce participant soit élu.
-          </li>
-          <li>
-            Si aucune objection n'est émise durant la phase d'objections, ce participant est élu.
-            Sinon, un autre participant sera proposé.
-          </li>
+            <li>
+                {{'home.voteExp' | translate}}
+            </li>
+            <li>
+                {{'home.reportExp1' | translate}} {{'home.reportExp2' | translate}}
+            </li>
+            <li>
+                {{'home.objectionExp1' | translate}}
+                {{'home.objectionExp2' | translate}}
+            </li>
+            <li>
+                {{'home.endExp' | translate}}
+            </li>
         </ul>
       </div>
 
@@ -46,29 +43,29 @@
               </ol>-->
               <div class="carousel-inner">
                   <div class="carousel-item active">
-                      <img class="d-block w-100" src="assets/img/Slide1.png" alt="First slide">
+                      <img class="d-block w-100" id="slide1" src="assets/img/Slide1.png" alt="First slide">
                       <div class="carousel-caption d-none d-md-block">
-                          <h5>Phase de vote</h5>
+                          <h5>{{'objection.Votes' | translate}}</h5>
                           <p class="slideDesc">
-                              Chaque vote doit être argumenté.
+                              {{'home.carouVote' | translate}}
                           </p>
                       </div>
                   </div>
                   <div class="carousel-item">
-                      <img class="d-block w-100" src="assets/img/Slide2.png" alt="Second slide">
+                      <img class="d-block w-100" id="slide2" src="assets/img/Slide2.png" alt="Second slide">
                       <div class="carousel-caption d-none d-md-block">
-                          <h5>Phase de report de vote</h5>
+                          <h5>{{'objection.ReportDeVotes' | translate}}</h5>
                           <p class="slideDesc">
-                              Vous pouvez changer votre vote après avoir consulté les autres votes et leurs arguments.
+                              {{'home.carouReport' | translate}}
                           </p>
                       </div>
                   </div>
                   <div class="carousel-item">
                       <img class="d-block w-100" src="assets/img/Slide3.png" alt="Third slide">
                       <div class="carousel-caption d-none d-md-block">
-                          <h5>Phase d'objections</h5>
+                          <h5>{{'objection.Objections' | translate}}</h5>
                           <p class="slideDesc">
-                              Un candidat a été proposé, avez-vous des objections à son élection ?
+                              {{'home.carouObj' | translate}}
                           </p>
                       </div>
                   </div>
@@ -76,9 +73,9 @@
                   <div class="carousel-item">
                       <img src="assets/img/Slide4.png" class="d-block w-100">
                       <div class="carousel-caption d-none d-md-block">
-                          <h5>Phase de bonification</h5>
+                          <h5>{{'objection.Bonificaition' | translate}}</h5>
                           <p class="slideDesc">
-                              Un candidat n'a pas eu d'objections, il est élu. Va-t-il accepter son poste ?
+                              {{'home.carouBonn' | translate}}
                           </p>
                       </div>
                   </div>
@@ -86,9 +83,9 @@
                   <div class="carousel-item">
                       <img src="assets/img/Slide5.png" class="d-block w-100">
                       <div class="carousel-caption d-none d-md-block">
-                          <h5>Phase de célébration</h5>
+                          <h5>{{'objection.Celebration' | translate}}</h5>
                           <p class="slideDesc">
-                              Un candidat a finalement été élu, bravo ! Vous pouvez célébrer cela.
+                              {{'home.carouCeleb' | translate}}
                           </p>
                       </div>
                   </div>

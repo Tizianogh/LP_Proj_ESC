@@ -10,6 +10,7 @@ import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Notification } from '../Model/Notification';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-bonification',
@@ -33,7 +34,8 @@ export class BonificationComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
+    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
+        
     }
 
     ngOnInit() {
@@ -87,7 +89,7 @@ export class BonificationComponent implements OnInit {
     }
 
     refus() {
-        this.httpRequest.getTypeOpininionsById(2).then(
+        this.httpRequest.getTypeOpininionsById(4).then(
             typeOpinion => {
                 let revote: Opinion = {
                     authorUser: this.connectedAccount,
@@ -154,16 +156,18 @@ export class BonificationComponent implements OnInit {
 
                     this.httpRequest.updateElection(anElection).then(
                         () => {
-                            let newNotification: Notification = {
-                                message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
-                                date: new Date(),
-                                election: this.election as Election
-                            };
-                            this.httpRequest.createNotification(newNotification).then(
-                                () => {
-                                    this.hubConnection.send("updatePhase", Number(this.election['electionId']));
-                                }, error => { console.log(error) }
-                            );
+                            if (this.connectedAccount.userId == this.election['hostId']) {
+                                let newNotification: Notification = {
+                                    message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
+                                    date: new Date(),
+                                    election: this.election as Election
+                                };
+                                this.httpRequest.createNotification(newNotification).then(
+                                    () => {
+                                        this.hubConnection.send("updatePhase", Number(this.election['electionId']));
+                                    }, error => { console.log(error) }
+                                );
+                            }
                         }, error => { console.log(error) }
                     );
             }, error => { console.log(error) }
