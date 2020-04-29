@@ -24,8 +24,7 @@ namespace ESC2020.Model
 		[Required]
 		public DateTimeOffset BirthDate { get; set; } //date ?
 
-		[Required]
-		public string Description { get; set; } // text ?
+		public string? Description { get; set; } // text ?
 
 		[Required]
 		public string FirstName { get; set; } // varchar ?
@@ -33,11 +32,10 @@ namespace ESC2020.Model
 		[Required]
 		public string LastName { get; set; } // varchar ?
 
-		[Required]
-		public string Job { get; set; } // varchar ?
+		public string? Job { get; set; } // varchar ?
 
 		[Required]
-		public byte[]? Avatar { get; set; }
+		public byte[] Avatar { get; set; }
 
 		
 		[Required]
