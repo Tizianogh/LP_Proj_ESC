@@ -15,9 +15,11 @@ namespace ESC2020.Model {
     [ApiController]
     public class UsersController : ControllerBase {
         private readonly ElectionContext _context;
+        private PasswordGenerator _password;
 
-        public UsersController(ElectionContext context) {
+        public UsersController(ElectionContext context, PasswordGenerator password) {
             _context = context;
+            _password = password;
         }
 
         // GET: api/Users
@@ -86,7 +88,7 @@ namespace ESC2020.Model {
                 if (user.Email.Equals(mail))
                 {
                     //Si le mot de passe correspond au mot de passe envoyé
-                    if(HashFunction.verifyPassword(password, user.Password, user.Salt))
+                    if (_password.verify(password, user.Password, user.Salt))
                     {
                         return user;
                     }
@@ -130,7 +132,8 @@ namespace ESC2020.Model {
         public async Task<ActionResult<Users>> PostUsers(/*[FromBody] string inputInfos*/Users users)
         {
             //Users users = JsonConvert.DeserializeObject<Users>(inputInfos);
-            string hashedPass = HashFunction.hashPassword(users.Password, out string salt);
+            string salt = _password.generateSalt();
+            string hashedPass = _password.hash(users.Password, salt);
             users.Password = hashedPass;
             users.Salt = salt;
             _context.User.Add(users);

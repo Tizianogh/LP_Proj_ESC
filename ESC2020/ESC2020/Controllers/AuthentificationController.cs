@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ESC2020.Model;
 using ESC2020.Utils;
 using System.Security.Cryptography;
+using System;
 
 namespace ESC2020.Controllers {
     [Route("api/[controller]")]
@@ -48,7 +49,7 @@ namespace ESC2020.Controllers {
         [HttpGet]
         [Route("hash/{pass}/{salt}")]
         public String GetHash(string pass, string salt) {
-            return HashFunction.sha256Hash(pass, salt);
+            return _password.hash(pass, salt);
         }
 
         // PUT: api/Authentification/5
