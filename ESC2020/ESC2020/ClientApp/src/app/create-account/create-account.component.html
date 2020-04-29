@@ -24,7 +24,7 @@
 
                     <div *ngIf="(verifEmail.invalid && verifEmail.touched) || verifEmail.dirty">
                         <small *ngIf="verifEmail.errors?.required" class="text-danger">{{'createAccount.requiredEmail' | translate}}</small>
-                        <small *ngIf="verifEmail.errors?.pattern" class="text-danger">{{'createAccount.validPassword' | translate}}</small>
+                        <small *ngIf="verifEmail.errors?.pattern" class="text-danger">{{'createAccount.validEmail' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
 
             <div class="form-group">
                 <label class="section">{{'createAccount.describeYourself' | translate}}</label>
-                <textarea [class.is-invalid]="profil.get('description').invalid && profil.get('description').touched" rows="3" class="input form-control" placeholder="{{'createAccount.describeYourselfPlaceholder' | translate}}" formControlName="description" required></textarea>
+                <textarea rows="3" class="input form-control" placeholder="{{'createAccount.describeYourselfPlaceholder' | translate}}" formControlName="description"></textarea>
 
             </div>
 
