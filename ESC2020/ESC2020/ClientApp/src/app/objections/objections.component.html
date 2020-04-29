@@ -7,7 +7,7 @@
                     <li class="active" id="votes">{{'objection.Votes' | translate}}</li>
                     <li class="active" id="repportVotes">{{'objection.ReportDeVotes' | translate}}</li>
                     <li class="active title" id="objections">{{'objection.Objections' | translate}}</li>
-                    <li id="bonification">{{'objection.Bonificaition' | translate}}</li>
+                    <li id="bonification">{{'objection.Bonification' | translate}}</li>
                     <li id="celebration">{{'objection.Celebration' | translate}}</li>
                 </ul>
             </div>
@@ -65,7 +65,7 @@
             <div class="col-md-10 text-center">
 
                 <div class="col-md-10 text-md-left">
-                    <label id="participantsTalk" style="text-align:left;"> {{participantsTalk}} participants sur {{participantsList.length}} ont indiqué avoir fini d'objecter.</label>
+                    <label id="participantsTalk" style="text-align:left;"> {{participantsTalk}} {{'objection.nbObjections1' | translate}} {{participantsList.length}} {{'objection.nbObjections2' | translate}}</label>
                 </div>
 
                 <div *ngIf="election['hostId'] == connectedAccount.userId; then thenBlockA else elseBlockA"></div>
@@ -100,8 +100,8 @@
                     <table class="table table-hover table-md">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Auteur</th>
-                                <th scope="col">Opinion</th>
+                                <th scope="col">{{'objection.auteur' | translate}}</th>
+                                <th scope="col">{{'objection.opinion' | translate}}</th>
                             </tr>
                         </thead>
                         <tbody>

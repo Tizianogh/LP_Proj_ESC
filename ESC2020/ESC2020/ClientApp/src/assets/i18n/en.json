@@ -32,7 +32,6 @@
 		"createYourAccount": "Create your account",
 		"describeYourself": "Describe yourself in a few words",
 		"describeYourselfPlaceholder": "What type of person are you?",
-		"email": "Email",
 		"emailAlreadyUsed": "The email entered is already being used.",
 		"emailPlaceholder": "Enter your email",
 		"fillAllFields": "Please complete all fields correctly.",
@@ -40,7 +39,6 @@
 		"firstNamePlaceholder": "Enter your first name",
 		"lastName": "Last name",
 		"lastNamePlaceholder": "Enter your last name",
-		"password": "Password",
 		"passwordConfirmation": "Confirm your password",
 		"passwordConfirmationPlaceholder": "Re-enter your password",
 		"passwordPlaceholder": "Password",
@@ -85,14 +83,14 @@
 		"validate": "Validate"
 	},
 	"electionVote": {
-		"age": "Age :",
+		"age": "Age:",
 		"completePhase": "End the phase",
 		"exclude": "Exclude",
 		"listParticipants": "List of participants",
-		"miniBiography": "Mini Biography :",
-		"post": "Position :",
+		"miniBiography": "Mini Biography:",
+		"post": "Position:",
 		"vote": "Vote for this candidate",
-		"votePlaceholder": "Explain your vote...",
+		"votePlaceholder": "Argue your vote ...",
 		"years": "years old"
 	},
 	"forgottenPassword": {
@@ -105,11 +103,11 @@
 	},
 	"home": {
 		"bienvenue": "Welcome to your election site",
-		"carouBonn": "A candidate had no objections, he/she was elected. Will he/she accept his position?",
+		"carouBonn": "A candidate had no objections, he was elected. Will he accept his position?",
 		"carouCeleb": "A candidate was finally elected, well done! You can celebrate this.",
 		"carouObj": "A candidate has been nominated, do you have any objections concerning his election?",
 		"carouReport": "You can change your vote after consulting the other votes and their arguments.",
-		"carouVote": "Each vote must be explained.",
+		"carouVote": "Each vote must be argued.",
 		"endExp": "If no objection is raised during the objection phase, the participant will be elected. Otherwise, another participant will be nominated.",
 		"introText1": "The principle of elections without candidates, resulting from the sociocracy, makes it possible to decide in consent who will take responsibility for a role, position or function.",
 		"introText2": "This method also allows to choose from multiple options concerning a nomination.",
@@ -118,11 +116,11 @@
 		"introText5": " to support and to encourage participants to take their place within",
 		"introText6": " the circle and nourish our need for recognition.",
 		"introText7": "In an election without candidates we vote \"With\" and never \"For or Against\".",
-		"objectionExp1": "A phase of objections. After the concluded votes, a participant will be nomitated amongst all the participants having received at least one vote.",
+		"objectionExp1": "A phase of objections. After the concluded votes, a participant will be nominated among all the participants having received at least one vote.",
 		"objectionExp2": "You can thus raise certain objections, if you have any, to this participant being elected.",
-		"reportExp1": "A vote postponement phase. After having voted, you will be able to consult the votes of the other participants,",
-		"reportExp2": " and you will have a time window to modify your vote if you wish.",
-		"subtitle": "An election without candidates breaks down into several phases :",
+		"reportExp1": "A voting deferral phase. After having voted, you will be able to consult the votes of the other participants,",
+		"reportExp2": "and you will have a time window to modify your vote if you wish.",
+		"subtitle": "An election without candidates breaks down into several phases:",
 		"voteExp": "A voting phase. Everyone votes for the participant they want, and explain their vote."
 	},
 	"joinElectionLink": {
@@ -135,7 +133,8 @@
 		"explanation1": "Here, you can consult the different opinions of other participants",
 		"explanation2": "and key steps in the current election process.",
 		"notifications": "Notifications",
-		"title": "Election history"
+		"returnToElection": "Return to election",
+		"title": "Election historical"
 	},
 	"myAccount": {
 		"describeYourself": "Describe yourself and specify your skills to allow other users to know you better.",
@@ -155,7 +154,9 @@
 		"validateChanges": "Validate the changes"
 	},
 	"myElections": {
+		"addElection": "Add an election",
 		"celebrationPhase": "Celebration phase",
+		"createNewElection": "Create a new election",
 		"electedPerson": "Elected person :",
 		"electionCode": "Election code :",
 		"electionLink": "Link of your election :",
@@ -178,13 +179,13 @@
 		"votingPhase": "Voting phase"
 	},
 	"navbar": {
-		"accedElec": "Access my elections",
+		"accedElec": "My elections",
 		"accueil": "Home",
 		"creerCompte": "Create an account",
 		"creerElec": "Create an election",
 		"deconnecter": "Sign Out",
-		"histo": "Election history",
-		"mail": "e-mail",
+		"histo": "Historical",
+		"mail": "Email",
 		"mdp": "Password",
 		"mdpOubli": "Forgot your password?",
 		"monCompte": "My account",
@@ -192,21 +193,23 @@
 		"seConnecter": "Log in"
 	},
 	"objection": {
-		"Bonificaition": "Bonification",
+		"Bonification": "Improvement",
 		"Celebration": "Celebration",
 		"Objections": "Objections",
 		"ReportDeVotes": "Voting deferral",
 		"Votes": "Votes",
 		"acceptCand": "Accept the application",
 		"action": "Action",
-		"argObjection": "Explain your objection...",
+		"argObjection": "Argue your objection ...",
 		"attPart": "Waiting for other participants",
 		"auteur": "Author",
 		"candidatActuel": "current candidate",
 		"introPoste": "For the position",
+		"nbObjections1": "participant(s) on",
+		"nbObjections2": "indicated that he/they had finished objecting.",
 		"objecter": "Object to this proposal",
 		"opinion": "Opinion",
-		"pasDObjections": "No / No more objection",
+		"pasDObjections": "No/No more objection",
 		"recupDroits": "Take facilitator rights",
 		"validObjection": "Validate the objection"
 	},

@@ -19,7 +19,7 @@
         <form [formGroup]="profil">
             <div class="form-group">
                 <div>
-                    <label class="section">{{'createAccount.email' | translate}}*</label>
+                    <label class="section">{{'navbar.mail' | translate}}*</label>
                     <input id="mail" [class.is-invalid]="profil.get('email').invalid && profil.get('email').touched" class="form-control" type="email" formControlName="email" placeholder="{{'createAccount.emailPlaceholder' | translate}}" required>
 
                     <div *ngIf="(verifEmail.invalid && verifEmail.touched) || verifEmail.dirty">
@@ -31,7 +31,7 @@
 
             <br />
             <div class="form-group">
-                <label class="section">{{'createAccount.password' | translate}}*</label>
+                <label class="section">{{'navbar.mdp' | translate}}*</label>
                 <input id="password" minlength="6" [class.is-invalid]="profil.get('pass').invalid && profil.get('pass').touched" class="form-control" type="password" formControlName="pass" placeholder="{{'createAccount.passwordPlaceholder' | translate}}" required>
 
                 <div *ngIf="(verifPassword.invalid && verifPassword.touched) || verifPassword.dirty">

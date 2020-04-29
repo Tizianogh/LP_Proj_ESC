@@ -4,7 +4,6 @@ using ESC2020.Tests.Utils;
 using ESC2020.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace ESC2020.Tests {
     [TestClass]
