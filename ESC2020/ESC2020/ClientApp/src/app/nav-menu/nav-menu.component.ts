@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from '../Model/Users';
 import { AuthentificationService } from '../services/authentification.service';
 import { NavBarStateService } from '../services/NavBarState.service';
-
 import { TranslateService } from '@ngx-translate/core';
 
 
@@ -14,10 +13,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class NavMenuComponent {
     public connected: boolean;
-    private connectedAccount: Users;
+    public connectedAccount: Users;
     public navBarState: string;
 
-    private logsVisible: boolean;
+    public logsVisible: boolean;
     public inElection: boolean;
 
     constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) {
