@@ -3,6 +3,12 @@ nav {
     position: relative;
 }
 
+#drapeau {
+    min-width: 0rem !important;
+    font-size: 1.4rem !important;
+    width: 95px;
+}
+
 
 #langBtnFr {
     background-image: url("../../assets/img/fr_flag.png");
@@ -57,9 +63,18 @@ nav {
     font-size: 24px;
 }
 
-#logsMenu {
-    font-size: 16px;
+
+.imgTaille {
+    vertical-align: top !important;
 }
+
+#logsMenu {
+    /*font-size: 16px;*/
+}
+
+
+
+
 
 .dropdown-menu {
     border-top: solid;
