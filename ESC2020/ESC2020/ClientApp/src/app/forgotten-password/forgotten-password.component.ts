@@ -29,6 +29,8 @@ export class ForgottenPasswordComponent implements OnInit {
         var check: boolean = this.regexMail.test(mailText);
         if (check) {
             (document.querySelector("#mailInput") as HTMLInputElement).style.borderColor = "#ced4da";
+            //grisage btn
+            document.getElementById("ajouter").setAttribute('disabled', 'disabled');
             this.mail = mailText;
             this.sendAll();
         }
@@ -38,8 +40,11 @@ export class ForgottenPasswordComponent implements OnInit {
 
     checkCode(code: HTMLInputElement) {
         let tmpCode: string = code.value;
-        if (tmpCode == this.code)
+        if (tmpCode == this.code) {
             this.codeOk = true;
+            //grisage btn
+            document.getElementById("codeBtn").setAttribute('disabled', 'disabled');
+        }
         else {
             let newM = document.createElement("div");
             newM.innerHTML = `
@@ -52,6 +57,8 @@ export class ForgottenPasswordComponent implements OnInit {
 
     changePass(pass: HTMLInputElement) {
         if (this.codeOk) {
+            //grisage btn
+            document.getElementById("passBtn").setAttribute('disabled', 'disabled');
             let tmpPass = pass.value;
             let salt: string = "ERGT51TRGERGQ";
             this.service.get(window.location.origin + "/api/Users").subscribe(result => {
