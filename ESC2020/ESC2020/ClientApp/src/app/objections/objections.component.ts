@@ -56,8 +56,25 @@ export class ObjectionsComponent implements OnInit {
         });
 
         this.hubConnection.on("nextParticipant", (electionId: number) => {
-            if (electionId == this.election["electionId"])
+            if (electionId == this.election["electionId"]) {
                 this.initParticipant();
+            }
+        });
+
+        this.hubConnection.on("participantHasObjected", (electionId: number) => {
+            if (electionId == this.election["electionId"]) {
+                this.participantsList = [];
+                this.httpRequest.getParticipantsByElection(this.election).then(
+                    participantsData => {
+                        this.participantsList = participantsData as Participant[];
+                        this.participantsTalk = 0;
+                        this.participantsList.forEach(p => {
+                            if (p.hasTalked)
+                                this.participantsTalk++
+                        })
+                    }
+                )
+            }
         });
 
         this.hubConnection.on("updateObjections", (electionId: number) => {
@@ -84,8 +101,7 @@ export class ObjectionsComponent implements OnInit {
                 this.connectedParticipant = this.participantsList.find(p => p['userId'] == this.connectedAccount['userId'])
                 this.httpRequest.getUserByElection(this.election).then(
                     usersData => {
-                        this.usersList = usersData as Users[]
-                        this.election.hostElection = this.election.hostElection;
+                        this.usersList = usersData as Users[];
                         this.mainRequest();
                     }, error => console.error(error)
                 );
@@ -215,7 +231,7 @@ export class ObjectionsComponent implements OnInit {
         this.connectedParticipant['hasTalked'] = true;
         this.httpRequest.updateParticipant(this.connectedParticipant).then(
             () => {
-                this.hubConnection.send("nextParticipant", Number(this.election['electionId']));
+                this.hubConnection.send("participantHasObjected", Number(this.election['electionId']));
             }
         );
     }

@@ -40,5 +40,9 @@ namespace ESC2020.Hubs {
         public async Task newMessage(int electionId, Message message) {
             await Clients.All.SendAsync("newMessage", electionId, message);
         }
+
+        public async Task participantHasObjected(int electionId) {
+            await Clients.All.SendAsync("participantHasObjected", electionId);
+        }
     }
 }

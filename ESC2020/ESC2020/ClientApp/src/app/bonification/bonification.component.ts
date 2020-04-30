@@ -156,7 +156,6 @@ export class BonificationComponent implements OnInit {
 
                     this.httpRequest.updateElection(anElection).then(
                         () => {
-                            if (this.connectedAccount.userId == this.election['hostId']) {
                                 let newNotification: Notification = {
                                     message: this.actualElected['firstName'] + ' ' + this.actualElected['lastName'] + " a accepté de pourvoir le rôle de " + this.election['job'] + ". Félicitations !",
                                     date: new Date(),
@@ -167,7 +166,6 @@ export class BonificationComponent implements OnInit {
                                         this.hubConnection.send("updatePhase", Number(this.election['electionId']));
                                     }, error => { console.log(error) }
                                 );
-                            }
                         }, error => { console.log(error) }
                     );
             }, error => { console.log(error) }
