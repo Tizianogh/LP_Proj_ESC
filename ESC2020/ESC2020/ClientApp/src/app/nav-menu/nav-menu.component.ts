@@ -17,11 +17,13 @@ export class NavMenuComponent {
     public navBarState: string;
 
     public logsVisible: boolean;
+    public currentLang: string ;
     public inElection: boolean;
 
     constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private navBarStateService: NavBarStateService, private router: Router) {
         const browserLang = translate.getBrowserLang();
         translate.use(browserLang);
+        this.currentLang = browserLang.toString();
     }
 
     ngOnInit() {
@@ -34,16 +36,24 @@ export class NavMenuComponent {
 
     }
 
+
     setFr() {
-        this.translate.use("fr");
+        this.translate.use("fr").subscribe(result => {
+            this.currentLang = this.translate.currentLang;
+        });
     }
 
     setEn() {
-        this.translate.use("en");
+        this.translate.use("en").subscribe(result => {
+            this.currentLang = this.translate.currentLang;
+        });
+        
     }
 
     setEs() {
-        this.translate.use("es");
+        this.translate.use("es").subscribe(result => {
+            this.currentLang = this.translate.currentLang;
+        });
     }
 
     connect(email: string, password: string) {

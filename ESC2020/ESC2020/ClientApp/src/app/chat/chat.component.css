@@ -57,9 +57,9 @@
     background-color: #555;
 }
 
-#chatBtn{
-    background-color:transparent;
-    border:none;
+#chatBtn {
+    color: rgba(0,0,0,.5);
+    border: none;
 }
 
 *:focus {

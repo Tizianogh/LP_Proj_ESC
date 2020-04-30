@@ -117,3 +117,11 @@ valider, #ajouter, #send {
     color: white;
 }
 
+#titre {
+    color: #430640;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-weight: 800;
+    font-size: 38px;
+}

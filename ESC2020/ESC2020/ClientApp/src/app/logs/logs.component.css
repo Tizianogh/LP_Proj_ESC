@@ -24,6 +24,11 @@
     border-color: #430640;
 }
 
+.badge-warning {
+    background-color: #ff00af !important;
+    color : white
+}
+
 .badge-primary {
     background-color: #E958C1 !important
 }
