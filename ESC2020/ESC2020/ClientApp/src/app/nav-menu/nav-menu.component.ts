@@ -39,18 +39,22 @@ export class NavMenuComponent {
 
 
     setFr() {
-        this.currentLang = this.translate.currentLang;
-        this.translate.use("fr");
+        this.translate.use("fr").subscribe(result => {
+            this.currentLang = this.translate.currentLang;
+        });
     }
 
     setEn() {
-        this.currentLang = this.translate.currentLang;
-        this.translate.use("en");
+        this.translate.use("en").subscribe(result => {
+            this.currentLang = this.translate.currentLang;
+        });
+        
     }
 
     setEs() {
-        this.currentLang = this.translate.currentLang;
-        this.translate.use("es");
+        this.translate.use("es").subscribe(result => {
+            this.currentLang = this.translate.currentLang;
+        });
     }
 
     connect(email: string, password: string) {
