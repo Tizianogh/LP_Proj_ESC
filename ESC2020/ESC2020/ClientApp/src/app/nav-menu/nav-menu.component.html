@@ -84,22 +84,30 @@
                         </a>
                     </div>
                 </li>
-                <li class="nav-item dropdown" id="drapeau" *ngSwitchCase="'en'">
+                <li class="nav-item dropdown" *ngSwitchCase="'en'">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <button class="hoverable langsBtn" (click)="setEn()" id="langBtnEn"></button>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <button class="hoverable langsBtn" (click)="setFr()" id="langBtnFr"></button>
-                        <button class="hoverable langsBtn" (click)="setEs()" id="langBtnEs"></button>
+                    <div class="dropdown-menu text-center" aria-labelledby="navbarDropdownMenuLink" id="drapeau">
+                        <a class="dropdown-item">
+                            <button class="hoverable langsBtn" (click)="setFr()" id="langBtnFr"></button>
+                        </a>
+                        <a class="dropdown-item">
+                            <button class="hoverable langsBtn" (click)="setEs()" id="langBtnEs"></button>
+                        </a>
                     </div>
                 </li>
-                <li class="nav-item dropdown" id="drapeau" *ngSwitchCase="'es'">
+                <li class="nav-item dropdown" *ngSwitchCase="'es'">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <button class="hoverable langsBtn" (click)="setEs()" id="langBtnEs"></button>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <button class="hoverable langsBtn" (click)="setFr()" id="langBtnFr"></button>
-                        <button class="hoverable langsBtn" (click)="setEn()" id="langBtnEn"></button>
+                    <div class="dropdown-menu text-center" aria-labelledby="navbarDropdownMenuLink" id="drapeau">
+                        <a class="dropdown-item">
+                            <button class="hoverable langsBtn" (click)="setFr()" id="langBtnFr"></button>
+                        </a>
+                        <a class="dropdown-item">
+                            <button class="hoverable langsBtn" (click)="setEn()" id="langBtnEn"></button>
+                        </a>
                     </div>
                 </li>
             </ul>
