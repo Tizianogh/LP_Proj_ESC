@@ -10,7 +10,6 @@ import { ElectionService } from '../services/election.service';
 import * as signalR from "@microsoft/signalr";
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Notification } from '../Model/Notification';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-bonification',
@@ -19,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class BonificationComponent implements OnInit {
+
     connected: boolean;
     connectedAccount: Users = new Users();
 
@@ -34,7 +34,7 @@ export class BonificationComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
+    constructor(private httpRequest: HTTPRequestService, private electionService: ElectionService, private authentificationService: AuthentificationService) {
         
     }
 

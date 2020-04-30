@@ -1,14 +1,3 @@
-/*.carousel .item {
-    height: 5000px !important;
-}
-
-.item img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-height: 5000px !important;
-}*/
-
 .container-fluid {
     max-width: 1500px !important;
 }
@@ -45,45 +34,8 @@ h5 {
   color: gray;
 }
 
-/*.Carousel {
-  width: 40%;
-  position: absolute;
-  right: 75px;
-  margin-top: 100px;
-}*/
-
 .carousel-control-next-icon,
 .carousel-control-prev-icon,
 .carousel-indicators {
   filter: invert(1);
 }
-
-/*#btnAnimation {
-  background-image: url(../../assets/img/dropDown.png);
-  background-color: white !important;
-  background-position: center center;
-  background-size: 35px;
-  width: 35px;
-  height: 35px;
-}*/
-
-/*#link {
-  color: white !important;
-}*/
-
-/*.apparait {
-  display: none;
-}
-
-.lien {
-  color: white;
-}*/
-
-/*footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  background-color: #430640;
-}*/

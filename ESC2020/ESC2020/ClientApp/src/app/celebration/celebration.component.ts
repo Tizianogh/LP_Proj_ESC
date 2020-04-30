@@ -69,7 +69,6 @@ export class CelebrationComponent implements OnInit {
                     this.actualElected.firstName = userData['firstName'];
                     this.actualElected.lastName = userData['lastName'];
                     this.actualElected.avatar = userData['avatar'];
-                    console.log(this.actualElected)
                 }
             )
         }

@@ -112,12 +112,13 @@ export class CreateElectionComponent implements OnInit {
     }
 
     verifDates(date1: string, date2: string) {
-        let res: boolean = true;
+        let res: boolean = false;
         let dateUne = new Date(date1);
         let dateDeux = new Date(date2);
         let myDate = new Date();
         this.datePipe.transform(myDate, 'yyyy-MM-dd');
-        if (dateUne.getTime() > dateDeux.getTime() || dateUne.getTime() < myDate.getTime())
+
+        if (dateUne.getTime() < dateDeux.getTime() && dateDeux.getTime() > myDate.getTime())
             res = true;
         return res;
     }

@@ -7,34 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ESC2020.Model;
 
-namespace ESC2020.Controllers
-{
+namespace ESC2020.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeOpinionsController : ControllerBase
-    {
+    public class TypeOpinionsController : ControllerBase {
         private readonly ElectionContext _context;
 
-        public TypeOpinionsController(ElectionContext context)
-        {
+        public TypeOpinionsController(ElectionContext context) {
             _context = context;
         }
 
         // GET: api/TypeOpinions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TypeOpinion>>> GetTypeOpinions()
-        {
+        public async Task<ActionResult<IEnumerable<TypeOpinion>>> GetTypeOpinions() {
             return await _context.TypeOpinions.ToListAsync();
         }
 
         // GET: api/TypeOpinions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TypeOpinion>> GetTypeOpinion(int id)
-        {
+        public async Task<ActionResult<TypeOpinion>> GetTypeOpinion(int id) {
             var typeOpinion = await _context.TypeOpinions.FindAsync(id);
 
-            if (typeOpinion == null)
-            {
+            if (typeOpinion == null) {
                 return NotFound();
             }
 
@@ -45,27 +39,21 @@ namespace ESC2020.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeOpinion(int id, TypeOpinion typeOpinion)
-        {
-            if (id != typeOpinion.TypeId)
-            {
+        public async Task<IActionResult> PutTypeOpinion(int id, TypeOpinion typeOpinion) {
+            if (id != typeOpinion.TypeId) {
                 return BadRequest();
             }
 
             _context.Entry(typeOpinion).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TypeOpinionExists(id))
-                {
+            catch (DbUpdateConcurrencyException) {
+                if (!TypeOpinionExists(id)) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -77,8 +65,7 @@ namespace ESC2020.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<TypeOpinion>> PostTypeOpinion(TypeOpinion typeOpinion)
-        {
+        public async Task<ActionResult<TypeOpinion>> PostTypeOpinion(TypeOpinion typeOpinion) {
             _context.TypeOpinions.Add(typeOpinion);
             await _context.SaveChangesAsync();
 
@@ -87,11 +74,9 @@ namespace ESC2020.Controllers
 
         // DELETE: api/TypeOpinions/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TypeOpinion>> DeleteTypeOpinion(int id)
-        {
+        public async Task<ActionResult<TypeOpinion>> DeleteTypeOpinion(int id) {
             var typeOpinion = await _context.TypeOpinions.FindAsync(id);
-            if (typeOpinion == null)
-            {
+            if (typeOpinion == null) {
                 return NotFound();
             }
 
@@ -101,8 +86,7 @@ namespace ESC2020.Controllers
             return typeOpinion;
         }
 
-        private bool TypeOpinionExists(int id)
-        {
+        private bool TypeOpinionExists(int id) {
             return _context.TypeOpinions.Any(e => e.TypeId == id);
         }
     }

@@ -8,7 +8,6 @@ import * as signalR from "@microsoft/signalr";
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-salons',
@@ -18,12 +17,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class MyElectionsComponent implements OnInit {
 
-    private connected: boolean;
-
     qrdata: string = null;
     userElected: Users = new Users();
     private connectedAccount: Users;
-    private electionId: number;
     public FinishedElectionsList: Election[] = [];
     public OngoingElectionsList: Election[] = [];
     public listeElections: Election[] = [];
@@ -32,16 +28,12 @@ export class MyElectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private translate: TranslateService, private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService, private service: HttpClient) {
-
-    }
+    constructor(private authentificationService: AuthentificationService, private router: Router, private navBarStateService: NavBarStateService, private httpRequest: HTTPRequestService, private service: HttpClient) {}
 
     ngOnInit() {
-        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => { this.connectedAccount = anUser; this.getElections(); this.MesElections();});
         this.navBarStateService.SetIsInElection(false);
         this.hubConnection.start().catch(err => console.log(err));
-       
     }
 
     getElections() {
@@ -56,13 +48,10 @@ export class MyElectionsComponent implements OnInit {
                                 participantsData => {
                                     let participants: Participant[] = participantsData as Participant[]
                                     election.nbParticipant = participants.length
-                                    if(election['electionPhaseId']==5){
+                                    if(election['electionPhaseId']==5)
                                         this.FinishedElectionsList.push(election);
-                                    }
-                                    else{
+                                    else
                                         this.OngoingElectionsList.push(election);
-                                     }
-                                    console.log(election)
                                 }, error => { console.log(error) }
                             );
                         }, error => { console.log(error) }

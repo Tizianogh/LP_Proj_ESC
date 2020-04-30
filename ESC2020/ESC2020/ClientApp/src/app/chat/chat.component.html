@@ -15,7 +15,7 @@
                         <div id="divChat">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Chat</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">{{'chat.title' | translate}}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -29,7 +29,7 @@
                                                 <div class="header">
                                                     <strong class="chatText">{{getAuthorById(message.authorId)}}</strong>
                                                     <small class="pull-right text-muted">
-                                                        <span class="glyphicon glyphicon-time"></span><span class="chatText">{{message.dateMessage | date:'short':'+0200':'fr'}}</span>
+                                                        <span class="glyphicon glyphicon-time"></span><span class="chatText">{{message.dateMessage | date:'short':'':'fr-FR'}}</span>
                                                     </small>
                                                 </div>
                                                 <p class="chatText">

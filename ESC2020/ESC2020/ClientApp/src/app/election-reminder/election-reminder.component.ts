@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NavBarStateService } from '../services/NavBarState.service';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-rappel',
@@ -13,9 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class ElectionReminderComponent implements OnInit {
 
-    constructor(private translate: TranslateService, private navBarStateService: NavBarStateService, private router: Router, private httpRequest: HTTPRequestService, private service: HttpClient) {
-    
-    }
+    constructor(private navBarStateService: NavBarStateService, private router: Router, private httpRequest: HTTPRequestService, private service: HttpClient) {}
 
     electionId: string;
     poste: string;

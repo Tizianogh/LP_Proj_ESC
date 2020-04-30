@@ -7,6 +7,7 @@ namespace ESC2020.Model {
         public ElectionContext(DbContextOptions<ElectionContext> options) : base(options)
         {
         }
+
         public DbSet<Users> User { get; set; }
 
         public DbSet<Election> elec { get; set; }

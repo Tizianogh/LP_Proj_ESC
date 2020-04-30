@@ -23,7 +23,8 @@
 	},
 	"chat": {
 		"message": "Message...",
-		"send": "Envoyer"
+		"send": "Envoyer",
+		"title": "Chat"
 	},
 	"createAccount": {
 		"birthDate": "Date de naissance",
@@ -31,7 +32,6 @@
 		"createYourAccount": "Créer votre compte",
 		"describeYourself": "Décrivez-vous en quelques mots",
 		"describeYourselfPlaceholder": "Quel type de personne êtes-vous ?",
-		"email": "Adresse mail",
 		"emailAlreadyUsed": "Le mail entré a déjà été utilisé.",
 		"emailPlaceholder": "Entrer votre mail",
 		"fillAllFields": "Veuillez remplir tous les champs correctement.",
@@ -39,7 +39,6 @@
 		"firstNamePlaceholder": "Entrer votre prénom",
 		"lastName": "Nom",
 		"lastNamePlaceholder": "Entrer votre nom",
-		"password": "Mot de passe",
 		"passwordConfirmation": "Confirmer votre mot de passe",
 		"passwordConfirmationPlaceholder": "Entrer de nouveau votre mot de passe",
 		"passwordPlaceholder": "Mot de passe",
@@ -117,7 +116,7 @@
 		"introText5": "de soutenir et d’encourager un participant pour prendre sa place au sein",
 		"introText6": " du cercle et de nourrir notre besoin de reconnaissance.",
 		"introText7": "Dans une élection sans candidat nous votons « Avec » et jamais « Pour ou Contre ».",
-		"objectionExp1": "Une phase d'objections. Après les votes conclus, un participant sera proposé parmi tous les participants ayant reçu au moins une voie.",
+		"objectionExp1": "Une phase d'objections. Après les votes conclus, un participant sera proposé parmi tous les participants ayant reçu au moins un vote.",
 		"objectionExp2": "Vous pourrez ainsi émettre certaines objections, si vous en avez, à ce que ce participant soit élu.",
 		"reportExp1": "Une phase de report de vote. Après avoir voté, vous pourrez consulter les votes des autres participants,",
 		"reportExp2": "et vous disposerez d'une fenêtre de temps pour modifier votre vote si vous le souhaitez.",
@@ -134,6 +133,7 @@
 		"explanation1": "Vous pouvez ici consulter les avis des autres participants",
 		"explanation2": "et les étapes clés du processus de l'élection en cours.",
 		"notifications": "Notifications",
+		"returnToElection": "Retour à l'élection",
 		"title": "Historique de l'élection"
 	},
 	"myAccount": {
@@ -154,7 +154,9 @@
 		"validateChanges": "Valider les changements"
 	},
 	"myElections": {
+		"addElection": "Ajouter une élection",
 		"celebrationPhase": "Phase de célébration",
+		"createNewElection": "Créer une nouvelle élection",
 		"electedPerson": "Personne élue :",
 		"electionCode": "Code élection :",
 		"electionLink": "Lien de votre élection :",
@@ -177,13 +179,13 @@
 		"votingPhase": "Phase de votes"
 	},
 	"navbar": {
-		"accedElec": "Accéder à mes élections",
+		"accedElec": "Mes élections",
 		"accueil": "Accueil",
 		"creerCompte": "Créer un compte",
 		"creerElec": "Créer une élection",
 		"deconnecter": "Se déconnecter",
-		"histo": "Historique de l'élection",
-		"mail": "Email",
+		"histo": "Historique",
+		"mail": "Adresse mail",
 		"mdp": "Mot de passe",
 		"mdpOubli": "Mot de passe oublié ?",
 		"monCompte": "Mon compte",
@@ -191,7 +193,7 @@
 		"seConnecter": "Se connecter"
 	},
 	"objection": {
-		"Bonificaition": "Bonification",
+		"Bonification": "Bonification",
 		"Celebration": "Célébration",
 		"Objections": "Objections",
 		"ReportDeVotes": "Report de vote",
@@ -203,6 +205,8 @@
 		"auteur": "Auteur",
 		"candidatActuel": "candidat actuel",
 		"introPoste": "Pour le poste",
+		"nbObjections1": "participant(s) sur",
+		"nbObjections2": "a/ont indiqué avoir fini d'objecter.",
 		"objecter": "Objecter sur cette proposition",
 		"opinion": "Opinion",
 		"pasDObjections": "Pas/Plus d'objection",

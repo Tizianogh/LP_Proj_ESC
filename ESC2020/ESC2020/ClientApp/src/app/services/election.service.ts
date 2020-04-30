@@ -56,9 +56,9 @@ export class ElectionService {
                                 this.goToNextPhase(election['electionPhaseId'], election, participantsTmp);
                                 this.hubConnection.send("updatePhase", Number(election['electionId']));
                             }
-                        }, error => { console.log(error); }
+                        }, error => console.log(error)
                     );
-                }, error => { console.log(error); }
+                }, error => console.log(error)
             );
         });
 
@@ -70,7 +70,7 @@ export class ElectionService {
             this.httpRequest.updateParticipant(p)
         })
 
-        this.httpRequest.getPhasesById(phaseId+1).then(
+        this.httpRequest.getPhasesById(phaseId + 1).then(
             phase2 => {
                 let anElection = election;
                 anElection.phase = phase2 as Phase;
@@ -98,28 +98,26 @@ export class ElectionService {
                                     this.httpRequest.createNotification(newNotification).then(
                                         () => {
                                             this.hubConnection.send("updatePhase", Number(election['electionId']));
-                                        }, error => { console.log(error) }
+                                        }, error => console.log(error)
                                     );
                                 }
-                            }, error => { console.log(error) }
+                            }, error => console.log(error)
                         )
-                    }, error => { console.log(error) }
+                    }, error => console.log(error)
                 );
-            }, error => { console.log(error) }
+            }, error => console.log(error)
         );
     }
 
     //vérifier que l'utilisateur a été invité à rejoindre
-    acceptedParticipantVerification(user: Users, electionId : string) {
-         this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
+    acceptedParticipantVerification(user: Users, electionId: string) {
+        this.service.get(window.location.origin + "/api/Participants/election/" + electionId).subscribe(participantResult => {
             this.participants = participantResult as Participant[];
             //ici on devrait avoir récupéré la liste des participants
             let foundParticipant = false;
-            console.log(user)
             for (let participant of this.participants) {
-                if (participant['userId'] == user['userId']) {
+                if (participant['userId'] == user['userId'])
                     foundParticipant = true;
-                }
             }
             if (!foundParticipant) {
                 alert("Vous n'avez pas été invité à rejoindre cette élection depuis ce compte.");
@@ -139,7 +137,7 @@ export class ElectionService {
                     this.SetElection(electionData as Election);
                     this.fetchParticipants(electionData as Election);
                     resolve(electionData as Election);
-                }, error => { console.log(error); }
+                }, error => console.log(error)
             );
         });
     }
@@ -156,7 +154,7 @@ export class ElectionService {
                     this.AddParticipant(participant);
                     this.fetchUser(participant);
                 });
-            }, error => { console.log(error); }
+            }, error => console.log(error)
         );
     }
 
@@ -173,7 +171,7 @@ export class ElectionService {
                         return 1;
                     return 0;
                 });
-            }, error => { console.log(error); }
+            }, error => console.log(error)
         );
     }
 

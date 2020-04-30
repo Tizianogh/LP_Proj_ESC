@@ -10,34 +10,30 @@ using Newtonsoft.Json;
 using ESC2020.Utils;
 using System.Diagnostics;
 
-namespace ESC2020.Model
-{
+namespace ESC2020.Model {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
-    {
+    public class UsersController : ControllerBase {
         private readonly ElectionContext _context;
+        private PasswordGenerator _password;
 
-        public UsersController(ElectionContext context)
-        {
+        public UsersController(ElectionContext context, PasswordGenerator password) {
             _context = context;
+            _password = password;
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Users>>> GetUser()
-        {
+        public async Task<ActionResult<IEnumerable<Users>>> GetUser() {
             return await _context.User.ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUsers(int id)
-        {
+        public async Task<ActionResult<Users>> GetUsers(int id) {
             var users = await _context.User.FindAsync(id);
 
-            if (users == null)
-            {
+            if (users == null) {
                 return NotFound();
             }
 
@@ -62,13 +58,11 @@ namespace ESC2020.Model
         // GET: api/Users/election/5
         [HttpGet]
         [Route("election/{idElec}")]
-        public async Task<ActionResult<IEnumerable<Users>>> GetUsersByElec(int idElec)
-        {
+        public async Task<ActionResult<IEnumerable<Users>>> GetUsersByElec(int idElec) {
             List<Participant> participants = await _context.Participants.Where(p => p.ElectionId == idElec).ToListAsync();
             List<Users> users = new List<Users>();
 
-            for (int i = 0; i < participants.Count; i++)
-            {
+            for (int i = 0;i < participants.Count;i++) {
                 Users toAdd = _context.User.Find(participants[i].UserId);
                 toAdd.AuthorOpinion = null;
                 toAdd.ConcernedOpinion = null;
@@ -76,8 +70,7 @@ namespace ESC2020.Model
                 toAdd.HostElection = null;
                 toAdd.ElectedElection = null;
                 toAdd.Message = null;
-                if (!users.Contains(toAdd))
-                {
+                if (!users.Contains(toAdd)) {
                     users.Add(toAdd);
                 }
             }
@@ -95,7 +88,7 @@ namespace ESC2020.Model
                 if (user.Email.Equals(mail))
                 {
                     //Si le mot de passe correspond au mot de passe envoyé
-                    if(HashFunction.verifyPassword(password, user.Password, user.Salt))
+                    if (_password.verify(password, user.Password, user.Salt))
                     {
                         return user;
                     }
@@ -109,27 +102,21 @@ namespace ESC2020.Model
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(int id, Users users)
-        {
-            if (id != users.UserId)
-            {
+        public async Task<IActionResult> PutUsers(int id, Users users) {
+            if (id != users.UserId) {
                 return BadRequest();
             }
 
             _context.Entry(users).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UsersExists(id))
-                {
+            catch (DbUpdateConcurrencyException) {
+                if (!UsersExists(id)) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -140,12 +127,13 @@ namespace ESC2020.Model
         // POST: api/Users
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-      
+
         [HttpPost]
         public async Task<ActionResult<Users>> PostUsers(/*[FromBody] string inputInfos*/Users users)
         {
             //Users users = JsonConvert.DeserializeObject<Users>(inputInfos);
-            string hashedPass = HashFunction.hashPassword(users.Password, out string salt);
+            string salt = _password.generateSalt();
+            string hashedPass = _password.hash(users.Password, salt);
             users.Password = hashedPass;
             users.Salt = salt;
             _context.User.Add(users);
@@ -155,11 +143,9 @@ namespace ESC2020.Model
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Users>> DeleteUsers(int id)
-        {
+        public async Task<ActionResult<Users>> DeleteUsers(int id) {
             var users = await _context.User.FindAsync(id);
-            if (users == null)
-            {
+            if (users == null) {
                 return NotFound();
             }
 
@@ -169,8 +155,7 @@ namespace ESC2020.Model
             return users;
         }
 
-        private bool UsersExists(int id)
-        {
+        private bool UsersExists(int id) {
             return _context.User.Any(e => e.UserId == id);
         }
     }

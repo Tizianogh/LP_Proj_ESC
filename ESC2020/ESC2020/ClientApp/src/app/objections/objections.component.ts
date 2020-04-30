@@ -12,7 +12,6 @@ import { isUndefined } from 'util';
 import { HTTPRequestService } from '../services/HTTPRequest.service';
 import { Notification } from '../Model/Notification';
 import { HttpClient } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-objections',
@@ -22,11 +21,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class ObjectionsComponent implements OnInit {
 
-    connected: boolean;
     connectedAccount: Users = new Users();
-
     objectionAuthor: Users = new Users();
-
     election: Election = new Election();
     actualProposed: Users = new Users();
     connectedParticipant: Participant = new Participant();
@@ -42,19 +38,13 @@ export class ObjectionsComponent implements OnInit {
         .withUrl("/data")
         .build();
 
-    constructor(private translate: TranslateService, private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService, private service: HttpClient) {
-
-    }
+    constructor(private httpRequest: HTTPRequestService, private authentificationService: AuthentificationService, private electionService: ElectionService, private service: HttpClient) {}
 
     ngOnInit() {
         this.setOnSignalReceived();
         this.hubConnection.start().catch(err => console.log(err));
-
-        this.authentificationService.getConnectedFeed().subscribe(aBoolean => this.connected = aBoolean);
         this.authentificationService.getConnectedAccountFeed().subscribe(anUser => this.connectedAccount = anUser);
-
         this.electionService.GetElection().subscribe(anElection => this.election = anElection);
-
         this.initParticipant();
     }
 

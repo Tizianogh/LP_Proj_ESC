@@ -1,24 +1,74 @@
-<h1 id="titre">
-        {{'log.title' | translate}}
-    </h1>
+﻿<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <svg class="bi bi-arrow-left-short" style="color:#430640 !important; cursor:pointer;" width="3em" height="3em" viewBox="0 0 16 16" (click)="browserReturn()" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M7.854 4.646a.5.5 0 010 .708L5.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M4.5 8a.5.5 0 01.5-.5h6.5a.5.5 0 010 1H5a.5.5 0 01-.5-.5z" clip-rule="evenodd" />
+            </svg>
+            <label class="retour" (click)="browserReturn()">{{'log.returnToElection' | translate}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <h1 id="titre">
+            {{'log.title' | translate}}
+        </h1>
+    </div>
+    <div class="row justify-content-center mb-2 mx-sm-1">
+        <p class="text-center">
+            {{'log.explanation1' | translate}} <br /> {{'log.explanation2' | translate}}
+        </p>
+    </div>
 
-<p style="text-align:center">
-    {{'log.explanation1' | translate}} <br /> {{'log.explanation2' | translate}}
-</p>
-
-<div>
-    <img src="assets/img/close.png" height="20" align="right" style="margin-right:75px; cursor: pointer;" (click)="browserReturn()" />
+    <ul class="nav nav-tabs color-border mx-md-5 mb-2">
+    </ul>
+</div>
+<div class="logs mx-md-5">
+    <div class="log " *ngFor="let log of logList">
+        <div class="row mr-md-1 mx-1 ml-md-0 d-flex mt-4 align-items-center justify-content-center">
+            <div class="col-md-2 text-center">
+                <span [ngSwitch]="log.type" style="font-size:16px;">
+                    <span *ngSwitchCase="1" id="VoteBadge">
+                        <span class="badge badge-pill badge-primary">{{'objection.Votes' | translate}}</span>
+                    </span>
+                    <span *ngSwitchCase="2" id="ReportBadge">
+                        <span class="badge badge-pill badge-secondary">{{'objection.ReportDeVotes' | translate}}</span>
+                    </span>
+                    <span *ngSwitchCase="3" id="ObjectionBadge">
+                        <span class="badge badge-pill badge-danger">{{'objection.Objections' | translate}}</span>
+                    </span>
+                    <span *ngSwitchCase="4" id="BonificationBadge">
+                        <span class="badge badge-pill badge-warning">{{'objection.Bonification' | translate}}</span>
+                    </span>
+                    <span *ngSwitchCase="5" id="NotificationBadge">
+                        <span class="badge badge-pill badge-success">{{'log.notifications' | translate}}</span>
+                    </span>
+                </span>
+            </div>
+            <div class="col-md-9 title text-md-left text-center">
+                {{log.title}}
+            </div>
+        </div>
+        <div class="row mr-md-1 mx-1 ml-md-0  mb-md-0 mb-5 justify-content-center">
+            <div class="col-md-2 hour mt-2 text-center order-md-first order-12">
+                {{log.hour}}
+            </div>
+            <div class="col-md-9 opinion mt-1 text-md-left text-center">
+                {{log.opinion}}
+            </div>
+        </div>
+    </div>
 </div>
 
-<ul class="nav nav-tabs color-border" style=" margin-left: 75px; margin-right: 75px;">
-</ul>
 
-<div class="logs" style="margin-left: 75px; margin-right: 75px;">
-    <div class="log" *ngFor="let log of logList">
-        <div class="title">
+
+
+<!--<div class="row">
+    <div class="col-md-2">
+        <div class="row mr-1 mt-1 justify-content-center">
             <span [ngSwitch]="log.type" style="font-size:16px;">
                 <span *ngSwitchCase="1" id="VoteBadge">
-                    <span class="badge badge-pill badge-primary">{{'objection.Votes' | translate}}</span>
+                    <span class="badge badge-pill badge-primary">Vote</span>
+                    &nbsp;
                 </span>
                 <span *ngSwitchCase="2" id="ReportBadge">
                     <span class="badge badge-pill badge-secondary">{{'objection.ReportDeVotes' | translate}}</span>
@@ -29,22 +79,24 @@
                 <span *ngSwitchCase="4" id="BonificationBadge">
                     <span class="badge badge-pill badge-warning">{{'objection.Bonifications' | translate}}</span>
                 </span>
-                <span *ngSwitchCase="5" id="NotificationBadge">
-                    <span class="badge badge-pill badge-success">{{'log.notifications' | translate}}</span>
+                <span *ngSwitchCase="4" id="NotificationBadge">
+                    <span class="badge badge-pill badge-success">Notification</span>
+                    &nbsp;
                 </span>
 
             </span>
+        </div>
+        <div class="row mr-1 hour mt-2 justify-content-center">
+            {{log.hour}}
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="row mr-1">
             {{log.title}}
         </div>
-        <table>
-            <tr>
-                <th class="hour">
-                    {{log.hour}}
-                </th>
-                <th class="opinion">
-                    {{log.opinion}}
-                </th>
-            </tr>
-        </table>
+        <div class="row mr-1 opinion ">
+            {{log.opinion}}
+        </div>
     </div>
-</div>
+</div>-->

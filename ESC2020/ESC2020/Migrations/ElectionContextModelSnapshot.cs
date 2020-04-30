@@ -229,7 +229,6 @@ namespace ESC2020.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -241,7 +240,6 @@ namespace ESC2020.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Job")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")

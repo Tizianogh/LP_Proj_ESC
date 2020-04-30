@@ -10,9 +10,7 @@ import { TranslateService, TranslationChangeEvent, LangChangeEvent } from '@ngx-
 })
 export class HomeComponent implements OnInit {
 
-    constructor(private translate: TranslateService, private navBarStateService: NavBarStateService) {
-        
-    }
+    constructor(private translate: TranslateService, private navBarStateService: NavBarStateService) {}
 
     ngOnInit() {
         this.translate.onTranslationChange.subscribe((params: TranslationChangeEvent) => {

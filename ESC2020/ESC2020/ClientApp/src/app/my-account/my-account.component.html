@@ -67,8 +67,6 @@
             </small>
 
             <br />
-            <br />
-            <br />
 
             <label class="section" #biographie>{{'myAccount.myBiography' | translate}}</label>
             <input class="form-control" type="text" value={{connectedAccount.description}} [readonly]="isReadOnly"
@@ -79,8 +77,6 @@
             </small>
 
             <br />
-            <br />
-            <br />
 
             <label class="section" #informations>{{'myAccount.myEmailAddress' | translate}}</label>
             <input class="form-control" type="text" placeholder={{connectedAccount.email}} readonly>
@@ -88,8 +84,6 @@
                 {{'myAccount.emailInformation' | translate}}
             </small>
 
-            <br />
-            <br />
             <br />
 
             <label class="section" #avatar>{{'myAccount.myProfilePhoto' | translate}}</label>
@@ -106,10 +100,6 @@
                       </small>
                   </span>
             <br />
-            <!--
-            <div>
-                <button type="button" class="btn btn-outline-success" style="margin-left:10px;">Importer</button>
-            </div>-->
 
             <div>
                 <button type="button" class="btn btn-outline-success" style="margin-left:10px;" (click)="modifyProfile()">
