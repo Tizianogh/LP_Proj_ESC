@@ -1,6 +1,6 @@
 clear
 figlet "STEVIANO"
-echo -e "\e[1m[SERVEUR] : Création de la backup..."
+echo -e "\e[1m[SERVEUR] : CrÃ©ation de la backup..."
 tar -cf backup_versions/backup$(date +'%d%m%Y%H%M').tar LP_Proj_ESC/
 echo -e "[SERVEUR] : Supression du dossier local LP_Proj_ESC..."
 rm -rf LP_Proj_ESC/
@@ -30,7 +30,11 @@ echo -e "\e[0m"
 dotnet publish -c Release
 cd ../..
 rm -rf LP_Proj_ESC/ESC2020/ESC2020/bin/Debug
+echo -e "\e[1m[SERVEUR] : Tests unitaires.."
+echo -e "\e[0m"
+cd LP_Proj_ESC/ESC2020/ESC2020.Tests
+dotnet test ESC2020.Tests.csproj --verbosity=n 
 sudo systemctl restart kestrel-ESC2020.service
-echo -e "\e[42m[SERVEUR] : Serveur démarré ! :-)"
+echo -e "\e[42m[SERVEUR] : Serveur dÃ©marrÃ© ! :-)"
 echo -e "\e[49m"
 echo -e "\e[0m"
