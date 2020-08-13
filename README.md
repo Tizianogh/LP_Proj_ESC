@@ -1,2 +1,4 @@
 # LP_Proj_ESC
-Projet LP - Election sans candidat
+
+
+Fork du projet de fin d'année de licence professionnelle à l'IUT de Paris Descartes en ASP.NET ANGULAR 
